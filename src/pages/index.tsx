@@ -1,7 +1,4 @@
 import Head from 'next/head'
-import { Work_Sans } from '@next/font/google'
-
-const workSans = Work_Sans({ weight: ["400", "500", "600"], subsets: ["latin"] })
 
 export default function Home() {
   return (
