@@ -1,0 +1,24 @@
+.Navbar {
+  padding: var(--spacing-3) var(--spacing-4);
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+  z-index: 99;
+  background-color: var(--clr-pure-white);
+
+  font-size: 1.6rem;
+  line-height: 2.4rem;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+.NavbarContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.NavbarContent__Left {
+  display: flex;
+  align-items: center;
+}
