@@ -46,7 +46,6 @@
 *, *:before, *:after {
   margin: 0;
   padding: 0;
-  box-sizing: inherit;
 }
 
 html {
@@ -120,6 +119,9 @@ button {
 }
 
 /* Spacing Utility */
+.my-2 {
+  margin: var(--spacing-2) 0;
+}
 .my-3 {
   margin: var(--spacing-3) 0;
 }
@@ -128,6 +130,12 @@ button {
 }
 .my-6 {
   margin: var(--spacing-6) 0;
+}
+.mb-6 {
+  margin-bottom: var(--spacing-6);
+}
+.mt-4 {
+  margin-top: var(--spacing-4);
 }
 .pt-12 {
   padding-top: var(--spacing-12);
@@ -150,6 +158,9 @@ button {
 }
 
 /* Color Utility */
+.clr-brand-default {
+  color: var(--clr-brand-default);
+}
 .clr-text-secondary {
   color: var(--clr-text-secondary);
 }
@@ -176,7 +187,7 @@ button {
 
 .footer {
   position: absolute;
-  bottom: 15px;
+  bottom: 0;
   width: 100%;
 }
 
@@ -210,11 +221,12 @@ button {
   user-select: none;
   background-color: initial;
   border: 1px solid transparent;
-  padding: 0.375rem 0.75rem;
+  padding: 0.4rem 0.8rem;
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 2rem;
   border-radius: 0.8rem;
+  cursor: pointer;
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
@@ -236,6 +248,19 @@ button {
   max-width: 45rem;
   margin-left: auto;
   margin-right: auto;
+}
+
+.btn-primary-light {
+  background-color: var(--clr-brand-light);
+  color: var(--clr-brand-default);
+  min-height: 4.8rem;
+  border-radius: 0.4rem;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Alert */

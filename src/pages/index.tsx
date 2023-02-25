@@ -1,6 +1,13 @@
-import Head from 'next/head'
+import Modal from "@/components/Modal";
+import Head from "next/head";
+import { useState } from "react";
+import languageIconUrl from "@/images/language-icon.svg";
+import Image from "next/image";
+import RadioButtonGroup from "@/components/RadioButtonGroup";
 
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [locale, setLocale] = useState("");
   return (
     <>
       <Head>
@@ -9,7 +16,48 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>Hello</main>
+      <main>
+        <button onClick={() => setIsOpen(true)}>Click Here</button>
+      </main>
+
+      <Modal
+        active={isOpen}
+        onClose={() => setIsOpen(false)}
+        bottomSheetOnMobile
+      >
+        <Image
+          src={languageIconUrl}
+          alt="icon"
+          className="my-6"
+          style={{
+            height: "4.8rem",
+            width: "4.8rem",
+          }}
+        />
+        <h2 className="text-heading mb-6">Change Your Language</h2>
+        <div className="mb-6">
+          <RadioButtonGroup
+            items={[
+              {
+                label: "English",
+                value: "en",
+              },
+              {
+                label: "Hindi",
+                value: "hi",
+              },
+              {
+                label: "Hindi 2",
+                value: "hi2",
+              },
+            ]}
+            name="locale-selector"
+            value={locale}
+            onChange={(e) => setLocale(e.currentTarget.value)}
+          />
+        </div>
+        <button className="btn btn-primary btn-block">Proceed</button>
+      </Modal>
     </>
-  )
+  );
 }

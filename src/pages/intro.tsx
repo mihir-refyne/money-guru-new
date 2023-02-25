@@ -1,7 +1,6 @@
 import SwipeButton from "@/components/SwipeButton"
-import SwipeableButton from "@/components/SwipeButton2"
 import Image from "next/image"
-import introIllustrationUrl from '../images/intro-illustration.svg'
+import introIllustrationUrl from '@/images/intro-illustration.svg'
 
 export default function IntroPage() {
   return (
@@ -20,12 +19,12 @@ export default function IntroPage() {
             }}>
                 <p className="clr-text-secondary">12,000+ people have benefitted from Financial Advice from Refyne</p>
             </div>
-            <div className="px-4 pt-4">
+            <div className="container">
                 {/* <button className="btn btn-primary btn-block">Next</button> */}
-                {/* <SwipeButton /> */}
-                <SwipeableButton color="#0057B7" text="Slide to Unlock" text_unlocked="Unlocked" onSuccess={() => {
+                <SwipeButton>Swipe to unlock</SwipeButton>
+                {/* <SwipeableButton color="#0057B7" text="Slide to Unlock" text_unlocked="Unlocked" onSuccess={() => {
                     console.log("success")
-                }} />
+                }} /> */}
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 
 import Image from "next/image";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, ShareNetwork } from "phosphor-react";
 import contentThumbNailImageUrl from "../images/how-to-manage-money.png";
 import languageIconUrl from "../images/language-icon.svg";
 
@@ -34,7 +34,10 @@ export default function ShortsPage() {
             </div>
             <div className="footer">
                 <div className="container">
-                    <button className="btn btn-primary btn-block">Book A Session</button>
+                    <button className="btn btn-primary-light flex-center btn-block">
+                        <ShareNetwork size={24} className="mr-2" />
+                        <span>Share</span>
+                    </button>
                 </div>
             </div>
         </div>

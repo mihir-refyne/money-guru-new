@@ -1,0 +1,27 @@
+.RadioButtonGroup {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 2.4rem;
+    row-gap: 1.6rem;
+}
+
+.RadioButtonGroup__Item {
+    display: block;
+    background-color: var(--clr-grey-light);
+    border-radius: 0.8rem;
+    padding: 1.2rem 2.4rem;
+    border: 2px solid transparent;
+    user-select: none;
+    text-align: center;
+    min-width: 8.8rem;
+}
+
+.RadioButtonGroup__Item.ItemActive {
+    border-color: var(--clr-brand-default);
+    color: var(--clr-brand-default);
+}
+
+.RadioButtonGroup__Item__input {
+    appearance: none;
+}
