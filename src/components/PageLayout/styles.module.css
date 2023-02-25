@@ -22,6 +22,11 @@
   margin-top: calc(var(--spacing-12) * -1);
 }
 
+.PageLayout__Content.ContentAlignCenter {
+  align-items: center;
+  justify-content: center;
+}
+
 .PageLayout__Footer {
   position: sticky;
   position: -webkit-sticky;

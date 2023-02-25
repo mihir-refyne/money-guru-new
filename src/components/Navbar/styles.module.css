@@ -3,7 +3,7 @@
   position: sticky;
   position: -webkit-sticky;
   top: 0;
-  z-index: 99;
+  /* z-index: 99; */
   background-color: var(--clr-pure-white);
 
   font-size: 1.6rem;

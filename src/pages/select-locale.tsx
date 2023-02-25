@@ -10,18 +10,9 @@ export default function SelectLocale() {
           <button className="btn btn-primary btn-block">Proceed</button>
         </div>
       }
+      alignContentCenter
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "80vh",
-        }}
-      >
-        <LocaleUpdateOptions locales={["en", "hi", "bn"]} />
-      </div>
+      <LocaleUpdateOptions locales={["en", "hi", "bn"]} />
     </PageLayout>
   );
 }

@@ -17,6 +17,7 @@ interface PageLayoutProps {
   navbarText?: string;
   hasBackButton?: boolean;
   children: ReactNode;
+  alignContentCenter?: boolean;
   hasContentPadding?: boolean;
   footer?: ReactElement;
 }
@@ -30,18 +31,23 @@ export default function PageLayout({
   hasBackButton = true,
   footer,
   children,
+  alignContentCenter = false,
   hasContentPadding = true,
 }: PageLayoutProps) {
   const router = useRouter();
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
+  const [currentLocale, setCurrentLocale] = useState<string>(
+    router.locale ?? router.defaultLocale ?? "en"
+  );
 
   function handleLocaleUpdateClick() {
     setIsLocaleUpdateModalActive(true);
   }
 
-  function handleLocaleUpdate(locale: string) {
-    router.replace(router.asPath, router.asPath, { locale });
+  function handleLocaleUpdate() {
+    setIsLocaleUpdateModalActive(false);
+    router.replace(router.asPath, router.asPath, { locale: currentLocale });
   }
 
   return (
@@ -65,7 +71,9 @@ export default function PageLayout({
         <div
           className={`${styles.PageLayout__Content} ${
             hasNavbar && transparentNavbar ? styles.NavbarOffset : ""
-          } ${hasContentPadding ? styles.ContentPadding : ""}`}
+          } ${hasContentPadding ? styles.ContentPadding : ""} ${
+            alignContentCenter ? styles.ContentAlignCenter : ""
+          }`}
         >
           {children}
         </div>
@@ -80,10 +88,15 @@ export default function PageLayout({
       >
         <LocaleUpdateOptions
           locales={router.locales}
-          currentValue={router.locale ?? router.defaultLocale}
-          onChange={handleLocaleUpdate}
+          currentValue={currentLocale}
+          onChange={setCurrentLocale}
         />
-        <button className="btn btn-primary btn-block">Proceed</button>
+        <button
+          className="btn btn-primary btn-block"
+          onClick={handleLocaleUpdate}
+        >
+          Proceed
+        </button>
       </Modal>
     </>
   );
