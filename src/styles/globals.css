@@ -1,34 +1,34 @@
 :root {
   /* Colors */
-  --clr-brand-default: #0057B7;
-  --clr-brand-light: #E5EEF8;
-  --clr-brand-dark: #003D80;
+  --clr-brand-default: #0057b7;
+  --clr-brand-light: #e5eef8;
+  --clr-brand-dark: #003d80;
 
-  --clr-text-primary: #15171A;
-  --clr-text-secondary: #696D70;
-  --clr-text-tertiary: #999EA3;
+  --clr-text-primary: #15171a;
+  --clr-text-secondary: #696d70;
+  --clr-text-tertiary: #999ea3;
 
-  --clr-grey-default: #C9CDD1;
-  --clr-grey-light: #F5F7FA;
-  --clr-grey-dark: #B8BBBF;
+  --clr-grey-default: #c9cdd1;
+  --clr-grey-light: #f5f7fa;
+  --clr-grey-dark: #b8bbbf;
 
-  --clr-pure-white: #FFFFFF;
+  --clr-pure-white: #ffffff;
 
-  --clr-info-error-default: #D13B3B;
-  --clr-info-error-light: #F8E2E2;
+  --clr-info-error-default: #d13b3b;
+  --clr-info-error-light: #f8e2e2;
   --clr-info-error-dark: #781313;
 
-  --clr-info-success-default: #2C9E82;
-  --clr-info-success-light: #DCF5EF;
-  --clr-info-success-dark: #0C7057;
+  --clr-info-success-default: #2c9e82;
+  --clr-info-success-light: #dcf5ef;
+  --clr-info-success-dark: #0c7057;
 
-  --clr-info-alert-default: #EC9527;
-  --clr-info-alert-light: #FCF2E3;
-  --clr-info-alert-dark: #8A5006;
+  --clr-info-alert-default: #ec9527;
+  --clr-info-alert-light: #fcf2e3;
+  --clr-info-alert-dark: #8a5006;
 
-  --clr-info-highlight-default: #F5C245;
-  --clr-info-highlight-light: #FCEECA;
-  --clr-info-highlight-dark: #AC7D08;
+  --clr-info-highlight-default: #f5c245;
+  --clr-info-highlight-light: #fceeca;
+  --clr-info-highlight-dark: #ac7d08;
 
   /* Spacings */
   --spacing-1: 0.4rem;
@@ -43,7 +43,9 @@
   --spacing-20: 8rem;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   margin: 0;
   padding: 0;
 }
@@ -62,12 +64,12 @@ body {
 
 button {
   background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
 /* Typography */
@@ -175,7 +177,7 @@ button {
   max-width: 45rem;
   margin: 0 auto;
   position: relative;
-  min-height:  calc(var(--vh, 1vh) * 100);
+  min-height: calc(var(--vh, 1vh) * 100);
   overflow-y: scroll;
 }
 
@@ -227,7 +229,8 @@ button {
   line-height: 2rem;
   border-radius: 0.8rem;
   cursor: pointer;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 .btn-block {

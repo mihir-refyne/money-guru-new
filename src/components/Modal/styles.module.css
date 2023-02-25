@@ -1,64 +1,64 @@
 .Modal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgb(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-y: hidden;
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    transition: opacity 250ms ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgb(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: hidden;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 250ms ease;
 }
 .Modal.active {
-    visibility: visible;
-    pointer-events: all;
-    opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  opacity: 1;
 }
 
 .ModalContent {
-    width: clamp(50%, 45rem, 85%);
-    margin: 0 auto;
-    padding: 0 2rem;
-    border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: var(--clr-pure-white);
-    padding: 1.6rem;
-    position: relative;
+  width: clamp(50%, 45rem, 85%);
+  margin: 0 auto;
+  padding: 0 2rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--clr-pure-white);
+  padding: 1.6rem;
+  position: relative;
 }
 
 .ModalClose {
-    background-color: rgba(245, 247, 250, 0.25);
-    color: var(--clr-pure-white);
-    border-radius: 50%;
+  background-color: rgba(245, 247, 250, 0.25);
+  color: var(--clr-pure-white);
+  border-radius: 50%;
 
-    display: flex;
-    align-items: center;
-    padding: 0.4rem;
+  display: flex;
+  align-items: center;
+  padding: 0.4rem;
 
-    position: absolute;
-    top: -3.6rem;
-    right: 0;
+  position: absolute;
+  top: -3.6rem;
+  right: 0;
 }
 
 @media screen and (max-width: 480px) {
-    .BottomSheetOnMobile.Modal {
-        align-items: flex-end;
-    }
+  .BottomSheetOnMobile.Modal {
+    align-items: flex-end;
+  }
 
-    .BottomSheetOnMobile .ModalContent {
-        width: 100%;
-        border-bottom-left-radius: unset;
-        border-bottom-right-radius: unset;
-    }
+  .BottomSheetOnMobile .ModalContent {
+    width: 100%;
+    border-bottom-left-radius: unset;
+    border-bottom-right-radius: unset;
+  }
 
-    .BottomSheetOnMobile .ModalClose {
-        right: 1.6rem;
-    }
+  .BottomSheetOnMobile .ModalClose {
+    right: 1.6rem;
+  }
 }
