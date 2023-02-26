@@ -1,83 +1,52 @@
 import PageLayout from "@/components/PageLayout";
 import Shorts from "@/components/Shorts";
-import SwipePrompt from "@/components/SwipePrompt";
-import Image from "next/image";
-import { CaretDoubleUp, CaretLeft, ShareNetwork } from "phosphor-react";
-import contentThumbNailImageUrl from "../images/how-to-manage-money.png";
-import languageIconUrl from "../images/language-icon.svg";
+import { getShortsByLocale } from "@/lib/shorts/server";
+import { GetStaticProps } from "next";
+import { marked } from "marked";
 
-export default function ShortsPage() {
+interface ShortsPageProps {
+  shorts: Array<{
+    id: string;
+    metadata: Record<string, unknown>;
+    content: string;
+  }>;
+}
+
+export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
+  context
+) => {
+  const { locale = "en" } = context;
+  const shorts = await getShortsByLocale(locale);
+
+  return {
+    props: {
+      shorts,
+    },
+  };
+};
+
+export default function ShortsPage({ shorts }: ShortsPageProps) {
   return (
     <PageLayout hasContentPadding={false}>
       <Shorts
-        items={[
-          {
-            id: "1",
-            media: {
-              type: "image",
-              url: contentThumbNailImageUrl.src,
-            },
-            content: (
-              <>
-                <h3>How to Manage Your Money 1?</h3>
-                <p>
-                  Handling your finances the right way should be a priority, and
-                  it should drive your daily spending and saving decisions.
-                  Personal Finance experts advise taking the time to learn the
-                  basics, from how to manage a checking or debit account to how
-                  to pay your bills on time and build from there. Managing your
-                  money demands constant attention to your spending and to your
-                  accounts and not living beyond your financial means.
-                </p>
-              </>
-            ),
-            share: {
-              text: "Hello World",
-            },
+        items={shorts.map((short) => ({
+          id: short.id,
+          media: {
+            type: short.metadata?.mediaType ?? ("image" as any),
+            url: short.metadata?.mediaUrl ?? ("" as any),
           },
-          {
-            id: "2",
-            media: {
-              type: "image",
-              url: contentThumbNailImageUrl.src,
-            },
-            content: (
-              <>
-                <h3>How to Manage Your Money 2?</h3>
-                <p>
-                  Handling your finances the right way should be a priority, and
-                  it should drive your daily spending and saving decisions.
-                  Personal Finance experts advise taking the time to learn the
-                  basics, from how to manage a checking or debit account to how
-                  to pay your bills on time and build from there. Managing your
-                  money demands constant attention to your spending and to your
-                  accounts and not living beyond your financial means.
-                </p>
-              </>
-            ),
+          tag: short.metadata?.tag as any,
+          content: (
+            <article
+              dangerouslySetInnerHTML={{ __html: marked(short.content) }}
+            />
+          ),
+          share: {
+            imageUrl: "",
+            text: "Please share",
+            url: "https://app.refyne.co.in/",
           },
-          {
-            id: "3",
-            media: {
-              type: "image",
-              url: contentThumbNailImageUrl.src,
-            },
-            content: (
-              <>
-                <h3>How to Manage Your Money 3?</h3>
-                <p>
-                  Handling your finances the right way should be a priority, and
-                  it should drive your daily spending and saving decisions.
-                  Personal Finance experts advise taking the time to learn the
-                  basics, from how to manage a checking or debit account to how
-                  to pay your bills on time and build from there. Managing your
-                  money demands constant attention to your spending and to your
-                  accounts and not living beyond your financial means.
-                </p>
-              </>
-            ),
-          },
-        ]}
+        }))}
       />
     </PageLayout>
   );

@@ -72,6 +72,7 @@ export default function Shorts({ items }: ShortsProps) {
           onShareClick={handleShareClick(short.share)}
         />
       ))}
+      <ShortItem type="END" />
     </ShortsContainer>
   );
 }

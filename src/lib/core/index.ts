@@ -1,7 +1,7 @@
 import {
   getFromLocalStorage,
   setInLocalStorage,
-} from "../browser-storage/browserstorage";
+} from "../storage/browserstorage";
 
 const INTRODUCTION_LOCALSTORAGE_KEY = "__FinLiteracy_Intro_Watched";
 

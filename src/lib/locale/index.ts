@@ -1,7 +1,7 @@
 import {
   getFromLocalStorage,
   setInLocalStorage,
-} from "../browser-storage/browserstorage";
+} from "../storage/browserstorage";
 
 const PREFERRED_LOCALE_LOCALSTORAGE_KEY = "__PreferredLocale";
 

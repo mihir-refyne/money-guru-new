@@ -10,10 +10,42 @@ import heroBlobImageUrl from "@/images/hero-blob.png";
 import calculatorPercentIconUrl from "@/images/calculator-percent-icon.svg";
 import contentThumbNailImageUrl from "@/images/how-to-manage-money.png";
 import Image from "next/image";
+import config from "../../data/landing_page.json";
+import { getShortsByLocale } from "@/lib/shorts/server";
+import { isShortViewed } from "@/lib/shorts";
+import { GetStaticProps } from "next";
+import { marked } from "marked";
+import FeaturedShort from "@/components/Shorts/FeaturedShort";
 
-export default function HomePage() {
+interface HomePageProps {
+  shorts: Array<{
+    id: string;
+    metadata: Record<string, unknown>;
+    content: string;
+  }>;
+}
+
+export const getStaticProps: GetStaticProps<HomePageProps> = async (
+  context
+) => {
+  const { locale = "en" } = context;
+  const shorts = await getShortsByLocale(locale);
+
+  return {
+    props: {
+      shorts,
+    },
+  };
+};
+
+export default function HomePage({ shorts }: HomePageProps) {
   // render LandingPage
   const [isMounted, setIsMounted] = useState(false);
+  const [shortToBeFeatured, setShortToBeFeatured] = useState<{
+    id: string;
+    metadata: Record<string, unknown>;
+    content: string;
+  } | null>(null);
 
   const router = useRouter();
 
@@ -26,6 +58,11 @@ export default function HomePage() {
       router.replace("/introduction");
       return;
     }
+
+    const firstUnViewedShort = shorts.find((short) => !isShortViewed(short.id));
+    const shortToBeFeatured = firstUnViewedShort ?? shorts[0];
+    setShortToBeFeatured(shortToBeFeatured);
+
     // NEXTjs hack!
     setIsMounted(true);
   }, []);
@@ -64,31 +101,21 @@ export default function HomePage() {
             marginTop: "-6.4rem",
           }}
         >
-          <div
-            style={{
-              background: "#fff",
-              border: "2px solid #E5EEF8",
-              borderRadius: "1.6rem",
-              minHeight: "24rem",
-              padding: "1.6rem",
-            }}
-          >
-            <figure>
-              <Image
-                src={contentThumbNailImageUrl}
-                alt="content"
-                style={{ width: "100%" }}
+          {shortToBeFeatured && (
+            <FeaturedShort
+              imageUrl={(shortToBeFeatured.metadata?.mediaUrl ?? "") as string}
+              tag={(shortToBeFeatured.metadata?.tag ?? "") as string}
+              onClick={() => {
+                router.push(`/shorts#${shortToBeFeatured.id}`);
+              }}
+            >
+              <article
+                dangerouslySetInnerHTML={{
+                  __html: marked(shortToBeFeatured.content),
+                }}
               />
-            </figure>
-            <h3 className="text-body text-medium my-2">
-              How to Manage Your Money?
-            </h3>
-            <p className="text-caption clr-text-secondary">
-              Most people talk about earning more money, however, not many
-              people talk...{" "}
-              <span className="clr-brand-default text-semibold">Read More</span>
-            </p>
-          </div>
+            </FeaturedShort>
+          )}
         </div>
         <div className="container">
           <h3 className="clr-text-secondary mb-3">Fin Literacy Tools</h3>
@@ -100,60 +127,26 @@ export default function HomePage() {
               rowGap: "1.6rem",
             }}
           >
-            <div
-              style={{
-                background: "#FCF2E3",
-                borderRadius: "0.8rem",
-                padding: "0.8rem",
-              }}
-            >
-              <figure>
-                <Image src={calculatorPercentIconUrl} alt="icon" />
-              </figure>
-              <p className="text-caption mt-4">
-                <b>Loan EMI</b>
-                <br /> Calculator
-              </p>
-            </div>
-            <div
-              style={{
-                background: "#FCF2E3",
-                borderRadius: "0.8rem",
-                padding: "0.8rem",
-              }}
-            >
-              <figure>
-                <Image src={calculatorPercentIconUrl} alt="icon" />
-              </figure>
-              <p className="text-caption mt-4">
-                <b>Loan EMI</b>
-                <br /> Calculator
-              </p>
-            </div>
-            <div
-              style={{
-                background: "#FCF2E3",
-                borderRadius: "0.8rem",
-                padding: "0.8rem",
-              }}
-            >
-              <figure>
-                <Image src={calculatorPercentIconUrl} alt="icon" />
-              </figure>
-              <p className="text-caption mt-4">
-                <b>Loan EMI</b>
-                <br /> Calculator
-              </p>
-            </div>
+            {config.finLiteracyTools.map((tool) => (
+              <div
+                style={{
+                  backgroundColor: tool.backgroundColor,
+                  borderRadius: "0.8rem",
+                  padding: "0.8rem",
+                }}
+              >
+                <figure>
+                  <Image src={tool.iconUrl} alt={tool.title} />
+                </figure>
+                <p
+                  className="text-caption mt-4"
+                  dangerouslySetInnerHTML={{ __html: tool.title }}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </SwipePrompt>
     </PageLayout>
   );
-}
-
-export function getStaticProps() {
-  return {
-    props: {},
-  };
 }

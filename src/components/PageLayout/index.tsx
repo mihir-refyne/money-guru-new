@@ -1,3 +1,4 @@
+import { setPreferredLocale } from "@/lib/locale";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactElement, ReactNode, useState } from "react";
@@ -38,7 +39,7 @@ export default function PageLayout({
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
   const [currentLocale, setCurrentLocale] = useState<string>(
-    router.locale ?? router.defaultLocale ?? "en"
+    router.locale ?? router.defaultLocale ?? ""
   );
 
   function handleLocaleUpdateClick() {
@@ -47,6 +48,7 @@ export default function PageLayout({
 
   function handleLocaleUpdate() {
     setIsLocaleUpdateModalActive(false);
+    setPreferredLocale(currentLocale);
     router.replace(router.asPath, router.asPath, { locale: currentLocale });
   }
 

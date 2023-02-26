@@ -28,3 +28,9 @@ export default function FinCoachFillerPage() {
     </PageLayout>
   );
 }
+
+export function getStaticProps() {
+  return {
+    props: {},
+  };
+}
