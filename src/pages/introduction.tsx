@@ -2,8 +2,21 @@ import SwipeButton from "@/components/SwipeButton";
 import Image from "next/image";
 import introIllustrationUrl from "@/images/intro-illustration.svg";
 import PageLayout from "@/components/PageLayout";
+import { useEffect } from "react";
+import { setWatchedIntroduction } from "@/lib/core";
+import { useRouter } from "next/router";
 
 export default function IntroPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    setWatchedIntroduction();
+  }, []);
+
+  function handleSwipeComplete() {
+    router.replace("/");
+  }
+
   return (
     <PageLayout
       footer={
@@ -19,11 +32,9 @@ export default function IntroPage() {
             </p>
           </div>
           <div className="container">
-            {/* <button className="btn btn-primary btn-block">Next</button> */}
-            <SwipeButton>Swipe to unlock</SwipeButton>
-            {/* <SwipeableButton color="#0057B7" text="Slide to Unlock" text_unlocked="Unlocked" onSuccess={() => {
-                console.log("success")
-            }} /> */}
+            <SwipeButton onSuccessSwipe={handleSwipeComplete}>
+              Swipe to unlock
+            </SwipeButton>
           </div>
         </>
       }
@@ -41,4 +52,10 @@ export default function IntroPage() {
       </figure>
     </PageLayout>
   );
+}
+
+export function getStaticProps() {
+  return {
+    props: {},
+  };
 }
