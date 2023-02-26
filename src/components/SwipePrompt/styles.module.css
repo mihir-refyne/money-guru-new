@@ -1,0 +1,82 @@
+.SwipePrompt {
+  position: relative;
+  flex-grow: 1;
+}
+
+.SwipePrompt.PositionTop {
+  height: 110%;
+  animation: bounce-down 3s ease 1;
+}
+
+.SwipePrompt.PositionBottom {
+  animation: bounce-up 3s ease 1;
+}
+
+@keyframes bounce-up {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10%);
+  }
+  60% {
+    transform: translateY(-5%);
+  }
+}
+
+@keyframes bounce-down {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(10%);
+  }
+  60% {
+    transform: translateY(5%);
+  }
+}
+
+.SwipePrompt__PromptContent {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: var(--clr-grey-light);
+  color: var(--clr-brand-default);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: hideAnimation 0s ease-in 3s;
+  animation-fill-mode: forwards;
+}
+
+.SwipePrompt__PromptContent p {
+  margin-top: var(--spacing-2);
+  color: var(--clr-text-primary);
+}
+
+.PositionTop .SwipePrompt__PromptContent {
+  top: 0;
+  transform: translateY(-100%);
+}
+
+.PositionBottom .SwipePrompt__PromptContent {
+  bottom: 0;
+  transform: translateY(100%);
+}
+
+@keyframes hideAnimation {
+  to {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
+}
