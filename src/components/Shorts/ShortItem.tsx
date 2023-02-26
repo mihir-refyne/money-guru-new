@@ -1,6 +1,6 @@
 import { useOnScreen } from "@/hooks/useOnScreen";
 import { ShareNetwork } from "phosphor-react";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
 import styles from "./ShortItem.module.css";
 
@@ -27,6 +27,8 @@ interface ShortItemProps {
   data: ShortData;
   onView?: (id: string) => void;
   onLeave?: (id: string, direction?: string) => void;
+  shareCtaType?: "COPY" | "SHARE";
+  onShareClick?: () => void;
 }
 
 export default function ShortItem({
@@ -34,6 +36,8 @@ export default function ShortItem({
   data,
   onView,
   onLeave,
+  shareCtaType = "COPY",
+  onShareClick,
 }: ShortItemProps) {
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
@@ -66,12 +70,45 @@ export default function ShortItem({
       {data.content && (
         <div className={styles.ShortItem__Content}>{data.content}</div>
       )}
-      {data.share && (
-        <button className="btn btn-primary-light flex-center btn-block mt-4">
-          <ShareNetwork size={24} className="mr-2" />
-          <span>Share</span>
-        </button>
+      {shareCtaType && (
+        <ShareOrCopyButton type={shareCtaType} onClick={onShareClick} />
       )}
     </SwipePrompt>
+  );
+}
+
+function ShareOrCopyButton(props: {
+  type: "SHARE" | "COPY";
+  onClick?: () => void;
+}) {
+  const { type, onClick } = props;
+  const [copied, setCopied] = useState(false);
+
+  function handleClick() {
+    onClick?.();
+    if (type === "COPY") {
+      setCopied(true);
+      const id = setTimeout(() => {
+        setCopied(false);
+      }, 2 * 1000);
+
+      return () => {
+        setCopied(false);
+        clearTimeout(id);
+      };
+    }
+  }
+
+  const label = type === "SHARE" ? "Share" : copied ? "Copied" : "Copy Link";
+  const btnTypeClass = copied ? "btn-success-light" : "btn-primary-light";
+
+  return (
+    <button
+      className={`btn ${btnTypeClass} flex-center btn-block mt-4`}
+      onClick={handleClick}
+    >
+      <ShareNetwork size={24} className="mr-2" />
+      <span>{label}</span>
+    </button>
   );
 }

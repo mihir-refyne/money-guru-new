@@ -31,6 +31,9 @@ export default function ShortsPage() {
                 </p>
               </>
             ),
+            share: {
+              text: "Hello World",
+            },
           },
           {
             id: "2",

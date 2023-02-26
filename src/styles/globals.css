@@ -260,6 +260,13 @@ button {
   border-radius: 0.4rem;
 }
 
+.btn-success-light {
+  background-color: var(--clr-info-success-light);
+  color: var(--clr-info-success-default);
+  min-height: 4rem;
+  border-radius: 0.4rem;
+}
+
 .flex-center {
   display: flex;
   align-items: center;
