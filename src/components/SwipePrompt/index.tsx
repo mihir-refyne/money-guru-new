@@ -1,5 +1,5 @@
 import { CaretDoubleDown, CaretDoubleUp } from "phosphor-react";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, forwardRef, ReactNode, Ref } from "react";
 import styles from "./styles.module.css";
 
 interface SwipePromptProps {
@@ -12,17 +12,20 @@ interface SwipePromptProps {
   children?: ReactNode;
 }
 
-export default function SwipePrompt({
-  active = false,
-  position,
-  prompt,
-  className,
-  children,
-  ...rest
-}: SwipePromptProps) {
+function _SwipePrompt(
+  {
+    active = false,
+    position,
+    prompt,
+    className,
+    children,
+    ...rest
+  }: SwipePromptProps,
+  ref: Ref<HTMLDivElement>
+) {
   if (!active || !position)
     return (
-      <div {...rest} className={className}>
+      <div {...rest} className={className} ref={ref}>
         {children}
       </div>
     );
@@ -35,7 +38,7 @@ export default function SwipePrompt({
     .filter(Boolean)
     .join(" ");
   return (
-    <div {...rest} className={_className}>
+    <div {...rest} className={_className} ref={ref}>
       {children}
       <div className={styles.SwipePrompt__PromptContent}>
         {getIconByPostion(position)}
@@ -49,3 +52,6 @@ function getIconByPostion(position: "top" | "bottom") {
   if (position === "top") return <CaretDoubleDown size={24} />;
   if (position === "bottom") return <CaretDoubleUp size={24} />;
 }
+
+const SwipePrompt = forwardRef<HTMLDivElement, SwipePromptProps>(_SwipePrompt);
+export default SwipePrompt;
