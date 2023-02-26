@@ -4,6 +4,7 @@
   border-radius: 1.6rem;
   min-height: 24rem;
   padding: 1.6rem;
+  cursor: pointer;
 }
 
 .FeaturedShort__Image__Wrapper {

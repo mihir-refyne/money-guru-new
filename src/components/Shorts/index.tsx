@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import ShortItem, { ShortData } from "./ShortItem";
 import ShortsContainer from "./ShortsContainer";
+import { addShortView } from "@/lib/shorts";
 
 interface ShortsProps {
   items: ShortData[];
@@ -26,6 +27,16 @@ export default function Shorts({ items }: ShortsProps) {
     // Had to do this due to next js error.
     setCanShareViaWebApi(isWebShareApiSupported());
   }, []);
+
+  function handleOnView(id?: string) {
+    if (id) {
+      addShortView(id);
+    }
+  }
+
+  function handleViewLeft(id?: string, direction?: string) {
+    // TODO: Add Mixpanel events
+  }
 
   function handleShareClick(sharePayload?: {
     imageUrl?: string | undefined;
@@ -62,6 +73,8 @@ export default function Shorts({ items }: ShortsProps) {
     };
   }
 
+  function handleNotify() {}
+
   return (
     <ShortsContainer>
       {items.map((short) => (
@@ -70,6 +83,9 @@ export default function Shorts({ items }: ShortsProps) {
           data={short}
           shareCtaType={shareCtaType}
           onShareClick={handleShareClick(short.share)}
+          onView={handleOnView}
+          onLeave={handleViewLeft}
+          onNotifyClick={handleNotify}
         />
       ))}
       <ShortItem type="END" />
