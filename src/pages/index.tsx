@@ -16,6 +16,7 @@ import { isShortViewed } from "@/lib/shorts";
 import { GetStaticProps } from "next";
 import { marked } from "marked";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
 
 interface HomePageProps {
   shorts: Array<{
@@ -59,13 +60,18 @@ export default function HomePage({ shorts }: HomePageProps) {
       return;
     }
 
-    const firstUnViewedShort = shorts.find((short) => !isShortViewed(short.id));
-    const shortToBeFeatured = firstUnViewedShort ?? shorts[0];
-    setShortToBeFeatured(shortToBeFeatured);
-
     // NEXTjs hack!
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    const firstUnViewedShort = shorts.find((short) => !isShortViewed(short.id));
+    const shortToBeFeatured = firstUnViewedShort ?? shorts[0];
+    setShortToBeFeatured(shortToBeFeatured);
+  }, [shorts]);
+
+  const userName = getValueFromMetadata("name");
+  const userFirstName = userName && userName.split(" ")[0];
 
   if (!isMounted) return <LoadingPage />;
 
@@ -90,7 +96,14 @@ export default function HomePage({ shorts }: HomePageProps) {
           <figure className="mb-3">
             <Image src={twoPeopleIllustrationUrl} alt="Hey Abhijeeth" />
           </figure>
-          <h2 className="text-sub-title text-medium mb-2">Hey Abhijeeth,</h2>
+          <h2
+            className="text-sub-title text-medium mb-2"
+            style={{
+              textTransform: "capitalize",
+            }}
+          >
+            Hey {userFirstName?.toLowerCase()},
+          </h2>
           <p className="clr-text-secondary">
             Understanding finances has never been easier. Start reading!
           </p>
@@ -127,8 +140,9 @@ export default function HomePage({ shorts }: HomePageProps) {
               rowGap: "1.6rem",
             }}
           >
-            {config.finLiteracyTools.map((tool) => (
+            {config.finLiteracyTools.map((tool, index) => (
               <div
+                key={index}
                 style={{
                   backgroundColor: tool.backgroundColor,
                   borderRadius: "0.8rem",

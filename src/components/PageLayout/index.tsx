@@ -49,7 +49,10 @@ export default function PageLayout({
   function handleLocaleUpdate() {
     setIsLocaleUpdateModalActive(false);
     setPreferredLocale(currentLocale);
-    router.replace(router.asPath, router.asPath, { locale: currentLocale });
+    router.replace(router.asPath, undefined, {
+      locale: currentLocale,
+      shallow: false,
+    });
   }
 
   return (

@@ -3,6 +3,7 @@ import Shorts from "@/components/Shorts";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { GetStaticProps } from "next";
 import { marked } from "marked";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
 
 interface ShortsPageProps {
   shorts: Array<{
@@ -26,6 +27,10 @@ export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
 };
 
 export default function ShortsPage({ shorts }: ShortsPageProps) {
+  const shareUrl =
+    getValueFromMetadata("referralLink") ??
+    process.env.NEXT_PUBLIC_APP_BASE_URL ??
+    "https://app.refyne.co.in/";
   return (
     <PageLayout hasContentPadding={false}>
       <Shorts
@@ -44,7 +49,7 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
           share: {
             imageUrl: "",
             text: "Please share",
-            url: "https://app.refyne.co.in/",
+            url: shareUrl,
           },
         }))}
       />
