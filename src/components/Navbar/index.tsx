@@ -59,13 +59,11 @@ export default function Navbar({
           )}
           <span>{title}</span>
         </div>
-        <button className="btn-only-icon" onClick={onLocaleChangeClick}>
-          <Image
-            src={languageIconUrl}
-            alt="Language Change"
-            width={24}
-            height={24}
-          />
+        <button
+          className={`${styles.NavbarContent__RightButton} btn-only-icon`}
+          onClick={onLocaleChangeClick}
+        >
+          <Image src={languageIconUrl} alt="Language Change" />
         </button>
       </div>
     </nav>

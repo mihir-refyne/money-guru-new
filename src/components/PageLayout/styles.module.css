@@ -19,7 +19,7 @@
 }
 
 .PageLayout__Content.NavbarOffset {
-  margin-top: calc(var(--spacing-12) * -1);
+  margin-top: calc(5.6rem * -1);
 }
 
 .PageLayout__Content.ContentAlignCenter {
@@ -34,3 +34,10 @@
   width: 100%;
   background-color: var(--clr-pure-white);
 }
+
+/* @media screen and (min-width: 720px) {
+  .PageLayout__Wrapper {
+    margin-top: 8rem;
+    margin-bottom: 8rem;
+  }
+} */

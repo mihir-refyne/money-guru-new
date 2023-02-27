@@ -5,6 +5,7 @@
   min-height: 24rem;
   padding: 1.6rem;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .FeaturedShort__Image__Wrapper {
@@ -23,8 +24,6 @@
   top: 1.6rem;
   right: 0;
   border-radius: 0.4rem 0px 0px 0.4rem;
-
-  max-width: 8rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -52,7 +51,7 @@
   color: var(--clr-text-secondary);
 
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

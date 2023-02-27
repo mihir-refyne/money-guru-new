@@ -22,7 +22,7 @@
 }
 
 .ModalContent {
-  width: clamp(50%, 45rem, 85%);
+  width: clamp(45rem, 45rem, 85%);
   margin: 0 auto;
   padding: 0 2rem;
   border-radius: 12px;

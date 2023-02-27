@@ -1,9 +1,9 @@
-import { ArrowRight, Spinner } from "phosphor-react";
+import { isTouchDevice } from "@/lib/utils";
+import { ArrowRight } from "phosphor-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import CircularSpinner from "../CircularSpinner";
 import styles from "./styles.module.css";
 
-const isTouchDevice = () => "ontouchstart" in window.document.documentElement;
 const SLIDER_INITIAL_POSTION_OFFSET = 6;
 const SLIDER_WIDTH_OFFSET = 40;
 
@@ -12,6 +12,7 @@ interface SwipeButtonProps {
   onUnfinishedSwipe?: () => void;
   children?: ReactNode;
   unlockedFallback?: ReactNode;
+  clickToUnlock?: boolean;
 }
 
 export default function SwipeButton({
@@ -19,9 +20,11 @@ export default function SwipeButton({
   onUnfinishedSwipe,
   children,
   unlockedFallback,
+  clickToUnlock = false,
 }: SwipeButtonProps) {
   const [isUnlocked, setIsUnlocked] = useState<boolean>(false);
   const [dragPercentage, setDragPercentage] = useState<number>(0);
+  const [autoSwipe, setAutoSwipe] = useState<boolean>(false);
 
   const isDragging = useRef<boolean>(false);
   const sliderLeft = useRef<number>(0);
@@ -35,7 +38,7 @@ export default function SwipeButton({
     if (!sliderElemRef.current) return;
     const sliderLeftWithOffest = Math.min(
       sliderLeft + SLIDER_INITIAL_POSTION_OFFSET,
-      containerWidth.current
+      containerWidth.current - SLIDER_INITIAL_POSTION_OFFSET * 2
     );
     sliderElemRef.current.style.left = sliderLeftWithOffest / 10 + "rem";
     setDragPercentage(sliderLeftWithOffest / containerWidth.current);
@@ -87,6 +90,7 @@ export default function SwipeButton({
       containerWidth.current =
         wrapperElemRef.current.clientWidth - SLIDER_WIDTH_OFFSET;
     }
+    if (clickToUnlock) return;
     if (isTouchDevice()) {
       document.addEventListener("touchmove", onDrag);
       document.addEventListener("touchend", onDragStop);
@@ -111,6 +115,7 @@ export default function SwipeButton({
       | React.MouseEvent<HTMLDivElement, MouseEvent>
       | React.TouchEvent<HTMLDivElement>
   >(event: T) {
+    if (clickToUnlock) return;
     if (isUnlocked) return;
     isDragging.current = true;
     if (isTouchDevice()) {
@@ -130,6 +135,17 @@ export default function SwipeButton({
     setDragPercentage(0);
   }
 
+  function handleOnClickSwipe() {
+    if (isUnlocked || autoSwipe) return;
+    if (!clickToUnlock) return;
+    setAutoSwipe(true);
+    // TODO: cleanup if unmounted
+    setTimeout(() => {
+      setAutoSwipe(false);
+      handleFinish();
+    }, 1000);
+  }
+
   if (isUnlocked)
     return (
       <div className={styles.SwipeButton__Wrapper}>
@@ -137,10 +153,18 @@ export default function SwipeButton({
       </div>
     );
 
+  const wrapperRole = clickToUnlock ? "button" : undefined;
   const contentOpacity = Math.max(1 - dragPercentage, 0.3);
 
   return (
-    <div className={styles.SwipeButton__Wrapper} ref={wrapperElemRef}>
+    <div
+      className={`${styles.SwipeButton__Wrapper} ${
+        autoSwipe ? styles.SwipeButton__AutoSwipe : ""
+      }`}
+      ref={wrapperElemRef}
+      role={wrapperRole}
+      onClick={handleOnClickSwipe}
+    >
       <div
         className={styles.SwipeButton__Slider}
         ref={sliderElemRef}

@@ -20,8 +20,40 @@
   color: var(--clr-pure-white);
   position: absolute;
   left: 0.6rem;
+  cursor: pointer;
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.SwipeButton__AutoSwipe {
+  animation: AutoSwipeOpacity 1s ease 200ms;
+}
+.SwipeButton__AutoSwipe .SwipeButton__Slider {
+  animation: AutoSwipe 1s ease 200ms;
+}
+
+@keyframes AutoSwipe {
+  0% {
+    left: 0.6rem;
+  }
+  100% {
+    left: calc(100% - 4.4rem - 0.6rem);
+  }
+}
+
+@keyframes AutoSwipeOpacity {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@media screen and (min-width: 720px) {
+  .SwipeButton__Wrapper {
+    cursor: pointer;
+  }
 }

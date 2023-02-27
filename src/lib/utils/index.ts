@@ -3,3 +3,6 @@ export function isStringAndNotEmpty(value: unknown): value is string {
   if (!value) return false;
   return true;
 }
+
+export const isTouchDevice = () =>
+  "ontouchstart" in window.document.documentElement;
