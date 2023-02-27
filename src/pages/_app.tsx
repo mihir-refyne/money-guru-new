@@ -67,7 +67,7 @@ export default function App({ Component, pageProps }: AppProps) {
         query: restQuery,
       },
       undefined,
-      { shallow: true, locale: locale ?? false }
+      { shallow: false, locale: locale ?? false }
     );
     setIsLoading(false);
   }

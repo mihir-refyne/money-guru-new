@@ -21,10 +21,10 @@
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-10%);
+    transform: translateY(-25%);
   }
   60% {
-    transform: translateY(-5%);
+    transform: translateY(-15%);
   }
 }
 
@@ -37,10 +37,10 @@
     transform: translateY(0);
   }
   40% {
-    transform: translateY(10%);
+    transform: translateY(15%);
   }
   60% {
-    transform: translateY(5%);
+    transform: translateY(10%);
   }
 }
 
@@ -50,7 +50,7 @@
   right: 0;
   background-color: var(--clr-grey-light);
   color: var(--clr-brand-default);
-  padding: 1.6rem;
+  padding: 3.2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,11 +66,13 @@
 .PositionTop .SwipePrompt__PromptContent {
   top: 0;
   transform: translateY(-100%);
+  padding-top: 20rem;
 }
 
 .PositionBottom .SwipePrompt__PromptContent {
   bottom: 0;
   transform: translateY(100%);
+  padding-bottom: 20rem;
 }
 
 @keyframes hideAnimation {
