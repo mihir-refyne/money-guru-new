@@ -36,3 +36,7 @@ export function dispatchDataToNativePlatform(payload: NativeHandlerPayload) {
 
   // INFO: Add other native implementations here
 }
+
+export function isCurrentlyOnRefyneWebview(platformName?: string): boolean {
+  return platformName === "REFYNE_ANDROID";
+}

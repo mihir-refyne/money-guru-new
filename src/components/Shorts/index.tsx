@@ -10,6 +10,8 @@ import React, { useEffect, useState } from "react";
 import ShortItem, { ShortData } from "./ShortItem";
 import ShortsContainer from "./ShortsContainer";
 import { addShortView } from "@/lib/shorts";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
 
 interface ShortsProps {
   items: ShortData[];
@@ -17,8 +19,9 @@ interface ShortsProps {
 
 export default function Shorts({ items }: ShortsProps) {
   const [canShareViaWebApi, setCanShareViaWebApi] = useState(false);
-  // TODO: Update this
-  const isRefyneWebviewWithShareSupported = false;
+  const isRefyneWebviewWithShareSupported = isCurrentlyOnRefyneWebview(
+    getValueFromMetadata("appPlatformName")
+  );
 
   const shareCtaType =
     canShareViaWebApi || isRefyneWebviewWithShareSupported ? "SHARE" : "COPY";
