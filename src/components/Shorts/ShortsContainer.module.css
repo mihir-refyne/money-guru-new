@@ -1,5 +1,5 @@
 .ShortsContainer {
-  height: calc(100vh - 4.8rem);
+  height: calc(var(--full-vh) - 4.8rem);
 
   overflow-y: auto;
   scroll-snap-type: y mandatory;

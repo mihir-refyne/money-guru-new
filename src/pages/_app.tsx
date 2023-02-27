@@ -72,9 +72,16 @@ export default function App({ Component, pageProps }: AppProps) {
     setIsLoading(false);
   }
 
+  function setViewportVariable() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+
   useEffect(() => {
     if (!router.isReady) return;
     onLoad();
+
+    setViewportVariable();
   }, [router.isReady]);
 
   return (
