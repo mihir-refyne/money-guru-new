@@ -9,10 +9,10 @@ interface ShareContent {
 
 export async function getFileByRemoteImageUrl(url: string): Promise<File> {
   const response = await fetch(url);
-  const contentType = response.headers.get("content-type") ?? undefined;
-  const arrayBuffer = await response.arrayBuffer();
-  const file = new File([arrayBuffer], getFileNameFromUrl(url), {
-    type: contentType,
+  const blob = await response.blob();
+  // TODO: testing with the file name
+  const file = new File([blob], Date.now().toString(), {
+    type: blob.type,
   });
   return file;
 }
