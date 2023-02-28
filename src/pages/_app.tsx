@@ -6,7 +6,7 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAndSetUserMetadataFromServer } from "@/lib/core/user";
-import { isStringAndNotEmpty } from "@/lib/utils";
+import { getPlatformName, isStringAndNotEmpty } from "@/lib/utils";
 import { hasUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
 import {
   initializeMixpanel,
@@ -80,6 +80,10 @@ export default function App({ Component, pageProps }: AppProps) {
     }
     if (metadata?.status) {
       setMixpanelGlobalProperties("user_status", metadata.status);
+      setMixpanelGlobalProperties(
+        "platform",
+        getPlatformName(appPlatformName?.toString())
+      );
     }
     const preferredLocale = getPreferredLocale();
     router.replace(
@@ -89,7 +93,7 @@ export default function App({ Component, pageProps }: AppProps) {
       },
       undefined,
       {
-        shallow: false,
+        shallow: true,
         locale:
           preferredLocale === router.locale
             ? undefined

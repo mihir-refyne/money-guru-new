@@ -17,6 +17,8 @@ import { GetStaticProps } from "next";
 import { marked } from "marked";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 
 interface HomePageProps {
   shorts: Array<{
@@ -60,6 +62,8 @@ export default function HomePage({ shorts }: HomePageProps) {
       return;
     }
 
+    logEventInMixpanel(AnalyticEvent.FINLITERACY_DASHBOARD_SCREEN);
+
     // NEXTjs hack!
     setIsMounted(true);
   }, []);
@@ -69,6 +73,20 @@ export default function HomePage({ shorts }: HomePageProps) {
     const shortToBeFeatured = firstUnViewedShort ?? shorts[0];
     setShortToBeFeatured(shortToBeFeatured);
   }, [shorts]);
+
+  function handleFinToolClick(name: string, url: string) {
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED, {
+      tool_name: name,
+    });
+    window.location.replace(url);
+  }
+
+  function handleFeaturedShortClick(id: string) {
+    logEventInMixpanel(AnalyticEvent.R_SHORTS_OPENED, {
+      short_id: id,
+    });
+    router.push(`/shorts#${id}`);
+  }
 
   const userName = getValueFromMetadata("name");
   const userFirstName = userName && userName.split(" ")[0];
@@ -118,9 +136,7 @@ export default function HomePage({ shorts }: HomePageProps) {
             <FeaturedShort
               imageUrl={(shortToBeFeatured.metadata?.mediaUrl ?? "") as string}
               tag={(shortToBeFeatured.metadata?.tag ?? "") as string}
-              onClick={() => {
-                router.push(`/shorts#${shortToBeFeatured.id}`);
-              }}
+              onClick={() => handleFeaturedShortClick(shortToBeFeatured.id)}
             >
               <article
                 dangerouslySetInnerHTML={{
@@ -147,7 +163,10 @@ export default function HomePage({ shorts }: HomePageProps) {
                   backgroundColor: tool.backgroundColor,
                   borderRadius: "0.8rem",
                   padding: "0.8rem",
+                  cursor: "pointer",
                 }}
+                role="button"
+                onClick={() => handleFinToolClick(tool.name, tool.url)}
               >
                 <figure>
                   <Image src={tool.iconUrl} alt={tool.title} />

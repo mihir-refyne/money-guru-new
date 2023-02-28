@@ -12,6 +12,9 @@ import ShortsContainer from "./ShortsContainer";
 import { addShortView } from "@/lib/shorts";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInWebengage } from "@/lib/analytics/webengage";
 
 interface ShortsProps {
   items: ShortData[];
@@ -34,12 +37,21 @@ export default function Shorts({ items }: ShortsProps) {
 
   function handleOnView(id?: string) {
     if (id) {
+      logEventInMixpanel(AnalyticEvent.R_SHORTS_SCREEN, { short_id: id });
       addShortView(id);
     }
   }
 
   function handleViewLeft(id?: string, direction?: string) {
-    // TODO: Add Mixpanel events
+    if (id && direction) {
+      const eventName =
+        direction === "UP"
+          ? AnalyticEvent.R_SHORTS_SWIPE_UP
+          : AnalyticEvent.R_SHORTS_SWIPE_DOWN;
+      logEventInMixpanel(eventName, {
+        short_id: id,
+      });
+    }
   }
 
   function handleShareClick(sharePayload?: {
@@ -50,6 +62,7 @@ export default function Shorts({ items }: ShortsProps) {
     if (!sharePayload) return;
     const { imageUrl, text, url } = sharePayload;
     return async () => {
+      logEventInMixpanel(AnalyticEvent.R_SHORTS_SHARED);
       setIsSharePromptActive(true);
       try {
         if (canShareViaWebApi) {
@@ -84,7 +97,10 @@ export default function Shorts({ items }: ShortsProps) {
     };
   }
 
-  function handleNotify() {}
+  function handleNotify() {
+    logEventInMixpanel(AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED);
+    logEventInWebengage(AnalyticEvent.NEW_CONTENT_NOTIFY_REQUEST_CLICK);
+  }
 
   return (
     <ShortsContainer>
@@ -100,7 +116,12 @@ export default function Shorts({ items }: ShortsProps) {
           onNotifyClick={handleNotify}
         />
       ))}
-      <ShortItem type="END" />
+      <ShortItem
+        type="END"
+        onView={() => {
+          logEventInMixpanel(AnalyticEvent.R_SHORTS_END_CONTENT);
+        }}
+      />
     </ShortsContainer>
   );
 }

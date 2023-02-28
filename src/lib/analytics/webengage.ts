@@ -9,7 +9,6 @@ export function delecteWebengageGlobalProperties(key: string) {
 export function initializeWebengage() {
   const webengageLicence = process.env.NEXT_PUBLIC_MIXPANEL_TOKEN;
   if (!webengageLicence) return;
-  console.log("has Webengage ", !!(window as any)?.webengage);
   (window as any)?.webengage.init(webengageLicence);
 }
 

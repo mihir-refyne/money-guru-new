@@ -6,6 +6,8 @@ import { useEffect, useRef } from "react";
 import { setWatchedIntroduction } from "@/lib/core";
 import { useRouter } from "next/router";
 import { isTouchDevice } from "@/lib/utils";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 const TRANSITION_TIMEOUT = 1.5 * 1000;
 
@@ -15,6 +17,7 @@ export default function IntroPage() {
 
   useEffect(() => {
     setWatchedIntroduction();
+    logEventInMixpanel(AnalyticEvent.FINLITERACY_LAUNCH_SCREEN);
 
     return () => {
       if (transitionTimeoutRef.current) {

@@ -1,3 +1,5 @@
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { setPreferredLocale } from "@/lib/locale";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -43,12 +45,17 @@ export default function PageLayout({
   );
 
   function handleLocaleUpdateClick() {
+    logEventInMixpanel(AnalyticEvent.FINLITERACY_LANGUAGE_CHANGE_CLICK);
     setIsLocaleUpdateModalActive(true);
   }
 
   function handleLocaleUpdate() {
     setIsLocaleUpdateModalActive(false);
     setPreferredLocale(currentLocale);
+    logEventInMixpanel(AnalyticEvent.FINLITERACY_LANGUAGE_SCREEN_PROCEED, {
+      locale: currentLocale,
+      location: "MODAL",
+    });
     router.replace(router.asPath, undefined, {
       locale: currentLocale,
       shallow: false,

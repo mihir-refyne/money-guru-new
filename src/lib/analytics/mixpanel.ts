@@ -17,6 +17,8 @@ export function initializeMixpanel() {
 }
 
 export function logEventInMixpanel(eventName: string, eventData?: object) {
+  // INFO: Drop Event log if user id is not set
+  if (!globalProperties.has("user_id")) return;
   mixpanel?.track(
     eventName,
     Object.assign({}, Object.fromEntries(globalProperties), eventData)
