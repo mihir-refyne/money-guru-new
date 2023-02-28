@@ -6,6 +6,7 @@ import {
 export interface UserMetadata {
   id?: string;
   name?: string;
+  status?: string;
   referralLink?: string;
   idToken?: string;
   appPlatformName?: string;

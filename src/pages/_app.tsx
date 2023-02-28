@@ -10,8 +10,14 @@ import { isStringAndNotEmpty } from "@/lib/utils";
 import { hasUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
 import {
   initializeMixpanel,
+  setMixpanelGlobalProperties,
   setUserIdInMixpanel,
 } from "@/lib/analytics/mixpanel";
+import WebengageScript from "@/scripts/webengage";
+import {
+  initializeWebengage,
+  setUserIdInWebengage,
+} from "@/lib/analytics/webengage";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -25,7 +31,14 @@ export default function App({ Component, pageProps }: AppProps) {
   async function fetchAndSetUserUserMetadata(
     data: Record<string, string | string[] | undefined>
   ) {
-    const { appPlatformName, userToken, userId, userName, referralLink } = data;
+    const {
+      appPlatformName,
+      userToken,
+      userId,
+      userName,
+      userStatus,
+      referralLink,
+    } = data;
     try {
       if (!isStringAndNotEmpty(userToken)) throw new Error();
       return await getAndSetUserMetadataFromServer(userToken, {
@@ -36,6 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
       const metadata = {
         id: userId?.toString(),
         name: userName?.toString(),
+        status: userStatus?.toString(),
         referralLink: referralLink?.toString(),
         appPlatformName: appPlatformName?.toString(),
       };
@@ -62,15 +76,25 @@ export default function App({ Component, pageProps }: AppProps) {
     });
     if (metadata?.id) {
       setUserIdInMixpanel(metadata.id);
+      setUserIdInWebengage(metadata.id);
     }
-    const locale = getPreferredLocale();
+    if (metadata?.status) {
+      setMixpanelGlobalProperties("user_status", metadata.status);
+    }
+    const preferredLocale = getPreferredLocale();
     router.replace(
       {
         pathname: router.pathname,
         query: restQuery,
       },
       undefined,
-      { shallow: false, locale: locale ?? false }
+      {
+        shallow: false,
+        locale:
+          preferredLocale === router.locale
+            ? undefined
+            : preferredLocale ?? false,
+      }
     );
     setIsLoading(false);
   }
@@ -83,6 +107,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (!router.isReady) return;
     initializeMixpanel();
+    initializeWebengage();
 
     onLoad();
 
@@ -96,6 +121,7 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${workSans.style.fontFamily};
         }
       `}</style>
+      <WebengageScript />
       {isLoading && <LoadingPage />}
       {!isLoading && <Component {...pageProps} />}
     </>

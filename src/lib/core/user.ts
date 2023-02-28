@@ -12,6 +12,7 @@ interface User {
   name?: {
     data?: string;
   };
+  status: string;
 }
 
 interface ReferralDetails {
@@ -58,6 +59,7 @@ export async function getAndSetUserMetadataFromServer(
   const metadata: UserMetadata = {
     id: user?._id,
     name: user?.name?.data,
+    status: user?.status,
     referralLink: referralDetails?.referralDetails.link,
     idToken,
     ...extra,
