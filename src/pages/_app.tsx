@@ -8,7 +8,10 @@ import { useEffect, useState } from "react";
 import { getAndSetUserMetadataFromServer } from "@/lib/core/user";
 import { isStringAndNotEmpty } from "@/lib/utils";
 import { hasUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
-import { setUserIdInMixpanel } from "@/lib/analytics/mixpanel";
+import {
+  initializeMixpanel,
+  setUserIdInMixpanel,
+} from "@/lib/analytics/mixpanel";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -79,6 +82,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (!router.isReady) return;
+    initializeMixpanel();
+
     onLoad();
 
     setViewportVariable();
