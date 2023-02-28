@@ -31,6 +31,10 @@ function setShortViewHistoryMap(object: Record<string, string>): boolean {
   }
 }
 
+export function hasShortViewHistory(): boolean {
+  return !!getFromLocalStorage(SHORTS_VIEW_HISTORY_LOCALSTORAGE_KEY);
+}
+
 export function addShortView(shortId: string, onDate: Date = new Date()) {
   setShortViewHistoryMap({
     [shortId]: onDate.toISOString(),

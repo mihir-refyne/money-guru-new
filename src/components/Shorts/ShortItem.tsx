@@ -1,10 +1,13 @@
 import { useOnScreen } from "@/hooks/useOnScreen";
 import { BellRinging, ShareNetwork } from "phosphor-react";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
 import styles from "./ShortItem.module.css";
 import emptyBoxIllustrationUrl from "@/images/empty-box-illustration.svg";
 import Image from "next/image";
+import { hasShortViewHistory } from "@/lib/shorts";
+
+const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
 
 export interface ShortData {
   id: string;
@@ -38,7 +41,6 @@ interface ShortItemProps {
 
 export default function ShortItem({
   type = "SHORT",
-  swipePrompt,
   data,
   onView,
   onLeave,
@@ -47,14 +49,48 @@ export default function ShortItem({
   onShareClick,
   onNotifyClick,
 }: ShortItemProps) {
+  const [swipePrompt, setSwipePrompt] = useState<{
+    location: "top" | "bottom";
+    text: string;
+  }>();
+  const swipePromptCleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
       rootMargin: "48px 0px 0px 0px",
       threshold: 0.51,
     },
-    onEnter: () => onView?.(data?.id),
-    onLeave: (direction) => onLeave?.(data?.id, direction),
+    onEnter: handleOnEnter,
+    onLeave(direction) {
+      handleSwipePromptTimeoutCleanup();
+      onLeave?.(data?.id, direction);
+    },
   });
+
+  function handleOnEnter() {
+    handleSwipePrompt();
+    onView?.(data?.id);
+  }
+
+  function handleSwipePrompt() {
+    if (hasShortViewHistory()) return;
+    setSwipePrompt({
+      location: "bottom",
+      text: "Swipe up to read the next R-Short",
+    });
+
+    swipePromptCleanupTimeoutRef.current = setTimeout(() => {
+      setSwipePrompt(undefined);
+    }, SWIPE_PROMPT_ANIMATION_DURATION_MS);
+  }
+  function handleSwipePromptTimeoutCleanup() {
+    if (swipePromptCleanupTimeoutRef.current) {
+      clearTimeout(swipePromptCleanupTimeoutRef.current);
+    }
+  }
+
+  useEffect(() => {
+    return handleSwipePromptTimeoutCleanup;
+  }, []);
 
   return (
     <SwipePrompt
@@ -104,16 +140,31 @@ export default function ShortItem({
               You’ve finished all the R-Shorts. We’ll be adding more soon…
             </p>
           </div>
-          <button
-            className="btn btn-primary flex-center btn-block"
-            onClick={onNotifyClick}
-          >
-            <BellRinging size={24} className="mr-2" />
-            <span>Notify Me</span>
-          </button>
+          <NotifyButton onClick={onNotifyClick} />
         </>
       )}
     </SwipePrompt>
+  );
+}
+
+function NotifyButton(props: { onClick?: () => void }) {
+  const [isPressed, setIsPressed] = useState(false);
+  function handleClick() {
+    setIsPressed(true);
+    props.onClick?.();
+  }
+  const label = isPressed ? "We will notify" : "Notify Me";
+  const btnTypeClass = isPressed ? "btn-success-light" : "btn-primary";
+
+  return (
+    <button
+      className={`btn ${btnTypeClass} flex-center btn-block`}
+      onClick={handleClick}
+      disabled={isPressed}
+    >
+      <BellRinging size={24} className="mr-2" />
+      <span>{label}</span>
+    </button>
   );
 }
 
