@@ -169,7 +169,7 @@ export default function HomePage({ shorts }: HomePageProps) {
                 onClick={() => handleFinToolClick(tool.name, tool.url)}
               >
                 <figure>
-                  <Image src={tool.iconUrl} alt={tool.title} />
+                  <img src={tool.iconUrl} alt={tool.title} />
                 </figure>
                 <p
                   className="text-caption mt-4"
