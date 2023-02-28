@@ -68,7 +68,7 @@ export async function shareToNativePlatformWithImageUrls(
   const { imageUrls, ...rest } = payload;
   if (!imageUrls) {
     return dispatchDataToNativePlatform({
-      type: "SHARE",
+      type: "WHATSAPP_SHARE",
       body: rest,
     });
   }
@@ -81,7 +81,7 @@ export async function shareToNativePlatformWithImageUrls(
     imageUrls[0] && (await getDataUrlByRemoteImageUrl(imageUrls[0]));
   const body = { imageDataUrl, ...rest };
   return dispatchDataToNativePlatform({
-    type: "SHARE",
+    type: "WHATSAPP_SHARE",
     body,
   });
 }
