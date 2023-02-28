@@ -10,8 +10,7 @@ interface ShareContent {
 export async function getFileByRemoteImageUrl(url: string): Promise<File> {
   const response = await fetch(url);
   const blob = await response.blob();
-  // TODO: testing with the file name
-  const file = new File([blob], Date.now().toString(), {
+  const file = new File([blob], getFileNameFromUrl(url), {
     type: blob.type,
   });
   return file;
@@ -40,16 +39,11 @@ function getFileNameFromUrl(url: string): string {
 }
 
 export async function share(payload: ShareContent) {
-  // TODO: Remove logs from all over
-  console.log({ context: "share Invoked" });
   if (!canShare(payload)) return false;
-  console.log({ context: "share canShare returned true" });
   try {
     await navigator?.share(payload);
-    console.log({ context: "share success" });
     return true;
   } catch (error) {
-    console.log({ context: "share error", error });
     return false;
   }
 }
@@ -58,10 +52,14 @@ export async function shareWithImageUrls(
   payload: Omit<ShareContent, "files"> & { imageUrls: string[] }
 ) {
   const { imageUrls, ...rest } = payload;
-  const files = await Promise.all(imageUrls.map(getFileByRemoteImageUrl));
-  // TODO: Remove logs
-  console.log({ context: "shareWithImageUrls", files });
-  return share({ files, ...rest });
+  try {
+    const files = await Promise.all(imageUrls.map(getFileByRemoteImageUrl));
+    return share({ files, ...rest });
+  } catch (e: any) {
+    if (e?.name === "NotAllowedError") {
+      share(rest);
+    }
+  }
 }
 
 export async function shareToNativePlatformWithImageUrls(
@@ -74,11 +72,14 @@ export async function shareToNativePlatformWithImageUrls(
       body: rest,
     });
   }
-  const imageDataUrls = await Promise.all(
-    imageUrls.map(getDataUrlByRemoteImageUrl)
-  ).catch((_) => null);
-  const filteredImageDataUrls = imageDataUrls?.filter(Boolean) ?? null;
-  const body = { imageDataUrls: filteredImageDataUrls, ...rest };
+  // INFO: Only supporting one image for now
+  // const imageDataUrls = await Promise.all(
+  //   imageUrls.map(getDataUrlByRemoteImageUrl)
+  // ).catch((_) => null);
+  // const filteredImageDataUrls = imageDataUrls?.filter(Boolean) ?? null;
+  const imageDataUrl =
+    imageUrls[0] && (await getDataUrlByRemoteImageUrl(imageUrls[0]));
+  const body = { imageDataUrl, ...rest };
   return dispatchDataToNativePlatform({
     type: "SHARE",
     body,
@@ -109,13 +110,10 @@ function dataURLtoFile(dataUrl: string, fileName: string = "File"): File {
 }
 
 export function canShare(payload: ShareContent) {
-  console.log({ context: "canShare Invoked" });
   if (!isWebShareApiSupported()) return false;
-  console.log({ context: "WebShare Supported" });
   try {
     return navigator?.canShare(payload);
   } catch (_) {
-    console.log({ context: "canShare Error", error: _ });
     return false;
   }
 }
