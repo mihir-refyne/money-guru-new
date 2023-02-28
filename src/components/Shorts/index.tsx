@@ -19,6 +19,7 @@ interface ShortsProps {
 
 export default function Shorts({ items }: ShortsProps) {
   const [canShareViaWebApi, setCanShareViaWebApi] = useState(false);
+  const [isSharePromptActive, setIsSharePromptActive] = useState(false);
   const isRefyneWebviewWithShareSupported = isCurrentlyOnRefyneWebview(
     getValueFromMetadata("appPlatformName")
   );
@@ -48,30 +49,37 @@ export default function Shorts({ items }: ShortsProps) {
   }) {
     if (!sharePayload) return;
     const { imageUrl, text, url } = sharePayload;
-    return () => {
-      if (canShareViaWebApi) {
-        if (canShareImage() && imageUrl) {
-          shareWithImageUrls({
-            imageUrls: [imageUrl],
+    return async () => {
+      setIsSharePromptActive(true);
+      try {
+        if (canShareViaWebApi) {
+          if (canShareImage() && imageUrl) {
+            await shareWithImageUrls({
+              imageUrls: [imageUrl],
+              text,
+              url,
+            });
+          } else {
+            await share({
+              text,
+              url,
+            });
+          }
+        } else if (isRefyneWebviewWithShareSupported) {
+          await shareToNativePlatformWithImageUrls({
+            ...(imageUrl ? { imageUrls: [imageUrl] } : {}),
             text,
             url,
           });
+        } else if (url) {
+          copyText(url);
         } else {
-          share({
-            text,
-            url,
-          });
+          copyText(text);
         }
-      } else if (isRefyneWebviewWithShareSupported) {
-        shareToNativePlatformWithImageUrls({
-          ...(imageUrl ? { imageUrls: [imageUrl] } : {}),
-          text,
-          url,
-        });
-      } else if (url) {
-        copyText(url);
-      } else {
+      } catch (_) {
         copyText(text);
+      } finally {
+        setIsSharePromptActive(false);
       }
     };
   }
@@ -84,6 +92,7 @@ export default function Shorts({ items }: ShortsProps) {
         <ShortItem
           key={short.id}
           data={short}
+          isShareLoading={isSharePromptActive}
           shareCtaType={shareCtaType}
           onShareClick={handleShareClick(short.share)}
           onView={handleOnView}

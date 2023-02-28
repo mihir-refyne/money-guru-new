@@ -74,6 +74,10 @@ button {
   outline: inherit;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 /* Typography */
 
 .text-title {
@@ -169,11 +173,6 @@ button {
   color: var(--clr-text-secondary);
 }
 
-/* Button */
-.button {
-  padding: auto;
-}
-
 /* Layout */
 .container-wrapper {
   max-width: 45rem;
@@ -233,6 +232,10 @@ button {
   cursor: pointer;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn:disabled {
+  opacity: 0.7;
 }
 
 .btn-block {

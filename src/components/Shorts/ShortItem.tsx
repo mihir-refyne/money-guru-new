@@ -30,6 +30,7 @@ interface ShortItemProps {
   data?: ShortData;
   onView?: (id?: string) => void;
   onLeave?: (id?: string, direction?: string) => void;
+  isShareLoading?: boolean;
   shareCtaType?: "COPY" | "SHARE";
   onShareClick?: () => void;
   onNotifyClick?: () => void;
@@ -41,6 +42,7 @@ export default function ShortItem({
   data,
   onView,
   onLeave,
+  isShareLoading,
   shareCtaType = "COPY",
   onShareClick,
   onNotifyClick,
@@ -84,7 +86,11 @@ export default function ShortItem({
             <div className={styles.ShortItem__Content}>{data.content}</div>
           )}
           {shareCtaType && (
-            <ShareOrCopyButton type={shareCtaType} onClick={onShareClick} />
+            <ShareOrCopyButton
+              isLoading={isShareLoading}
+              type={shareCtaType}
+              onClick={onShareClick}
+            />
           )}
         </>
       )}
@@ -112,10 +118,11 @@ export default function ShortItem({
 }
 
 function ShareOrCopyButton(props: {
+  isLoading?: boolean;
   type: "SHARE" | "COPY";
   onClick?: () => void;
 }) {
-  const { type, onClick } = props;
+  const { isLoading, type, onClick } = props;
   const [copied, setCopied] = useState(false);
 
   function handleClick() {
@@ -140,7 +147,7 @@ function ShareOrCopyButton(props: {
     <button
       className={`btn ${btnTypeClass} flex-center btn-block mt-4`}
       onClick={handleClick}
-      disabled={copied}
+      disabled={isLoading ?? copied}
     >
       <ShareNetwork size={24} className="mr-2" />
       <span>{label}</span>
