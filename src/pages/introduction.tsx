@@ -1,6 +1,4 @@
 import SwipeButton from "@/components/SwipeButton";
-import Image from "next/image";
-import introIllustrationUrl from "@/images/intro-illustration.svg";
 import PageLayout from "@/components/PageLayout";
 import { useEffect, useRef } from "react";
 import { setWatchedIntroduction } from "@/lib/core";
@@ -8,6 +6,7 @@ import { useRouter } from "next/router";
 import { isTouchDevice } from "@/lib/utils";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import config from "../../data/introduction_page.json";
 
 const TRANSITION_TIMEOUT = 1.5 * 1000;
 
@@ -40,7 +39,8 @@ export default function IntroPage() {
         <>
           <div className="p-4 border-bottom-dashed text-center">
             <p className="clr-text-secondary">
-              12,000+ people have benefitted from Financial Advice from Refyne
+              {config.peopleBenefitted}+ people have benefitted from Financial
+              Advice from Refyne
             </p>
           </div>
           <div className="container">
@@ -63,7 +63,7 @@ export default function IntroPage() {
         Increase your financial knowledge with Refyne!
       </h1>
       <figure className="my-6 text-center">
-        <Image src={introIllustrationUrl} alt="Intro illustration" />
+        <img src={config.illustrationUrl} alt="Intro illustration" />
       </figure>
     </PageLayout>
   );

@@ -78,6 +78,16 @@ button:disabled {
   cursor: not-allowed;
 }
 
+b {
+  font-weight: 600;
+}
+
+@media screen and (max-height: 600px) {
+  html {
+    font-size: 58%;
+  }
+}
+
 /* Typography */
 
 .text-title {

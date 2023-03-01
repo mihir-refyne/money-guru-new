@@ -27,6 +27,7 @@ export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
 };
 
 export default function ShortsPage({ shorts }: ShortsPageProps) {
+  const shareText = "Checkout Refyne";
   const shareUrl =
     getValueFromMetadata("referralLink") ??
     process.env.NEXT_PUBLIC_APP_BASE_URL ??
@@ -47,9 +48,8 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
             />
           ),
           share: {
-            imageUrl:
-              "https://images.rawpixel.com/image_png_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcGQxMDMtbWlzY3RoZW1ldDAwMTQ4YS1pbWFnZS5wbmc.png",
-            text: "Please share",
+            imageUrl: short.metadata?.shareImageUrl as any,
+            text: shareText,
             url: shareUrl,
           },
         }))}

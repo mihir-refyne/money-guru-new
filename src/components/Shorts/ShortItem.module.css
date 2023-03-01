@@ -32,7 +32,6 @@
   right: 0;
   border-radius: 0.4rem 0px 0px 0.4rem;
 
-  max-width: 8rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -40,7 +39,7 @@
 
 .ShortItem__Image {
   width: 100%;
-  max-height: 24rem;
+  max-height: 22rem;
   border-radius: 0.8rem;
 }
 
