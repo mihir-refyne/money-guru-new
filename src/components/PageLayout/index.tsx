@@ -15,6 +15,7 @@ const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
 interface PageLayoutProps {
   title?: string;
   description?: string;
+  onBackButtonClick?: () => void;
   hasNavbar?: boolean;
   transparentNavbar?: boolean;
   navbarText?: string;
@@ -29,6 +30,7 @@ export default function PageLayout({
   title = DEFAULT_PAGE_TITLE,
   description = DEFAULT_PAGE_DESCRIPTION,
   hasNavbar = true,
+  onBackButtonClick,
   transparentNavbar = false,
   navbarText,
   hasBackButton = true,
@@ -63,6 +65,11 @@ export default function PageLayout({
     });
   }
 
+  function handleBack() {
+    router.back();
+    onBackButtonClick?.();
+  }
+
   return (
     <>
       <Head>
@@ -77,7 +84,7 @@ export default function PageLayout({
             title={navbarText}
             hasBackButton={hasBackButton}
             transparentNavbar={transparentNavbar}
-            onBackClick={router.back}
+            onBackClick={handleBack}
             onLocaleChangeClick={handleLocaleUpdateClick}
           />
         )}

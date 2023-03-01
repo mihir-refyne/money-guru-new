@@ -7,8 +7,6 @@ import PageLayout from "@/components/PageLayout";
 import SwipePrompt from "@/components/SwipePrompt";
 import twoPeopleIllustrationUrl from "@/images/two-people-illustration.svg";
 import heroBlobImageUrl from "@/images/hero-blob.png";
-import calculatorPercentIconUrl from "@/images/calculator-percent-icon.svg";
-import contentThumbNailImageUrl from "@/images/how-to-manage-money.png";
 import Image from "next/image";
 import config from "../../data/landing_page.json";
 import { getShortsByLocale } from "@/lib/shorts/server";
@@ -19,6 +17,7 @@ import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { dispatchDataToNativePlatform } from "@/lib/webview";
 
 interface HomePageProps {
   shorts: Array<{
@@ -88,6 +87,12 @@ export default function HomePage({ shorts }: HomePageProps) {
     router.push(`/shorts#${id}`);
   }
 
+  function handleBackClick() {
+    dispatchDataToNativePlatform({
+      type: "POP",
+    });
+  }
+
   const userName = getValueFromMetadata("name");
   const userFirstName = userName && userName.split(" ")[0];
 
@@ -98,6 +103,7 @@ export default function HomePage({ shorts }: HomePageProps) {
       navbarText="Financial Literacy"
       transparentNavbar
       hasContentPadding={false}
+      onBackButtonClick={handleBackClick}
     >
       <SwipePrompt
         position="bottom"
