@@ -4,6 +4,8 @@ import { getShortsByLocale } from "@/lib/shorts/server";
 import { GetStaticProps } from "next";
 import { marked } from "marked";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 interface ShortsPageProps {
   shorts: Array<{
@@ -27,11 +29,25 @@ export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
 };
 
 export default function ShortsPage({ shorts }: ShortsPageProps) {
+  const router = useRouter();
   const shareText = "Checkout Refyne";
   const shareUrl =
     getValueFromMetadata("referralLink") ??
     process.env.NEXT_PUBLIC_APP_BASE_URL ??
     "https://app.refyne.co.in/";
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const hash = router.asPath.split("#")[1];
+    if (hash) {
+      const path = router.asPath.replace(`#${hash}`, "");
+      router.replace(path, undefined, {
+        shallow: true,
+        scroll: false,
+      });
+    }
+  }, [router.isReady]);
+
   return (
     <PageLayout hasContentPadding={false}>
       <Shorts
