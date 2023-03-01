@@ -1,11 +1,11 @@
 {
     "finLiteracyTools": [
         {
-            "name": "home_loan_calculator",
-            "title": "<b>Home Loan</b><br>Calculator",
+            "name": "retirement_calculator",
+            "title": "<b>Retirement</b><br>Calculator",
             "iconUrl": "/assets/images/calculator-percentage-icon.svg",
             "backgroundColor": "#FCF2E3",
-            "url": "https://medium.com/nextjs/how-to-create-a-static-site-public-folder-in-next-js-6e8b623ab0d4"
+            "url": "https://ret-plan-calculator.bubbleapps.io/version-test/ret_cal?debug_mode=true"
         },
         {
             "name": "car_loan_calculator",
