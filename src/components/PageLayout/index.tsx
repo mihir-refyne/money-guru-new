@@ -59,6 +59,7 @@ export default function PageLayout({
     router.replace(router.asPath, undefined, {
       locale: currentLocale,
       shallow: false,
+      scroll: false,
     });
   }
 

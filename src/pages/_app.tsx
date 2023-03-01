@@ -94,6 +94,7 @@ export default function App({ Component, pageProps }: AppProps) {
       undefined,
       {
         shallow: true,
+        scroll: false,
         locale:
           preferredLocale === router.locale
             ? undefined
@@ -116,6 +117,11 @@ export default function App({ Component, pageProps }: AppProps) {
     onLoad();
 
     setViewportVariable();
+
+    window.addEventListener("resize", setViewportVariable);
+    return () => {
+      window.removeEventListener("resize", setViewportVariable);
+    };
   }, [router.isReady]);
 
   return (
