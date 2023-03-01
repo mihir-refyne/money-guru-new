@@ -37,7 +37,7 @@ export default function IntroPage() {
     <PageLayout
       footer={
         <>
-          <div className="p-4 border-bottom-dashed text-center">
+          <div className="p-4 border-bottom-dashed">
             <p className="clr-text-secondary">
               {config.peopleBenefitted}+ people have benefitted from Financial
               Advice from Refyne
@@ -48,14 +48,14 @@ export default function IntroPage() {
               onSuccessSwipe={handleSwipeComplete}
               clickToUnlock={!_isTouchDevice}
             >
-              {_isTouchDevice ? "Swipe to unlock" : "Click to unlock"}
+              {_isTouchDevice ? "Swipe To Unlock" : "Click To Unlock"}
             </SwipeButton>
           </div>
         </>
       }
     >
       <h1
-        className="text-sub-title text-center text-semibold"
+        className="text-sub-title text-semibold"
         style={{
           lineHeight: "4.2rem",
         }}
