@@ -77,7 +77,7 @@ export default function HomePage({ shorts }: HomePageProps) {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED, {
       tool_name: name,
     });
-    window.location.replace(url);
+    window.location.assign(url);
   }
 
   function handleFeaturedShortClick(id: string) {
