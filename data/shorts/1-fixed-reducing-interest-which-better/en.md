@@ -1,8 +1,8 @@
 ---
 mediaType: image
-mediaUrl: https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=480&q=80
-tag: Very Large Tag
-shareImageUrl: https://images.rawpixel.com/image_png_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcGQxMDMtbWlzY3RoZW1ldDAwMTQ4YS1pbWFnZS5wbmc.png
+mediaUrl: /assets/images/shorts/fixed-reducing-interest-which-better.avif
+tag: Personal Finance
+shareImageUrl: /assets/images/shorts/fixed-reducing-interest-which-better-share-en.png
 ---
 
 ### Fixed vs Reducing interest rates on Loans. Which one is better?
