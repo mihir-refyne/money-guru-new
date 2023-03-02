@@ -81,6 +81,10 @@ export default function PageLayout({
         <title>{title}</title>
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          httpEquiv="ScreenOrientation"
+          content="autoRotate:disabled"
+        ></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.PageLayout__Wrapper}>
