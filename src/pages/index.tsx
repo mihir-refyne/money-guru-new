@@ -87,12 +87,6 @@ export default function HomePage({ shorts }: HomePageProps) {
     router.push(`/shorts#${id}`);
   }
 
-  function handleBackClick() {
-    dispatchDataToNativePlatform({
-      type: "POP",
-    });
-  }
-
   const userName = getValueFromMetadata("name");
   const userFirstName = userName && userName.split(" ")[0];
 
@@ -103,7 +97,7 @@ export default function HomePage({ shorts }: HomePageProps) {
       navbarText="Financial Literacy"
       transparentNavbar
       hasContentPadding={false}
-      onBackButtonClick={handleBackClick}
+      dispatchPopEventOnBackClick
     >
       <SwipePrompt
         position="bottom"

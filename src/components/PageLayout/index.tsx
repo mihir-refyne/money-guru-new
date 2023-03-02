@@ -1,6 +1,7 @@
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { setPreferredLocale } from "@/lib/locale";
+import { dispatchDataToNativePlatform } from "@/lib/webview";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactElement, ReactNode, useState } from "react";
@@ -15,7 +16,7 @@ const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
 interface PageLayoutProps {
   title?: string;
   description?: string;
-  onBackButtonClick?: () => void;
+  dispatchPopEventOnBackClick?: boolean;
   hasNavbar?: boolean;
   transparentNavbar?: boolean;
   navbarText?: string;
@@ -30,7 +31,7 @@ export default function PageLayout({
   title = DEFAULT_PAGE_TITLE,
   description = DEFAULT_PAGE_DESCRIPTION,
   hasNavbar = true,
-  onBackButtonClick,
+  dispatchPopEventOnBackClick = false,
   transparentNavbar = false,
   navbarText,
   hasBackButton = true,
@@ -67,7 +68,11 @@ export default function PageLayout({
 
   function handleBack() {
     router.back();
-    onBackButtonClick?.();
+    if (dispatchPopEventOnBackClick) {
+      dispatchDataToNativePlatform({
+        type: "POP",
+      });
+    }
   }
 
   return (

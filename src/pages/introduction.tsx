@@ -15,7 +15,6 @@ export default function IntroPage() {
   const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    setWatchedIntroduction();
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LAUNCH_SCREEN);
 
     return () => {
@@ -53,6 +52,7 @@ export default function IntroPage() {
           </div>
         </>
       }
+      dispatchPopEventOnBackClick
     >
       <h1
         className="text-sub-title text-semibold"
