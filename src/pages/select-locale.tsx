@@ -11,13 +11,12 @@ export default function SelectLocalePage() {
   const [selectedLocale, setSelectedLocale] = useState("en");
 
   useEffect(() => {
-    console.log("locale selection");
-    logEventInMixpanel(AnalyticEvent.FINLITERACY_LANGUAGE_SCREEN);
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LANGUAGE_SCREEN);
   }, []);
 
   function handleLocaleSelection() {
     setPreferredLocale(selectedLocale);
-    logEventInMixpanel(AnalyticEvent.FINLITERACY_LANGUAGE_SCREEN_PROCEED, {
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LANGUAGE_SCREEN_PROCEED, {
       locale: selectedLocale,
       location: "SCREEN",
     });

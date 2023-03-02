@@ -47,14 +47,14 @@ export default function PageLayout({
   );
 
   function handleLocaleUpdateClick() {
-    logEventInMixpanel(AnalyticEvent.FINLITERACY_LANGUAGE_CHANGE_CLICK);
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LANGUAGE_CHANGE_CLICK);
     setIsLocaleUpdateModalActive(true);
   }
 
   function handleLocaleUpdate() {
     setIsLocaleUpdateModalActive(false);
     setPreferredLocale(currentLocale);
-    logEventInMixpanel(AnalyticEvent.FINLITERACY_LANGUAGE_SCREEN_PROCEED, {
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LANGUAGE_SCREEN_PROCEED, {
       locale: currentLocale,
       location: "MODAL",
     });

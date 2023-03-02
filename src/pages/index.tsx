@@ -61,7 +61,7 @@ export default function HomePage({ shorts }: HomePageProps) {
       return;
     }
 
-    logEventInMixpanel(AnalyticEvent.FINLITERACY_DASHBOARD_SCREEN);
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN);
 
     // NEXTjs hack!
     setIsMounted(true);

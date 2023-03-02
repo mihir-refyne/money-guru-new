@@ -16,7 +16,7 @@ export default function IntroPage() {
 
   useEffect(() => {
     setWatchedIntroduction();
-    logEventInMixpanel(AnalyticEvent.FINLITERACY_LAUNCH_SCREEN);
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LAUNCH_SCREEN);
 
     return () => {
       if (transitionTimeoutRef.current) {

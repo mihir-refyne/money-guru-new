@@ -54,15 +54,20 @@ export default function Shorts({ items }: ShortsProps) {
     }
   }
 
-  function handleShareClick(sharePayload?: {
-    imageUrl?: string | undefined;
-    url?: string | undefined;
-    text: string;
-  }) {
+  function handleShareClick(
+    id: string,
+    sharePayload?: {
+      imageUrl?: string | undefined;
+      url?: string | undefined;
+      text: string;
+    }
+  ) {
     if (!sharePayload) return;
     const { imageUrl, text, url } = sharePayload;
     return async () => {
-      logEventInMixpanel(AnalyticEvent.R_SHORTS_SHARED);
+      logEventInMixpanel(AnalyticEvent.R_SHORTS_SHARED, {
+        short_id: id,
+      });
       setIsSharePromptActive(true);
       try {
         if (canShareViaWebApi) {
@@ -110,7 +115,7 @@ export default function Shorts({ items }: ShortsProps) {
           data={short}
           isShareLoading={isSharePromptActive}
           shareCtaType={shareCtaType}
-          onShareClick={handleShareClick(short.share)}
+          onShareClick={handleShareClick(short.id, short.share)}
           onView={handleOnView}
           onLeave={handleViewLeft}
           onNotifyClick={handleNotify}
