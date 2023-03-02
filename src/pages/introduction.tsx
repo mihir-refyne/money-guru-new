@@ -25,6 +25,7 @@ export default function IntroPage() {
   }, []);
 
   function handleSwipeComplete() {
+    setWatchedIntroduction();
     transitionTimeoutRef.current = setTimeout(() => {
       router.replace("/");
     }, TRANSITION_TIMEOUT);
