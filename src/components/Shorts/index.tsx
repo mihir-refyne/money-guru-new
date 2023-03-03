@@ -103,8 +103,12 @@ export default function Shorts({ items }: ShortsProps) {
   }
 
   function handleNotify() {
-    logEventInMixpanel(AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED);
-    logEventInWebengage(AnalyticEvent.NEW_CONTENT_NOTIFY_REQUEST_CLICK);
+    logEventInMixpanel(AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED, {
+      cta: "NOTIFY",
+    });
+    logEventInWebengage(AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED, {
+      cta: "NOTIFY",
+    });
   }
 
   return (
