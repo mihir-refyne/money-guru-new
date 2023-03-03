@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/fixed-reducing-interest-which-better.avif
+mediaUrl: /assets/images/shorts/fixed-reducing-interest-which-better.png
 tag: व्यक्तिगत वित्त
 shareImageUrl: /assets/images/shorts/fixed-reducing-interest-which-better-share-hi.png
 ---
