@@ -16,9 +16,13 @@ export function initializeMixpanel() {
   });
 }
 
+function isUserId(value: string): boolean {
+  return value?.startsWith("USR");
+}
+
 export function logEventInMixpanel(eventName: string, eventData?: object) {
   // INFO: Drop Event log if user id is not set
-  if (!globalProperties.has("user_id")) return;
+  if (!isUserId(mixpanel?.get_distinct_id())) return;
   mixpanel?.track(
     eventName,
     Object.assign({}, Object.fromEntries(globalProperties), eventData)

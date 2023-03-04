@@ -15,6 +15,7 @@
 .FeaturedShort__Image {
   width: 100%;
   border-radius: 0.8rem;
+  max-height: 22rem;
 }
 
 .FeaturedShort__Tag {
