@@ -6,7 +6,11 @@ import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAndSetUserMetadataFromServer } from "@/lib/core/user";
-import { getPlatformName, isStringAndNotEmpty } from "@/lib/utils";
+import {
+  getPlatformName,
+  isScreenHeightLessThan,
+  isStringAndNotEmpty,
+} from "@/lib/utils";
 import { hasUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
 import {
   initializeMixpanel,
@@ -127,8 +131,10 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [router.isReady]);
 
-  const isLandscape =
-    !!screenOrientation && screenOrientation.startsWith("landscape");
+  const isMobileAndLandscape =
+    isScreenHeightLessThan(560) &&
+    !!screenOrientation &&
+    screenOrientation.startsWith("landscape");
 
   return (
     <>
@@ -138,7 +144,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <WebengageScript />
-      <DeviceRotatePromptOverlay active={isLandscape} />
+      <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
       {isLoading && <LoadingPage />}
       {!isLoading && <Component {...pageProps} />}
     </>

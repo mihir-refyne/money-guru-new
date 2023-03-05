@@ -29,6 +29,10 @@ function isWebview() {
   );
 }
 
+export function isScreenHeightLessThan(height: number) {
+  return typeof window !== "undefined" && window.screen.height < height;
+}
+
 export function getPlatformName(
   appPlatformName?: string
 ): "WEBAPP" | "WEBVIEW" | "ANDROID" | "IOS" {
