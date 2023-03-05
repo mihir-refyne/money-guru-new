@@ -18,6 +18,8 @@ import {
   initializeWebengage,
   setUserIdInWebengage,
 } from "@/lib/analytics/webengage";
+import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
+import useScreenOrientation from "@/hooks/useScreenOrientation";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -26,6 +28,7 @@ const workSans = Work_Sans({
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const screenOrientation = useScreenOrientation();
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchAndSetUserUserMetadata(
@@ -124,6 +127,9 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [router.isReady]);
 
+  const isLandscape =
+    !!screenOrientation && screenOrientation.startsWith("landscape");
+
   return (
     <>
       <style jsx global>{`
@@ -132,6 +138,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <WebengageScript />
+      <DeviceRotatePromptOverlay active={isLandscape} />
       {isLoading && <LoadingPage />}
       {!isLoading && <Component {...pageProps} />}
     </>

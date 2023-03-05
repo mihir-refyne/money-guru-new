@@ -1,0 +1,18 @@
+.DeviceRotatePromptOverlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  max-width: 45rem;
+  margin: 0 auto;
+  background-color: var(--clr-pure-white);
+  z-index: 11;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.8rem;
+}
