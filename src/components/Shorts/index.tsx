@@ -122,7 +122,6 @@ export default function Shorts({ items }: ShortsProps) {
           onShareClick={handleShareClick(short.id, short.share)}
           onView={handleOnView}
           onLeave={handleViewLeft}
-          onNotifyClick={handleNotify}
         />
       ))}
       <ShortItem
@@ -130,6 +129,7 @@ export default function Shorts({ items }: ShortsProps) {
         onView={() => {
           logEventInMixpanel(AnalyticEvent.R_SHORTS_END_CONTENT);
         }}
+        onNotifyClick={handleNotify}
       />
     </ShortsContainer>
   );
