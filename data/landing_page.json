@@ -1,0 +1,25 @@
+{
+    "finLiteracyTools": [
+        {
+            "name": "retirement_calculator",
+            "title": "<b>Retirement</b><br>Calculator",
+            "iconUrl": "/assets/images/calculator-percentage-icon.svg",
+            "backgroundColor": "#FCF2E3",
+            "url": "https://ret-plan-calculator.bubbleapps.io/version-test/ret_cal?debug_mode=true"
+        },
+        {
+            "name": "car_loan_calculator",
+            "title": "<b>Car Loan</b><br>Calculator",
+            "iconUrl": "/assets/images/calculator-rupee-icon.svg",
+            "backgroundColor": "#DCF5EF",
+            "url": "https://medium.com/nextjs/how-to-create-a-static-site-public-folder-in-next-js-6e8b623ab0d4"
+        },
+        {
+            "name": "gold_loan_calculator",
+            "title": "<b>Gold Loan</b><br>Calculator",
+            "iconUrl": "/assets/images/calculator-work-icon.svg",
+            "backgroundColor": "#EBF5FF",
+            "url": "https://medium.com/nextjs/how-to-create-a-static-site-public-folder-in-next-js-6e8b623ab0d4"
+        }
+    ]
+}

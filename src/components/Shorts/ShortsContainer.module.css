@@ -1,0 +1,13 @@
+.ShortsContainer {
+  height: calc(var(--full-vh) - 4.8rem);
+
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.ShortsContainer::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}

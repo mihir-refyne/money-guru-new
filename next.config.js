@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
+  basePath: process.env.BASE_PATH,
+  reactStrictMode: false,
+  i18n: {
+    locales: ['en', 'hi'],
+    defaultLocale: 'en',
+  }
 }
 
 module.exports = nextConfig
