@@ -6,6 +6,7 @@ import { hasWatchedIntroduction } from "@/lib/core";
 import PageLayout from "@/components/PageLayout";
 import SwipePrompt from "@/components/SwipePrompt";
 import twoPeopleIllustrationUrl from "@/images/two-people-illustration.svg";
+import rightArrowIconUrl from "@/images/right-arrow.svg";
 import heroBlobImageUrl from "@/images/hero-blob.png";
 import Image from "next/image";
 import config from "../../data/landing_page.json";
@@ -17,7 +18,7 @@ import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { dispatchDataToNativePlatform } from "@/lib/webview";
+import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
 
 interface HomePageProps {
   shorts: Array<{
@@ -88,7 +89,15 @@ export default function HomePage({ shorts }: HomePageProps) {
   }
 
   const userName = getValueFromMetadata("name");
+  const employerId = getValueFromMetadata("employerId");
   const userFirstName = userName && userName.split(" ")[0];
+
+  const banners = config.finLiteracyBanners.filter((banner) =>
+    checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
+      employerId,
+    })
+  );
+  const hasBanners = banners.length > 0;
 
   if (!isMounted) return <LoadingPage />;
 
@@ -146,6 +155,45 @@ export default function HomePage({ shorts }: HomePageProps) {
             </FeaturedShort>
           )}
         </div>
+        {hasBanners && (
+          <div className="container">
+            {banners.map((banner, index) => (
+              <a
+                key={index}
+                className="unstyled-link"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "var(--spacing-3) 0",
+                  borderTop: "1px solid #E5EEF8",
+                  borderBottom: "1px solid #E5EEF8",
+                  textDecoration: "none",
+                }}
+                href={banner.href}
+              >
+                <figure
+                  style={{
+                    width: "3.2rem",
+                    height: "3.2rem",
+                    marginRight: "var(--spacing-3)",
+                  }}
+                >
+                  <img src={banner.leftIconUrl} alt={banner.label} />
+                </figure>
+                <p
+                  className="text-caption"
+                  dangerouslySetInnerHTML={{ __html: banner.label }}
+                  style={{
+                    flexGrow: 1,
+                    marginRight: "var(--spacing-2)",
+                  }}
+                />
+                <Image src={rightArrowIconUrl} alt="right arrow icon" />
+              </a>
+            ))}
+          </div>
+        )}
         <div className="container">
           <h3 className="clr-text-secondary mb-3">Fin Literacy Tools</h3>
           <div

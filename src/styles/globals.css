@@ -82,6 +82,11 @@ b {
   font-weight: 600;
 }
 
+.unstyled-link {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 @media screen and (max-height: 600px) {
   html {
     font-size: 58%;

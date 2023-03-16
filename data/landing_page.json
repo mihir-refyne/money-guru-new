@@ -1,25 +1,37 @@
 {
-    "finLiteracyTools": [
-        {
-            "name": "retirement_calculator",
-            "title": "<b>Retirement</b><br>Calculator",
-            "iconUrl": "/assets/images/calculator-percentage-icon.svg",
-            "backgroundColor": "#FCF2E3",
-            "url": "https://ret-plan-calculator.bubbleapps.io/version-test/ret_cal?debug_mode=true"
-        },
-        {
-            "name": "car_loan_calculator",
-            "title": "<b>Car Loan</b><br>Calculator",
-            "iconUrl": "/assets/images/calculator-rupee-icon.svg",
-            "backgroundColor": "#DCF5EF",
-            "url": "https://medium.com/nextjs/how-to-create-a-static-site-public-folder-in-next-js-6e8b623ab0d4"
-        },
-        {
-            "name": "gold_loan_calculator",
-            "title": "<b>Gold Loan</b><br>Calculator",
-            "iconUrl": "/assets/images/calculator-work-icon.svg",
-            "backgroundColor": "#EBF5FF",
-            "url": "https://medium.com/nextjs/how-to-create-a-static-site-public-folder-in-next-js-6e8b623ab0d4"
-        }
-    ]
+  "finLiteracyBanners": [
+    {
+      "leftIconUrl": "/assets/images/fincoach-session-icon.svg",
+      "label": "<b>Book 1:1 session</b> with leading industry<br>experts",
+      "href": "https://product.refyne.co.in/",
+      "releaseConfig": {
+        "fieldName": "employerId",
+        "includes": true,
+        "values": ["EMR10000001", "EMR10000005"]
+      }
+    }
+  ],
+  "finLiteracyTools": [
+    {
+      "name": "fixed_deposit_calculator",
+      "title": "<b>Fixed Deposit</b><br>Calculator",
+      "iconUrl": "/assets/images/calculator-rupee-icon.svg",
+      "backgroundColor": "#DCF5EF",
+      "url": "https://fdcal2.bubbleapps.io/version-test/fixed_deposit_calculator"
+    },
+    {
+      "name": "retirement_calculator",
+      "title": "<b>Retirement</b><br>Calculator",
+      "iconUrl": "/assets/images/calculator-percentage-icon.svg",
+      "backgroundColor": "#FCF2E3",
+      "url": "https://ret-plan-calculator.bubbleapps.io/version-test/ret_cal"
+    },
+    {
+      "name": "homeloan_emi_calculator",
+      "title": "<b>Home Loan EMI</b><br>Calculator",
+      "iconUrl": "/assets/images/calculator-work-icon.svg",
+      "backgroundColor": "#EBF5FF",
+      "url": "https://homeloancalculate.bubbleapps.io/version-test/home_loan_emi_cal"
+    }
+  ]
 }
