@@ -1,0 +1,15 @@
+---
+mediaType: image
+mediaUrl: /assets/images/shorts/credit-card-tips-tricks.png
+tag: Credit Card
+---
+
+### Make your credit card work for you : Top Credit Card Tips and Tricks for Positive Impact in CIBIL Score
+
+To positively impact your CIBIL score with a credit card:
+
+Use credit cards responsibly and pay on time.
+Keep credit utilization low, ideally below 30% of your credit limit.
+Maintain a long credit history and avoid opening too many new accounts at once.
+Use credit cards that offer rewards and cashback but avoid overspending to earn them.
+Regularly monitor your credit report and dispute any errors or inaccuracies.
