@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
+import { trimNumberFromStartOrEndOfSlug } from "../utils";
 
 const BASE_DIR = "data/shorts";
 
@@ -54,7 +55,8 @@ export async function getShortsByLocale(locale: string) {
 
   for (const shortPath of shortPaths) {
     const short = await getShortBySlugAndLocale(shortPath.slug, locale);
-    shorts.push({ id: shortPath.slug, ...short });
+    const id = trimNumberFromStartOrEndOfSlug(shortPath.slug);
+    shorts.push({ id, ...short });
   }
 
   // TODO: Do sorting here only

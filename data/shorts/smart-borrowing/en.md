@@ -6,4 +6,8 @@ tag: Loans
 
 ### Are you Borrowing more money than you can repay?
 
-The rule of smart borrowing is don’t live beyond your means. Take a loan that you can easily repay. One thumb rule says that car EMIs should not exceed 15% while personal loan EMIs should not account for more than 10% of the net monthly income. “Your monthly outgo towards all your loans put together should not be more than 50% of your monthly income
+<b>Smart borrowing rule</b>: Do not live beyond your means, Borrow only what you can easily repay.
+
+- Car EMIs should not exceed 15% of net monthly income.
+- Personal loan EMIs should not exceed 10% of net monthly income.
+- Total monthly loan payments should not be more than 50% of monthly income.

@@ -4,6 +4,15 @@ mediaUrl: /assets/images/shorts/perks-of-high-score.png
 tag: CIBIL Score
 ---
 
-### Why you should have a high CIBIL score and the perks associated with it
+### Why you should have a high CIBIL score and it’s benefits.
 
-A CIBIL Score higher than 700 is generally considered high, The benefits of it include easy loan approvals, better credit card offers and rates, favourable loan terms, higher credit limits, faster approvals, lower insurance premiums, rental applications approval, and improved job offer chances in select industries.
+A CIBIL Score higher than 700 is generally considered high, Its benefits include-
+
+- Easy loan approvals
+- Better credit card offers and rates
+- Longer loan terms
+- Higher credit limits
+- Faster approvals
+- Lower insurance premiums
+- Rental applications approval
+- Improved job offer chances in select industries.

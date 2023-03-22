@@ -43,3 +43,26 @@ export function getPlatformName(
   if (isWebview()) return "WEBVIEW";
   return "WEBAPP";
 }
+
+function hasStringOnlyDigits(value: string): boolean {
+  return /^-?\d+$/.test(value);
+}
+
+export function trimNumberFromStartOrEndOfSlug(
+  slug: string,
+  separator: string = "-"
+): string {
+  let _slug = slug;
+  const splittedSlug = slug.split(separator);
+  const startPart: string | undefined = splittedSlug[0];
+  const endPart: string | undefined = splittedSlug[splittedSlug.length - 1];
+
+  if (!!startPart && hasStringOnlyDigits(startPart)) {
+    _slug = _slug.slice(startPart.length + 1);
+  }
+
+  if (!!endPart && hasStringOnlyDigits(endPart)) {
+    _slug = _slug.slice(0, -endPart.length - 1);
+  }
+  return _slug;
+}

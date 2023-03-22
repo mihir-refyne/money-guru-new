@@ -45,6 +45,7 @@
 
 .ShortItem__Content {
   flex-grow: 1;
+  overflow-y: hidden;
 }
 
 .ShortItem__Content * {
@@ -58,9 +59,15 @@
   color: var(--clr-text-primary);
 }
 
-.ShortItem__Content p {
+.ShortItem__Content p,
+.ShortItem__Content li {
   font-size: 1.4rem;
   line-height: 2rem;
   letter-spacing: 0;
   color: var(--clr-text-secondary);
+}
+
+.ShortItem__Content ul,
+.ShortItem__Content ol {
+  padding-left: var(--spacing-4);
 }

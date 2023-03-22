@@ -48,7 +48,14 @@
   line-height: 2rem;
 }
 
-.FeaturedShort p {
+/* INFO: Hack to only show one para */
+.FeaturedShort > article * {
+  display: none;
+}
+.FeaturedShort > article *:nth-child(1) {
+  display: block;
+}
+.FeaturedShort > article *:nth-child(2) {
   color: var(--clr-text-secondary);
 
   display: -webkit-box;
