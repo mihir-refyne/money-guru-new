@@ -13,25 +13,46 @@
   ],
   "finLiteracyTools": [
     {
-      "name": "fixed_deposit_calculator",
-      "title": "<b>Fixed Deposit</b><br>Calculator",
-      "iconUrl": "/assets/images/calculator-rupee-icon.svg",
-      "backgroundColor": "#DCF5EF",
-      "url": "https://fdcal2.bubbleapps.io/version-test/fixed_deposit_calculator"
-    },
-    {
       "name": "retirement_calculator",
       "title": "<b>Retirement</b><br>Calculator",
-      "iconUrl": "/assets/images/calculator-percentage-icon.svg",
+      "iconUrl": "/assets/images/retirement_cal_icon.svg",
       "backgroundColor": "#FCF2E3",
       "url": "https://ret-plan-calculator.bubbleapps.io/version-test/ret_cal"
     },
     {
+      "name": "fixed_deposit_calculator",
+      "title": "<b>Fixed Deposit</b><br>Calculator",
+      "iconUrl": "/assets/images/fund_icon.svg",
+      "backgroundColor": "#DCF5EF",
+      "url": "https://fdcal2.bubbleapps.io/version-test/fixed_deposit_calculator"
+    },
+    {
       "name": "homeloan_emi_calculator",
       "title": "<b>Home Loan EMI</b><br>Calculator",
-      "iconUrl": "/assets/images/calculator-work-icon.svg",
+      "iconUrl": "/assets/images/home_icon.svg",
       "backgroundColor": "#EBF5FF",
       "url": "https://homeloancalculate.bubbleapps.io/version-test/home_loan_emi_cal"
+    },
+    {
+      "name": "credit_score",
+      "title": "<b>Credit Score</b><br>Coming Soon",
+      "iconUrl": "/assets/images/speedometer_icon.svg",
+      "backgroundColor": "#DCF5EF",
+      "url": ""
+    },
+    {
+      "name": "pf",
+      "title": "<b>PF</b><br>Coming Soon",
+      "iconUrl": "/assets/images/briefcase_icon.svg",
+      "backgroundColor": "#EBF5FF",
+      "url": ""
+    },
+    {
+      "name": "fin_quiz",
+      "title": "<b>Fin Quiz</b><br>Coming Soon",
+      "iconUrl": "/assets/images/question_bulb_icon.svg",
+      "backgroundColor": "#FCF2E3",
+      "url": ""
     }
   ]
 }
