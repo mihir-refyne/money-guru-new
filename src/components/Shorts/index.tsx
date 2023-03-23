@@ -46,8 +46,8 @@ export default function Shorts({ items }: ShortsProps) {
     if (id && direction) {
       const eventName =
         direction === "UP"
-          ? AnalyticEvent.R_SHORTS_SWIPE_UP
-          : AnalyticEvent.R_SHORTS_SWIPE_DOWN;
+          ? AnalyticEvent.R_SHORTS_SWIPE_DOWN
+          : AnalyticEvent.R_SHORTS_SWIPE_UP;
       logEventInMixpanel(eventName, {
         short_id: id,
       });
