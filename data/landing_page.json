@@ -35,24 +35,24 @@
     },
     {
       "name": "credit_score",
-      "title": "<b>Credit Score</b><br>Coming Soon",
+      "title": "<b>Credit Score</b><br>Coming soon",
       "iconUrl": "/assets/images/speedometer_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": ""
+      "url": "https://financialcoachingv0-1.bubbleapps.io/version-test/credit_score_demo"
     },
     {
       "name": "pf",
-      "title": "<b>PF</b><br>Coming Soon",
+      "title": "<b>PF</b><br>Coming soon",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#EBF5FF",
-      "url": ""
+      "url": "https://financialcoachingv0-1.bubbleapps.io/version-test/pf_demo_screen"
     },
     {
       "name": "fin_quiz",
-      "title": "<b>Fin Quiz</b><br>Coming Soon",
+      "title": "<b>Fin Quiz</b><br>Coming soon",
       "iconUrl": "/assets/images/question_bulb_icon.svg",
       "backgroundColor": "#FCF2E3",
-      "url": ""
+      "url": "https://financialcoachingv0-1.bubbleapps.io/version-test/fin_quiz"
     }
   ]
 }
