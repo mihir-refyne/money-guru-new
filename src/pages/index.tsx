@@ -81,6 +81,12 @@ export default function HomePage({ shorts }: HomePageProps) {
     router.push(url);
   }
 
+  function handleBannerClick(name: string) {
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
+      name,
+    });
+  }
+
   function handleFeaturedShortClick(id: string) {
     logEventInMixpanel(AnalyticEvent.R_SHORTS_OPENED, {
       short_id: id,
@@ -171,6 +177,7 @@ export default function HomePage({ shorts }: HomePageProps) {
                   textDecoration: "none",
                 }}
                 href={banner.href}
+                onClick={() => handleBannerClick(banner.name)}
               >
                 <figure
                   style={{

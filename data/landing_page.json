@@ -1,13 +1,43 @@
 {
   "finLiteracyBanners": [
     {
+      "name": "fin_coach_free",
+      "leftIconUrl": "/assets/images/fincoach-session-icon.svg",
+      "label": "<b>Book 1:1 session</b> with leading industry<br>experts",
+      "href": "https://product.refyne.co.in/financial-coach-synopsys",
+      "releaseConfig": {
+        "fieldName": "employerId",
+        "includes": true,
+        "values": ["EMR10000790"]
+      }
+    },
+    {
+      "name": "fin_coach",
       "leftIconUrl": "/assets/images/fincoach-session-icon.svg",
       "label": "<b>Book 1:1 session</b> with leading industry<br>experts",
       "href": "https://product.refyne.co.in/",
       "releaseConfig": {
         "fieldName": "employerId",
         "includes": true,
-        "values": ["EMR10000001", "EMR10000005"]
+        "values": [
+          "EMR10000001",
+          "EMR10000005",
+          "EMR10000084",
+          "EMR10000231",
+          "EMR10000418",
+          "EMR10000211",
+          "EMR10000045",
+          "EMR10000186",
+          "EMR10000327",
+          "EMR10000109",
+          "EMR10000578",
+          "EMR10000346",
+          "EMR10000210",
+          "EMR10000073",
+          "EMR10000556",
+          "EMR10000195",
+          "EMR10000525"
+        ]
       }
     }
   ],
