@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { hasPreferredLocale, setPreferredLocale } from "@/lib/locale";
+import { hasPreferredLocale } from "@/lib/locale";
 import { useRouter } from "next/router";
 import LoadingPage from "@/components/LoadingPage";
 import { hasWatchedIntroduction } from "@/lib/core";
@@ -11,7 +11,6 @@ import heroBlobImageUrl from "@/images/hero-blob.png";
 import Image from "next/image";
 import config from "../../data/landing_page.json";
 import { getShortsByLocale } from "@/lib/shorts/server";
-import { isShortViewed } from "@/lib/shorts";
 import { GetStaticProps } from "next";
 import { marked } from "marked";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
@@ -19,6 +18,7 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
+import { getRandomNumberInRange } from "@/lib/utils";
 
 interface HomePageProps {
   shorts: Array<{
@@ -69,8 +69,8 @@ export default function HomePage({ shorts }: HomePageProps) {
   }, []);
 
   useEffect(() => {
-    const firstUnViewedShort = shorts.find((short) => !isShortViewed(short.id));
-    const shortToBeFeatured = firstUnViewedShort ?? shorts[0];
+    const randomIndex = getRandomNumberInRange(0, shorts.length - 1);
+    const shortToBeFeatured = shorts[randomIndex] ?? shorts[0];
     setShortToBeFeatured(shortToBeFeatured);
   }, [shorts]);
 
