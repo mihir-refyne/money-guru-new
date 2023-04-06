@@ -74,21 +74,11 @@ export default function HomePage({ shorts }: HomePageProps) {
     setShortToBeFeatured(shortToBeFeatured);
   }, [shorts]);
 
-  const idToken = getValueFromMetadata("idToken");
-  const userId = getValueFromMetadata("id");
-  const userName = getValueFromMetadata("name");
-  const employerId = getValueFromMetadata("employerId");
-  const userFirstName = userName && userName.split(" ")[0];
-
   function handleFinToolClick(name: string, url: string) {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED, {
       tool_name: name,
     });
-
-    const _url = url
-      .replace("{userId}", userId ?? "")
-      .replace("{idToken}", idToken ?? "");
-    router.push(_url);
+    router.push(url);
   }
 
   function handleBannerClick(name: string) {
@@ -103,6 +93,10 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
     router.push(`/shorts#${id}`);
   }
+
+  const userName = getValueFromMetadata("name");
+  const employerId = getValueFromMetadata("employerId");
+  const userFirstName = userName && userName.split(" ")[0];
 
   const banners = config.finLiteracyBanners.filter((banner) =>
     checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
