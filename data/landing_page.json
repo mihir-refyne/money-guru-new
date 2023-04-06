@@ -65,10 +65,10 @@
     },
     {
       "name": "credit_score",
-      "title": "<b>Credit Score</b><br>Coming soon",
+      "title": "<b>Credit Score</b>",
       "iconUrl": "/assets/images/speedometer_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/version-test/credit_score_demo"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/credit_score_v1?userId={userId}&userToken={idToken}"
     },
     {
       "name": "pf",
