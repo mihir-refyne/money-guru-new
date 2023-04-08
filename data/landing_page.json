@@ -79,10 +79,10 @@
     },
     {
       "name": "fin_quiz",
-      "title": "<b>Fin Quiz</b>",
+      "title": "<b>Fin Quiz</b><br>Coming soon",
       "iconUrl": "/assets/images/question_bulb_icon.svg",
       "backgroundColor": "#FCF2E3",
-      "url": "https://kahoot.it/"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/version-test/fin_quiz"
     }
   ]
 }
