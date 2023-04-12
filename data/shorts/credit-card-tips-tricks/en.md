@@ -12,4 +12,5 @@ To positively impact your CIBIL score with a credit card:
 - Keep credit card usage low, ideally below 30% of your credit limit.
 - Maintain a long credit history and avoid opening too many new accounts at once.
 - Use credit cards that offer rewards and cashback but avoid overspending to earn them.
-- Regularly monitor your credit report and dispute any errors or inaccuracies.
+
+

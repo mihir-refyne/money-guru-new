@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/negative-effects-on-credit-score.png
 tag: CIBIL Score
 ---
 
-### Things that will have a negative effect on your cibil score. Stay aware!
+### Things that will damage your cibil score. Stay aware!
 
 - Late payments and defaults on loans or credit card bills
 - High credit utilization ratio or maxing out credit cards
