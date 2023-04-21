@@ -44,6 +44,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async (
 export default function HomePage({ shorts }: HomePageProps) {
   // render LandingPage
   const [isMounted, setIsMounted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [shortToBeFeatured, setShortToBeFeatured] = useState<{
     id: string;
     metadata: Record<string, unknown>;
@@ -69,10 +70,16 @@ export default function HomePage({ shorts }: HomePageProps) {
   }, []);
 
   useEffect(() => {
-    const randomIndex = getRandomNumberInRange(0, shorts.length - 1);
+    const randomIndex = getRandomNumberInRange(0, shorts.length - 1 - 5);
     const shortToBeFeatured = shorts[randomIndex] ?? shorts[0];
     setShortToBeFeatured(shortToBeFeatured);
   }, [shorts]);
+
+  function setLoadingWithTimeoutToReset(state: boolean) {
+    setIsLoading(state);
+    // INFO: Have to add this due to Next.js browser back not resetting state issue
+    setTimeout(() => setIsLoading(!state), 5000);
+  }
 
   const idToken = getValueFromMetadata("idToken");
   const userId = getValueFromMetadata("id");
@@ -81,6 +88,7 @@ export default function HomePage({ shorts }: HomePageProps) {
   const userFirstName = userName && userName.split(" ")[0];
 
   function handleFinToolClick(name: string, url: string) {
+    setLoadingWithTimeoutToReset(true);
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED, {
       tool_name: name,
     });
@@ -92,6 +100,7 @@ export default function HomePage({ shorts }: HomePageProps) {
   }
 
   function handleBannerClick(name: string) {
+    setLoadingWithTimeoutToReset(true);
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
       name,
     });
@@ -111,7 +120,7 @@ export default function HomePage({ shorts }: HomePageProps) {
   );
   const hasBanners = banners.length > 0;
 
-  if (!isMounted) return <LoadingPage />;
+  if (!isMounted || isLoading) return <LoadingPage />;
 
   return (
     <PageLayout

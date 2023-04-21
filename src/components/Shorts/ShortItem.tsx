@@ -2,6 +2,7 @@ import { useOnScreen } from "@/hooks/useOnScreen";
 import { BellRinging, ShareNetwork } from "phosphor-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
+import ShortMedia from "./ShortMedia";
 import styles from "./ShortItem.module.css";
 import emptyBoxIllustrationUrl from "@/images/empty-box-illustration.svg";
 import Image from "next/image";
@@ -106,17 +107,7 @@ export default function ShortItem({
       {type === "SHORT" && data && (
         <>
           {data.media && (
-            <figure className={styles.ShortItem__Image__Wrapper}>
-              {data.tag && (
-                <span className={styles.ShortItem__Tag}>{data.tag}</span>
-              )}
-              <img
-                src={data.media.url}
-                alt={"ADD Alt here"}
-                className={styles.ShortItem__Image}
-                loading="lazy"
-              />
-            </figure>
+            <ShortMedia {...data.media} tag={data.tag} />
           )}
           {data.content && (
             <div className={styles.ShortItem__Content}>{data.content}</div>

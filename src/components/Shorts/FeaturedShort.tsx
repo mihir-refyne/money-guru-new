@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
 import styles from "./FeaturedShort.module.css";
+import ShortMedia from "./ShortMedia";
 
 interface FeaturedShortProps {
   imageUrl?: string;
@@ -17,14 +18,7 @@ export default function FeaturedShort({
   return (
     <div className={styles.FeaturedShort} role="button" onClick={onClick}>
       {imageUrl && (
-        <figure className={styles.FeaturedShort__Image__Wrapper}>
-          <span className={styles.FeaturedShort__Tag}>{tag}</span>
-          <img
-            src={imageUrl}
-            alt="content"
-            className={styles.FeaturedShort__Image}
-          />
-        </figure>
+        <ShortMedia type="image" url={imageUrl} tag={tag} />
       )}
       {children}
       <p className={styles.FeaturedShort__ReadMore}>Read more</p>

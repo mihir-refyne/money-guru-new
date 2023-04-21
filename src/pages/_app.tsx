@@ -24,6 +24,7 @@ import {
 } from "@/lib/analytics/webengage";
 import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
 import useScreenOrientation from "@/hooks/useScreenOrientation";
+import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -143,6 +144,7 @@ export default function App({ Component, pageProps }: AppProps) {
           font-family: ${workSans.style.fontFamily};
         }
       `}</style>
+      <ResetFontBoostingScript />
       <WebengageScript />
       <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
       {isLoading && <LoadingPage />}

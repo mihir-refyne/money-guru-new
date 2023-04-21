@@ -20,29 +20,6 @@
   justify-content: center;
 }
 
-.ShortItem__Image__Wrapper {
-  position: relative;
-}
-
-.ShortItem__Tag {
-  position: absolute;
-  background-color: var(--clr-grey-light);
-  padding: 0.4rem 0.8rem;
-  top: 1.6rem;
-  right: 0;
-  border-radius: 0.4rem 0px 0px 0.4rem;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.ShortItem__Image {
-  width: 100%;
-  max-height: 22rem;
-  border-radius: 0.8rem;
-}
-
 .ShortItem__Content {
   flex-grow: 1;
   overflow-y: hidden;

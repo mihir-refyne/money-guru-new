@@ -64,6 +64,13 @@ body {
   --full-vh: calc(var(--vh, 1vh) * 100);
 }
 
+html, body {
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  -ms-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+}
+
 button {
   background: none;
   color: inherit;
@@ -85,12 +92,6 @@ b {
 .unstyled-link {
   color: inherit;
   text-decoration: inherit;
-}
-
-@media screen and (max-height: 600px) {
-  html {
-    font-size: 58%;
-  }
 }
 
 /* Typography */

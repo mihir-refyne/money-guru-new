@@ -1,5 +1,5 @@
 .PageLayout__Wrapper {
-  max-width: 45rem;
+  max-width: 450px;
   margin: 0 auto;
   position: relative;
   min-height: var(--full-vh);
