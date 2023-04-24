@@ -70,3 +70,16 @@ export function trimNumberFromStartOrEndOfSlug(
 export function getRandomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min)) + min;
 }
+
+export function formatToInr(amount: number, decimal?: number) {
+  if (amount === null || amount === undefined) return 0;
+  if (decimal) {
+    return `₹${Number(amount.toFixed(decimal)).toLocaleString("en-IN")}`;
+  }
+  return `₹${Math.floor(amount).toLocaleString("en-IN")}`;
+}
+
+export function convertPixelToRem(px: number): string {
+  const rem = px / 10;
+  return `${rem.toFixed(1)}rem`;
+}

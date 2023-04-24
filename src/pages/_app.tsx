@@ -11,7 +11,7 @@ import {
   isScreenHeightLessThan,
   isStringAndNotEmpty,
 } from "@/lib/utils";
-import { hasUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
+import { getUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
 import {
   initializeMixpanel,
   setMixpanelGlobalProperties,
@@ -53,7 +53,8 @@ export default function App({ Component, pageProps }: AppProps) {
         appPlatformName: appPlatformName?.toString(),
       });
     } catch (_) {
-      if (hasUserMetadata()) return;
+      const userMetadataFromCache = getUserMetadata();
+      if (userMetadataFromCache) return userMetadataFromCache;
       const metadata = {
         id: userId?.toString(),
         name: userName?.toString(),

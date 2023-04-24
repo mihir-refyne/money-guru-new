@@ -38,5 +38,7 @@ export function dispatchDataToNativePlatform(payload: NativeHandlerPayload) {
 }
 
 export function isCurrentlyOnRefyneWebview(platformName?: string): boolean {
-  return platformName === "REFYNE_ANDROID";
+  if (!platformName) return false;
+  const [normalizedPlatformName] = platformName.split(",");
+  return normalizedPlatformName === "REFYNE_ANDROID";
 }

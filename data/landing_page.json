@@ -68,7 +68,7 @@
       "title": "<b>Credit Score</b><br>By Equifax",
       "iconUrl": "/assets/images/speedometer_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/credit_score_v1?userId={userId}&userToken={idToken}"
+      "url": "/credit-report"
     },
     {
       "name": "pf",

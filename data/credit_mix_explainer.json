@@ -1,0 +1,22 @@
+{
+    "title": "Credit Mix",
+    "description": "",
+    "tags": [
+      {
+        "type": "success",
+        "text": "Excellent",
+        "description": "No unsecured loans"
+      },
+      {
+        "type": "warning-light",
+        "text": "Good",
+        "description": "Unsecured loans but not late payments in last 1 year"
+      },
+      {
+        "type": "warning",
+        "text": "Average",
+        "description": "Unsecured loans & late payments in the last 1 year"
+      }
+    ],
+    "footer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, needs help etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne’s own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne’s opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks."
+}

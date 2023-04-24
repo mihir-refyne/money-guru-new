@@ -2,8 +2,9 @@ import { ChangeEvent } from "react";
 import styles from "./styles.module.css";
 
 interface RadioButtonItem {
-  label: string;
+  label?: string;
   value: string;
+  imageUrl?: string;
 }
 
 interface RadioButtonGroupProps {
@@ -11,6 +12,7 @@ interface RadioButtonGroupProps {
   name: string;
   value?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  columnsPerLine?: number;
 }
 
 export default function RadioButtonGroup({
@@ -18,9 +20,12 @@ export default function RadioButtonGroup({
   name,
   value,
   onChange,
+  columnsPerLine = 2
 }: RadioButtonGroupProps) {
   return (
-    <ul className={styles.RadioButtonGroup} role="radiogroup">
+    <ul className={styles.RadioButtonGroup} role="radiogroup" style={{
+      gridTemplateColumns: `repeat(${columnsPerLine}, 1fr)`
+    }}>
       {items.map((item, index) => {
         const checked = item.value === value;
         return (
@@ -28,7 +33,7 @@ export default function RadioButtonGroup({
             <label
               className={`${styles.RadioButtonGroup__Item} ${
                 checked ? styles.ItemActive : ""
-              }`}
+              } ${item.imageUrl ? styles.ImageItem : ""}`}
             >
               <input
                 className={styles.RadioButtonGroup__Item__input}
@@ -38,7 +43,8 @@ export default function RadioButtonGroup({
                 checked={checked}
                 onChange={onChange}
               />
-              <span className="text-heading text-semibold">{item.label}</span>
+              {item.imageUrl && <img src={item.imageUrl} alt={item.value} />}
+              {item.label && <span className="text-heading text-semibold">{item.label}</span>}
             </label>
           </li>
         );

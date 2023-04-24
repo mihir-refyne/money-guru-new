@@ -24,6 +24,7 @@ interface PageLayoutProps {
   children: ReactNode;
   alignContentCenter?: boolean;
   hasContentPadding?: boolean;
+  hasLocaleChange?: boolean;
   footer?: ReactElement;
 }
 
@@ -38,6 +39,7 @@ export default function PageLayout({
   footer,
   children,
   alignContentCenter = false,
+  hasLocaleChange = true,
   hasContentPadding = true,
 }: PageLayoutProps) {
   const router = useRouter();
@@ -94,6 +96,7 @@ export default function PageLayout({
             hasBackButton={hasBackButton}
             transparentNavbar={transparentNavbar}
             onBackClick={handleBack}
+            hasLocaleChange={hasLocaleChange}
             onLocaleChangeClick={handleLocaleUpdateClick}
           />
         )}

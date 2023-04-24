@@ -24,11 +24,11 @@ export default function Modal({
     >
       <div className={styles.ModalContent}>
         {!!onClose && (
-          <button className={styles.ModalClose} onClick={onClose}>
+          <button className={styles.ModalClose} onClick={() => onClose()}>
             <X />
           </button>
         )}
-        {active && children}
+        {active && <div className={styles.ModalContent__Body}>{children}</div>}
       </div>
     </div>
   );

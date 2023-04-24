@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@next/font": "13.1.6",
+    "@rive-app/react-canvas": "^3.0.45",
+    "date-fns": "^2.29.3",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "gray-matter": "^4.0.3",

@@ -141,7 +141,12 @@ b {
 .text-center {
   text-align: center;
 }
-
+.text-right {
+  text-align: right;
+}
+.text-capitalize {
+  text-transform: capitalize;
+}
 /* Spacing Utility */
 .my-2 {
   margin: var(--spacing-2) 0;
@@ -149,8 +154,14 @@ b {
 .my-3 {
   margin: var(--spacing-3) 0;
 }
+.my-4 {
+  margin: var(--spacing-4) 0;
+}
 .mb-3 {
   margin-bottom: var(--spacing-3);
+}
+.mb-4 {
+  margin-bottom: var(--spacing-4);
 }
 .my-6 {
   margin: var(--spacing-6) 0;
@@ -158,8 +169,17 @@ b {
 .mb-6 {
   margin-bottom: var(--spacing-6);
 }
+.mb-8 {
+  margin-bottom: var(--spacing-8);
+}
+.mt-2 {
+  margin-top: var(--spacing-2);
+}
 .mt-4 {
   margin-top: var(--spacing-4);
+}
+.mt-6 {
+  margin-top: var(--spacing-6);
 }
 .pt-12 {
   padding-top: var(--spacing-12);
@@ -177,8 +197,17 @@ b {
 .mb-2 {
   margin-bottom: var(--spacing-2);
 }
+.mr-1 {
+  margin-right: var(--spacing-1);
+}
 .mr-2 {
   margin-right: var(--spacing-2);
+}
+.ml-2 {
+  margin-left: var(--spacing-2);
+}
+.ml-4 {
+  margin-left: var(--spacing-4);
 }
 
 /* Color Utility */
@@ -258,6 +287,10 @@ b {
   display: block;
   width: 100%;
 }
+.btn-inline {
+  display: inline-block;
+  width: fit-content;
+}
 
 .btn-only-icon {
   display: flex;
@@ -286,6 +319,19 @@ b {
   color: var(--clr-info-success-default);
   min-height: 4rem;
   border-radius: 0.4rem;
+}
+
+.btn-text {
+  background-color: transparent;
+  color: var(--clr-brand-default);
+  min-height: 4rem;
+}
+
+.btn-compact {
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding: 0.8rem;
+  min-height: 3.2rem;
 }
 
 .flex-center {

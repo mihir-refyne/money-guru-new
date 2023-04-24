@@ -1,0 +1,36 @@
+.ListCard {
+  padding: var(--spacing-4);
+  background-color: var(--clr-grey-light);
+  border-radius: var(--spacing-3);
+}
+
+.ListCardItem {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.ListCardItem[role="button"] {
+  cursor: pointer;
+}
+
+.ListCardItem:not(:last-child) {
+  padding-bottom: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.ListCardItem__Icon {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+.ListCardItem__Content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+}
+
+.ListCardItem__Content__Item > *:not(:last-child) {
+  margin-bottom: var(--spacing-2);
+}

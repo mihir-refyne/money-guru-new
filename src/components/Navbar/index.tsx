@@ -12,6 +12,7 @@ interface NavbarProps {
   title?: string;
   transparentNavbar?: boolean;
   onBackClick?: () => void;
+  hasLocaleChange?: boolean;
   onLocaleChangeClick?: () => void;
 }
 
@@ -20,6 +21,7 @@ export default function Navbar({
   title,
   transparentNavbar,
   onBackClick,
+  hasLocaleChange = true,
   onLocaleChangeClick,
 }: NavbarProps) {
   const [navbarOpacity, setNavbarOpacity] = useState<number>(0);
@@ -59,12 +61,14 @@ export default function Navbar({
           )}
           <span>{title}</span>
         </div>
-        <button
-          className={`${styles.NavbarContent__RightButton} btn-only-icon`}
-          onClick={onLocaleChangeClick}
-        >
-          <Image src={languageIconUrl} alt="Language Change" />
-        </button>
+        {hasLocaleChange && (
+          <button
+            className={`${styles.NavbarContent__RightButton} btn-only-icon`}
+            onClick={onLocaleChangeClick}
+          >
+            <Image src={languageIconUrl} alt="Language Change" />
+          </button>
+        )}
       </div>
     </nav>
   );

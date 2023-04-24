@@ -1,0 +1,37 @@
+.Tag {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem var(--spacing-2);
+  gap: var(--spacing-1);
+  border-radius: var(--spacing-1);
+}
+
+.Tag__clickable {
+  cursor: pointer;
+}
+
+.Tag__success {
+  color: var(--clr-info-success-dark);
+  background-color: var(--clr-info-success-light);
+}
+.Tag__success-light {
+  color: var(--clr-info-success-default);
+  background-color: var(--clr-info-success-light);
+}
+.Tag__warning {
+  color: var(--clr-info-alert-dark);
+  background-color: var(--clr-info-alert-light);
+}
+.Tag__warning-light {
+  color: var(--clr-info-alert-default);
+  background-color: var(--clr-info-highlight-light);
+}
+.Tag__error {
+  color: var(--clr-info-error-dark);
+  background-color: var(--clr-info-error-light);
+}
+.Tag__error-light {
+  color: #F57B7B;
+  background-color: var(--clr-info-error-light);
+}

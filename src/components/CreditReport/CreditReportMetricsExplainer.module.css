@@ -1,0 +1,24 @@
+.CreditReportMetricsExplainer__Tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  margin-top: var(--spacing-6);
+}
+
+.CreditReportMetricsExplainer__TagItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+}
+
+.CreditReportMetricsExplainer__TagItem__InnerTag {
+  flex-basis: 12rem;
+}
+
+.CreditReportMetricsExplainer__Footer {
+  position: sticky;
+  bottom: 0;
+  padding-top: var(--spacing-4);
+  background-color: var(--clr-pure-white);
+}

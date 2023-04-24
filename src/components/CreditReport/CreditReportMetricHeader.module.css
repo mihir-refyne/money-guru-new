@@ -1,0 +1,5 @@
+.CreditReportMetricHeader {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-2)
+}

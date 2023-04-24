@@ -7,12 +7,21 @@ import {
 
 const CORE_SERVER_BASE_URL = process.env.NEXT_PUBLIC_CORE_SERVER_BASE_URL;
 
+export enum UserStatus {
+  SALARY_VIEWABLE = 'SALARY_VIEWABLE',
+  VERIFICATION_PENDING = 'VERIFICATION_PENDING',
+  INCOMPLETE_INFO = 'INCOMPLETE_INFO',
+  INITIATED = 'INITIATED',
+  REFYNE_VERIFIED = 'REFYNE_VERIFIED',
+  USER_MODIFIED_VERIFICATION_PENDING = 'USER_MODIFIED_VERIFICATION_PENDING',
+  USER_MODIFIED_INCORRECT_INFO = 'USER_MODIFIED_INCORRECT_INFO'
+}
 interface User {
   _id: string;
   name?: {
     data?: string;
   };
-  status: string;
+  status: UserStatus;
 }
 
 interface ReferralDetails {

@@ -1,0 +1,15 @@
+.InfoCard {
+  background: var(--clr-grey-light);
+  border-radius: var(--spacing-2);
+  color: var(--clr-text-secondary);
+  display: flex;
+  padding: var(--spacing-3);
+  justify-content: space-between;
+  gap: var(--spacing-2);
+}
+
+.InfoCard__Icon {
+  color: var(--clr-text-primary);
+  width: var(--spacing-4);
+  height: var(--spacing-4);
+}

@@ -1,0 +1,8 @@
+.CommonFooter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  border-top: 1px solid var(--clr-brand-light);
+}
