@@ -1,37 +1,22 @@
-import SwipeButton from "@/components/SwipeButton";
 import PageLayout from "@/components/PageLayout";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { setWatchedIntroduction } from "@/lib/core";
 import { useRouter } from "next/router";
-import { isTouchDevice } from "@/lib/utils";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import config from "../../data/introduction_page.json";
 
-const TRANSITION_TIMEOUT = 1.5 * 1000;
-
 export default function IntroPage() {
   const router = useRouter();
-  const transitionTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LAUNCH_SCREEN);
-
-    return () => {
-      if (transitionTimeoutRef.current) {
-        clearTimeout(transitionTimeoutRef.current);
-      }
-    };
   }, []);
 
-  function handleSwipeComplete() {
+  function handleNextClick() {
     setWatchedIntroduction();
-    transitionTimeoutRef.current = setTimeout(() => {
-      router.replace("/");
-    }, TRANSITION_TIMEOUT);
+    router.replace("/");
   }
-
-  const _isTouchDevice = typeof window !== "undefined" && isTouchDevice();
 
   return (
     <PageLayout
@@ -44,12 +29,7 @@ export default function IntroPage() {
             </p>
           </div>
           <div className="container">
-            <SwipeButton
-              onSuccessSwipe={handleSwipeComplete}
-              clickToUnlock={!_isTouchDevice}
-            >
-              {_isTouchDevice ? "Swipe To Unlock" : "Click To Unlock"}
-            </SwipeButton>
+            <button className="btn btn-primary btn-block" onClick={handleNextClick}>Next</button>
           </div>
         </>
       }

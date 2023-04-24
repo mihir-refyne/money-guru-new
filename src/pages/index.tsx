@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { hasPreferredLocale } from "@/lib/locale";
 import { useRouter } from "next/router";
 import LoadingPage from "@/components/LoadingPage";
 import { hasWatchedIntroduction } from "@/lib/core";
@@ -54,10 +53,6 @@ export default function HomePage({ shorts }: HomePageProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (!hasPreferredLocale()) {
-      router.replace("/select-locale");
-      return;
-    }
     if (!hasWatchedIntroduction()) {
       router.replace("/introduction");
       return;
