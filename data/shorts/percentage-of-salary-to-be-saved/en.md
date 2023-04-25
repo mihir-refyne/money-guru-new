@@ -6,6 +6,6 @@ tag: Savings
 
 ### Are you saving enough out of your salary? Know it here
 
-Saving is extremely important for a bright future and to cover emergency expenses. A general rule of thumb is to save at least 20% of your income, but you can adjust this based on your needs. 
+Saving is extremely important for your future and to cover emergency expenses. A general rule is to save at least 20% of your income, but you can adjust this based on your needs. 
 
-For example, Rakhi earns Rs 60,000 monthly, she saves Rs 12,000 every month. By the end of the year, she had Rs1.4 lakhs in her savings. It's important to create a budget and prioritize saving to build a healthy financial future.
+For example, Rakhi earns Rs 60,000 monthly, she saves Rs 12,000 every month. By the end of the year, she had Rs1.4 lakhs in her savings. 

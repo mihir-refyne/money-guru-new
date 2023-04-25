@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/credit-card-tips-tricks.png
 tag: Credit Card
 ---
 
-### Make your credit card work for you : Top Credit Card Tips and Tricks for increasing CIBIL Score
+### Improve CIBIL Score: Get more Credit Card Benefits
 
 To positively impact your CIBIL score with a credit card:
 

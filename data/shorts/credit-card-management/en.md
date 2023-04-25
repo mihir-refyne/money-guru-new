@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/credit-card-management.png
 tag: Credit Card
 ---
 
-### Credit Card Management: Tips to Track Expenses and Repay Debt
+### Easy Credit Card Tips: Track Spendings & Pay Bills
 
 To track expenses and repay credit cards - 
 - Set a budget
