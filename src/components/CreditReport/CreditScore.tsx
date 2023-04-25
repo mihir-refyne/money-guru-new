@@ -155,7 +155,7 @@ export default function CreditScore({
           Credit score not available
         </h2>
         <p className="text-caption clr-text-secondary mt-2">
-          We will notify you once it's available!
+          We will notify you once it&quot;s available!
         </p>
       </div>
       <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
