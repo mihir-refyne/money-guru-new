@@ -93,7 +93,7 @@ export default function CreditScore({
           </CreditScoreMeter>
         </div>
         <p className="text-caption clr-text-secondary text-center">
-          Credit report will update next months
+          Credit report will update next month
         </p>
 
         <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
@@ -149,13 +149,13 @@ export default function CreditScore({
       >
         <Image
           src={cardSearchErrorIconUrl}
-          alt="Couldn’t fetch your Credit Score"
+          alt="Credit score not available"
         />
         <h2 className="text-heading text-semibold mt-4">
-          Couldn’t fetch your Credit Score
+          Credit score not available
         </h2>
         <p className="text-caption clr-text-secondary mt-2">
-          Please retry sometime later
+          We will notify you once it's available!
         </p>
       </div>
       <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
