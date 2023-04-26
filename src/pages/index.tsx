@@ -57,6 +57,21 @@ export default function HomePage({ shorts }: HomePageProps) {
       router.replace("/introduction");
       return;
     }
+    const navigateToShortId = router.query["short-id"];
+    if (navigateToShortId) {
+      // Cleanup short-id for back click
+      router.replace({
+        pathname: router.pathname,
+      }, undefined, {
+        shallow: true
+      });
+
+      router.push({
+        pathname: "/shorts",
+        hash: navigateToShortId.toString(),
+      })
+      return;
+    }
 
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN);
 
