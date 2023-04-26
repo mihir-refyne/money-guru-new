@@ -3,22 +3,24 @@ import styles from "./FeaturedShort.module.css";
 import ShortMedia from "./ShortMedia";
 
 interface FeaturedShortProps {
-  imageUrl?: string;
+  mediaType?: string;
+  mediaUrl?: string;
   tag?: string;
   children?: ReactElement;
   onClick?: () => void;
 }
 
 export default function FeaturedShort({
-  imageUrl,
+  mediaType,
+  mediaUrl,
   tag,
   children,
   onClick,
 }: FeaturedShortProps) {
   return (
     <div className={styles.FeaturedShort} role="button" onClick={onClick}>
-      {imageUrl && (
-        <ShortMedia type="image" url={imageUrl} tag={tag} />
+      {mediaUrl && (
+        <ShortMedia type={mediaType as any} url={mediaUrl} tag={tag} />
       )}
       {children}
       <p className={styles.FeaturedShort__ReadMore}>Read more</p>

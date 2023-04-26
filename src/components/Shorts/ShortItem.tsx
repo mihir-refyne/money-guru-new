@@ -112,13 +112,6 @@ export default function ShortItem({
           {data.content && (
             <div className={styles.ShortItem__Content}>{data.content}</div>
           )}
-          {shareCtaType && (
-            <ShareOrCopyButton
-              isLoading={isShareLoading}
-              type={shareCtaType}
-              onClick={onShareClick}
-            />
-          )}
         </>
       )}
       {/* TODO: Filler */}

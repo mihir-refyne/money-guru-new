@@ -177,7 +177,8 @@ export default function HomePage({ shorts }: HomePageProps) {
         >
           {shortToBeFeatured && (
             <FeaturedShort
-              imageUrl={(shortToBeFeatured.metadata?.mediaUrl ?? "") as string}
+              mediaType={(shortToBeFeatured.metadata?.mediaType ?? "") as string}
+              mediaUrl={(shortToBeFeatured.metadata?.mediaUrl ?? "") as string}
               tag={(shortToBeFeatured.metadata?.tag ?? "") as string}
               onClick={() => handleFeaturedShortClick(shortToBeFeatured.id)}
             >
