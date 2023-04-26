@@ -96,6 +96,9 @@ export default function HomePage({ shorts }: HomePageProps) {
   const userName = getValueFromMetadata("name");
   const employerId = getValueFromMetadata("employerId");
   const userFirstName = userName && userName.split(" ")[0];
+  const salutation = ["Hey", userFirstName?.toLowerCase()]
+    .filter(Boolean)
+    .join(" ");
 
   function handleFinToolClick(name: string, url: string) {
     setLoadingWithTimeoutToReset(true);
@@ -152,7 +155,7 @@ export default function HomePage({ shorts }: HomePageProps) {
           }}
         >
           <figure className="mb-3">
-            <Image src={twoPeopleIllustrationUrl} alt="Hey Abhijeeth" />
+            <Image src={twoPeopleIllustrationUrl} alt="Hey" />
           </figure>
           <h2
             className="text-sub-title text-medium mb-2"
@@ -160,7 +163,7 @@ export default function HomePage({ shorts }: HomePageProps) {
               textTransform: "capitalize",
             }}
           >
-            Hey {userFirstName?.toLowerCase()},
+            {salutation},
           </h2>
           <p className="clr-text-secondary">
             Understanding finances has never been easier. Start reading!
