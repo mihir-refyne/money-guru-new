@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/cheapest-education-loan.png
+mediaUrl: /assets/images/shorts/cheapest-education-loan.jpg
 tag: Loans
 ---
 
