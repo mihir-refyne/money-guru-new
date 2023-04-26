@@ -5,27 +5,27 @@
     {
       "type": "success",
       "text": "Excellent",
-      "description": "Above 790"
+      "description": "Above 751"
     },
     {
       "type": "success-light",
       "text": "Very Good",
-      "description": "771 - 790"
+      "description": "731 - 750"
     },
     {
       "type": "warning-light",
       "text": "Good",
-      "description": "731 - 770"
+      "description": "706 - 730"
     },
     {
       "type": "warning",
       "text": "Average",
-      "description": "681 - 730"
+      "description": "602 - 705"
     },
     {
       "type": "error-light",
       "text": "Needs Help",
-      "description": "Below 681"
+      "description": "Below 601"
     }
   ],
   "footer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, fair etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne's own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne's opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks."

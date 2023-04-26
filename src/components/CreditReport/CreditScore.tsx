@@ -50,26 +50,26 @@ export default function CreditScore({
             indicatorColors={[
               {
                 from: 300,
-                to: 680,
+                to: 601,
                 color: "#F57B7B",
               },
               {
-                from: 681,
-                to: 730,
+                from: 602,
+                to: 705,
                 color: "#8A5006",
               },
               {
-                from: 731,
-                to: 770,
+                from: 706,
+                to: 730,
                 color: "#EC9527",
               },
               {
-                from: 771,
-                to: 790,
+                from: 731,
+                to: 750,
                 color: "#2C9E82",
               },
               {
-                from: 791,
+                from: 751,
                 to: 900,
                 color: "#0C7057",
               },
