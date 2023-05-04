@@ -43,6 +43,13 @@
   ],
   "finLiteracyTools": [
     {
+      "name": "credit_score",
+      "title": "<b>Credit Score</b><br>By Equifax",
+      "iconUrl": "/assets/images/speedometer_icon.svg",
+      "backgroundColor": "#DCF5EF",
+      "url": "/credit-report"
+    },
+    {
       "name": "homeloan_emi_calculator",
       "title": "<b>Home Loan EMI</b><br>Calculator",
       "iconUrl": "/assets/images/home_icon.svg",
