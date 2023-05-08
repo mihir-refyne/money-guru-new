@@ -1,10 +1,10 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/negative-effects-on-credit-score.png
-tag: CIBIL Score
+tag: Credit Score
 ---
 
-### अपने CIBIL स्कोर को नुकसान पहुंचाने वाली चीजें।
+### अपने Credit स्कोर को नुकसान पहुंचाने वाली चीजें।
 
 - लोन या क्रेडिट कार्ड बिल के लेट पेमेंट और डिफ़ॉल्ट्स
 - क्रेडिट कार्ड का उच्च उपयोग अनुपात या क्रेडिट कार्ड का पूरा इस्तेमाल करना।

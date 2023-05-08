@@ -45,7 +45,7 @@ export default function CreditReportIntroduction({
             type="tick"
             items={[
               "No sharing of credit report with any 3rd party",
-              "Checking your CIBIL score will not reduce your score",
+              "Checking your Credit score will not reduce your score",
             ]}
           />
         </div>

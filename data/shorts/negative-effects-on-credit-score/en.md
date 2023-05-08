@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/negative-effects-on-credit-score.png
-tag: CIBIL Score
+tag: Credit Score
 ---
 
 ### Things that will damage your cibil score. Stay aware!

@@ -1,10 +1,10 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/boost-cibil-score.png
-tag: CIBIL Score
+tag: Credit Score
 ---
 
-### Get a Better Credit Score: Easy Tips to Improve Your CIBIL!
+### Get a Better Credit Score: Easy Tips to Improve Your Credit Score!
 
 - Pay your bills on time and keep your credit card balances low.
 - Don't apply for too many loans or credit cards at once.
