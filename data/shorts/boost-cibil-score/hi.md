@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/boost-cibil-score.png
-tag: CIBIL Score
+tag: Credit Score
 ---
 
 ### क्रेडिट स्कोर को बेहतर बनाने के आसान टिप्स!
