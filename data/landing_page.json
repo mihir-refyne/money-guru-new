@@ -15,7 +15,7 @@
       "name": "fin_coach",
       "leftIconUrl": "/assets/images/fincoach-session-icon.svg",
       "label": "<b>Book 1:1 session</b> with leading industry<br>experts",
-      "href": "https://product.refyne.co.in/",
+      "href": "https://fincoachv2.typedream.app/",
       "releaseConfig": {
         "fieldName": "employerId",
         "includes": true,
