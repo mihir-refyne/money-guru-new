@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/negative-effects-on-credit-score.png
 tag: Credit Score
 ---
 
-### Things that will damage your cibil score. Stay aware!
+### Things that will damage your credit score. Stay aware!
 
 - Late payments and defaults on loans or credit card bills
 - High credit utilization ratio or maxing out credit cards
