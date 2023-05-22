@@ -1,18 +1,19 @@
-import { CircleNotch, IconProps } from "phosphor-react";
-import React from "react";
+import styles from "./styles.module.css";
 
-export default function CircularSpinner(props: IconProps) {
+interface CircularSpinnerProps {
+  size?: number;
+}
+
+export default function CircularSpinner({ size }: CircularSpinnerProps) {
   return (
-    <CircleNotch {...props}>
-      <animateTransform
-        attributeName="transform"
-        attributeType="XML"
-        type="rotate"
-        dur="2s"
-        from="0 0 0"
-        to="360 0 0"
-        repeatCount="indefinite"
-      ></animateTransform>
-    </CircleNotch>
+    <div
+      className={styles.CircularSpinner}
+      style={{
+        height: size,
+        width: size,
+      }}
+    >
+      Loading...
+    </div>
   );
 }
