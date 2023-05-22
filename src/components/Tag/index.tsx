@@ -1,7 +1,14 @@
 import React, { ReactNode } from "react";
 import styles from "./styles.module.css";
 
-export type TagType = "success" | "success-light" | "warning" | "warning-light" | "error" | "error-light";
+export type TagType =
+  | "success"
+  | "success-light"
+  | "warning"
+  | "warning-light"
+  | "error"
+  | "error-light"
+  | "info-light";
 
 const TAG_TYPE_TO_CSS_CLASS_MAP: Record<TagType, string> = {
   success: styles.Tag__success,
@@ -9,7 +16,8 @@ const TAG_TYPE_TO_CSS_CLASS_MAP: Record<TagType, string> = {
   warning: styles.Tag__warning,
   "warning-light": styles["Tag__warning-light"],
   error: styles.Tag__error,
-  "error-light": styles["Tag__error-light"]
+  "error-light": styles["Tag__error-light"],
+  "info-light": styles["Tag__info-light"],
 };
 
 interface TagProps {

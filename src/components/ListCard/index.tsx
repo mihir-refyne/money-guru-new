@@ -64,7 +64,7 @@ function ListCardItem({
           )}
           {contentRightDescription && (
             <p
-              className="text-caption text-medium text-capitalize"
+              className="text-caption text-semibold text-capitalize"
               style={{
                 color: contentRightDescriptionFontColor,
               }}
