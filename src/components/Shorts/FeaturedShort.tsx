@@ -20,7 +20,12 @@ export default function FeaturedShort({
   return (
     <div className={styles.FeaturedShort} role="button" onClick={onClick}>
       {mediaUrl && (
-        <ShortMedia type={mediaType as any} url={mediaUrl} tag={tag} />
+        <ShortMedia
+          type={mediaType as any}
+          url={mediaUrl}
+          tag={tag}
+          showOnlyThumbnailForVideo
+        />
       )}
       {children}
       <button className="btn btn-primary btn-compact mt-2">Read more</button>

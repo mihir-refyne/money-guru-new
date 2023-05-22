@@ -1,4 +1,5 @@
 import { useOnScreen } from "@/hooks/useOnScreen";
+import styles from "./styles.module.css";
 
 interface YoutubePlayerProps {
   url: string;
@@ -12,6 +13,7 @@ interface YoutubePlayerProps {
   loop?: boolean;
   mute?: boolean;
   modestBranding?: boolean;
+  showOnlyThumbnail?: boolean;
 }
 
 export default function YoutubePlayer({
@@ -26,10 +28,23 @@ export default function YoutubePlayer({
   loop = false,
   mute = false,
   modestBranding = false,
+  showOnlyThumbnail = false,
 }: YoutubePlayerProps) {
   const { ref, isOnScreen } = useOnScreen<HTMLDivElement>({
     options: { threshold: 0.51 },
   });
+
+  const thumbnailImageUrl = getThumbnailImageUrlFromYoutubeUrl(url);
+  if (showOnlyThumbnail && thumbnailImageUrl) {
+    return (
+      <img
+        src={thumbnailImageUrl}
+        alt={`Thumbnail of YouTube video ${url}`}
+        loading="lazy"
+        className={[styles.YoutubePlayer__Thumbnail, className].join(" ")}
+      />
+    );
+  }
 
   function handleOnIframeLoad() {
     onLoad?.();
@@ -100,4 +115,10 @@ function getVideoIdFromUrl(url: string) {
 function convertBooleanToBinary(value: boolean): number {
   if (value) return 1;
   return 0;
+}
+
+function getThumbnailImageUrlFromYoutubeUrl(url: string): string | null {
+  const videoId = getVideoIdFromUrl(url);
+  if (!videoId) return null;
+  return `https://img.youtube.com/vi/${videoId}/sddefault.jpg`;
 }

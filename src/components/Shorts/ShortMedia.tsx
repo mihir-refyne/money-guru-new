@@ -6,9 +6,15 @@ interface ShortMediaProps {
   type: "image" | "video";
   url: string;
   tag?: string;
+  showOnlyThumbnailForVideo?: boolean;
 }
 
-export default function ShortMedia({ type, url, tag }: ShortMediaProps) {
+export default function ShortMedia({
+  type,
+  url,
+  tag,
+  showOnlyThumbnailForVideo = false,
+}: ShortMediaProps) {
   if (type === "image") {
     return (
       <figure className={styles.ShortMedia__Image__Wrapper}>
@@ -35,6 +41,7 @@ export default function ShortMedia({ type, url, tag }: ShortMediaProps) {
           showRelatedVideos={false}
           loop
           controls={false}
+          showOnlyThumbnail={showOnlyThumbnailForVideo}
         />
       </div>
     );
