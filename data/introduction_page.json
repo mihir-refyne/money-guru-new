@@ -1,4 +1,20 @@
 {
-    "peopleBenefitted": "12,000",
-    "illustrationUrl": "/assets/images/financial-literacy-intro.svg"
+  "peopleBenefitted": "12,000",
+  "illustrationUrl": "/assets/images/financial-literacy-intro.svg",
+  "stories": [
+    {
+      "backgroundColor": "linear-gradient(359.65deg, #F9FEFF 12.2%, #DEFFF7 99.7%)",
+      "durationInMs": 3000,
+      "heading": "Did You Know Gold\nGrows 9%* Yearly!",
+      "illustrationImageUrl": "/assets/images/intro_story_gold.svg",
+      "footerText": "*This calculation is based on returns in the last 5 years and may vary slightly."
+    },
+    {
+      "backgroundColor": "linear-gradient(359.65deg, #F9FEFF 12.2%, #D6E9FF 99.7%)",
+      "durationInMs": 3000,
+      "heading": "1,300+ Users Have Gained From 1:1 Sessions!",
+      "illustrationImageUrl": "/assets/images/intro_story_fin_coach.svg",
+      "footerText": "*This calculation is based on returns in the last 5 years and may vary slightly."
+    }
+  ]
 }
