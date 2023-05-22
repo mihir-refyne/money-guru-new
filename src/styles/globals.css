@@ -56,6 +56,18 @@ html {
   scroll-behavior: smooth;
 }
 
+@media screen and (max-height: 700px) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media screen and (max-height: 650px) {
+  html {
+    font-size: 58%;
+  }
+}
+
 body {
   font-size: 1.4rem;
   line-height: 2rem;
@@ -193,6 +205,9 @@ b {
 }
 .pt-4 {
   padding-top: var(--spacing-4);
+}
+.pt-3 {
+  padding-top: var(--spacing-3);
 }
 .mb-2 {
   margin-bottom: var(--spacing-2);
@@ -355,6 +370,9 @@ b {
 }
 
 /* Other Utils */
+.border-top-dashed {
+  border-top: 1px dashed var(--clr-grey-default);
+}
 .border-bottom-dashed {
   border-bottom: 1px dashed var(--clr-grey-default);
 }

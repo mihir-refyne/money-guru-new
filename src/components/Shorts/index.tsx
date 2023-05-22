@@ -111,6 +111,13 @@ export default function Shorts({ items }: ShortsProps) {
     });
   }
 
+  function handleReactionClick(shortId: string, reaction: string) {
+    logEventInMixpanel(AnalyticEvent.R_SHORTS_REACTED, {
+      short_id: shortId,
+      reaction,
+    });
+  }
+
   return (
     <ShortsContainer>
       {items.map((short) => (
@@ -122,6 +129,9 @@ export default function Shorts({ items }: ShortsProps) {
           onShareClick={handleShareClick(short.id, short.share)}
           onView={handleOnView}
           onLeave={handleViewLeft}
+          onReactionClick={(reaction) =>
+            handleReactionClick(short.id, reaction)
+          }
         />
       ))}
       <ShortItem

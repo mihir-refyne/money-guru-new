@@ -1,5 +1,10 @@
 import { useOnScreen } from "@/hooks/useOnScreen";
-import { BellRinging, ShareNetwork } from "phosphor-react";
+import {
+  BellRinging,
+  ShareNetwork,
+  ThumbsDown,
+  ThumbsUp,
+} from "phosphor-react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
 import ShortMedia from "./ShortMedia";
@@ -38,6 +43,7 @@ interface ShortItemProps {
   shareCtaType?: "COPY" | "SHARE";
   onShareClick?: () => void;
   onNotifyClick?: () => void;
+  onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
 }
 
 export default function ShortItem({
@@ -49,11 +55,13 @@ export default function ShortItem({
   shareCtaType = "COPY",
   onShareClick,
   onNotifyClick,
+  onReactionClick,
 }: ShortItemProps) {
   const [swipePrompt, setSwipePrompt] = useState<{
     location: "top" | "bottom";
     text: string;
   }>();
+  const [reaction, setReaction] = useState<"">();
   const swipePromptCleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
@@ -106,11 +114,12 @@ export default function ShortItem({
     >
       {type === "SHORT" && data && (
         <>
-          {data.media && (
-            <ShortMedia {...data.media} tag={data.tag} />
-          )}
+          {data.media && <ShortMedia {...data.media} tag={data.tag} />}
           {data.content && (
-            <div className={styles.ShortItem__Content}>{data.content}</div>
+            <div className={styles.ShortItem__Content}>
+              {data.content}
+              <ShortItemReaction onReactionClick={onReactionClick} />
+            </div>
           )}
         </>
       )}
@@ -187,5 +196,49 @@ function ShareOrCopyButton(props: {
       <ShareNetwork size={24} className="mr-2" />
       <span>{label}</span>
     </button>
+  );
+}
+
+function ShortItemReaction(props: {
+  onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
+}) {
+  const [{ isLiked, isDisliked }, _setReaction] = useState<{
+    isLiked: boolean;
+    isDisliked: boolean;
+  }>({ isLiked: false, isDisliked: false });
+
+  function setReaction(reaction: "LIKED" | "DISLIKED") {
+    return () => {
+      if (reaction === "LIKED") {
+        _setReaction({ isLiked: true, isDisliked: false });
+      } else if (reaction === "DISLIKED") {
+        _setReaction({ isDisliked: true, isLiked: false });
+      }
+      props.onReactionClick?.(reaction);
+    };
+  }
+
+  return (
+    <div
+      className="border-top-dashed mt-4 pt-3"
+      style={{
+        display: "flex",
+      }}
+    >
+      <button className="btn btn-only-icon" onClick={setReaction("LIKED")}>
+        <ThumbsUp
+          className="mt-0"
+          size={24}
+          weight={isLiked ? "fill" : "regular"}
+        />
+      </button>
+      <button className="btn btn-only-icon" onClick={setReaction("DISLIKED")}>
+        <ThumbsDown
+          className="mt-0"
+          size={24}
+          weight={isDisliked ? "fill" : "regular"}
+        />
+      </button>
+    </div>
   );
 }
