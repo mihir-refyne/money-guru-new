@@ -1,0 +1,12 @@
+.Banner {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  padding: var(--spacing-3);
+  margin: 0 var(--spacing-1);
+  gap: var(--spacing-3);
+  border-radius: var(--spacing-3);
+  color: inherit;
+  text-decoration: inherit;
+  min-height: 10rem;
+}

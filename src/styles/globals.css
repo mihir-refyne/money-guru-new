@@ -203,6 +203,13 @@ b {
 .p-4 {
   padding: var(--spacing-4);
 }
+.pb-0 {
+  padding-bottom: 0 !important;
+}
+.px-0 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 .pt-4 {
   padding-top: var(--spacing-4);
 }
@@ -270,7 +277,6 @@ b {
 
 .hero {
   padding: var(--spacing-16) var(--spacing-4);
-  /* background: radial-gradient(51.9% 48.2% at 7.22% 14.84%, #FFFFFF 0%, #EBF5FF 100%); */
 }
 
 /* Button */
@@ -345,7 +351,7 @@ b {
 .btn-compact {
   font-size: 1.2rem;
   line-height: 1.6rem;
-  padding: 0.8rem;
+  padding: 0.4rem 0.8rem;
   min-height: 3.2rem;
 }
 

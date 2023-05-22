@@ -23,7 +23,7 @@ export default function FeaturedShort({
         <ShortMedia type={mediaType as any} url={mediaUrl} tag={tag} />
       )}
       {children}
-      <p className={styles.FeaturedShort__ReadMore}>Read more</p>
+      <button className="btn btn-primary btn-compact mt-2">Read more</button>
     </div>
   );
 }

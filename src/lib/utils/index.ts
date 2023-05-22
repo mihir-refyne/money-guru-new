@@ -71,6 +71,18 @@ export function getRandomNumberInRange(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min)) + min;
 }
 
+export function getRandomNumbersInRange(
+  min: number,
+  max: number,
+  count: number
+): Array<number> {
+  const numbers = new Set<number>();
+  while (numbers.size !== count) {
+    numbers.add(getRandomNumberInRange(min, max));
+  }
+  return Array.from(numbers);
+}
+
 export function formatToInr(amount: number, decimal?: number) {
   if (amount === null || amount === undefined) return 0;
   if (decimal) {

@@ -1,10 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import LoadingPage from "@/components/LoadingPage";
 import { hasWatchedIntroduction } from "@/lib/core";
 import PageLayout from "@/components/PageLayout";
-import SwipePrompt from "@/components/SwipePrompt";
-import twoPeopleIllustrationUrl from "@/images/two-people-illustration.svg";
 import rightArrowIconUrl from "@/images/right-arrow.svg";
 import heroBlobImageUrl from "@/images/hero-blob.png";
 import Image from "next/image";
@@ -16,8 +14,13 @@ import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
-import { getRandomNumberInRange } from "@/lib/utils";
+import {
+  checkIfFeatureEnabledByReleaseConfig,
+  ReleaseConfig,
+} from "@/lib/core/release-config";
+import { getRandomNumbersInRange } from "@/lib/utils";
+import Carousel from "@/components/Carousel";
+import Banner, { BannerProps } from "@/components/Banner";
 
 interface HomePageProps {
   shorts: Array<{
@@ -41,16 +44,36 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async (
 };
 
 export default function HomePage({ shorts }: HomePageProps) {
-  // render LandingPage
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [shortToBeFeatured, setShortToBeFeatured] = useState<{
-    id: string;
-    metadata: Record<string, unknown>;
-    content: string;
-  } | null>(null);
+
+  const shortsToBeFeatured = useMemo<
+    Array<{
+      id: string;
+      metadata: Record<string, unknown>;
+      content: string;
+    }>
+  >(() => {
+    const maxRange = shorts.length - 1 - 5;
+    const numberOfShorts =
+      config?.featuredShort?.numberOfShortsToBeFeatured ?? 1;
+    const randomIndexes = getRandomNumbersInRange(0, maxRange, numberOfShorts);
+    const shortsToBeFeatured = randomIndexes.map(
+      (shortIndex) => shorts[shortIndex]
+    );
+    return shortsToBeFeatured;
+  }, [shorts]);
+
+  const featuredShortCarouselAutoPlayDuration: number | undefined =
+    config.featuredShort?.autoPlayDurationInMs;
 
   const router = useRouter();
+
+  const _carouselBanners: Array<
+    BannerProps & { releaseConfig?: ReleaseConfig }
+  > | null = config?.carouselBanner?.banners ?? null;
+  const carouselBannerAutoPlayDurationInMs: number | undefined =
+    config?.carouselBanner?.autoPlayDurationInMs;
 
   useEffect(() => {
     if (!hasWatchedIntroduction()) {
@@ -60,16 +83,20 @@ export default function HomePage({ shorts }: HomePageProps) {
     const navigateToShortId = router.query["short-id"];
     if (navigateToShortId) {
       // Cleanup short-id for back click
-      router.replace({
-        pathname: router.pathname,
-      }, undefined, {
-        shallow: true
-      });
+      router.replace(
+        {
+          pathname: router.pathname,
+        },
+        undefined,
+        {
+          shallow: true,
+        }
+      );
 
       router.push({
         pathname: "/shorts",
         hash: navigateToShortId.toString(),
-      })
+      });
       return;
     }
 
@@ -79,12 +106,6 @@ export default function HomePage({ shorts }: HomePageProps) {
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
-    const randomIndex = getRandomNumberInRange(0, shorts.length - 1 - 5);
-    const shortToBeFeatured = shorts[randomIndex] ?? shorts[0];
-    setShortToBeFeatured(shortToBeFeatured);
-  }, [shorts]);
-
   function setLoadingWithTimeoutToReset(state: boolean) {
     setIsLoading(state);
     // INFO: Have to add this due to Next.js browser back not resetting state issue
@@ -93,12 +114,7 @@ export default function HomePage({ shorts }: HomePageProps) {
 
   const idToken = getValueFromMetadata("idToken");
   const userId = getValueFromMetadata("id");
-  const userName = getValueFromMetadata("name");
   const employerId = getValueFromMetadata("employerId");
-  const userFirstName = userName && userName.split(" ")[0];
-  const salutation = ["Hey", userFirstName?.toLowerCase()]
-    .filter(Boolean)
-    .join(" ");
 
   function handleFinToolClick(name: string, url: string) {
     setLoadingWithTimeoutToReset(true);
@@ -133,6 +149,14 @@ export default function HomePage({ shorts }: HomePageProps) {
   );
   const hasBanners = banners.length > 0;
 
+  const carouselBanners = _carouselBanners?.filter((banner) => {
+    if (!banner.releaseConfig) return true;
+    return checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
+      employerId,
+    });
+  });
+  const hasCarouselBanners = carouselBanners.length > 0;
+
   if (!isMounted || isLoading) return <LoadingPage />;
 
   return (
@@ -142,128 +166,136 @@ export default function HomePage({ shorts }: HomePageProps) {
       hasContentPadding={false}
       dispatchPopEventOnBackClick
     >
-      <SwipePrompt
-        position="bottom"
-        prompt="Swipe up to start reading R-Shorts"
+      <div
+        className="hero"
+        style={{
+          backgroundImage: `url(${heroBlobImageUrl.src}), radial-gradient(51.9% 48.2% at 7.22% 14.84%, #FFFFFF 0%, #EBF5FF 100%)`,
+          backgroundPositionX: "right",
+          backgroundRepeat: "no-repeat",
+          minHeight: "10rem",
+        }}
+      ></div>
+      <div
+        className="container pb-0"
+        style={{
+          marginTop: "-16rem",
+        }}
       >
-        <div
-          className="hero"
-          style={{
-            backgroundImage: `url(${heroBlobImageUrl.src}), radial-gradient(51.9% 48.2% at 7.22% 14.84%, #FFFFFF 0%, #EBF5FF 100%)`,
-            backgroundPositionX: "right",
-            backgroundRepeat: "no-repeat",
-          }}
+        <Carousel
+          autoPlay={!!featuredShortCarouselAutoPlayDuration}
+          infiniteLoop
+          interval={featuredShortCarouselAutoPlayDuration}
+          showIndicators={shortsToBeFeatured.length > 1}
         >
-          <figure className="mb-3">
-            <Image src={twoPeopleIllustrationUrl} alt="Hey" />
-          </figure>
-          <h2
-            className="text-sub-title text-medium mb-2"
-            style={{
-              textTransform: "capitalize",
-            }}
-          >
-            {salutation},
-          </h2>
-          <p className="clr-text-secondary">
-            Understanding finances has never been easier. Start reading!
-          </p>
-        </div>
-        <div
-          className="container"
-          style={{
-            marginTop: "-6.4rem",
-          }}
-        >
-          {shortToBeFeatured && (
-            <FeaturedShort
-              mediaType={(shortToBeFeatured.metadata?.mediaType ?? "") as string}
-              mediaUrl={(shortToBeFeatured.metadata?.mediaUrl ?? "") as string}
-              tag={(shortToBeFeatured.metadata?.tag ?? "") as string}
-              onClick={() => handleFeaturedShortClick(shortToBeFeatured.id)}
+          {shortsToBeFeatured.map((shortItem) => {
+            return (
+              <div key={shortItem.id} className="mb-8">
+                <FeaturedShort
+                  mediaType={(shortItem.metadata?.mediaType ?? "") as string}
+                  mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
+                  tag={(shortItem.metadata?.tag ?? "") as string}
+                  onClick={() => handleFeaturedShortClick(shortItem.id)}
+                >
+                  <article
+                    dangerouslySetInnerHTML={{
+                      __html: marked(shortItem.content),
+                    }}
+                  />
+                </FeaturedShort>
+              </div>
+            );
+          })}
+        </Carousel>
+      </div>
+
+      {hasBanners && (
+        <div className="container">
+          {banners.map((banner, index) => (
+            <a
+              key={index}
+              className="unstyled-link"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "var(--spacing-3) 0",
+                borderTop: "1px solid #E5EEF8",
+                borderBottom: "1px solid #E5EEF8",
+                textDecoration: "none",
+              }}
+              href={banner.href}
+              onClick={() => handleBannerClick(banner.name)}
             >
-              <article
-                dangerouslySetInnerHTML={{
-                  __html: marked(shortToBeFeatured.content),
+              <figure
+                style={{
+                  width: "3.2rem",
+                  height: "3.2rem",
+                  marginRight: "var(--spacing-3)",
+                }}
+              >
+                <img src={banner.leftIconUrl} alt={banner.label} />
+              </figure>
+              <p
+                className="text-caption"
+                dangerouslySetInnerHTML={{ __html: banner.label }}
+                style={{
+                  flexGrow: 1,
+                  marginRight: "var(--spacing-2)",
                 }}
               />
-            </FeaturedShort>
-          )}
+              <Image src={rightArrowIconUrl} alt="right arrow icon" />
+            </a>
+          ))}
         </div>
-        {hasBanners && (
-          <div className="container">
-            {banners.map((banner, index) => (
-              <a
-                key={index}
-                className="unstyled-link"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: "var(--spacing-3) 0",
-                  borderTop: "1px solid #E5EEF8",
-                  borderBottom: "1px solid #E5EEF8",
-                  textDecoration: "none",
-                }}
-                href={banner.href}
-                onClick={() => handleBannerClick(banner.name)}
-              >
-                <figure
-                  style={{
-                    width: "3.2rem",
-                    height: "3.2rem",
-                    marginRight: "var(--spacing-3)",
-                  }}
-                >
-                  <img src={banner.leftIconUrl} alt={banner.label} />
-                </figure>
-                <p
-                  className="text-caption"
-                  dangerouslySetInnerHTML={{ __html: banner.label }}
-                  style={{
-                    flexGrow: 1,
-                    marginRight: "var(--spacing-2)",
-                  }}
-                />
-                <Image src={rightArrowIconUrl} alt="right arrow icon" />
-              </a>
-            ))}
-          </div>
-        )}
-        <div className="container">
-          <h3 className="clr-text-secondary mb-3">Fin Literacy Tools</h3>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              columnGap: "1.6rem",
-              rowGap: "1.6rem",
-            }}
+      )}
+      <div className="container">
+        <h3 className="clr-text-secondary mb-3">Fin Literacy Tools</h3>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr 1fr",
+            columnGap: "1.6rem",
+            rowGap: "1.6rem",
+          }}
+        >
+          {config.finLiteracyTools.map((tool, index) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: tool.backgroundColor,
+                borderRadius: "0.8rem",
+                padding: "0.8rem",
+                cursor: "pointer",
+              }}
+              role="button"
+              onClick={() => handleFinToolClick(tool.name, tool.url)}
+            >
+              <figure>
+                <img src={tool.iconUrl} alt={tool.title} />
+              </figure>
+              <p
+                className="text-caption mt-4"
+                dangerouslySetInnerHTML={{ __html: tool.title }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      {hasCarouselBanners && (
+        <div className="container px-0">
+          <Carousel
+            autoPlay={!!carouselBannerAutoPlayDurationInMs}
+            infiniteLoop
+            centerMode
+            centerSlidePercentage={90}
+            interval={carouselBannerAutoPlayDurationInMs}
           >
-            {config.finLiteracyTools.map((tool, index) => (
-              <div
-                key={index}
-                style={{
-                  backgroundColor: tool.backgroundColor,
-                  borderRadius: "0.8rem",
-                  padding: "0.8rem",
-                  cursor: "pointer",
-                }}
-                role="button"
-                onClick={() => handleFinToolClick(tool.name, tool.url)}
-              >
-                <figure>
-                  <img src={tool.iconUrl} alt={tool.title} />
-                </figure>
-                <p
-                  className="text-caption mt-4"
-                  dangerouslySetInnerHTML={{ __html: tool.title }}
-                />
-              </div>
+            {carouselBanners.map((banner, index) => (
+              <Banner key={index} {...banner} />
             ))}
-          </div>
+          </Carousel>
         </div>
-      </SwipePrompt>
+      )}
     </PageLayout>
   );
 }

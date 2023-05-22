@@ -1,4 +1,9 @@
 {
+  "featuredShort": {
+    "random": true,
+    "numberOfShortsToBeFeatured": 5,
+    "autoPlayDurationInMs": 3000
+  },
   "finLiteracyBanners": [
     {
       "name": "fin_coach_free",
@@ -84,5 +89,9 @@
       "backgroundColor": "#FCF2E3",
       "url": "https://kahoot.it/"
     }
-  ]
+  ],
+  "carouselBanner": {
+    "autoPlayDurationInMs": 3000,
+    "banners": []
+  }
 }

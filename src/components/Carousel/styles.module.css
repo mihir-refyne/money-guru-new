@@ -1,0 +1,13 @@
+.CarouselIndicator {
+    display: inline-block;
+    width: 1.6rem;
+    height: 2px;
+    background: var(--clr-grey-dark);
+    margin: 0.3rem;
+    border-radius: 0.5rem;
+    margin-bottom: -1rem;
+}
+
+.CarouselIndicator__Active {
+    background: var(--clr-text-primary);
+}
