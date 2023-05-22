@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/free-stuff-with-credit-card.png
 tag: Credit Card
 ---
 
-### How to Get <b>Free</b> gifts/rewards with Credit Card -
+### How to Get Free gifts/rewards with Credit Card -
 
 - Credit cards can give you free reward points when you buy things.
 - You can use these points to get free things like money, travel, and gift cards.
