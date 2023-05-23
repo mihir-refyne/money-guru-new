@@ -21,21 +21,22 @@ export function useOnScreen<T extends HTMLElement>(props: {
       const currentRatio = entry.intersectionRatio;
       const isIntersecting = entry.isIntersecting;
 
-      if (currentRatio === 0) return;
+      if (currentRatio !== 0) {
+        // Scrolling down/up
+        const _direction: ScrollDirection =
+          currentY < previousY.current ? "DOWN" : "UP";
+        const direction = currentRatio === 1 ? undefined : _direction;
+  
+        if (currentRatio > previousRatio.current && isIntersecting) {
+          onEnter?.(direction);
+        } else {
+          onLeave?.(direction);
+        }
+  
+        previousY.current = currentY;
+        previousRatio.current = currentRatio;
+      };
 
-      // Scrolling down/up
-      const _direction: ScrollDirection =
-        currentY < previousY.current ? "DOWN" : "UP";
-      const direction = currentRatio === 1 ? undefined : _direction;
-
-      if (currentRatio > previousRatio.current && isIntersecting) {
-        onEnter?.(direction);
-      } else {
-        onLeave?.(direction);
-      }
-
-      previousY.current = currentY;
-      previousRatio.current = currentRatio;
       setIsOnScreen(isIntersecting);
     }, options);
 

@@ -31,7 +31,7 @@ export default function YoutubePlayer({
   showOnlyThumbnail = false,
 }: YoutubePlayerProps) {
   const { ref, isOnScreen } = useOnScreen<HTMLDivElement>({
-    options: { threshold: 0.51 },
+    options: { threshold: 0.6 },
   });
 
   const thumbnailImageUrl = getThumbnailImageUrlFromYoutubeUrl(url);
