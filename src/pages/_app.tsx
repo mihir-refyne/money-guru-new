@@ -1,5 +1,5 @@
 import LoadingPage from "@/components/LoadingPage";
-import { getPreferredLocale } from "@/lib/locale";
+import { getOrUpdatePreferredLocale } from "@/lib/locale";
 import "@/styles/globals.css";
 import { Work_Sans } from "@next/font/google";
 import type { AppProps } from "next/app";
@@ -94,7 +94,10 @@ export default function App({ Component, pageProps }: AppProps) {
         getPlatformName(appPlatformName?.toString())
       );
     }
-    const preferredLocale = getPreferredLocale();
+    const locale = getOrUpdatePreferredLocale({
+      selectedLocale: router.locale,
+      defaultLocale: router.defaultLocale,
+    });
     router.replace(
       {
         pathname: router.pathname,
@@ -104,10 +107,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {
         shallow: true,
         scroll: false,
-        locale:
-          preferredLocale === router.locale
-            ? undefined
-            : preferredLocale ?? false,
+        locale,
       }
     );
     setIsLoading(false);

@@ -139,7 +139,10 @@ export default function HomePage({ shorts }: HomePageProps) {
     logEventInMixpanel(AnalyticEvent.R_SHORTS_OPENED, {
       short_id: id,
     });
-    router.push(`/shorts#${id}`);
+    router.push({
+      pathname: "/shorts",
+      hash: id,
+    });
   }
 
   const banners = config.finLiteracyBanners.filter((banner) =>
