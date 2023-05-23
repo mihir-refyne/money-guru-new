@@ -59,35 +59,35 @@
       "title": "<b>Home Loan EMI</b><br>Calculator",
       "iconUrl": "/assets/images/home_icon.svg",
       "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/home_loan_emi_cal"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
     },
     {
       "name": "fixed_deposit_calculator",
       "title": "<b>Fixed Deposit</b><br>Calculator",
       "iconUrl": "/assets/images/fund_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/fd_calculator"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
     },
     {
       "name": "retirement_calculator",
       "title": "<b>Retirement</b><br>Calculator",
       "iconUrl": "/assets/images/retirement_cal_icon.svg",
       "backgroundColor": "#FCF2E3",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/ret_cal"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/retirement-calculator"
     },
     {
       "name": "pf",
       "title": "<b>PF</b><br>Coming soon",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/pf_demo_screen"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/pf-coming-soon"
     },
     {
       "name": "fin_quiz",
       "title": "<b>Fin Quiz</b><br>Coming soon",
       "iconUrl": "/assets/images/question_bulb_icon.svg",
       "backgroundColor": "#FCF2E3",
-      "url": "https://kahoot.it/"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/financial-quiz"
     }
   ],
   "carouselBanner": {
