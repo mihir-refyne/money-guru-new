@@ -6,22 +6,28 @@ import {
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "./styles.module.css";
 
-interface CarouselProps extends Partial<_CarouselProps> {}
+interface CarouselProps extends Partial<_CarouselProps> {
+  className?: string;
+}
 
 export default function Carousel({
+  className,
   showArrows = false,
   showThumbs = false,
   showStatus = false,
   showIndicators = false,
+  centerMode = false,
   ...props
 }: CarouselProps) {
+  const _centerMode = centerMode && !!props.children && props.children.length > 1;
   return (
-    <div>
+    <div className={className}>
       <_Carousel
         showArrows={showArrows}
         showThumbs={showThumbs}
         showStatus={showStatus}
         showIndicators={showIndicators}
+        centerMode={_centerMode}
         {...props}
         renderIndicator={(indicatorOnClick, isSlideActive) => (
           <PaginationIndicator

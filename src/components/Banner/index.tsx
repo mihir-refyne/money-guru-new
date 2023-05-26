@@ -6,6 +6,7 @@ export interface BannerProps {
   description?: string;
   rightImageUrl?: string;
   url?: string;
+  ctaLabel?: string;
 }
 
 export default function Banner({
@@ -14,6 +15,7 @@ export default function Banner({
   description,
   rightImageUrl,
   url,
+  ctaLabel,
 }: BannerProps) {
   const RootComponent = url ? "a" : "div";
   return (
@@ -23,11 +25,22 @@ export default function Banner({
       href={url}
     >
       <div>
-        <h3 className="text-body text-semibold">{heading}</h3>
-        <p className="text-caption clr-text-secondary mt-2">{description}</p>
+        {heading && <h3 className="text-body text-semibold">{heading}</h3>}
+        {description && (
+          <p className="text-caption clr-text-secondary mt-2">{description}</p>
+        )}
+        {ctaLabel && (
+          <button className="btn btn-primary btn-compact mt-2">
+            {ctaLabel}
+          </button>
+        )}
       </div>
       <div>
-        <img src={rightImageUrl} alt="banner-img" />
+        <img
+          src={rightImageUrl}
+          alt="banner-img"
+          className={styles.Banner__Image}
+        />
       </div>
     </RootComponent>
   );

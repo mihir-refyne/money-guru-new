@@ -145,7 +145,7 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
   }
 
-  const banners = config.finLiteracyBanners.filter((banner) =>
+  const banners = config.finLiteracyBanners.filter((banner: any) =>
     checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
       employerId,
     })
@@ -213,7 +213,7 @@ export default function HomePage({ shorts }: HomePageProps) {
 
       {hasBanners && (
         <div className="container">
-          {banners.map((banner, index) => (
+          {banners.map((banner: any, index) => (
             <a
               key={index}
               className="unstyled-link"
@@ -285,7 +285,7 @@ export default function HomePage({ shorts }: HomePageProps) {
         </div>
       </div>
       {hasCarouselBanners && (
-        <div className="container px-0">
+        <div className={`container ${carouselBanners.length > 1 ? "px-0" : ""}`}>
           <Carousel
             autoPlay={!!carouselBannerAutoPlayDurationInMs}
             infiniteLoop

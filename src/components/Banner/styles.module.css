@@ -10,3 +10,8 @@
   text-decoration: inherit;
   min-height: 10rem;
 }
+
+.Banner__Image {
+  max-width: 10rem;
+  max-height: 10rem;
+}
