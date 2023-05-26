@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/financial-goals.jpg
 tag: Financial Planning
 ---
 
-### Financial Goals: How to Set and Achieve Them -
+### Financial Goals: How to Set and Achieve Them
 
 Determine your specific financial goals, whether short-term or long-term.
 - Write down your goals and make them specific, measurable, achievable, relevant, and time-bound (SMART).
