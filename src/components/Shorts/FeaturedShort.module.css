@@ -27,11 +27,3 @@
 .FeaturedShort > article *:nth-child(1) {
   display: block;
 }
-.FeaturedShort > article *:nth-child(2) {
-  color: var(--clr-text-secondary);
-
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
