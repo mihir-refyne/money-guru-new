@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/retirement-plan.png
 tag: Financial Planning
 ---
 
-### Retirement Planning: How to Save for Your Future
+### How to save for a happy retirement?
 
 Saving for retirement means putting away money now so you'll have money to live on when you're older. 
 - Figure out how much you need to save, make a plan, and stick to it. 

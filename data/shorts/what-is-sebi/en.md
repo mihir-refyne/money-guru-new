@@ -1,10 +1,10 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/what-is-sebi.png
-tag: Investments
+tag: Investment
 ---
 
-### Is your investment safe? How SEBI protects your investment
+### How does SEBI keep your investment safe?
 
 SEBI is a body established by the Indian government to protect investors' interests and regulate the stock market. Its objectives include -
 - Prevent fraudulent practices

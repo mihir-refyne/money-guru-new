@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/investment-in-real-estate.jpg
-tag: Investment
+tag: Investment 
 ---
 
 ### पैसे को तेजी से गुणा करें!: रियल एस्टेट से अपने पैसे बढ़ाएं

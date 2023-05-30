@@ -1,10 +1,10 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/negative-effects-on-credit-score.png
-tag: Credit Score
+tag: Credit
 ---
 
-### Things that will damage your credit score. Stay aware!
+### What are the ways credit score reduces?
 
 - Late payments and defaults on loans or credit card bills
 - High credit utilization ratio or maxing out credit cards

@@ -1,10 +1,10 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/perks-of-high-score.png
-tag: Credit Score
+tag: Credit
 ---
 
-### Why you should have a high Credit score and it’s benefits.
+### What are the benefits of having a higher Credit Score
 
 A Credit Score higher than 700 is generally considered high, Its benefits include-
 - Easy and faster loan approvals
@@ -14,4 +14,3 @@ A Credit Score higher than 700 is generally considered high, Its benefits includ
 - Lower insurance premiums
 - Rental applications approval
 - Improved job offer chances in select industries.
-
