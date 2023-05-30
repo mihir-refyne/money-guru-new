@@ -4,7 +4,7 @@ mediaUrl: /assets/images/shorts/what-is-investment.png
 tag: Investment
 ---
 
-### What is investment? Earn extra money without working 
+### How to earn money without working a single day?
 
 Investment means putting money into something like stocks, bonds, real estate, or mutual funds and expecting to make a profit or income. 
 

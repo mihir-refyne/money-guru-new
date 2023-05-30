@@ -4,7 +4,9 @@ mediaUrl: /assets/images/shorts/saving-for-financial-freedom.png
 tag: Savings
 ---
 
-### Need help saving money? Effective tips to save more 
+### Do you need help in saving more?
+
+You can save more by the following -
 
 - Keep track of all your expenses
 - Create a budget that includes savings.
@@ -12,4 +14,3 @@ tag: Savings
 - Set savings goals. 
 - Prioritize your goals and choose the right savings and investment accounts. 
 - Make saving automatic with tools like direct deposit.
-You can also buy Digital Gold on Refyne and boost your savings.  

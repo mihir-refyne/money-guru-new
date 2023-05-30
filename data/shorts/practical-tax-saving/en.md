@@ -4,7 +4,13 @@ mediaUrl: /assets/images/shorts/practical-tax-saving.jpg
 tag: Taxes
 ---
 
-### Easy and Effective Tax-saving strategies you should know
+### What are different ways of saving taxes?
 
-To save tax, you can invest in tax-saving mutual funds, contribute to PPF or NPS, buy health insurance, pay interest on a home loan  and use tax exemptions for certain investments and expenses. Consult a tax professional for guidance on which strategies will work best for you.
+To save tax, you can
+- Invest in tax-saving mutual funds, 
+- Contribute to PPF or NPS, 
+- Buy health insurance, 
+- Pay interest on a home loan 
+- Use tax exemptions for certain investments and expenses. 
 
+Consult a tax professional for guidance on which strategies will work best for you.

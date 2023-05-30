@@ -4,6 +4,6 @@ mediaUrl: /assets/images/shorts/understanding-investment-risk.jpg
 tag: Investment
 ---
 
-### Understanding why your investment can be risky?
+### What is the Risk in any investment?
 
-Investment risk arises from the possibility of losing money. It arises because the future value of your investment can be influenced by various factors such as economic conditions, market fluctuations, and unforeseen events. But Higher risk = greater potential profit & loss. Understanding and managing risk is key to achieving financial goals.
+Risk for an investment is the gap between the expected value of investment and the reality. For example, Debayan is expecting Rs. 5000 from an investment of Rs. 1000. But he actually gets Rs. 3000 only. This loss happens due to risk in the investment

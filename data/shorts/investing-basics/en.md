@@ -1,10 +1,10 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/investing-basics.jpg
-tag: Investment 
+tag: Investment
 ---
 
-### Investing Basics: Stocks, Bonds, and Mutual Funds 
+### What are the different types of investment?
 
 - Stocks mean owning part of a company, which can bring high returns but also high risks.
 - Bonds are loans that pay a fixed amount, but returns are lower. 
