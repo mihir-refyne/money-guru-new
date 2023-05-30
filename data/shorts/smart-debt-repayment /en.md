@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/smart-debt-repayment .png
+mediaUrl: /assets/images/shorts/smart-debt-repayment.png
 tag: Loans
 ---
 
