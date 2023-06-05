@@ -15,7 +15,10 @@ export default function IntroductionPage() {
 
   function handleContinue() {
     setWatchedIntroduction();
-    router.replace("/");
+    router.replace({
+      pathname: "/",
+      query: router.query,
+    });
   }
 
   function handleNextClick() {

@@ -21,6 +21,19 @@ import {
 import { getRandomNumbersInRange } from "@/lib/utils";
 import Carousel from "@/components/Carousel";
 import Banner, { BannerProps } from "@/components/Banner";
+import { getFromSessionStorage, setInSessionStorage } from "@/lib/storage/browserstorage";
+
+const PAGE_TITLE_SESSION_STORAGE_KEY = "__FinLit_Title";
+
+function getAndSetTitle(titleFromQuery?: string): string {
+  if (titleFromQuery) {
+    setInSessionStorage(PAGE_TITLE_SESSION_STORAGE_KEY, titleFromQuery);
+    return titleFromQuery;
+  }
+  const titleFromCache = getFromSessionStorage(PAGE_TITLE_SESSION_STORAGE_KEY);
+  if (titleFromCache) return titleFromCache;
+  return "Financial Literacy";
+}
 
 interface HomePageProps {
   shorts: Array<{
@@ -77,7 +90,10 @@ export default function HomePage({ shorts }: HomePageProps) {
 
   useEffect(() => {
     if (!hasWatchedIntroduction()) {
-      router.replace("/introduction");
+      router.replace({
+        pathname: "/introduction",
+        query: router.query,
+      });
       return;
     }
     const navigateToShortId = router.query["short-id"];
@@ -111,6 +127,8 @@ export default function HomePage({ shorts }: HomePageProps) {
     // INFO: Have to add this due to Next.js browser back not resetting state issue
     setTimeout(() => setIsLoading(!state), 5000);
   }
+
+  const navbarTitle = useMemo(() => getAndSetTitle(router.query["title"]?.toString()), [router.query["title"]]);
 
   const idToken = getValueFromMetadata("idToken");
   const userId = getValueFromMetadata("id");
@@ -164,7 +182,7 @@ export default function HomePage({ shorts }: HomePageProps) {
 
   return (
     <PageLayout
-      navbarText="Financial Literacy"
+      navbarText={navbarTitle}
       transparentNavbar
       hasContentPadding={false}
       dispatchPopEventOnBackClick
@@ -252,7 +270,7 @@ export default function HomePage({ shorts }: HomePageProps) {
         </div>
       )}
       <div className="container">
-        <h3 className="clr-text-secondary mb-3">Fin Literacy Tools</h3>
+        <h3 className="clr-text-secondary mb-3">Tools</h3>
         <div
           style={{
             display: "grid",
