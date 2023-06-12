@@ -1,7 +1,6 @@
 import { useOnScreen } from "@/hooks/useOnScreen";
 import {
   BellRinging,
-  ShareNetwork,
   ThumbsDown,
   ThumbsUp,
 } from "phosphor-react";
@@ -39,9 +38,6 @@ interface ShortItemProps {
   data?: ShortData;
   onView?: (id?: string) => void;
   onLeave?: (id?: string, direction?: string) => void;
-  isShareLoading?: boolean;
-  shareCtaType?: "COPY" | "SHARE";
-  onShareClick?: () => void;
   onNotifyClick?: () => void;
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
 }
@@ -51,9 +47,6 @@ export default function ShortItem({
   data,
   onView,
   onLeave,
-  isShareLoading,
-  shareCtaType = "COPY",
-  onShareClick,
   onNotifyClick,
   onReactionClick,
 }: ShortItemProps) {
@@ -61,7 +54,6 @@ export default function ShortItem({
     location: "top" | "bottom";
     text: string;
   }>();
-  const [reaction, setReaction] = useState<"">();
   const swipePromptCleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
@@ -156,44 +148,6 @@ function NotifyButton(props: { onClick?: () => void }) {
       disabled={isPressed}
     >
       <BellRinging size={24} className="mr-2" />
-      <span>{label}</span>
-    </button>
-  );
-}
-
-function ShareOrCopyButton(props: {
-  isLoading?: boolean;
-  type: "SHARE" | "COPY";
-  onClick?: () => void;
-}) {
-  const { isLoading, type, onClick } = props;
-  const [copied, setCopied] = useState(false);
-
-  function handleClick() {
-    onClick?.();
-    if (type === "COPY") {
-      setCopied(true);
-      const id = setTimeout(() => {
-        setCopied(false);
-      }, 2 * 1000);
-
-      return () => {
-        setCopied(false);
-        clearTimeout(id);
-      };
-    }
-  }
-
-  const label = type === "SHARE" ? "Share" : copied ? "Copied" : "Copy Link";
-  const btnTypeClass = copied ? "btn-success-light" : "btn-primary-light";
-
-  return (
-    <button
-      className={`btn ${btnTypeClass} flex-center btn-block mt-4`}
-      onClick={handleClick}
-      disabled={isLoading ?? copied}
-    >
-      <ShareNetwork size={24} className="mr-2" />
       <span>{label}</span>
     </button>
   );

@@ -24,12 +24,6 @@ interface User {
   status: UserStatus;
 }
 
-interface ReferralDetails {
-  referralDetails: {
-    link: string;
-  };
-}
-
 interface Worker {
   _id: string;
   employerId: string;
@@ -49,22 +43,6 @@ async function getUser(idToken?: string): Promise<User | null> {
     },
   });
   return userResponse.data;
-}
-
-async function getReferralDetails(
-  idToken?: string
-): Promise<ReferralDetails | null> {
-  if (!idToken) idToken = getValueFromMetadata("idToken");
-  if (!idToken) return null;
-  const response = await fetcher<ReferralDetails>(
-    `${CORE_SERVER_BASE_URL}/user/referral/referral-details`,
-    {
-      headers: {
-        Authorization: `Bearer ${idToken}`,
-      },
-    }
-  );
-  return response.data;
 }
 
 export async function getWorkerDetails(
@@ -87,9 +65,8 @@ export async function getAndSetUserMetadataFromServer(
   idToken: string,
   extra?: UserMetadata
 ): Promise<UserMetadata> {
-  const [user, referralDetails, workerDetails] = await Promise.all([
+  const [user, workerDetails] = await Promise.all([
     getUser(idToken),
-    getReferralDetails(idToken),
     getWorkerDetails(idToken),
   ]);
   const metadata: UserMetadata = {
@@ -97,7 +74,6 @@ export async function getAndSetUserMetadataFromServer(
     name: user?.name?.data,
     status: user?.status,
     employerId: workerDetails?.entity?.employerId,
-    referralLink: referralDetails?.referralDetails.link,
     idToken,
     ...extra,
   };

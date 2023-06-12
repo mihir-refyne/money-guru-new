@@ -45,7 +45,6 @@ export default function App({ Component, pageProps }: AppProps) {
       userId,
       userName,
       userStatus,
-      referralLink,
     } = data;
     try {
       if (!isStringAndNotEmpty(userToken)) throw new Error();
@@ -59,7 +58,6 @@ export default function App({ Component, pageProps }: AppProps) {
         id: userId?.toString(),
         name: userName?.toString(),
         status: userStatus?.toString(),
-        referralLink: referralLink?.toString(),
         appPlatformName: appPlatformName?.toString(),
       };
       setUserMetadata(metadata);
@@ -73,7 +71,6 @@ export default function App({ Component, pageProps }: AppProps) {
       userToken,
       userId,
       userName,
-      referralLink,
       ...restQuery
     } = router.query;
     const metadata = await fetchAndSetUserUserMetadata({
@@ -81,7 +78,6 @@ export default function App({ Component, pageProps }: AppProps) {
       userToken,
       userId,
       userName,
-      referralLink,
     });
     if (metadata?.id) {
       setUserIdInMixpanel(metadata.id);

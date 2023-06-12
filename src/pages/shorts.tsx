@@ -3,7 +3,6 @@ import Shorts from "@/components/Shorts";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { GetStaticProps } from "next";
 import { marked } from "marked";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -30,11 +29,6 @@ export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
 
 export default function ShortsPage({ shorts }: ShortsPageProps) {
   const router = useRouter();
-  const shareText = "Checkout Refyne";
-  const shareUrl =
-    getValueFromMetadata("referralLink") ??
-    process.env.NEXT_PUBLIC_APP_BASE_URL ??
-    "https://app.refyne.co.in/";
 
   useEffect(() => {
     if (!router.isReady) return;
@@ -63,11 +57,6 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
               dangerouslySetInnerHTML={{ __html: marked(short.content) }}
             />
           ),
-          share: {
-            imageUrl: short.metadata?.shareImageUrl as any,
-            text: shareText,
-            url: shareUrl,
-          },
         }))}
       />
     </PageLayout>

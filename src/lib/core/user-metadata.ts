@@ -8,7 +8,6 @@ export interface UserMetadata {
   name?: string;
   status?: string;
   employerId?: string;
-  referralLink?: string;
   idToken?: string;
   appPlatformName?: string;
 }
