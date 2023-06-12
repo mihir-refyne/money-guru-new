@@ -22,6 +22,7 @@ import { getRandomNumbersInRange } from "@/lib/utils";
 import Carousel from "@/components/Carousel";
 import Banner, { BannerProps } from "@/components/Banner";
 import { getFromSessionStorage, setInSessionStorage } from "@/lib/storage/browserstorage";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 
 const PAGE_TITLE_SESSION_STORAGE_KEY = "__FinLit_Title";
 
@@ -129,6 +130,9 @@ export default function HomePage({ shorts }: HomePageProps) {
   }
 
   const navbarTitle = useMemo(() => getAndSetTitle(router.query["title"]?.toString()), [router.query["title"]]);
+  const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
+    getValueFromMetadata("appPlatformName")
+  );
 
   const idToken = getValueFromMetadata("idToken");
   const userId = getValueFromMetadata("id");
@@ -185,7 +189,7 @@ export default function HomePage({ shorts }: HomePageProps) {
       navbarText={navbarTitle}
       transparentNavbar
       hasContentPadding={false}
-      dispatchPopEventOnBackClick
+      dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
     >
       <div
         className="hero"

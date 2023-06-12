@@ -5,6 +5,8 @@ import IntroductionStoryItem, {
 } from "./IntroductionStoryItem";
 import styles from "./Introduction.module.css";
 import Stories from "../Stories";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
 
 interface IntroductionStoryItemConfig extends IntroductionStoryItemProps {
   backgroundColor?: string;
@@ -26,11 +28,14 @@ export default function Introduction({
   function handleStoryOnMount(context: { backgroundColor?: string }) {
     setBackgroundColor(context.backgroundColor);
   }
+  const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
+    getValueFromMetadata("appPlatformName")
+  );
   return (
     <PageLayout
       hasNavbar={false}
       hasContentPadding={false}
-      dispatchPopEventOnBackClick
+      dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
     >
       <div
         className={styles.Introduction}
