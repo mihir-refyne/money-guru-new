@@ -54,12 +54,16 @@
     "banners": [
       {
         "name": "Need help with finances?",
-        "heading": "Need help with finances?",
-        "url": "https://fincoachv2.typedream.app/",
+        "heading": "Book Group Session",
+        "headingColor": "#FFFFFF",
+        "url": "https://product.refyne.co.in/financial-literacy-session",
         "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More"
+        "descriptionColor": "#B8BBBF",
+        "rightImageUrl": "/assets/images/ak_narayan.png",
+        "backgroundColor": "radial-gradient(77.53% 75.62% at 98% 100%, #D13B3B 0%, #812D40 12.37%, #001747 100%)",
+        "ctaLabel": "Know More",
+        "ctaLabelColor": "#15171A",
+        "ctaBackgroundColor": "#FFFFFF"
       }
     ]
   }
