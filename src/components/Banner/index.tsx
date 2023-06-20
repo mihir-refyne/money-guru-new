@@ -3,34 +3,60 @@ import styles from "./styles.module.css";
 export interface BannerProps {
   backgroundColor?: string;
   heading?: string;
+  headingColor?: string;
   description?: string;
+  descriptionColor?: string;
   rightImageUrl?: string;
   url?: string;
   ctaLabel?: string;
+  ctaLabelColor?: string;
+  ctaBackgroundColor?: string;
 }
 
 export default function Banner({
   backgroundColor,
   heading,
+  headingColor,
   description,
+  descriptionColor,
   rightImageUrl,
   url,
   ctaLabel,
+  ctaLabelColor,
+  ctaBackgroundColor,
 }: BannerProps) {
   const RootComponent = url ? "a" : "div";
   return (
     <RootComponent
       className={styles.Banner}
-      style={{ backgroundColor }}
+      style={{ background: backgroundColor }}
       href={url}
     >
       <div>
-        {heading && <h3 className="text-body text-semibold">{heading}</h3>}
+        {heading && (
+          <h3
+            className="text-body text-semibold"
+            style={{ color: headingColor }}
+          >
+            {heading}
+          </h3>
+        )}
         {description && (
-          <p className="text-caption clr-text-secondary mt-2">{description}</p>
+          <p
+            className="text-caption clr-text-secondary mt-2"
+            style={{ color: descriptionColor }}
+          >
+            {description}
+          </p>
         )}
         {ctaLabel && (
-          <button className="btn btn-primary btn-compact mt-2">
+          <button
+            className="btn btn-primary btn-compact mt-2"
+            style={{
+              color: ctaLabelColor,
+              backgroundColor: ctaBackgroundColor,
+            }}
+          >
             {ctaLabel}
           </button>
         )}
