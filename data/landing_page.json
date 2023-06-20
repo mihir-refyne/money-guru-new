@@ -54,11 +54,11 @@
     "banners": [
       {
         "name": "Need help with finances?",
-        "heading": "Need help with finances?",
+        "heading": "Book Group Session",
         "url": "https://fincoachv2.typedream.app/",
         "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
+        "rightImageUrl": "/assets/images/ak_narayan.svg",
+        "backgroundColor": "radial-gradient(77.53% 75.62% at 98% 100%, #D13B3B 0%, #812D40 12.37%, #001747 100%)",
         "ctaLabel": "Know More"
       }
     ]
