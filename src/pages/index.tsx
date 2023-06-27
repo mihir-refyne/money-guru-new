@@ -71,8 +71,29 @@ export default function HomePage({ shorts }: HomePageProps) {
     const maxRange = shorts.length - 1 - 5;
     const numberOfShorts =
       config?.featuredShort?.numberOfShortsToBeFeatured ?? 1;
-    const randomIndexes = getRandomNumbersInRange(0, maxRange, numberOfShorts);
-    const shortsToBeFeatured = randomIndexes.map(
+    const shortsToBeFeaturedFromConfig =
+      config?.featuredShort?.shortsToBeFeatured ?? [];
+
+    const shortsToBeFeaturedFromConfigIndexes: number[] =
+      shortsToBeFeaturedFromConfig
+        .map((shortId) => {
+          return shorts.findIndex((val) => val.id === shortId);
+        })
+        .filter((val) => val >= 0);
+
+    const numberOfShortsRequiredToBeRandom = Math.max(
+      numberOfShorts - shortsToBeFeaturedFromConfigIndexes.length,
+      0
+    );
+
+    const randomIndexes = getRandomNumbersInRange(
+      0,
+      maxRange,
+      numberOfShortsRequiredToBeRandom
+    );
+    const shortIndexes =
+      shortsToBeFeaturedFromConfigIndexes.concat(randomIndexes);
+    const shortsToBeFeatured = shortIndexes.map(
       (shortIndex) => shorts[shortIndex]
     );
     return shortsToBeFeatured;

@@ -2,6 +2,7 @@
   "featuredShort": {
     "random": true,
     "numberOfShortsToBeFeatured": 5,
+    "shortsToBeFeatured": ["why-should-you-get-a-health-insurance"],
     "autoPlayDurationInMs": 3000
   },
   "finLiteracyBanners": [],
