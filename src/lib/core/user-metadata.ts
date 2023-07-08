@@ -7,6 +7,7 @@ export interface UserMetadata {
   id?: string;
   name?: string;
   status?: string;
+  workerId?: string;
   employerId?: string;
   idToken?: string;
   appPlatformName?: string;

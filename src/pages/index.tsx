@@ -158,6 +158,7 @@ export default function HomePage({ shorts }: HomePageProps) {
   const idToken = getValueFromMetadata("idToken");
   const userId = getValueFromMetadata("id");
   const employerId = getValueFromMetadata("employerId");
+  const workerId = getValueFromMetadata("workerId");
 
   function handleFinToolClick(name: string, url: string) {
     setLoadingWithTimeoutToReset(true);
@@ -188,9 +189,25 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
   }
 
+  const finLiteracyTools = useMemo(
+    () =>
+      config.finLiteracyTools.filter((tool: any) => {
+        const releaseConfigs = tool.releaseConfigs;
+        if (!Array.isArray(releaseConfigs)) return true;
+        return releaseConfigs.some((releaseConfig) =>
+          checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
+            employerId,
+            workerId,
+          })
+        );
+      }),
+    [config.finLiteracyTools, employerId, workerId]
+  );
+
   const banners = config.finLiteracyBanners.filter((banner: any) =>
     checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
       employerId,
+      workerId,
     })
   );
   const hasBanners = banners.length > 0;
@@ -199,6 +216,7 @@ export default function HomePage({ shorts }: HomePageProps) {
     if (!banner.releaseConfig) return true;
     return checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
       employerId,
+      workerId,
     });
   });
   const hasCarouselBanners = carouselBanners.length > 0;
@@ -304,7 +322,7 @@ export default function HomePage({ shorts }: HomePageProps) {
             rowGap: "1.6rem",
           }}
         >
-          {config.finLiteracyTools.map((tool, index) => (
+          {finLiteracyTools.map((tool, index) => (
             <div
               key={index}
               style={{
@@ -328,7 +346,9 @@ export default function HomePage({ shorts }: HomePageProps) {
         </div>
       </div>
       {hasCarouselBanners && (
-        <div className={`container ${carouselBanners.length > 1 ? "px-0" : ""}`}>
+        <div
+          className={`container ${carouselBanners.length > 1 ? "px-0" : ""}`}
+        >
           <Carousel
             autoPlay={!!carouselBannerAutoPlayDurationInMs}
             infiniteLoop

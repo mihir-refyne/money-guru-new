@@ -74,6 +74,7 @@ export async function getAndSetUserMetadataFromServer(
     name: user?.name?.data,
     status: user?.status,
     employerId: workerDetails?.entity?.employerId,
+    workerId: workerDetails?.entity?._id,
     idToken,
     ...extra,
   };
