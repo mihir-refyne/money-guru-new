@@ -10,8 +10,8 @@ import Modal from "../Modal";
 import Navbar from "../Navbar";
 import styles from "./styles.module.css";
 
-const DEFAULT_PAGE_TITLE = "Refyne";
-const DEFAULT_PAGE_DESCRIPTION = "Refyne";
+const DEFAULT_PAGE_TITLE = "Money Guru - Refyne";
+const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
 
 interface PageLayoutProps {
   title?: string;

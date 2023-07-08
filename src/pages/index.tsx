@@ -21,20 +21,7 @@ import {
 import { getRandomNumbersInRange } from "@/lib/utils";
 import Carousel from "@/components/Carousel";
 import Banner, { BannerProps } from "@/components/Banner";
-import { getFromSessionStorage, setInSessionStorage } from "@/lib/storage/browserstorage";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
-
-const PAGE_TITLE_SESSION_STORAGE_KEY = "__FinLit_Title";
-
-function getAndSetTitle(titleFromQuery?: string): string {
-  if (titleFromQuery) {
-    setInSessionStorage(PAGE_TITLE_SESSION_STORAGE_KEY, titleFromQuery);
-    return titleFromQuery;
-  }
-  const titleFromCache = getFromSessionStorage(PAGE_TITLE_SESSION_STORAGE_KEY);
-  if (titleFromCache) return titleFromCache;
-  return "Financial Literacy";
-}
 
 interface HomePageProps {
   shorts: Array<{
@@ -150,7 +137,6 @@ export default function HomePage({ shorts }: HomePageProps) {
     setTimeout(() => setIsLoading(!state), 5000);
   }
 
-  const navbarTitle = useMemo(() => getAndSetTitle(router.query["title"]?.toString()), [router.query["title"]]);
   const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
     getValueFromMetadata("appPlatformName")
   );
@@ -225,7 +211,7 @@ export default function HomePage({ shorts }: HomePageProps) {
 
   return (
     <PageLayout
-      navbarText={navbarTitle}
+      navbarText="Money Guru"
       transparentNavbar
       hasContentPadding={false}
       dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
