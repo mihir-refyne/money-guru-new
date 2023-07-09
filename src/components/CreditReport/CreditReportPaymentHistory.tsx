@@ -11,7 +11,7 @@ import {
   CreditReport,
   LoanAccounts,
 } from "@/lib/credit-report";
-import CreditReportAccountNotFound from "./CreditReportAccountNotFound";
+import NoRecordFound from "../NoRecordFound";
 import { getTagTypeByCreditMetricRating } from "./helpers";
 import Modal from "../Modal";
 import CreditReportMetricsExplainer, { CreditReportMetricsExplainerProps } from "./CreditReportMetricsExplainer";
@@ -83,7 +83,7 @@ export default function CreditReportPaymentHistory({
       {listCardPropsForActiveAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForActiveAccounts} />
       ) : (
-        <CreditReportAccountNotFound
+        <NoRecordFound
           title="No available payment history"
           description="Check this space for further updates"
         />

@@ -1,0 +1,25 @@
+.Input {
+  padding: 14px 12px 14px 12px;
+  width: 100%;
+  border: 1px solid var(--clr-grey-default);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.InputLabel__Wrapper {
+  color: var(--clr-text-secondary);
+  margin-bottom: var(--spacing-1);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.Input__Error {
+  margin-top: var(--spacing-1);
+  color: var(--clr-info-error-default);
+}
+
+.Input__Hint {
+  margin-top: var(--spacing-1);
+  color: var(--clr-text-secondary);
+}

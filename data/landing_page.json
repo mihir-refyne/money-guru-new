@@ -37,10 +37,17 @@
     },
     {
       "name": "pf",
-      "title": "<b>PF</b><br>Coming soon",
+      "title": "<b>Provident</b><br>Fund",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/pf-coming-soon"
+      "url": "/epf-tracker",
+      "releaseConfigs": [
+        {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": ["EMR10000001"]
+        }
+      ]
     },
     {
       "name": "fin_quiz",

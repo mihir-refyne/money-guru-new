@@ -1,0 +1,12 @@
+.IconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-1);
+  background-color: var(--clr-pure-white);
+  border-radius: var(--spacing-3);
+}
+
+.IconWrapper__circular {
+  border-radius: 50%;
+}

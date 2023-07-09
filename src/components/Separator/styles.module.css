@@ -1,0 +1,29 @@
+.Separator__Wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-6);
+}
+
+.Separator__vertical {
+  flex-direction: column;
+}
+
+.Separator__horizontal {
+  flex-direction: row;
+}
+
+.Separator__horizontal .Separator {
+  padding-right: var(--spacing-6);
+  border-right: 1px solid var(--clr-text-secondary);
+}
+
+.Separator__vertical .Separator {
+  padding-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--clr-text-secondary);
+}
+
+.Separator:last-child {
+  padding-right: unset;
+  padding-bottom: unset;
+  border: unset !important;
+}

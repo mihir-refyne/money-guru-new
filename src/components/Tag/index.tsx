@@ -22,16 +22,20 @@ const TAG_TYPE_TO_CSS_CLASS_MAP: Record<TagType, string> = {
 
 interface TagProps {
   type?: TagType;
+  className?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
+  compact?: boolean;
   children: string;
   onClick?: () => void;
 }
 
 export default function Tag({
   type,
+  className = "",
   leftIcon,
   rightIcon,
+  compact = false,
   children,
   onClick,
 }: TagProps) {
@@ -39,7 +43,9 @@ export default function Tag({
     <div
       className={`${styles.Tag} ${
         type ? TAG_TYPE_TO_CSS_CLASS_MAP[type] : ""
-      } ${onClick ? styles.Tag__clickable : undefined}`}
+      } ${onClick ? styles.Tag__clickable : undefined} ${
+        compact ? styles.Tag__compact : ""
+      } ${className}`}
       role={onClick ? "button" : undefined}
       onClick={onClick}
     >

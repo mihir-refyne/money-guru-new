@@ -33,3 +33,13 @@ export function useDelayedStepChangeState(
 
   return [delayedState, setTempState];
 }
+
+export function calculateStepSizeOfAutoIncrement(
+  value: number,
+  delayInMs: number,
+  durationInMs?: number
+): number {
+  if (!durationInMs) return value;
+  const steps = durationInMs / delayInMs;
+  return Math.floor(value / steps);
+}

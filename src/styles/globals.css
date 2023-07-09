@@ -38,6 +38,7 @@
   --spacing-6: 2.4rem;
   --spacing-8: 3.2rem;
   --spacing-10: 4rem;
+  --spacing-11: 4.4rem;
   --spacing-12: 4.8rem;
   --spacing-16: 6.4rem;
   --spacing-20: 8rem;
@@ -48,11 +49,11 @@
 *:after {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 html {
   font-size: 62.5%;
-  box-sizing: border-box;
   scroll-behavior: smooth;
 }
 
@@ -203,12 +204,18 @@ b {
 .p-4 {
   padding: var(--spacing-4);
 }
+.p-0 {
+  padding: 0 !important;
+}
 .pb-0 {
   padding-bottom: 0 !important;
 }
 .px-0 {
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+.pt-6 {
+  padding-top: var(--spacing-6);
 }
 .pt-4 {
   padding-top: var(--spacing-4);
@@ -225,6 +232,9 @@ b {
 .mr-2 {
   margin-right: var(--spacing-2);
 }
+.ml-1 {
+  margin-left: var(--spacing-1);
+}
 .ml-2 {
   margin-left: var(--spacing-2);
 }
@@ -236,8 +246,30 @@ b {
 .clr-brand-default {
   color: var(--clr-brand-default);
 }
+.clr-text-primary {
+  color: var(--clr-text-primary);
+}
 .clr-text-secondary {
   color: var(--clr-text-secondary);
+}
+.clr-grey-dark {
+  color: var(--clr-grey-dark);
+}
+.clr-pure-white {
+  color: var(--clr-pure-white);
+}
+.clr-info-success-default {
+  color: var(--clr-info-success-default);
+}
+.clr-info-alert-default {
+  color: var(--clr-info-alert-default);
+}
+.clr-info-error-dark {
+  color: var(--clr-info-error-dark);
+}
+
+.bg-transparent {
+  background-color: transparent !important;
 }
 
 /* Layout */
@@ -277,6 +309,7 @@ b {
 
 .hero {
   padding: var(--spacing-16) var(--spacing-4);
+  box-sizing: content-box;
 }
 
 /* Button */

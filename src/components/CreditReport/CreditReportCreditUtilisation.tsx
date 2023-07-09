@@ -6,7 +6,7 @@ import CreditReportMetricValue from "./CreditReportMetricValue";
 import InfoCard from "../InfoCard";
 import { CreditCard, Lightbulb } from "phosphor-react";
 import ListCard, { ListCardItemProps } from "../ListCard";
-import CreditReportAccountNotFound from "./CreditReportAccountNotFound";
+import NoRecordFound from "../NoRecordFound";
 import {
   CreditCardAccounts,
   CreditReport,
@@ -78,7 +78,7 @@ export default function CreditReportCreditUtilisation({
       {listCardPropsForActiveAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForActiveAccounts} />
       ) : (
-        <CreditReportAccountNotFound
+        <NoRecordFound
         />
       )}
       <Modal

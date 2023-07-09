@@ -21,6 +21,11 @@ interface User {
   name?: {
     data?: string;
   };
+  phone?: {
+    data: {
+      number: string;
+    };
+  };
   status: UserStatus;
 }
 
@@ -72,6 +77,7 @@ export async function getAndSetUserMetadataFromServer(
   const metadata: UserMetadata = {
     id: user?._id,
     name: user?.name?.data,
+    mobileNo: user?.phone?.data.number,
     status: user?.status,
     employerId: workerDetails?.entity?.employerId,
     workerId: workerDetails?.entity?._id,

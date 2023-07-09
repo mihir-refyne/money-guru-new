@@ -1,0 +1,144 @@
+import { ChangeEvent, FormEvent, useId, useState } from "react";
+import EpfTrackerLayout from "./EpfTrackerLayout";
+import EpfTrackerLoading from "./EpfTrackerLoading";
+import { EpfFetchIdentifier } from "@/lib/epf";
+import epfoLogo from "@/images/epfo-logo.svg";
+import Image from "next/image";
+import Input from "../Input";
+import EpfTrackerFetchFooter from "./EpfTrackerFetchFooter";
+import epfHeroBlobImageUrl from "@/images/epf-hero-blob.png";
+import { isValueIsNumeric } from "@/lib/utils";
+
+const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
+  mobileNo: "Enter Mobile Number",
+  uan: "Enter UAN number",
+};
+const EpfFetchIdentifierToChangeButtonLable: Record<
+  EpfFetchIdentifier,
+  string
+> = {
+  mobileNo: "Use Mobile No",
+  uan: "Use UAN",
+};
+const EpfFetchIdentifierInputPlaceholderMap: Record<
+  EpfFetchIdentifier,
+  string
+> = {
+  mobileNo: "9999999999",
+  uan: "987302654242",
+};
+const EpfFetchIdentifierInputMaxLengthMap: Record<EpfFetchIdentifier, number> =
+  {
+    mobileNo: 10,
+    uan: 12,
+  };
+
+function getNextIdentifier(
+  currentIdentifier: EpfFetchIdentifier
+): EpfFetchIdentifier {
+  if (currentIdentifier === "mobileNo") return "uan";
+  return "mobileNo";
+}
+
+function isValueValid(identifier: EpfFetchIdentifier, value: string): boolean {
+  if (identifier === "mobileNo") return value.length === 10;
+  if (identifier === "uan") return value.length === 12;
+  return false;
+}
+
+interface EpfDetailsFetchStartProps {
+  identifier: EpfFetchIdentifier;
+  initialValue?: string;
+  directlyAccessed: boolean;
+  onIdentifierChange?: (identifier: EpfFetchIdentifier) => void;
+  onSubmit: (identifier: EpfFetchIdentifier, value: string) => void;
+  loading?: boolean;
+}
+
+export default function EpfDetailsFetchStart({
+  identifier,
+  initialValue = "",
+  directlyAccessed,
+  onIdentifierChange,
+  onSubmit,
+  loading = false,
+}: EpfDetailsFetchStartProps) {
+  const formId = useId();
+  const [identifierValue, setIdentifierValue] = useState<string>(initialValue);
+
+  const isTypedIdentifierValueValid = isValueValid(identifier, identifierValue);
+  const nextIdentifier = getNextIdentifier(identifier);
+
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
+    const value = e.currentTarget.value;
+    if (!isValueIsNumeric(value)) return;
+    setIdentifierValue(value);
+  }
+
+  function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    onSubmit?.(identifier, identifierValue);
+  }
+
+  if (loading) return <EpfTrackerLoading />;
+
+  return (
+    <EpfTrackerLayout
+      hasContentPadding={false}
+      dispatchPopEventOnBackClick={directlyAccessed}
+      footer={
+        <EpfTrackerFetchFooter
+          formId={formId}
+          buttonDisabled={!isTypedIdentifierValueValid}
+        />
+      }
+    >
+      <div
+        className="px-4 pt-6"
+        style={{
+          backgroundImage: `url(${epfHeroBlobImageUrl.src}), linear-gradient( #EBF5FF 100% ,#FFFFFF 0%)`,
+          backgroundPositionX: "right",
+          backgroundPositionY: "50%",
+          backgroundRepeat: "no-repeat",
+          paddingBottom: "6.4rem",
+        }}
+      >
+        <Image src={epfoLogo} alt="epfo-logo" />
+        <h2 className="text-sub-title text-semibold  mt-6">
+          Employees&apos; Provident Fund Organisation, India
+        </h2>
+        <h4 className="text-body text-regular clr-text-secondary mt-4 mb-4">
+          Check your PF balance on Refyne at ZERO fees
+        </h4>
+      </div>
+      <form
+        id={formId}
+        onSubmit={handleFormSubmit}
+        className="px-4"
+        style={{
+          transform: "translateY(-65%)",
+        }}
+      >
+        <Input
+          inputMode="numeric"
+          label={EpfFetchIdentifierToInputLabelMap[identifier]}
+          rightLabel={
+            onIdentifierChange && (
+              <button
+                type="button"
+                className="text-caption text-semibold clr-brand-default"
+                onClick={() => onIdentifierChange(nextIdentifier)}
+              >
+                {EpfFetchIdentifierToChangeButtonLable[nextIdentifier]}
+              </button>
+            )
+          }
+          value={identifierValue}
+          onChange={handleChange}
+          placeholder={EpfFetchIdentifierInputPlaceholderMap[identifier]}
+          maxLength={EpfFetchIdentifierInputMaxLengthMap[identifier]}
+        />
+      </form>
+    </EpfTrackerLayout>
+  );
+}

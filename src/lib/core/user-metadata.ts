@@ -6,6 +6,7 @@ import {
 export interface UserMetadata {
   id?: string;
   name?: string;
+  mobileNo?: string;
   status?: string;
   workerId?: string;
   employerId?: string;

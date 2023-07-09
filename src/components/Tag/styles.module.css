@@ -11,6 +11,10 @@
   cursor: pointer;
 }
 
+.Tag__compact {
+  padding: 0rem 0.2rem;
+}
+
 .Tag__success {
   color: var(--clr-info-success-dark);
   background-color: var(--clr-info-success-light);

@@ -25,6 +25,7 @@ import {
 import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
 import useScreenOrientation from "@/hooks/useScreenOrientation";
 import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
+import { Toaster } from "react-hot-toast";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -39,13 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
   async function fetchAndSetUserUserMetadata(
     data: Record<string, string | string[] | undefined>
   ) {
-    const {
-      appPlatformName,
-      userToken,
-      userId,
-      userName,
-      userStatus,
-    } = data;
+    const { appPlatformName, userToken, userId, userName, userStatus } = data;
     try {
       if (!isStringAndNotEmpty(userToken)) throw new Error();
       return await getAndSetUserMetadataFromServer(userToken, {
@@ -66,13 +61,8 @@ export default function App({ Component, pageProps }: AppProps) {
   }
 
   async function onLoad() {
-    const {
-      appPlatformName,
-      userToken,
-      userId,
-      userName,
-      ...restQuery
-    } = router.query;
+    const { appPlatformName, userToken, userId, userName, ...restQuery } =
+      router.query;
     const metadata = await fetchAndSetUserUserMetadata({
       appPlatformName,
       userToken,
@@ -146,6 +136,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
       {isLoading && <LoadingPage />}
       {!isLoading && <Component {...pageProps} />}
+      <Toaster position="bottom-center" />
     </>
   );
 }

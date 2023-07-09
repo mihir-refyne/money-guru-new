@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import CreditReportLayout from "./CreditReportLayout";
 import { CreditCard, FileText } from "phosphor-react";
 import ListCard, { ListCardItemProps } from "../ListCard";
-import CreditReportAccountNotFound from "./CreditReportAccountNotFound";
+import NoRecordFound from "../NoRecordFound";
 import {
   CreditCardAccounts,
   CreditReport,
@@ -37,13 +37,13 @@ export default function CreditReportTotalAccounts({
       {listCardPropsForCreditCardAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForCreditCardAccounts} />
       ) : (
-        <CreditReportAccountNotFound />
+        <NoRecordFound />
       )}
       <h3 className="text-heading clr-text-secondary mt-4">Loans</h3>
       {listCardPropsForLoanAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForLoanAccounts} />
       ) : (
-        <CreditReportAccountNotFound />
+        <NoRecordFound />
       )}
     </CreditReportLayout>
   );

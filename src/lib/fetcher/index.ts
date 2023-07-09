@@ -4,11 +4,11 @@ interface FetcherOption {
   headers?: Record<string, string>;
 }
 
-class FetcherError extends Error {
+export class FetcherError<T = unknown> extends Error {
   constructor(
     public statusCode: number,
     public message: string,
-    public data: unknown
+    public data: T
   ) {
     super(message);
   }

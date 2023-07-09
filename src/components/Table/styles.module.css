@@ -1,0 +1,24 @@
+.Table__Wrapper table {
+  border: none;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.Table__Wrapper th {
+  padding: var(--spacing-2);
+  text-align: left;
+  color: var(--clr-brand-default);
+  background-color: var(--clr-grey-light);
+}
+
+.Table__Wrapper th:first-child {
+  border-radius: var(--spacing-1) 0px 0px var(--spacing-1);
+}
+
+.Table__Wrapper th:last-child {
+  border-radius: 0px var(--spacing-1) var(--spacing-1) 0px;
+}
+
+.Table__Wrapper td {
+  padding: var(--spacing-2);
+}

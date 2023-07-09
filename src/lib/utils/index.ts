@@ -86,12 +86,24 @@ export function getRandomNumbersInRange(
 export function formatToInr(amount: number, decimal?: number) {
   if (amount === null || amount === undefined) return 0;
   if (decimal) {
-    return `₹${Number(amount.toFixed(decimal)).toLocaleString("en-IN")}`;
+    return `₹ ${Number(amount.toFixed(decimal)).toLocaleString("en-IN")}`;
   }
-  return `₹${Math.floor(amount).toLocaleString("en-IN")}`;
+  return `₹ ${Math.floor(amount).toLocaleString("en-IN")}`;
 }
 
 export function convertPixelToRem(px: number): string {
   const rem = px / 10;
   return `${rem.toFixed(1)}rem`;
+}
+
+export function isObjectEmpty(
+  object: object | null | undefined
+): boolean | null | undefined {
+  return (
+    object && Object.keys(object).length === 0 && object.constructor === Object
+  );
+}
+
+export function isValueIsNumeric(value: string): boolean {
+  return !Number.isNaN(Number(value));
 }
