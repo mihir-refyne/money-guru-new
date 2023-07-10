@@ -30,7 +30,8 @@ export default function EpfTrackerPassbook() {
 
   if (error) {
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
-    if (errorMessage) toast.error(errorMessage);
+    if (errorMessage)
+      toast.error(errorMessage, { id: "EpfTrackerPassbook__error" });
     return <Redirect to="/epf-tracker/no-record" />;
   }
 

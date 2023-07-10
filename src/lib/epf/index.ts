@@ -132,7 +132,7 @@ export async function triggerOtpForEpfDetailsFetch(
   return triggerResp.data;
 }
 
-export async function verifyrOtpForEpfDetailsFetch(payload: {
+export async function verifyOtpForEpfDetailsFetch(payload: {
   requestId: string;
   otp: string;
 }): Promise<unknown> {

@@ -25,7 +25,7 @@ const EpfFetchIdentifierInputPlaceholderMap: Record<
   string
 > = {
   mobileNo: "9999999999",
-  uan: "987302654242",
+  uan: "100904319456",
 };
 const EpfFetchIdentifierInputMaxLengthMap: Record<EpfFetchIdentifier, number> =
   {

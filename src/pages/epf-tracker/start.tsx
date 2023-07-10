@@ -40,7 +40,8 @@ export default function EpfTrackerStartPage() {
 
   useEffect(() => {
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
-    if (errorMessage) toast.error(errorMessage);
+    if (errorMessage)
+      toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
     logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
       screen_name: "EPF_AUTH",

@@ -28,7 +28,8 @@ export default function EpfTrackerSummaryPage() {
   if (error) {
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
     // INFO: Some error was coming in console please check
-    if (errorMessage) toast.error(errorMessage);
+    if (errorMessage)
+      toast.error(errorMessage, { id: "EpfTrackerSummaryPage__error" });
     return <Redirect to="/epf-tracker/no-record" />;
   }
 

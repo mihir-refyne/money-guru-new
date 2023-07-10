@@ -5,7 +5,7 @@ import {
   EPF_NO_RECORDS_FOUND_ERROR_CODES,
   clearEpfDetailsFromSessionStorage,
   triggerOtpForEpfDetailsFetch,
-  verifyrOtpForEpfDetailsFetch,
+  verifyOtpForEpfDetailsFetch,
 } from "@/lib/epf";
 import EpfDetailsFetchVerify from "@/components/EpfTracker/EpfDetailsFetchVerify";
 import Redirect from "@/components/Redirect";
@@ -32,7 +32,7 @@ export default function EpfTrackerVerifyPage() {
   const identifierValueFromUrlQuery = router.query.identifierValue?.toString();
 
   const { isLoading, data, error, mutate } = useMutation(
-    verifyrOtpForEpfDetailsFetch
+    verifyOtpForEpfDetailsFetch
   );
   const otpTriggerMutation = useMutation(triggerOtpForEpfDetailsFetch);
 
@@ -48,7 +48,8 @@ export default function EpfTrackerVerifyPage() {
     const errorMessage = getCoreServerErrorMessageFromFetcherError(
       otpTriggerError || error
     );
-    if (errorMessage) toast.error(errorMessage);
+    if (errorMessage)
+      toast.error(errorMessage, { id: "EpfTrackerVerifyPage__error" });
 
     const otpVerifyErrorCode = getCoreServerErrorCodeFromFetcherError(error);
     const otpTriggerErrorCode =
