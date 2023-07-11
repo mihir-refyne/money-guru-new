@@ -51,7 +51,7 @@
     },
     {
       "name": "pf",
-      "title": "<b>Provident</b><br>Fund",
+      "title": "<b>PF</b><br>Tracker",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#EBF5FF",
       "url": "/epf-tracker",
@@ -69,6 +69,13 @@
       "iconUrl": "/assets/images/question_bulb_icon.svg",
       "backgroundColor": "#FCF2E3",
       "url": "https://kahoot.it/"
+    },
+    {
+      "name": "tax_calculator",
+      "title": "<b>TAX</b><br>Calculator",
+      "iconUrl": "/assets/images/tax_calculator_icon.svg",
+      "backgroundColor": "#FCF2E3",
+      "url": "https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
     }
   ],
   "carouselBanner": {
