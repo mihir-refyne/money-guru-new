@@ -8,12 +8,7 @@ tag: Tax
 
 
 These are some of the tax-savings investment: 
-- EPF (Employee Provident Fund)
-- PPF (Public Provident Fund)
-- ELSS (Equity Linked Savings Scheme)
-- NPS (National Pension Scheme)
-- NSC (National Savings Certificate)
-- ULIP (Unit Linked Insurance Plan)
-- Sukanya Samriddhi Yojana
-- Tax-saving Bonds
-- Infrastructure Bonds
+- EPF (Employee Provident Fund), PPF (Public Provident Fund)
+- ELSS (Equity Linked Savings Scheme), NPS (National Pension Scheme)
+- NSC (National Savings Certificate), ULIP (Unit Linked Insurance Plan)
+- Sukanya Samriddhi Yojana, Tax-saving Bonds, Infrastructure Bonds
