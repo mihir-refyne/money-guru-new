@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/hra-for-tax-purposes.jpeg
+mediaUrl: /assets/images/shorts/hra-for-tax-purposes.jpg
 tag: Tax
 ---
 

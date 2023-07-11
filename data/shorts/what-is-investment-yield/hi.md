@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/what-is-investment-yield.jpeg
+mediaUrl: /assets/images/shorts/what-is-investment-yield.jpg
 tag: Tax
 ---
 

@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/how-nps-works.jpeg
+mediaUrl: /assets/images/shorts/how-nps-works.jpg
 tag: Tax
 ---
 

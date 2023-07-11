@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/what-are-form16-and-form26as.jpeg
+mediaUrl: /assets/images/shorts/what-are-form16-and-form26as.jpg
 tag: Tax
 ---
 

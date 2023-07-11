@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/importance-of-term-insurance.jpeg
+mediaUrl: /assets/images/shorts/importance-of-term-insurance.jpg
 tag: Tax
 ---
 

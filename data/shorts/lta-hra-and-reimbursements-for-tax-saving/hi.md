@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/lta-hra-and-reimbursements-for-tax-saving.jpeg
+mediaUrl: /assets/images/shorts/lta-hra-and-reimbursements-for-tax-saving.jpg
 tag: Tax
 ---
 

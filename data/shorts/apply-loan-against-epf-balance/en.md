@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/apply-loan-against-epf-balance.jpeg
+mediaUrl: /assets/images/shorts/apply-loan-against-epf-balance.jpg
 tag: Tax
 ---
 

@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/different-type-of-exemptions.jpeg
+mediaUrl: /assets/images/shorts/different-type-of-exemptions.jpg
 tag: Tax
 ---
 

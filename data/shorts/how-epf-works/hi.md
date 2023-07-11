@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/how-epf-works.jpeg
+mediaUrl: /assets/images/shorts/how-epf-works.jpg
 tag: Tax
 ---
 

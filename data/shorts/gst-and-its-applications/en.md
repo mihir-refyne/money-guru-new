@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/gst-and-its-applications.jpeg
+mediaUrl: /assets/images/shorts/gst-and-its-applications.jpg
 tag: Tax
 ---
 

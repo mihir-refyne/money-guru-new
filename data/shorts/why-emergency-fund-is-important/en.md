@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/why-emergency-fund-is-important.jpeg
+mediaUrl: /assets/images/shorts/why-emergency-fund-is-important.jpg
 tag: Tax
 ---
 

@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/difference-between-epf-and-nps.jpeg
+mediaUrl: /assets/images/shorts/difference-between-epf-and-nps.jpg
 tag: Tax
 ---
 

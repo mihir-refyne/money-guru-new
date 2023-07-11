@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/exemptions-and-deductions-for-tax.jpeg
+mediaUrl: /assets/images/shorts/exemptions-and-deductions-for-tax.jpg
 tag: Tax
 ---
 

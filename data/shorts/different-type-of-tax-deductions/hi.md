@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/different-type-of-tax-deductions.jpeg
+mediaUrl: /assets/images/shorts/different-type-of-tax-deductions.jpg
 tag: Tax
 ---
 

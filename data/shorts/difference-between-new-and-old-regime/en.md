@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/difference-between-new-and-old-regime.jpeg
+mediaUrl: /assets/images/shorts/difference-between-new-and-old-regime.jpg
 tag: Tax
 ---
 

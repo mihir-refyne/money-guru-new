@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/changes-in-new-tax-regime.jpeg
+mediaUrl: /assets/images/shorts/changes-in-new-tax-regime.jpg
 tag: Tax
 ---
 

@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/why-government-collects-tax.jpeg
+mediaUrl: /assets/images/shorts/why-government-collects-tax.jpg
 tag: Tax
 ---
 

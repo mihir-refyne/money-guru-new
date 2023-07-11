@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/affect-on-epf-on-job-change.jpeg
+mediaUrl: /assets/images/shorts/affect-on-epf-on-job-change.jpg
 tag: Tax
 ---
 

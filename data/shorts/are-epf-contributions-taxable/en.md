@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/are-epf-contributions-taxable.jpeg
+mediaUrl: /assets/images/shorts/are-epf-contributions-taxable.jpg
 tag: Tax
 ---
 

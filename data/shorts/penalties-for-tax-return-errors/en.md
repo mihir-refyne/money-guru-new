@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/penalties-for-tax-return-errors.jpeg
+mediaUrl: /assets/images/shorts/penalties-for-tax-return-errors.jpg
 tag: Tax
 ---
 

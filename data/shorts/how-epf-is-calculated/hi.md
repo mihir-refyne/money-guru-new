@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/how-epf-is-calculated.jpeg
+mediaUrl: /assets/images/shorts/how-epf-is-calculated.jpg
 tag: Tax
 ---
 

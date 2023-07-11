@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/difference-between-epf-and-ppf.jpeg
+mediaUrl: /assets/images/shorts/difference-between-epf-and-ppf.jpg
 tag: Tax
 ---
 

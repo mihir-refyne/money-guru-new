@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/tax-saving-investment-options.jpeg
+mediaUrl: /assets/images/shorts/tax-saving-investment-options.jpg
 tag: Tax
 ---
 
