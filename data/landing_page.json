@@ -2,7 +2,7 @@
   "featuredShort": {
     "random": true,
     "numberOfShortsToBeFeatured": 5,
-    "shortsToBeFeatured": ["1-managing-income-tax", "why-government-collects-tax", "what-are-form16-and-form26as"],
+    "shortsToBeFeatured": ["managing-income-tax", "why-government-collects-tax", "what-are-form16-and-form26as"],
     "autoPlayDurationInMs": 3000
   },
   "finLiteracyBanners": [],
