@@ -84,11 +84,30 @@
       {
         "name": "Need help with finances?",
         "heading": "Need help with finances?",
-        "url": "https://fincoachv2.typedream.app/",
+        "url": "https://product.refyne.co.in/",
         "description": "Get financial advice from SEBI certified industry experts.",
         "rightImageUrl": "/assets/images/banner_naval_painuly.png",
         "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More"
+        "ctaLabel": "Know More",
+        "releaseConfig": {
+          "fieldName": "employerId",
+          "includes": false,
+          "values": ["EMR10000790"]
+        }
+      },
+      {
+        "name": "Need help with finances?",
+        "heading": "Need help with finances?",
+        "url": "https://product.refyne.co.in/financial-coach-synopsys",
+        "description": "Get financial advice from SEBI certified industry experts.",
+        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
+        "backgroundColor": "#E5EEF8",
+        "ctaLabel": "Know More",
+        "releaseConfig": {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": ["EMR10000790"]
+        }
       }
     ]
   }
