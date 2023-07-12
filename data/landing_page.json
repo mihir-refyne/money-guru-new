@@ -2,7 +2,7 @@
   "featuredShort": {
     "random": true,
     "numberOfShortsToBeFeatured": 5,
-    "shortsToBeFeatured": ["why-should-you-get-a-health-insurance"],
+    "shortsToBeFeatured": ["managing-income-tax", "why-government-collects-tax", "what-are-form16-and-form26as"],
     "autoPlayDurationInMs": 3000
   },
   "finLiteracyBanners": [],
