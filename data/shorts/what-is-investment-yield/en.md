@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/what-is-investment-yield.jpg
-tag: Tax
+tag: Investing
 ---
 
 ### What is investment yield?

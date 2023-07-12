@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/how-nps-works.jpg
-tag: Tax
+tag: NPS
 ---
 
 ### How does NPS work?

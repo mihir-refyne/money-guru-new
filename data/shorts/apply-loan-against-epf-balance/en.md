@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/apply-loan-against-epf-balance.jpg
-tag: Tax
+tag: PF
 ---
 
 ### How can I apply for a loan against my EPF balance?
