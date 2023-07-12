@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/difference-between-epf-and-nps.jpg
-tag: Tax
+tag: PF
 ---
 
 ### NPS vs EPF: Which is better?

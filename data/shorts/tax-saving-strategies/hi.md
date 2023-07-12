@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/tax-saving-strategies.jpg
-tag: Taxes
+tag: Tax
 ---
 
 ### टैक्स-सेविंग योजनाएँ जो आपको पता होनी चाहिए -

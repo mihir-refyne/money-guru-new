@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/tax-saving-strategies.jpg
-tag: Taxes
+tag: Tax
 ---
 
 ### Can you save income taxes? 

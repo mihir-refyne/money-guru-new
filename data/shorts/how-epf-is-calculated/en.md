@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/how-epf-is-calculated.jpg
-tag: Tax
+tag: PF
 ---
 
 ### How is EPF calculated? Does the employer contribute?

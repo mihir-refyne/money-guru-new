@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/importance-of-term-insurance.jpg
-tag: Tax
+tag: Insurance
 ---
 
 ### Do I need life term insurance?

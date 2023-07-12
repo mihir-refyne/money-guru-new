@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/practical-tax-saving.jpg
-tag: Taxes
+tag: Tax
 ---
 
 ### What are different ways of saving taxes?
