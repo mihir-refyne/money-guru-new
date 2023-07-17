@@ -54,10 +54,13 @@ export default function EpfTrackerVerifyPage() {
     const otpVerifyErrorCode = getCoreServerErrorCodeFromFetcherError(error);
     const otpTriggerErrorCode =
       getCoreServerErrorCodeFromFetcherError(otpTriggerError);
-    logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
-      screen_name: "EPF_OTP",
-      error_code: otpTriggerErrorCode ?? otpVerifyErrorCode,
-    });
+    const errorCodeForEvent = otpTriggerErrorCode ?? otpVerifyErrorCode;
+    if (errorCodeForEvent) {
+      logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
+        screen_name: "EPF_OTP",
+        error_code: errorCodeForEvent,
+      });
+    }
     if (
       otpVerifyErrorCode &&
       EPF_NO_RECORDS_FOUND_ERROR_CODES.includes(otpVerifyErrorCode)

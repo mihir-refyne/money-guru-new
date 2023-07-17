@@ -43,10 +43,12 @@ export default function EpfTrackerStartPage() {
     if (errorMessage)
       toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
-    logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
-      screen_name: "EPF_AUTH",
-      error_code: errorCode,
-    });
+    if (errorCode) {
+      logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
+        screen_name: "EPF_AUTH",
+        error_code: errorCode,
+      });
+    }
   }, [error]);
 
   function handleIndetifierChange(newIdentifier: EpfFetchIdentifier) {
