@@ -76,6 +76,13 @@
       "iconUrl": "/assets/images/question_bulb_icon.svg",
       "backgroundColor": "#FCF2E3",
       "url": "https://kahoot.it/"
+    },
+    {
+      "name": "ask_me_anything_28jul",
+      "title": "<b>Q&A</b><br>Ask questions",
+      "iconUrl": "/assets/images/ask_me_anything_icon.svg",
+      "backgroundColor": "#DCF5EF",
+      "url": "https://docs.google.com/forms/d/e/1FAIpQLSejonG-NU4PUtY1cvfhDD41ezmuLfMyAEQjQbtt80dFyZKioA/viewform?usp=sf_link"
     }
   ],
   "carouselBanner": {
