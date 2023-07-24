@@ -76,7 +76,8 @@ export default function HomePage({ shorts }: HomePageProps) {
     const randomIndexes = getRandomNumbersInRange(
       0,
       maxRange,
-      numberOfShortsRequiredToBeRandom
+      numberOfShortsRequiredToBeRandom,
+      shortsToBeFeaturedFromConfigIndexes
     );
     const shortIndexes =
       shortsToBeFeaturedFromConfigIndexes.concat(randomIndexes);

@@ -74,11 +74,16 @@ export function getRandomNumberInRange(min: number, max: number): number {
 export function getRandomNumbersInRange(
   min: number,
   max: number,
-  count: number
+  count: number,
+  exclude: Array<number> = []
 ): Array<number> {
   const numbers = new Set<number>();
   while (numbers.size !== count) {
-    numbers.add(getRandomNumberInRange(min, max));
+    const random = getRandomNumberInRange(min, max);
+    const hasToIgnoreCurrentRandom = exclude.includes(random);
+    if (!hasToIgnoreCurrentRandom) {
+      numbers.add(random);
+    }
   }
   return Array.from(numbers);
 }
