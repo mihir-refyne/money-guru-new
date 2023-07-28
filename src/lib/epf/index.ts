@@ -1,3 +1,4 @@
+import { UserStatus } from "../core/user";
 import { getValueFromMetadata } from "../core/user-metadata";
 import { fetcher } from "../fetcher";
 import {
@@ -5,6 +6,7 @@ import {
   getFromSessionStorage,
   setInSessionStorage,
 } from "../storage/browserstorage";
+import { isObjectEmpty } from "../utils";
 
 export interface EpfDetailsSummary {
   currentBalance: number;
@@ -84,6 +86,11 @@ export const EPF_NO_RECORDS_FOUND_ERROR_CODES = [
   EPF_SERVER_ERROR_CODE.EPF_DETAILS_FETCH_MULTIPLE_RECORDS_EXISTS,
 ];
 
+export enum EpfFetchError {
+  USER_IS_IN_VERIFICATION_PENDING = "USER_IS_IN_VERIFICATION_PENDING",
+  USER_IS_NOT_KYC_VERIFIED = "USER_IS_NOT_KYC_VERIFIED",
+}
+
 const USER_EPF_DETAILS_STORAGE_KEY = "__UserEpfDetails";
 const USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY =
   "__UserEpfDetailsIncreemnetEffectShown";
@@ -99,11 +106,29 @@ export function clearEpfDetailsFromSessionStorage() {
   deleteFromSessionStorage(getSessionStorageKey());
 }
 
+function runFetchEpfPreCheckOrThrow() {
+  const userStatus = getValueFromMetadata("status");
+
+  if (userStatus === UserStatus.REFYNE_VERIFIED) return;
+  const error = new Error("Can't fetch EPF");
+
+  if (
+    userStatus === UserStatus.VERIFICATION_PENDING ||
+    userStatus === UserStatus.USER_MODIFIED_VERIFICATION_PENDING
+  ) {
+    error.name = EpfFetchError.USER_IS_IN_VERIFICATION_PENDING;
+    throw error;
+  }
+  error.name = EpfFetchError.USER_IS_NOT_KYC_VERIFIED;
+  throw error;
+}
+
 async function fetchEpfDetails(
   _idToken?: string
 ): Promise<EpfDetailsResponse | null> {
   const idToken = _idToken ?? getValueFromMetadata("idToken");
   if (!idToken) return null;
+  runFetchEpfPreCheckOrThrow();
   const epfDetails = await fetcher<EpfDetailsResponse>(
     `${CORE_SERVER_BASE_URL}/user/epf-details`,
     {
@@ -159,11 +184,14 @@ export async function getOrFetchEpfDetails(
   );
   try {
     if (epfDetailsRawFromSessionStorage) {
-      return JSON.parse(epfDetailsRawFromSessionStorage) as EpfDetailsResponse;
+      const parsedEpfDetails = JSON.parse(
+        epfDetailsRawFromSessionStorage
+      ) as EpfDetailsResponse;
+      if (!isObjectEmpty(parsedEpfDetails)) return parsedEpfDetails;
     }
   } catch (_) {}
   const epfDetails = await fetchEpfDetails(idToken);
-  if (!epfDetails) return null;
+  if (epfDetails === null || isObjectEmpty(epfDetails)) return null;
   setInSessionStorage(getSessionStorageKey(), JSON.stringify(epfDetails));
   return epfDetails;
 }

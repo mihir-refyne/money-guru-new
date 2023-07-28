@@ -101,6 +101,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   function setViewportVariable() {
     const vh = window.innerHeight * 0.01;
+    console.log("Calculated vh ", vh);
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
@@ -111,8 +112,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
     onLoad();
 
-    setViewportVariable();
-
+    window.addEventListener("DOMContentLoaded", setViewportVariable, {
+      once: true,
+    });
     window.addEventListener("resize", setViewportVariable);
     return () => {
       window.removeEventListener("resize", setViewportVariable);

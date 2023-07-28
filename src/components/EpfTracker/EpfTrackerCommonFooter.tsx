@@ -3,8 +3,7 @@ import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import Link from "next/link";
 
-// TODO: Update the path as PM gave
-const EPF_RSHORT_PATH = "/shorts";
+const EPF_RSHORT_PATH = "/shorts#how-epf-works";
 
 const ROUTE_PATH_TO_SCREEN_NAME_MAP: Record<string, string> = {
   "/epf-tracker": "EPF_DASHBOARD",

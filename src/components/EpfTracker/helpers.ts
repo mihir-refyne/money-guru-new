@@ -1,4 +1,4 @@
-import { EpfFetchIdentifier } from "@/lib/epf";
+import { EpfFetchError, EpfFetchIdentifier } from "@/lib/epf";
 import format from "date-fns/format";
 
 export function getEpfServicePeriodText(context: {
@@ -38,4 +38,14 @@ export function getEpfFetchIdentifierOrNull(
   if (!value) return null;
   if (value !== "uan" && value !== "mobileNo") return null;
   return value as EpfFetchIdentifier;
+}
+
+export function isEpfFetchError(errorName: string): errorName is EpfFetchError {
+  if (
+    errorName === EpfFetchError.USER_IS_IN_VERIFICATION_PENDING ||
+    errorName === EpfFetchError.USER_IS_NOT_KYC_VERIFIED
+  ) {
+    return true;
+  }
+  return false;
 }
