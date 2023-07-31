@@ -22,6 +22,8 @@ import { getRandomNumbersInRange } from "@/lib/utils";
 import Carousel from "@/components/Carousel";
 import Banner, { BannerProps } from "@/components/Banner";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
+import { SurveyTriggerAction } from "@/lib/survey";
 
 interface HomePageProps {
   shorts: Array<{
@@ -47,6 +49,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async (
 export default function HomePage({ shorts }: HomePageProps) {
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { dispatchAction } = useSurveyTrigger();
 
   const shortsToBeFeatured = useMemo<
     Array<{
@@ -127,6 +130,7 @@ export default function HomePage({ shorts }: HomePageProps) {
     }
 
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN);
+    dispatchAction(SurveyTriggerAction.MONEY_GURU_DASHBOARD_OPEN);
 
     // NEXTjs hack!
     setIsMounted(true);

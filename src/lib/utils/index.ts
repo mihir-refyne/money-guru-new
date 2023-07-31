@@ -96,6 +96,12 @@ export function formatToInr(amount: number, decimal?: number) {
   return `₹ ${Math.floor(amount).toLocaleString("en-IN")}`;
 }
 
+export function getAbortControllerIfAvailable(): AbortController | undefined {
+  if (window.AbortController) {
+    return new AbortController();
+  }
+}
+
 export function convertPixelToRem(px: number): string {
   const rem = px / 10;
   return `${rem.toFixed(1)}rem`;

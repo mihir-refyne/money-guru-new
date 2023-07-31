@@ -1,5 +1,4 @@
 import Script from "next/script";
-import React from "react";
 
 const TARGET_FONT_SIZE_IN_PX = 10;
 const OFFSET = 0.5;

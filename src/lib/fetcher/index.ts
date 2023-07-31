@@ -23,6 +23,7 @@ export async function fetcher<T extends unknown>(
     method,
     headers: Object.assign({}, headers, {
       "Content-Type": "application/json",
+      "x-client-type": "WEBAPP",
     }),
     body: payload ? JSON.stringify(payload) : undefined,
   });
