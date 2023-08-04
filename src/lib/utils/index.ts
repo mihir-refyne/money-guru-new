@@ -118,3 +118,7 @@ export function isObjectEmpty(
 export function isValueIsNumeric(value: string): boolean {
   return !Number.isNaN(Number(value));
 }
+
+export function isUserId(value: string): boolean {
+  return value?.startsWith("USR");
+}

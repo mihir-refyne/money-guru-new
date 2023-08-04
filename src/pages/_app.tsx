@@ -21,6 +21,7 @@ import WebengageScript from "@/scripts/webengage";
 import {
   initializeWebengage,
   setUserIdInWebengage,
+  setWebengageGlobalProperties,
 } from "@/lib/analytics/webengage";
 import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
 import useScreenOrientation from "@/hooks/useScreenOrientation";
@@ -75,7 +76,12 @@ export default function App({ Component, pageProps }: AppProps) {
     }
     if (metadata?.status) {
       setMixpanelGlobalProperties("user_status", metadata.status);
+      setWebengageGlobalProperties("user_status", metadata.status);
       setMixpanelGlobalProperties(
+        "platform",
+        getPlatformName(appPlatformName?.toString())
+      );
+      setWebengageGlobalProperties(
         "platform",
         getPlatformName(appPlatformName?.toString())
       );

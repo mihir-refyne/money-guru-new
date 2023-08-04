@@ -3,7 +3,7 @@ import ShortsContainer from "./ShortsContainer";
 import { addShortView } from "@/lib/shorts";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
-import { logEventInWebengage } from "@/lib/analytics/webengage";
+import { logAnalyticsEvent } from "@/lib/analytics";
 
 interface ShortsProps {
   items: ShortData[];
@@ -12,7 +12,11 @@ interface ShortsProps {
 export default function Shorts({ items }: ShortsProps) {
   function handleOnView(id?: string) {
     if (id) {
-      logEventInMixpanel(AnalyticEvent.R_SHORTS_SCREEN, { short_id: id });
+      logAnalyticsEvent(
+        ["mixpanel", "webengage"],
+        AnalyticEvent.R_SHORTS_SCREEN,
+        { short_id: id }
+      );
       addShortView(id);
     }
   }
@@ -30,12 +34,13 @@ export default function Shorts({ items }: ShortsProps) {
   }
 
   function handleNotify() {
-    logEventInMixpanel(AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED, {
-      cta: "NOTIFY",
-    });
-    logEventInWebengage(AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED, {
-      cta: "NOTIFY",
-    });
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED,
+      {
+        cta: "NOTIFY",
+      }
+    );
   }
 
   function handleReactionClick(shortId: string, reaction: string) {

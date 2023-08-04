@@ -9,6 +9,7 @@ import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import { logAnalyticsEvent } from "@/lib/analytics";
 import { isEpfFetchError } from "@/components/EpfTracker/helpers";
 import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
 import {
@@ -24,7 +25,10 @@ export default function EpfTrackerSummaryPage() {
   const directlyAccessed = !!router.query["direct"];
 
   function handleOnMount() {
-    logEventInMixpanel(AnalyticEvent.EPF_DASHBOARD_SCREEN);
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.EPF_DASHBOARD_SCREEN
+    );
   }
 
   function handleEstablishmentCardClick(memberId: string) {

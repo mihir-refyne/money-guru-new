@@ -22,6 +22,7 @@ import { getRandomNumbersInRange } from "@/lib/utils";
 import Carousel from "@/components/Carousel";
 import Banner, { BannerProps } from "@/components/Banner";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { logAnalyticsEvent } from "@/lib/analytics";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
 
@@ -129,7 +130,10 @@ export default function HomePage({ shorts }: HomePageProps) {
       return;
     }
 
-    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN);
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN
+    );
     dispatchAction(SurveyTriggerAction.MONEY_GURU_DASHBOARD_OPEN);
 
     // NEXTjs hack!
@@ -153,9 +157,13 @@ export default function HomePage({ shorts }: HomePageProps) {
 
   function handleFinToolClick(name: string, url: string) {
     setLoadingWithTimeoutToReset(true);
-    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED, {
-      tool_name: name,
-    });
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED,
+      {
+        tool_name: name,
+      }
+    );
 
     const _url = url
       .replace("{userId}", userId ?? "")
@@ -171,9 +179,13 @@ export default function HomePage({ shorts }: HomePageProps) {
   }
 
   function handleFeaturedShortClick(id: string) {
-    logEventInMixpanel(AnalyticEvent.R_SHORTS_OPENED, {
-      short_id: id,
-    });
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.R_SHORTS_OPENED,
+      {
+        short_id: id,
+      }
+    );
     router.push({
       pathname: "/shorts",
       hash: id,

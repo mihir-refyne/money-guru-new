@@ -13,6 +13,7 @@ import { getEpfFetchIdentifierFromString } from "@/components/EpfTracker/helpers
 import toast from "react-hot-toast";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import { logAnalyticsEvent } from "@/lib/analytics";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -33,9 +34,13 @@ export default function EpfTrackerStartPage() {
   );
 
   useEffect(() => {
-    logEventInMixpanel(AnalyticEvent.EPF_AUTH_SCREEN, {
-      auth_method: identifier,
-    });
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.EPF_AUTH_SCREEN,
+      {
+        auth_method: identifier,
+      }
+    );
   }, [identifier]);
 
   useEffect(() => {

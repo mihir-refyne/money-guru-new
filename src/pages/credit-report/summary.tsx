@@ -2,6 +2,7 @@ import CreditReportLoading from "@/components/CreditReport/CreditReportLoading";
 import CreditReportSummary from "@/components/CreditReport/CreditReportSummary";
 import useFetcher from "@/hooks/useFetcher";
 import useSyntheticLoader from "@/hooks/useSyntheticLoader";
+import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
@@ -30,9 +31,13 @@ export default function CreditReportSummaryPage() {
   }, []);
 
   function handleOnMount(context?: { rating?: string }) {
-    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_DASHBOARD_SCREEN, {
-      rating: context?.rating,
-    });
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.CREDIT_SCORE_DASHBOARD_SCREEN,
+      {
+        rating: context?.rating,
+      }
+    );
   }
 
   function handleRatingTagClick(rating?: string) {

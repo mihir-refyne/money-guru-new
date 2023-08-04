@@ -1,4 +1,5 @@
 import mixpanel from "mixpanel-browser";
+import { isUserId } from "../utils";
 
 const globalProperties = new Map<string, unknown>();
 export function setMixpanelGlobalProperties(key: string, value: unknown) {
@@ -14,10 +15,6 @@ export function initializeMixpanel() {
   mixpanel?.init(mixpanelToken, {
     debug: process.env.NODE_ENV === "development",
   });
-}
-
-function isUserId(value: string): boolean {
-  return value?.startsWith("USR");
 }
 
 export function logEventInMixpanel(eventName: string, eventData?: object) {
