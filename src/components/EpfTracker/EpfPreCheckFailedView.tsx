@@ -3,7 +3,7 @@ import { EpfFetchError } from "@/lib/epf";
 import EpfTrackerLayout from "./EpfTrackerLayout";
 import CenterContent from "../CenterContent";
 import { APP_BASE_URL } from "@/constants";
-import Rive, { Alignment, Fit, Layout } from "@rive-app/react-canvas";
+import RiveWrapper from "../RiveWrapper";
 
 interface EpfPreCheckFailedViewProps {
   error: EpfFetchError;
@@ -38,14 +38,9 @@ function Content(props: { error: EpfFetchError }) {
   return (
     <CenterContent
       illustration={
-        <Rive
+        <RiveWrapper
           src="/assets/animations/pf_kyc_complete.riv"
-          layout={
-            new Layout({
-              fit: Fit.Contain,
-              alignment: Alignment.Center,
-            })
-          }
+          position="contain_center"
           style={{
             height: "24rem",
           }}

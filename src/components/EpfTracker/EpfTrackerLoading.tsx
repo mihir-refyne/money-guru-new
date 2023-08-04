@@ -1,6 +1,6 @@
 import React from "react";
-import Rive, { Fit, Layout, Alignment } from "@rive-app/react-canvas";
 import PageLayout from "../PageLayout";
+import RiveWrapper from "../RiveWrapper";
 
 // TODO: This can be a Independent component, refactor later
 export default function EpfTrackerLoading() {
@@ -10,14 +10,9 @@ export default function EpfTrackerLoading() {
       hasLocaleChange={false}
       alignContentCenter
     >
-      <Rive
+      <RiveWrapper
         src="/assets/animations/epf_details_fetching.riv"
-        layout={
-          new Layout({
-            fit: Fit.Contain,
-            alignment: Alignment.Center,
-          })
-        }
+        position="contain_center"
         style={{
           height: "24rem",
         }}

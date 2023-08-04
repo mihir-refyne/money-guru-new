@@ -3,9 +3,17 @@ const nextConfig = {
   basePath: process.env.BASE_PATH,
   reactStrictMode: false,
   i18n: {
-    locales: ['en', 'hi'],
-    defaultLocale: 'en',
-  }
-}
+    locales: ["en", "hi"],
+    defaultLocale: "en",
+  },
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.wasm$/,
+      type: "asset/resource",
+    });
 
-module.exports = nextConfig
+    return config;
+  },
+};
+
+module.exports = nextConfig;

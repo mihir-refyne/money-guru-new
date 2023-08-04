@@ -1,20 +1,15 @@
 import React from "react";
-import Rive, { Fit, Layout, Alignment } from "@rive-app/react-canvas";
 import CreditReportLayout from "./CreditReportLayout";
 import styles from "./CreditReportLoading.module.css";
+import RiveWrapper from "../RiveWrapper";
 
 export default function CreditReportLoading() {
   return (
     <CreditReportLayout alignContentCenter>
-      <Rive
+      <RiveWrapper
         src="/assets/animations/credit_score.riv"
         className={styles.CreditReportLoading}
-        layout={
-          new Layout({
-            fit: Fit.Contain,
-            alignment: Alignment.Center,
-          })
-        }
+        position="contain_center"
       />
       <h2 className="text-heading text-semibold mt-4 mb-2">
         Fetching your Credit Score
