@@ -86,10 +86,6 @@ export default function App({ Component, pageProps }: AppProps) {
         getPlatformName(appPlatformName?.toString())
       );
     }
-    const locale = getOrUpdatePreferredLocale({
-      selectedLocale: router.locale,
-      defaultLocale: router.defaultLocale,
-    });
     router.replace(
       {
         pathname: router.pathname,
@@ -99,7 +95,6 @@ export default function App({ Component, pageProps }: AppProps) {
       {
         shallow: true,
         scroll: false,
-        locale,
       }
     );
     setIsLoading(false);
@@ -126,6 +121,21 @@ export default function App({ Component, pageProps }: AppProps) {
       window.removeEventListener("resize", setViewportVariable);
     };
   }, [router.isReady]);
+
+  // INFO: This will force user preferred locale in route path
+  useEffect(() => {
+    const locale = getOrUpdatePreferredLocale({
+      selectedLocale: router.locale,
+      defaultLocale: router.defaultLocale,
+    });
+    if (!locale || !router.locale) return;
+    if (locale === router.locale) return;
+    router.replace(router.asPath, undefined, {
+      shallow: true,
+      scroll: false,
+      locale,
+    });
+  }, [router.locale]);
 
   const isMobileAndLandscape =
     isScreenHeightLessThan(560) &&

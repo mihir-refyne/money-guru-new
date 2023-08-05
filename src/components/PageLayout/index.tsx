@@ -1,10 +1,10 @@
+import { ReactElement, ReactNode, useState } from "react";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { setPreferredLocale } from "@/lib/locale";
+import { getPreferredLocale, setPreferredLocale } from "@/lib/locale";
 import { dispatchDataToNativePlatform } from "@/lib/webview";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ReactElement, ReactNode, useState } from "react";
 import LocaleUpdateOptions from "../LocaleUpdateOptions";
 import Modal from "../Modal";
 import Navbar from "../Navbar";
@@ -46,7 +46,7 @@ export default function PageLayout({
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
   const [currentLocale, setCurrentLocale] = useState<string>(
-    router.locale ?? router.defaultLocale ?? ""
+    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? ""
   );
 
   function handleLocaleUpdateClick() {

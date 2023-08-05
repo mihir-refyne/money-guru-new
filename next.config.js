@@ -1,11 +1,9 @@
+const nextTranslate = require("next-translate-plugin");
+
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = nextTranslate({
   basePath: process.env.BASE_PATH,
   reactStrictMode: false,
-  i18n: {
-    locales: ["en", "hi"],
-    defaultLocale: "en",
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.wasm$/,
@@ -14,6 +12,6 @@ const nextConfig = {
 
     return config;
   },
-};
+});
 
 module.exports = nextConfig;
