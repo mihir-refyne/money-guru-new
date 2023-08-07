@@ -23,7 +23,7 @@ type ShareResponse<MediumType> =
     };
 
 interface UseShareProps {
-  isWebview?: boolean;
+  isNativePlatformShareSupported?: boolean;
 }
 
 interface ShareOrClipboardCopyConfig {
@@ -43,12 +43,9 @@ interface UseShareResponse {
 }
 
 function getSupportedObject(context: {
-  isWebview: boolean;
+  isNativePlatformShareSupported: boolean;
 }): Record<ShareMedium, boolean> | null {
-  const { isWebview } = context;
-
-  // INFO: We are assuming native share is supported in webview
-  const isNativePlatformShareSupported = isWebview;
+  const { isNativePlatformShareSupported } = context;
 
   try {
     const imageShareAvailable = canShareImage();
@@ -92,11 +89,11 @@ function handleWebShareResponse<
 }
 
 export function useShare({
-  isWebview = false,
+  isNativePlatformShareSupported = false,
 }: UseShareProps): UseShareResponse {
   const supported = useMemo(
-    () => getSupportedObject({ isWebview }),
-    [isWebview]
+    () => getSupportedObject({ isNativePlatformShareSupported }),
+    [isNativePlatformShareSupported]
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

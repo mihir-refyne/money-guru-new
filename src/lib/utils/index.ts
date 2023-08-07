@@ -9,7 +9,7 @@ export function isStringAndNotEmpty(value: unknown): value is string {
 export const isTouchDevice = () =>
   "ontouchstart" in window.document.documentElement;
 
-function isIOS() {
+export function isIOS() {
   return (
     [
       "iPad Simulator",

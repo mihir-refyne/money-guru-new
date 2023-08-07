@@ -13,6 +13,7 @@ import { APP_BASE_URL } from "@/constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanelPromise } from "@/lib/analytics/mixpanel";
+import { isIOS } from "@/lib/utils";
 
 const TOTAL_STAMP_TO_BE_COLLECTED = 6;
 
@@ -67,7 +68,7 @@ export default function IndependenceDayTrailerLandingPage({
   const router = useRouter();
   const [isLocaleLoading, setIsLocaleLoading] = useState<boolean>(true);
   const { shareInProgress, shareOrClipboardCopy } = useShare({
-    isWebview: isRefyneWebview,
+    isNativePlatformShareSupported: isRefyneWebview && !isIOS(),
   });
 
   useEffect(() => {
