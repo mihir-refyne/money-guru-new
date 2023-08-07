@@ -66,13 +66,6 @@ export default function IndependenceDayHype({
           isShareLoading={isShareLoading}
         />
       }
-      preloads={[
-        {
-          as: "fetch",
-          href: "/assets/animations/independence_hero.riv",
-          crossOrigin: "anonymous",
-        },
-      ]}
     >
       <IndependenceDayHero
         height="60rem"
