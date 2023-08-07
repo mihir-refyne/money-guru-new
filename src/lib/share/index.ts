@@ -7,6 +7,10 @@ interface ShareContent {
   url?: string;
 }
 
+export type ShareContentWithImageUrls = Omit<ShareContent, "files"> & {
+  imageUrls: string[];
+};
+
 export async function getFileByRemoteImageUrl(url: string): Promise<File> {
   const response = await fetch(url);
   const blob = await response.blob();
@@ -19,6 +23,7 @@ export async function getFileByRemoteImageUrl(url: string): Promise<File> {
 export async function getDataUrlByRemoteImageUrl(
   url: string
 ): Promise<string | null> {
+  if (url.startsWith("data:")) return url;
   if (!FileReader) return null;
   const file = await getFileByRemoteImageUrl(url);
   return new Promise((resolve) => {
@@ -73,10 +78,6 @@ export async function shareToNativePlatformWithImageUrls(
     });
   }
   // INFO: Only supporting one image for now
-  // const imageDataUrls = await Promise.all(
-  //   imageUrls.map(getDataUrlByRemoteImageUrl)
-  // ).catch((_) => null);
-  // const filteredImageDataUrls = imageDataUrls?.filter(Boolean) ?? null;
   const imageDataUrl =
     imageUrls[0] && (await getDataUrlByRemoteImageUrl(imageUrls[0]));
   const body = { imageDataUrl, ...rest };
