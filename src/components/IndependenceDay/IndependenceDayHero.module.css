@@ -1,0 +1,29 @@
+.IndependenceDayHero {
+    --negative-bottom-space: var(--spacing-8);
+    position: relative;
+    margin-bottom: var(--negative-bottom-space);
+}
+
+.IndependenceDayHero__Background {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - var(--negative-bottom-space));
+    z-index: -1;
+}
+
+.IndependenceDayHero__Content {
+    padding: var(--spacing-16) var(--spacing-4) var(--spacing-10);
+    width: 100%;
+    height: calc(100% - var(--negative-bottom-space));
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--spacing-4);
+}
+
+.IndependenceDayHero__Footer {
+    position: relative;
+    padding: 0 var(--spacing-4);
+    margin-top: calc(var(--negative-bottom-space) * -1);
+}

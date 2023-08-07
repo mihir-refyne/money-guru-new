@@ -1,9 +1,10 @@
 {
-  "locales": ["en", "hi"],
+  "locales": ["en", "hi", "ka", "ml", "ta", "te", "mr", "bn", "gu", "or"],
   "defaultLocale": "en",
   "pages": {
     "*": ["common"]
   },
   "allowEmptyStrings": false,
+  "logBuild": false,
   "defaultNS": "common"
 }

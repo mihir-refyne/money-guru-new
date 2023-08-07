@@ -1,3 +1,20 @@
 .List {
   list-style: none;
 }
+
+.ListItem {
+  display: flex;
+  align-items: flex-start;
+}
+
+.ListItem:not(:last-child) {
+  margin-bottom: var(--spacing-3);
+}
+.ListItem__Icon {
+  margin-right: var(--spacing-3);
+}
+
+.ListItem__Icon>* {
+  height: var(--spacing-6);
+  width: var(--spacing-6);
+}

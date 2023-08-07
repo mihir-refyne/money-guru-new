@@ -1,3 +1,5 @@
+import { ONE_DAY_IN_SEC, ONE_HOUR_IN_SEC, ONE_MIN_IN_SEC } from "@/constants";
+
 export function isStringAndNotEmpty(value: unknown): value is string {
   if (typeof value !== "string") return false;
   if (!value) return false;
@@ -86,6 +88,23 @@ export function getRandomNumbersInRange(
     }
   }
   return Array.from(numbers);
+}
+
+export function durationInSecondsToDayMinHrSec(durationInSec: number) {
+  const days = Math.floor(durationInSec / ONE_DAY_IN_SEC);
+  const remainingDurationAfterDaysInSec = durationInSec - days * ONE_DAY_IN_SEC;
+
+  const hours = Math.floor(remainingDurationAfterDaysInSec / ONE_HOUR_IN_SEC);
+  const remainingDurationAfterHoursInSec =
+    remainingDurationAfterDaysInSec - hours * ONE_HOUR_IN_SEC;
+
+  const minutes = Math.floor(remainingDurationAfterHoursInSec / ONE_MIN_IN_SEC);
+  const remainingDurationAfterMinsInSec =
+    remainingDurationAfterHoursInSec - minutes * ONE_MIN_IN_SEC;
+
+  const seconds = Math.floor(remainingDurationAfterMinsInSec);
+
+  return { days, hours, minutes, seconds };
 }
 
 export function formatToInr(amount: number, decimal?: number) {

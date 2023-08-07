@@ -1,7 +1,20 @@
 .Separator__Wrapper {
+  --separator-spacing: var(--spacing-6);
   display: flex;
   align-items: flex-start;
-  gap: var(--spacing-6);
+  gap: var(--separator-spacing);
+}
+
+.Separator__Spacing_3 {
+  --separator-spacing: var(--spacing-3);
+}
+  
+.Separator__Spacing_4 {
+  --separator-spacing: var(--spacing-4);
+}
+  
+.Separator__Spacing_6 {
+  --separator-spacing: var(--spacing-6);
 }
 
 .Separator__vertical {
@@ -13,12 +26,12 @@
 }
 
 .Separator__horizontal .Separator {
-  padding-right: var(--spacing-6);
+  padding-right: var(--separator-spacing);
   border-right: 1px solid var(--clr-text-secondary);
 }
 
 .Separator__vertical .Separator {
-  padding-bottom: var(--spacing-6);
+  padding-bottom: var(--separator-spacing);
   border-bottom: 1px solid var(--clr-text-secondary);
 }
 

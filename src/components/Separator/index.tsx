@@ -2,6 +2,7 @@ import { CSSProperties, ReactElement } from "react";
 import styles from "./styles.module.css";
 
 type Orientation = "vertical" | "horizontal";
+type SeparatorSpacing = 3 | 4 | 6;
 
 const orientationToBorderColorKeyMap: Record<Orientation, string> = {
   vertical: "borderBottomColor",
@@ -17,6 +18,7 @@ interface SeparatorProps {
   children: ReactElement[];
   separatorStyle?: CSSProperties["borderStyle"];
   separatorColor?: string;
+  spacing?: SeparatorSpacing;
 }
 
 export default function Separator({
@@ -24,12 +26,13 @@ export default function Separator({
   children,
   separatorStyle,
   separatorColor,
+  spacing = 6,
 }: SeparatorProps) {
   return (
     <div
       className={`${styles.Separator__Wrapper} ${
         styles[`Separator__${orientation}`]
-      }`}
+      } ${styles[`Separator__Spacing_${spacing}`]}`}
     >
       {children.map((childComponents, index) => {
         return (

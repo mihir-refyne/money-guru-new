@@ -1,7 +1,7 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import GreenTickImage from "@/images/green-tick.svg";
 import Image from "next/image";
-import styles from "./styles.module.css"
+import styles from "./styles.module.css";
 
 type ListType = "tick";
 
@@ -10,7 +10,7 @@ interface ListProps {
   items: Array<string>;
 }
 
-export default function List({ type, items }: ListProps) {
+export function List({ type, items }: ListProps) {
   return (
     <ul className={styles.List}>
       {items.map((item, index) => (
@@ -20,18 +20,42 @@ export default function List({ type, items }: ListProps) {
   );
 }
 
+interface ListWithCustomIconsProps {
+  items: Array<{
+    icon: ReactElement;
+    text: string;
+  }>;
+}
+
+export function ListWithCustomIcons({ items }: ListWithCustomIconsProps) {
+  return (
+    <ul className={styles.List}>
+      {items.map((item, index) => (
+        <ListItem key={index} customIcon={item.icon} value={item.text} />
+      ))}
+    </ul>
+  );
+}
+
 interface ListItemProps {
-  type: ListType;
+  type?: ListType;
+  customIcon?: ReactElement;
   value: string;
 }
 
-function ListItem({ type, value }: ListItemProps) {
-  if (type === "tick")
+function ListItem({ type, customIcon, value }: ListItemProps) {
+  if (type === "tick") {
     return (
-      <li className="clr-text-secondary text-caption my-3">
+      <li className={`${styles.ListItem} clr-text-secondary text-caption`}>
         <Image src={GreenTickImage} alt={value} className="mr-2" />
         <span>{value}</span>
       </li>
     );
-  return null;
+  }
+  return (
+    <li className={`${styles.ListItem} clr-text-secondary text-caption`}>
+      {customIcon && <div className={styles.ListItem__Icon}>{customIcon}</div>}
+      <span>{value}</span>
+    </li>
+  );
 }

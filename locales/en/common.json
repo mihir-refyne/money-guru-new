@@ -1,1 +1,27 @@
-{}
+{
+  "stamps_landing_page_header_bar_text": "Independence Day Stamps",
+  "stamps_hype_page_heading": "Collect all 6 Stamps and win up to ₹10,001. Starts in... ",
+  "timer_days": "Day(s)",
+  "timer_hours": "Hour(s)",
+  "timer_minutes": "Minute(s)",
+  "timer_seconds": "Second(s)",
+  "stamps_share_now": "Share Now",
+  "stamps_landing_page_social_proof1": "⚡ 10,928 people already entered the game ⚡",
+  "stamps_landing_page_social_proof2": "⚡ 20,928 people already entered the game ⚡",
+  "stamps_landing_page_social_proof3": "⚡ 30,928 people already entered the game ⚡",
+  "stamps_landing_page_social_proof4": "⚡ 30,928 people already entered the game ⚡",
+  "stamps_landing_page_social_proof5": "⚡ 30,928 people already entered the game ⚡",
+  "stamps_game_rules_header": "Game Rules",
+  "stamps_disclaimer_footer_text": "Disclaimer: Refyne Tech Pvt. Ltd. will not support gambling of any sorts. This is purely for engagement purposes",
+  "stamps_rule1": "Complete the mentioned tasks to win a stamp",
+  "stamps_rule2": "Complete the mentioned tasks to win a stamp",
+  "stamps_rule3": "Complete the mentioned tasks to win a stamp",
+  "stamps_rule4": "Complete the mentioned tasks to win a stamp",
+  "stamps_faq_hyperlink_text": "Got more questions?",
+  "stamps_cta_pre_kyc": "Complete KYC",
+  "stamps_cta_refyne_verified": "Share",
+  "stamps_cta_verif_pending": "Verification In Progress",
+  "stamps_cta_header_text_pre_kyc": "Complete KYC to join the game",
+  "stamps_cta_header_text_refyne_verified": "Invite your friends to the game",
+  "stamps_cta_header_text_verif_pending": "Please wait until KYC is verified"
+}

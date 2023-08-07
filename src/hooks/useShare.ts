@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { copyText } from "@/lib/clipboard";
 import {
-  ShareContentWithImageUrls,
+  type ShareContentWithImageUrls,
   canShare,
   canShareImage,
   shareToNativePlatformWithImageUrls,
@@ -146,13 +146,16 @@ export function useShare({
     const clipboardCopyText = [payload.text, payload.url]
       .filter(Boolean)
       .join(" ");
-    copyText(clipboardCopyText);
-    if (showToastOnClipboardCopy) {
+    const clipboardCopySuccess = await copyText(clipboardCopyText);
+    if (clipboardCopySuccess && showToastOnClipboardCopy) {
       toast.success(clipboardCopyToastMessage, {
         id: "copy_to_clipboard_success",
       });
     }
-    return handleWebShareResponse<ShareMediumWithCopy>(true, "CLIPBOARD_COPY");
+    return handleWebShareResponse<ShareMediumWithCopy>(
+      clipboardCopySuccess,
+      "CLIPBOARD_COPY"
+    );
   }
 
   return {

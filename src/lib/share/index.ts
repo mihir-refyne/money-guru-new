@@ -46,9 +46,11 @@ function getFileNameFromUrl(url: string): string {
 export async function share(payload: ShareContent) {
   if (!canShare(payload)) return false;
   try {
+    console.log("Starting browser share with payload ", payload);
     await navigator?.share(payload);
     return true;
   } catch (error) {
+    console.error("Share Failed due to ", error);
     return false;
   }
 }
@@ -62,7 +64,7 @@ export async function shareWithImageUrls(
     return share({ files, ...rest });
   } catch (e: any) {
     if (e?.name === "NotAllowedError") {
-      share(rest);
+      return share(rest);
     }
   }
 }

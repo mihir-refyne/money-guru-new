@@ -8,6 +8,9 @@
   gap: var(--spacing-2);
 }
 
+.InfoCard__Transparent {
+  background: transparent;
+}
 .InfoCard__Icon {
   color: var(--clr-text-primary);
   width: var(--spacing-4);

@@ -124,6 +124,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // INFO: This will force user preferred locale in route path
   useEffect(() => {
+    // TEMP HACK to not force on IDS pages
+    if (router.pathname.includes("independence-day")) return;
     const locale = getOrUpdatePreferredLocale({
       selectedLocale: router.locale,
       defaultLocale: router.defaultLocale,

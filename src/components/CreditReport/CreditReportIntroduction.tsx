@@ -4,7 +4,7 @@ import AvatarNo from "../../images/avatar-no.svg";
 import AvatarNotSure from "../../images/avatar-maybe.svg";
 import CreditReportLayout from "./CreditReportLayout";
 import RadioButtonGroup from "../RadioButtonGroup";
-import List from "../List";
+import { List } from "../List";
 
 interface CreditReportIntroductionProps {
   onUserFeedbackChange?: (answer: string) => void;
@@ -41,13 +41,15 @@ export default function CreditReportIntroduction({
           >
             Let&apos;s Check
           </button>
-          <List
-            type="tick"
-            items={[
-              "No sharing of credit report with any 3rd party",
-              "Checking your Credit score will not reduce your score",
-            ]}
-          />
+          <div className="mt-4">
+            <List
+              type="tick"
+              items={[
+                "No sharing of credit report with any 3rd party",
+                "Checking your Credit score will not reduce your score",
+              ]}
+            />
+          </div>
         </div>
       }
     >

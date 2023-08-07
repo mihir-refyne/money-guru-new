@@ -13,7 +13,13 @@ import styles from "./styles.module.css";
 const DEFAULT_PAGE_TITLE = "Money Guru - Refyne";
 const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
 
-interface PageLayoutProps {
+interface Preload {
+  as: "fetch";
+  href: string;
+  crossOrigin: "anonymous";
+}
+
+export interface PageLayoutProps {
   title?: string;
   description?: string;
   dispatchPopEventOnBackClick?: boolean;
@@ -26,6 +32,7 @@ interface PageLayoutProps {
   hasContentPadding?: boolean;
   hasLocaleChange?: boolean;
   footer?: ReactElement;
+  preloads?: Array<Preload>;
 }
 
 export default function PageLayout({
@@ -41,6 +48,7 @@ export default function PageLayout({
   alignContentCenter = false,
   hasLocaleChange = true,
   hasContentPadding = true,
+  preloads,
 }: PageLayoutProps) {
   const router = useRouter();
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
@@ -88,6 +96,9 @@ export default function PageLayout({
           content="autoRotate:disabled"
         ></meta>
         <link rel="icon" href="/favicon.ico" />
+        {preloads?.map((preload, index) => (
+          <link key={index} rel="preload" {...preload} />
+        ))}
       </Head>
       <main className={styles.PageLayout__Wrapper}>
         {hasNavbar && (
