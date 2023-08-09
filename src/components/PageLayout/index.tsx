@@ -130,7 +130,8 @@ export default function PageLayout({
         bottomSheetOnMobile
       >
         <LocaleUpdateOptions
-          locales={router.locales}
+          // INFO: This is hack for now, remove after IDS is done
+          locales={["en", "hi"]}
           currentValue={currentLocale}
           onChange={setCurrentLocale}
         />
