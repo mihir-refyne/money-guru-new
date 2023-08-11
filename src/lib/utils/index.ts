@@ -24,7 +24,7 @@ export function isIOS() {
   );
 }
 
-function isWebview() {
+export function isWebview() {
   return (
     typeof window !== "undefined" &&
     window?.navigator?.userAgent?.includes("wv")
@@ -105,6 +105,16 @@ export function durationInSecondsToDayMinHrSec(durationInSec: number) {
   const seconds = Math.floor(remainingDurationAfterMinsInSec);
 
   return { days, hours, minutes, seconds };
+}
+
+export function durationInSecondsToMinSec(durationInSec: number) {
+  const minutes = Math.floor(durationInSec / ONE_MIN_IN_SEC);
+  const remainingDurationAfterMinsInSec =
+    durationInSec - minutes * ONE_MIN_IN_SEC;
+
+  const seconds = Math.floor(remainingDurationAfterMinsInSec);
+
+  return { minutes, seconds };
 }
 
 export function formatToInr(amount: number, decimal?: number) {

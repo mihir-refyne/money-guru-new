@@ -7,6 +7,9 @@ interface ShortMediaProps {
   url: string;
   tag?: string;
   showOnlyThumbnailForVideo?: boolean;
+  hideIfNotInView?: boolean;
+  autoplay?: boolean;
+  controls?: boolean;
 }
 
 export default function ShortMedia({
@@ -14,6 +17,9 @@ export default function ShortMedia({
   url,
   tag,
   showOnlyThumbnailForVideo = false,
+  hideIfNotInView,
+  autoplay = true,
+  controls = false,
 }: ShortMediaProps) {
   if (type === "image") {
     return (
@@ -35,13 +41,14 @@ export default function ShortMedia({
         <YoutubePlayer
           className={styles.ShortMedia__Image}
           url={url}
-          autoplay
+          autoplay={autoplay}
           fullscreen={false}
           modestBranding
           showRelatedVideos={false}
           loop
-          controls={false}
+          controls={controls}
           showOnlyThumbnail={showOnlyThumbnailForVideo}
+          hideIfNotInView={hideIfNotInView}
         />
       </div>
     );

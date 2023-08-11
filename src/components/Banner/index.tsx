@@ -1,4 +1,16 @@
+import { useEffect } from "react";
 import styles from "./styles.module.css";
+
+function getRootComponent(context: {
+  hasUrl: boolean;
+  hasOnCall: boolean;
+}): "div" | "a" | "button" {
+  const { hasUrl, hasOnCall } = context;
+  if (hasUrl && hasOnCall) return "a";
+  if (hasUrl) return "a";
+  if (hasOnCall) return "button";
+  return "div";
+}
 
 export interface BannerProps {
   backgroundColor?: string;
@@ -8,7 +20,10 @@ export interface BannerProps {
   descriptionColor?: string;
   rightImageUrl?: string;
   url?: string;
+  onClick?: () => void;
+  onMount?: () => void;
   ctaLabel?: string;
+  ctaDisabled?: boolean;
   ctaLabelColor?: string;
   ctaBackgroundColor?: string;
 }
@@ -21,16 +36,27 @@ export default function Banner({
   descriptionColor,
   rightImageUrl,
   url,
+  onClick,
+  onMount,
   ctaLabel,
+  ctaDisabled,
   ctaLabelColor,
   ctaBackgroundColor,
 }: BannerProps) {
-  const RootComponent = url ? "a" : "div";
+  useEffect(() => {
+    onMount?.();
+  }, []);
+  const RootComponent = getRootComponent({
+    hasUrl: !!url,
+    hasOnCall: !!onClick,
+  });
   return (
     <RootComponent
       className={styles.Banner}
       style={{ background: backgroundColor }}
       href={url}
+      onClick={onClick}
+      disabled={ctaDisabled}
     >
       <div>
         {heading && (
@@ -56,6 +82,7 @@ export default function Banner({
               color: ctaLabelColor,
               backgroundColor: ctaBackgroundColor,
             }}
+            disabled={ctaDisabled}
           >
             {ctaLabel}
           </button>

@@ -14,6 +14,7 @@ interface YoutubePlayerProps {
   mute?: boolean;
   modestBranding?: boolean;
   showOnlyThumbnail?: boolean;
+  hideIfNotInView?: boolean;
 }
 
 export default function YoutubePlayer({
@@ -29,6 +30,7 @@ export default function YoutubePlayer({
   mute = false,
   modestBranding = false,
   showOnlyThumbnail = false,
+  hideIfNotInView = true,
 }: YoutubePlayerProps) {
   const { ref, isOnScreen } = useOnScreen<HTMLDivElement>({
     options: { threshold: 0.6 },
@@ -42,6 +44,8 @@ export default function YoutubePlayer({
         alt={`Thumbnail of YouTube video ${url}`}
         loading="lazy"
         className={[styles.YoutubePlayer__Thumbnail, className].join(" ")}
+        width="100%"
+        height="100%"
       />
     );
   }
@@ -86,9 +90,11 @@ export default function YoutubePlayer({
     convertBooleanToBinary(modestBranding).toString()
   );
 
+  const showIframe = hideIfNotInView ? isOnScreen : true;
+
   return (
     <div ref={ref} className={className}>
-      {isOnScreen && (
+      {showIframe && (
         <iframe
           width="100%"
           height="100%"

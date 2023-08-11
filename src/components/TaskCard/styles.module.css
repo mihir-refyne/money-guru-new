@@ -1,0 +1,30 @@
+.TaskCard {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.TaskCardItem {
+    padding: var(--spacing-4);
+    border-radius: var(--spacing-4);
+    background-color: #EBF5FF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-3);
+}
+
+.TaskCardItem--completed {
+    background-color: var(--clr-info-success-light);
+}
+.TaskCardItem__Content {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.TaskCardItem__Count {
+    padding: var(--spacing-1) var(--spacing-2);
+    border-radius: var(--spacing-4);
+    background-color: var(--clr-pure-white);
+    color: var(--clr-brand-default);
+}

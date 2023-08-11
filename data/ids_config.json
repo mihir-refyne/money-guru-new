@@ -1,5 +1,6 @@
 {
   "faqUrl": "https://app.refyne.co.in/#/faq",
+  "faqVideoUrl": null,
   "rules": [
     {
       "iconUrl": "/assets/images/ids/blue_tick_icon.svg",
@@ -18,11 +19,105 @@
       "text": "stamps_rule4"
     }
   ],
-  "socialProofTexts": ["stamps_landing_page_social_proof1"],
+  "socialProofTexts": [
+    "stamps_landing_page_social_proof1",
+    "stamps_landing_page_social_proof2",
+    "stamps_landing_page_social_proof3",
+    "stamps_landing_page_social_proof4",
+    "stamps_landing_page_social_proof5"
+  ],
   "festiveStartDate": "2023-08-11T03:30:00.000Z",
   "defaultSharePayload": {
-    "imageUrl": "/assets/images/ids/ids_share_image.png",
+    "imageUrl": "/assets/images/ids/ids_share_image.jpeg",
     "text": "Hi there, click on the link and join India's biggest Independence Day celebration on Refyne and stand a chance to win upto ₹10,001",
     "url": "https://refyne.page.link/refynebharat"
+  },
+  "podiumStagesConfig": [
+    {
+      "backgroundColor": "#EC9527",
+      "stampBorderColor": "#FDEECA"
+    },
+    {
+      "backgroundColor": "#FFFFFF",
+      "stampBorderColor": "#ADD4FF"
+    },
+    {
+      "backgroundColor": "#2C9E82",
+      "stampBorderColor": "#FDEECA"
+    }
+  ],
+  "giftShareContent": {
+    "message": "Hi There, I am gifting you {{stampName}} stamp on Refyne as an Independence Day gift. To claim it, please click here"
+  },
+  "requestShareContent": {
+    "message": "Hey, I am looking for {{stampNames}} Stamp(s) on Refyne. Do you have them? Please gift me the stamps by clicking here"
+  },
+  "rewardIdToStampsConfigMap": {
+    "VIR_RWD10000008": {
+      "imageUrl": "/assets/images/ids/red_fort_stamp.svg",
+      "name": "Red Fort",
+      "info": {
+        "illustrationUrl": "/assets/images/ids/red_fort_info_illustration.png",
+        "title": "Here is a fact about Red Fort!",
+        "description": "Every year on 15th Aug, the PM hoists the National Flag at Delhi's iconic monument and addresses the nation. Check it out on Refyne"
+      }
+    },
+    "VIR_RWD10000012": {
+      "imageUrl": "/assets/images/ids/taj_mahal_stamp.svg",
+      "name": "Taj Mahal",
+      "info": {
+        "illustrationUrl": "/assets/images/ids/taj_mahal_info_illustration.png",
+        "title": "Here is a fact about Taj Mahal",
+        "description": "One of the 7 wonders of world, this Agra's white-marble masterpiece symbolizes love and beauty! Check it out on Refyne"
+      }
+    },
+    "VIR_RWD10000021": {
+      "imageUrl": "/assets/images/ids/charminar_stamp.svg",
+      "name": "Charminar",
+      "info": {
+        "illustrationUrl": "/assets/images/ids/charminar_info_illustration.png",
+        "title": "Here is a fact about Charminar",
+        "description": "Charminar represents Hyderabad's rich cultural heritage! Check it out on Refyne"
+      }
+    },
+    "VIR_RWD10000023": {
+      "imageUrl": "/assets/images/ids/hawa_mahal_stamp.svg",
+      "name": "Here is a fact about Hawa Mahal",
+      "info": {
+        "illustrationUrl": "/assets/images/ids/hawa_mahal_info_illustration.png",
+        "title": "About Hawa Mahal",
+        "description": "This Jaipur's marvel is designed with 953 decorated windows that allow natural ventilation, symbolizing both aesthetic beauty! Check it out on Refyne"
+      }
+    },
+    "VIR_RWD10000034": {
+      "imageUrl": "/assets/images/ids/gateway_of_india_stamp.svg",
+      "name": "Gateway of India",
+      "info": {
+        "illustrationUrl": "/assets/images/ids/gateway_of_india_info_illustration.png",
+        "title": "Here is a fact about Gateway of India",
+        "description": "This big, impressive arch by the sea in Mumbai was a pass-through for visitors to enter India during the British rule! Check it out on Refyne"
+      }
+    },
+    "VIR_RWD10000043": {
+      "imageUrl": "/assets/images/ids/mysore_palace_stamp.svg",
+      "name": "Mysore Palace",
+      "info": {
+        "illustrationUrl": "/assets/images/ids/mysore_palace_info_illustration.png",
+        "title": "Here is a fact about Mysore Palace",
+        "description": "This grand treasure of India shows off the beautiful style of the royals who lived in Mysore, Karnataka! Check it out on Refyne"
+      }
+    }
+  },
+  "requestBannerConfig": null,
+  "referBannerConfig": {
+    "heading": "Want more Stamps?",
+    "headingColor": "#15171A",
+    "description": "Refer your coworkers on Refyne today and you might get a Stamp!",
+    "descriptionColor": "#696D70",
+    "rightImageUrl": "/assets/images/ids/ids_refer_banner_image.svg",
+    "backgroundColor": "#E4FAFD",
+    "ctaLabel": "Refer Now",
+    "ctaLabelColor": "#0057B7",
+    "ctaBackgroundColor": "#E4FAFD"
   }
 }

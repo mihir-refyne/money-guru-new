@@ -1,21 +1,19 @@
 import { useEffect, useState } from "react";
 
-export default function useFetcher<T, E extends Error>(
-  fetcher: () => Promise<T>
-) {
+export default function useFetcher<T, E extends Error>(fetcher: () => Promise<T> | null) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<E | null>(null);
 
-  async function fetchData() {
-    setIsLoading(true);
+  async function fetchData(requiresLoading: boolean = true) {
+    requiresLoading && setIsLoading(true);
     try {
       const resp = await fetcher();
       setData(resp);
     } catch (error: any) {
       setError(error);
     } finally {
-      setIsLoading(false);
+      requiresLoading && setIsLoading(false);
     }
   }
 
@@ -23,5 +21,5 @@ export default function useFetcher<T, E extends Error>(
     fetchData();
   }, []);
 
-  return { isLoading, data, error };
+  return { isLoading, data, error, refetch: fetchData };
 }
