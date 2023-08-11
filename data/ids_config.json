@@ -1,6 +1,6 @@
 {
   "faqUrl": "https://app.refyne.co.in/#/faq",
-  "faqVideoUrl": "https://www.youtube.com/watch?v=2QOnkZzpz6g",
+  "faqVideoUrl": "https://www.youtube.com/watch?v=A0v-9I0IVOY",
   "rules": [
     {
       "iconUrl": "/assets/images/ids/blue_tick_icon.svg",
@@ -75,7 +75,7 @@
       "imageUrl": "/assets/images/ids/charminar_stamp.svg",
       "name": "Charminar",
       "info": {
-        "illustrationUrl": "/assets/images/ids/charminar_info_illustration.png",
+        "illustrationUrl": "/assets/images/ids/charminar_info_illustration.jpg",
         "title": "Here is a fact about Charminar",
         "description": "Charminar represents Hyderabad's rich cultural heritage! Check it out on Refyne"
       }

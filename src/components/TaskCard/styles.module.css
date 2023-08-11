@@ -17,6 +17,10 @@
 .TaskCardItem--completed {
     background-color: var(--clr-info-success-light);
 }
+.TaskCardItem__LeftIcon {
+    min-width: var(--spacing-8);
+    max-width: var(--spacing-8);
+}
 .TaskCardItem__Content {
     flex-grow: 1;
     text-align: left;

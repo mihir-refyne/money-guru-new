@@ -53,9 +53,14 @@ export function TaskCardItem({
       size={32}
       weight="fill"
       color="var(--clr-info-success-default)"
+      className={styles.TaskCardItem__LeftIcon}
     />
   ) : leftIconUrl ? (
-    <img src={leftIconUrl} alt={text} />
+    <img
+      src={leftIconUrl}
+      alt={text}
+      className={styles.TaskCardItem__LeftIcon}
+    />
   ) : null;
 
   return (
