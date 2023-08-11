@@ -20,11 +20,7 @@
     }
   ],
   "socialProofTexts": [
-    "stamps_landing_page_social_proof1",
-    "stamps_landing_page_social_proof2",
-    "stamps_landing_page_social_proof3",
-    "stamps_landing_page_social_proof4",
-    "stamps_landing_page_social_proof5"
+    "stamps_landing_page_social_proof1"
   ],
   "festiveStartDate": "2023-08-11T03:30:00.000Z",
   "defaultSharePayload": {
