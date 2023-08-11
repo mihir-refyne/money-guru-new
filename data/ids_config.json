@@ -1,6 +1,6 @@
 {
   "faqUrl": "https://app.refyne.co.in/#/faq",
-  "faqVideoUrl": null,
+  "faqVideoUrl": "https://www.youtube.com/watch?v=2QOnkZzpz6g",
   "rules": [
     {
       "iconUrl": "/assets/images/ids/blue_tick_icon.svg",
@@ -20,7 +20,11 @@
     }
   ],
   "socialProofTexts": [
-    "stamps_landing_page_social_proof1"
+    "stamps_landing_page_social_proof1",
+    "stamps_landing_page_social_proof2",
+    "stamps_landing_page_social_proof3",
+    "stamps_landing_page_social_proof4",
+    "stamps_landing_page_social_proof5"
   ],
   "festiveStartDate": "2023-08-11T03:30:00.000Z",
   "defaultSharePayload": {
