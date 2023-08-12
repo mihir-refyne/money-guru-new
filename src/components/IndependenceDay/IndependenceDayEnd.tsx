@@ -35,7 +35,7 @@ export default function IndependenceDayEnd({
       />
       <div className="px-4 mt-6">
         <h3 className="text-heading text-medium mb-4">
-          Redeem your prizes now
+          {t("all_stamps_collected_step_header")}
         </h3>
         <Card backgroundColor="#EBF5FF">
           <ListWithCustomIcons
@@ -44,7 +44,7 @@ export default function IndependenceDayEnd({
                 icon: (
                   <img src="/assets/images/ids/giftbox_icon.svg" alt="Reward" />
                 ),
-                text: "Tap on the Independence Day Scratch card to open your prize",
+                text: t("all_stamps_collected_step"),
               },
             ]}
           />
@@ -53,7 +53,7 @@ export default function IndependenceDayEnd({
               className="btn btn-primary btn-compact btn-rounded px-4"
               onClick={onRedeemClick}
             >
-              Redeem
+              {t("all_stamps_collected_step_cta")}
             </button>
           </div>
         </Card>

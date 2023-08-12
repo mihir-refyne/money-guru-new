@@ -52,5 +52,8 @@
   "gold_milestone": "gold_milestone",
   "gold_trxn_bottomsheet_header": "gold_trxn_bottomsheet_header",
   "gold_trxn_bottomsheet_desc": "gold_trxn_bottomsheet_desc",
-  "gold_trxn_bottomsheet_cta": "gold_trxn_bottomsheet_cta"
+  "gold_trxn_bottomsheet_cta": "gold_trxn_bottomsheet_cta",
+  "all_stamps_collected_step_header": "Redeem your prize now",
+  "all_stamps_collected_step": "Tap on \"Redeem\" to view your scratch card",
+  "all_stamps_collected_step_cta": "Redeem"
 }
