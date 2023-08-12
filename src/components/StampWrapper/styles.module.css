@@ -30,6 +30,7 @@
     border-radius: 1.6rem;
     background-color: var(--clr-pure-white);
     padding: 0 var(--spacing-1);
+    min-width: var(--spacing-6);
     z-index: 2;
 }
 .StampWrapper__Checked {
