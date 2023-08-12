@@ -191,7 +191,8 @@ export default function IndependenceDayLandingPage({
   );
   const hasAtLeastOneStamp = stampsYetToBeCollected.length < STAMPS.length;
   const stampsCollectedTillNow = STAMPS.length - stampsYetToBeCollected.length;
-  const allStampsCollected = stampsYetToBeCollected.length === 0;
+  const allStampsCollected =
+    STAMPS.length > 0 && stampsYetToBeCollected.length === 0;
 
   const userRewardsActionsYetToBeCompleted = useMemo(
     () =>
@@ -358,8 +359,7 @@ export default function IndependenceDayLandingPage({
     });
     handleRouting(config.faqUrl);
   }
-  async function handleReferClick() {
-    // TODO: Add Mixpanel if required
+  function handleReferClick() {
     const rewardsUrl = `${APP_BASE_URL}/#/?next=referral`;
     handleRouting(rewardsUrl, "invite");
   }
@@ -370,9 +370,8 @@ export default function IndependenceDayLandingPage({
       AnalyticEvent.STAMPS_COLLECTION_DONE_SCREEN
     );
   }
-  function handleRedeemClick() {
-    logAnalyticsEvent(
-      ["mixpanel"],
+  async function handleRedeemClick() {
+    await logEventInMixpanelPromise(
       AnalyticEvent.STAMPS_COLLECTION_DONE_REDEEM_CLICKED
     );
     handleReferClick();
@@ -504,7 +503,7 @@ export default function IndependenceDayLandingPage({
   async function handleBannerClick() {
     if (!bannerConfig) return;
     const { type, bannerRewardId } = bannerConfig;
-    logAnalyticsEvent(["mixpanel"], AnalyticEvent.STAMPS_BANNER_CLICKED, {
+    await logEventInMixpanelPromise(AnalyticEvent.STAMPS_BANNER_CLICKED, {
       banner_type: bannerConfig.type,
       total_stamps_collected: stampsCollectedTillNow,
       remaining_unique_stamp_count: stampsYetToBeCollected.length,
@@ -566,7 +565,7 @@ export default function IndependenceDayLandingPage({
   }) {
     handleStampGiftModalClose();
     const { stampId, stampName, requestId } = context;
-    logAnalyticsEvent(["mixpanel"], AnalyticEvent.STAMPS_GIFT_ATTEMPTED, {
+    await logEventInMixpanelPromise(AnalyticEvent.STAMPS_GIFT_ATTEMPTED, {
       type: requestId ? "known" : "unknown",
       stamp_id: stampId,
       total_stamps_collected: stampsCollectedTillNow,
@@ -645,7 +644,6 @@ export default function IndependenceDayLandingPage({
         getRequestStampNames()
       );
       const requestSharePayload = {
-        // imageUrl: "",
         text: requestShareMessage,
         url: requestLinkResponse.requestingLink,
       };
@@ -661,7 +659,7 @@ export default function IndependenceDayLandingPage({
     setStampInfoModalContent(null);
     refetchVirtualRewards(false);
   }
-  function handleStampInfoModalShareClick(
+  async function handleStampInfoModalShareClick(
     sharePayload: {
       imageUrl: string;
       text: string;
@@ -670,8 +668,7 @@ export default function IndependenceDayLandingPage({
       stampId?: string;
     }
   ) {
-    logAnalyticsEvent(
-      ["mixpanel"],
+    await logEventInMixpanelPromise(
       AnalyticEvent.STAMPS_BOTTOM_SHEET_CTA_CLICKED,
       {
         cta_type: "SHARE",
