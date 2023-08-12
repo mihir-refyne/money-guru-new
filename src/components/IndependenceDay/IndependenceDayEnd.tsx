@@ -1,9 +1,11 @@
 import useTranslation from "@/hooks/useTranslation";
 import IndependenceDayLayout from "./IndependenceDayLayout";
 import idsendHeroBackgroundImageUrl from "@/images/ids_end_hero_background.png";
+import independenceDayThemeFooterImageUrl from "@/images/independence-day-theme-footer.svg";
 import Card from "../Card";
 import { useEffect } from "react";
 import { ListWithCustomIcons } from "../List";
+import InfoCard from "../InfoCard";
 
 interface IndependenceDayEndProps {
   onMount?: () => void;
@@ -55,6 +57,25 @@ export default function IndependenceDayEnd({
             </button>
           </div>
         </Card>
+      </div>
+      <div className="mt-4">
+        <InfoCard transparentBackground>
+          {t("stamps_disclaimer_footer_text")}
+        </InfoCard>
+      </div>
+      <div
+        style={{
+          marginTop: "-4rem",
+          marginBottom: "-0.8rem",
+        }}
+      >
+        <img
+          style={{
+            width: "100%",
+          }}
+          src={independenceDayThemeFooterImageUrl.src}
+          alt="Independence Day Theme Footer"
+        />
       </div>
     </IndependenceDayLayout>
   );
