@@ -510,11 +510,18 @@ export default function IndependenceDayLandingPage({
     });
     if (type === "REQUEST_BANNER") return handleRequestClick("REQUEST_BANNER");
     if (type === "REFER_BANNER") return handleReferClick();
+    if (type === "PRE_HAPPY_HOURS_BANNER") {
+      return router.reload();
+    }
     if (type === "ONGOING_HAPPY_HOURS_BANNER" && bannerRewardId) {
-      const response = await claimFestiveEvent(bannerRewardId);
-      const stampId = response?.wonRewardSnapshot._id;
-      if (!stampId) return;
-      openStampEarnedModalByStampId(stampId, "happy_hour");
+      try {
+        const response = await claimFestiveEvent(bannerRewardId);
+        const stampId = response?.wonRewardSnapshot._id;
+        if (!stampId) return;
+        openStampEarnedModalByStampId(stampId, "happy_hour");
+      } catch (error) {
+        handleError(error);
+      }
     }
   }
 
@@ -736,7 +743,10 @@ export default function IndependenceDayLandingPage({
   const isRequestEnabled = !allStampsCollected;
   const isGiftingEnabled = hasAtLeastOneStamp;
   const bannerProps = bannerConfig?.bannerProps
-    ? { ...bannerConfig.bannerProps, onClick: handleBannerClick }
+    ? {
+        ...bannerConfig.bannerProps,
+        onClick: handleBannerClick,
+      }
     : undefined;
 
   if (allStampsCollected) {
@@ -841,13 +851,15 @@ function getBannerProps(context: {
       type: "ONGOING_HAPPY_HOURS_BANNER",
       bannerRewardId: rewardId,
       bannerProps: {
-        heading: uiMetadata.header?.text,
-        headingColor: "#15171A",
-        description: uiMetadata.description?.text,
-        descriptionColor: "#696D70",
+        heading: uiMetadata.header?.text.toLowerCase(),
+        headingColor: "var(--clr-text-primary)",
+        description: uiMetadata.description?.text.toLowerCase(),
+        descriptionColor: "var(--clr-text-secondary)",
         rightImageUrl: uiMetadata.imageUrl,
+        backgroundColor: "var(--clr-info-success-light)",
         ctaLabel: "End in",
-        ctaLabelColor: "#0057B7",
+        ctaLabelColor: "var(--clr-brand-default)",
+        ctaBackgroundColor: "var(--clr-info-success-light)",
         countdownForInSec: diff,
       },
     };
@@ -856,20 +868,23 @@ function getBannerProps(context: {
     const latestUpcomingEvent = upcomingEvents[0];
     if (latestUpcomingEvent) {
       const { rewardId, startDate, uiMetadata } = latestUpcomingEvent;
-      const diff = differenceInSeconds(today, new Date(startDate));
+      const diff = differenceInSeconds(new Date(startDate), today);
       if (diff < ONE_HOUR_IN_SEC) {
         return {
           type: "PRE_HAPPY_HOURS_BANNER",
           bannerRewardId: rewardId,
           bannerProps: {
-            heading: uiMetadata.header?.text,
-            headingColor: "#15171A",
-            description: uiMetadata.description?.text,
-            descriptionColor: "#696D70",
+            heading: uiMetadata.header?.text.toLowerCase(),
+            headingColor: "var(--clr-text-primary)",
+            description: uiMetadata.description?.text.toLowerCase(),
+            descriptionColor: "var(--clr-text-secondary)",
+            backgroundColor: "#EBF5FF",
+            ctaBackgroundColor: "#EBF5FF",
             rightImageUrl: uiMetadata.imageUrl,
             ctaLabel: "Starts in",
-            ctaLabelColor: "#0057B7",
-            ctaDisabled: true,
+            ctaLabelAfterCountdownFinished: "Start",
+            ctaLabelColor: "var(--clr-text-primary)",
+            ctaDisabledTillCountdownFinish: true,
             countdownForInSec: diff,
           },
         };

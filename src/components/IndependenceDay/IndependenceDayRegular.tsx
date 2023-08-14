@@ -61,6 +61,7 @@ interface IndependenceDayRegularProps {
   allStampCollectionActionsCompleted?: boolean;
   onMount?: () => void;
   onBannerMount?: () => void;
+  onBannerCountdownExpiry?: () => void;
   onStampClick?: (id: string) => void;
   onStampCollectionActionShown?: (context: {
     actionName?: string;
@@ -100,6 +101,7 @@ export default function IndependenceDayRegular({
   allStampCollectionActionsCompleted,
   onMount,
   onBannerMount,
+  onBannerCountdownExpiry,
   onStampClick,
   onStampInfoShareClick,
   onStampCollectionActionClick,
@@ -286,11 +288,21 @@ export default function IndependenceDayRegular({
           {banner.countdownForInSec !== undefined ? (
             <BannerWithCountdownCta
               {...banner}
+              heading={tWithoutTypeSafety(banner.heading ?? "")}
+              description={tWithoutTypeSafety(banner.description ?? "")}
+              ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
               countdownForInSec={banner.countdownForInSec}
               onMount={onBannerMount}
+              onCountdownExpiry={onBannerCountdownExpiry}
             />
           ) : (
-            <Banner {...banner} onMount={onBannerMount} />
+            <Banner
+              {...banner}
+              heading={tWithoutTypeSafety(banner.heading ?? "")}
+              description={tWithoutTypeSafety(banner.description ?? "")}
+              ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
+              onMount={onBannerMount}
+            />
           )}
         </div>
       )}
