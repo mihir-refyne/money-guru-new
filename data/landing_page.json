@@ -2,8 +2,8 @@
   "featuredShort": {
     "random": true,
     "numberOfShortsToBeFeatured": 5,
-    "shortsToBeFeatured": ["managing-income-tax", "why-government-collects-tax", "what-are-form16-and-form26as"],
-    "autoPlayDurationInMs": 3000
+    "shortsToBeFeatured": ["understanding-investment-risk", "why-government-collects-tax", "what-are-form16-and-form26as"],
+    "autoPlayDurationInMs": 600000
   },
   "finLiteracyBanners": [],
   "finLiteracyTools": [
