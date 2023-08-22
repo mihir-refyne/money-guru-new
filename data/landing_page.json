@@ -2,7 +2,11 @@
   "featuredShort": {
     "random": true,
     "numberOfShortsToBeFeatured": 5,
-    "shortsToBeFeatured": ["understanding-investment-risk", "why-government-collects-tax", "what-are-form16-and-form26as"],
+    "shortsToBeFeatured": [
+      "earn-via-sip",
+      "understanding-investment-risk",
+      "why-government-collects-tax"
+    ],
     "autoPlayDurationInMs": 600000
   },
   "finLiteracyBanners": [],
