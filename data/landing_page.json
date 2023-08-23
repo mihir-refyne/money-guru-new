@@ -3,9 +3,9 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "buy-your-first-stock",
       "earn-via-sip",
-      "understanding-investment-risk",
-      "why-government-collects-tax"
+      "understanding-investment-risk"
     ],
     "autoPlayDurationInMs": 600000
   },
