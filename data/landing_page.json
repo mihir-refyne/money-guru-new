@@ -93,32 +93,11 @@
     "autoPlayDurationInMs": 3000,
     "banners": [
       {
-        "name": "Need help with finances?",
-        "heading": "Need help with finances?",
-        "url": "https://product.refyne.co.in/",
-        "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
-        "releaseConfig": {
-          "fieldName": "employerId",
-          "includes": false,
-          "values": ["EMR10000669", "EMR10000790"]
-        }
-      },
-      {
-        "name": "Need help with finances?",
-        "heading": "Need help with finances?",
-        "url": "https://product.refyne.co.in/financial-coach-free",
-        "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
-        "releaseConfig": {
-          "fieldName": "employerId",
-          "includes": true,
-          "values": ["EMR10000669", "EMR10000790"]
-        }
+        "name": "Last Week's Quiz Winner - Harsh Sharma!",
+        "heading": "🏆 Last Week's Quiz Winner - Harsh Sharma!",
+        "description": "🎉 Congratulations on winning ₹500 Amazon voucher.",
+        "rightImageUrl": "/assets/images/fin_quiz_winner_harsh.png",
+        "backgroundColor": "#E5EEF8"
       }
     ]
   }
