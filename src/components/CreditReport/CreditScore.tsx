@@ -14,6 +14,7 @@ import { getTagTypeByCreditMetricRating } from "./helpers";
 import format from "date-fns/format";
 import CreditScoreMeter from "./CreditScoreMeter";
 import { useDelayedStepChangeState } from "@/hooks/useDelayedStepChangeState";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditScoreProps {
   score?: ScoreValues;
@@ -32,6 +33,7 @@ export default function CreditScore({
   onTagClick,
   onCtaClick,
 }: CreditScoreProps) {
+  const { t } = useTranslation("common");
   if (score) {
     const creditSocre = Number(score.score);
     if (creditSocre >= 300) {
@@ -62,12 +64,10 @@ export default function CreditScore({
               alt="Credit score not available yet"
             />
             <h2 className="text-heading text-semibold mt-4">
-              Your Credit Score is not available yet
+              {t("credit_score_unavailable")}
             </h2>
             <p className="text-caption clr-text-secondary mt-2">
-              As you are new to credit score, it will take around{" "}
-              {monthsRemainingToGetCreditScore} months to generate your credit
-              report.
+              {t("credit_score_new_user", { monthsRemainingToGetCreditScore })}
             </p>
           </div>
           <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
@@ -89,7 +89,7 @@ export default function CreditScore({
           }}
         >
           <Lock size={32} weight="fill" />
-          <p className="text-semibold mt-4">Your KYC is in progress...</p>
+          <p className="text-semibold mt-4">{t("kyc_in_progress")}</p>
         </div>
         <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
       </>
@@ -124,10 +124,10 @@ export default function CreditScore({
       >
         <Image src={cardSearchErrorIconUrl} alt="Credit score not available" />
         <h2 className="text-heading text-semibold mt-4">
-          Credit score not available
+          {t("credit_score_na")}
         </h2>
         <p className="text-caption clr-text-secondary mt-2">
-          We will notify you once it&quot;s available!
+          {t("notify_when_available")}
         </p>
       </div>
       <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
@@ -139,15 +139,14 @@ function BelowScoreCta(props: {
   kycIncomplete: boolean;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
 }) {
+  const { t } = useTranslation("common");
   const APP_BASE_URL =
     process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in/";
 
   const text = props.kycIncomplete
-    ? "Complete KYC to unlock your Credit Score"
-    : "Want to know more about Credit Score?";
-  const ctaLabel = props.kycIncomplete
-    ? "Complete KYC"
-    : "Start Reading R-Shorts";
+    ? "kyc_unlock_credit_score"
+    : "learn_more_credit_score";
+  const ctaLabel = props.kycIncomplete ? "complete_kyc_btn" : "read_shorts_btn";
 
   function handleCtaClick() {
     const navigateTo = props.kycIncomplete
@@ -159,9 +158,9 @@ function BelowScoreCta(props: {
 
   return (
     <div className="px-4 mt-4">
-      <p className="text-medium text-center mb-3">{text}</p>
+      <p className="text-medium text-center mb-3">{t(text)}</p>
       <button className="btn btn-block btn-primary" onClick={handleCtaClick}>
-        {ctaLabel}
+        {t(ctaLabel)}
       </button>
     </div>
   );
@@ -184,6 +183,7 @@ function CreditScoreMeterWrapper({
   onCtaClick,
   creditRating,
 }: CreditScoreMeterWrapperProps) {
+  const { t } = useTranslation("common");
   const [_score, setScore] = useDelayedStepChangeState(50, 5, 300);
 
   useEffect(() => {
@@ -257,7 +257,7 @@ function CreditScoreMeterWrapper({
         </CreditScoreMeter>
       </div>
       <p className="text-caption clr-text-secondary text-center">
-        Credit report will update next month
+        {t("credit_report_next_update")}
       </p>
       <BelowScoreCta kycIncomplete={false} onCtaClick={onCtaClick} />
     </>

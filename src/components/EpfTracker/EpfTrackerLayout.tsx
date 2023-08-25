@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from "react";
 import PageLayout from "../PageLayout";
 import EpfTrackerCommonFooter from "./EpfTrackerCommonFooter";
+import useTranslation from "@/hooks/useTranslation";
 
 interface EpfTrackerLayoutProps {
   navbarText?: string;
@@ -12,16 +13,18 @@ interface EpfTrackerLayoutProps {
 }
 
 export default function EpfTrackerLayout({
-  navbarText = "PF Passbook",
+  navbarText,
   alignContentCenter,
   children,
   footer,
   dispatchPopEventOnBackClick,
   hasContentPadding,
 }: EpfTrackerLayoutProps) {
+  const { t } = useTranslation("common");
+  const defaultNavbarText = t("pf_passbook_label");
   return (
     <PageLayout
-      navbarText={navbarText}
+      navbarText={navbarText ?? defaultNavbarText}
       alignContentCenter={alignContentCenter}
       hasLocaleChange={false}
       dispatchPopEventOnBackClick={dispatchPopEventOnBackClick}

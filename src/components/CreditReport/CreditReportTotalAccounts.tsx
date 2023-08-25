@@ -9,6 +9,7 @@ import {
   LoanAccounts,
 } from "@/lib/credit-report";
 import { formatToInr } from "@/lib/utils";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportTotalAccountsProps {
   creditReport: CreditReport;
@@ -17,6 +18,7 @@ interface CreditReportTotalAccountsProps {
 export default function CreditReportTotalAccounts({
   creditReport,
 }: CreditReportTotalAccountsProps) {
+  const { t } = useTranslation("common");
   const { loanAccounts, creditCardAccounts } = creditReport.retailAccountsInfo;
 
   const listCardPropsForLoanAccounts = useMemo<ListCardItemProps[]>(() => {
@@ -32,14 +34,18 @@ export default function CreditReportTotalAccounts({
   }, [creditCardAccounts]);
 
   return (
-    <CreditReportLayout navbarText="Total Accounts">
-      <h3 className="text-heading clr-text-secondary">Credit Cards</h3>
+    <CreditReportLayout navbarText={t("total_accounts_label")}>
+      <h3 className="text-heading clr-text-secondary">
+        {t("credit_cards_label")}
+      </h3>
       {listCardPropsForCreditCardAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForCreditCardAccounts} />
       ) : (
         <NoRecordFound />
       )}
-      <h3 className="text-heading clr-text-secondary mt-4">Loans</h3>
+      <h3 className="text-heading clr-text-secondary mt-4">
+        {t("loans_label")}
+      </h3>
       {listCardPropsForLoanAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForLoanAccounts} />
       ) : (

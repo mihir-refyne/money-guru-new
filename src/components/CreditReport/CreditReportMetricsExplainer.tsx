@@ -2,6 +2,7 @@ import React from "react";
 import Tag, { TagType } from "../Tag";
 import CommonFooter from "./CreditReportLayout/CommonFooter";
 import styles from "./CreditReportMetricsExplainer.module.css";
+import useTranslation from "@/hooks/useTranslation";
 
 export interface CreditReportMetricsExplainerProps {
   title?: string;
@@ -24,10 +25,19 @@ export default function CreditReportMetricsExplainer({
   ctaLabel,
   onCtaClick,
 }: CreditReportMetricsExplainerProps) {
+  const { tWithoutTypeSafety } = useTranslation("common");
   return (
     <div>
-      {title && <h2 className="text-heading text-semibold">{title}</h2>}
-      {description && <p className="clr-text-secondary mt-2">{description}</p>}
+      {title && (
+        <h2 className="text-heading text-semibold">
+          {tWithoutTypeSafety(title)}
+        </h2>
+      )}
+      {description && (
+        <p className="clr-text-secondary mt-2">
+          {tWithoutTypeSafety(description)}
+        </p>
+      )}
       {tags && (
         <div className={styles.CreditReportMetricsExplainer__Tags}>
           {tags.map((tag, index) => (
@@ -40,25 +50,24 @@ export default function CreditReportMetricsExplainer({
                   styles.CreditReportMetricsExplainer__TagItem__InnerTag
                 }
               >
-                <Tag type={tag.type}>{tag.text}</Tag>
+                <Tag type={tag.type}>{tWithoutTypeSafety(tag.text)}</Tag>
               </div>
-              <p
-                className="text-right"
-                dangerouslySetInnerHTML={{
-                  __html: tag.description,
-                }}
-              ></p>
+              <p className="text-right">
+                {tWithoutTypeSafety(tag.description)}
+              </p>
             </div>
           ))}
         </div>
       )}
       {footer && (
-        <p className="text-caption clr-text-secondary mt-6">{footer}</p>
+        <p className="text-caption clr-text-secondary mt-6">
+          {tWithoutTypeSafety(footer)}
+        </p>
       )}
       <div className={styles.CreditReportMetricsExplainer__Footer}>
         {ctaLabel && (
           <button className="btn btn-primary btn-block" onClick={onCtaClick}>
-            {ctaLabel}
+            {tWithoutTypeSafety(ctaLabel)}
           </button>
         )}
         <div className="mt-4">

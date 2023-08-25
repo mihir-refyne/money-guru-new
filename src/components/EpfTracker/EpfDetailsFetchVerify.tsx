@@ -9,6 +9,7 @@ import { isValueIsNumeric } from "@/lib/utils";
 import useCountdown from "@/hooks/useCountdown";
 import useUpdateEffect from "@/hooks/useUpdateEffect";
 import EpfTrackerLoading from "./EpfTrackerLoading";
+import useTranslation from "@/hooks/useTranslation";
 
 const NO_OF_DIGITS_FOR_OTP = 6;
 const CAN_RESEND_AFTER_IN_SEC = 45;
@@ -34,6 +35,7 @@ export default function EpfDetailsFetchVerify({
   onResendClick,
   onSubmit,
 }: EpfDetailsFetchVerifyProps) {
+  const { t } = useTranslation("common");
   const formId = useId();
 
   const [otpValue, setOtpValue] = useState<string>("");
@@ -85,7 +87,7 @@ export default function EpfDetailsFetchVerify({
         onSubmit={handleSubmit}
       >
         <Image src={mobileOtpSvg} alt="mobile-img" />
-        <h4 className="text-heading my-4">Enter OTP</h4>
+        <h4 className="text-heading my-4">{t("enter_otp_prompt")}</h4>
         <div className="flex-center my-2">
           <h4 className="text-medium text-center clr-text-secondary mr-2">
             {message}
@@ -119,10 +121,7 @@ export default function EpfDetailsFetchVerify({
         <div className="mt-4">
           {remainingCount > 0 ? (
             <h4 className="text-body text-regular clr-text-secondary">
-              Resend OTP in
-              <span className="clr-brand-default ml-2">
-                {formattedRemainingSecCount}
-              </span>
+              {t("resend_otp_timer", { formattedRemainingSecCount })}
             </h4>
           ) : (
             <button
@@ -130,7 +129,7 @@ export default function EpfDetailsFetchVerify({
               className="btn btn-text"
               onClick={handleResendClick}
             >
-              Resend Now
+              {t("resend_otp_now_btn")}
             </button>
           )}
         </div>

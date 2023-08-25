@@ -2,8 +2,10 @@ import React from "react";
 import CreditReportLayout from "./CreditReportLayout";
 import styles from "./CreditReportLoading.module.css";
 import RiveWrapper from "../RiveWrapper";
+import useTranslation from "@/hooks/useTranslation";
 
 export default function CreditReportLoading() {
+  const { t } = useTranslation("common");
   return (
     <CreditReportLayout alignContentCenter>
       <RiveWrapper
@@ -12,9 +14,9 @@ export default function CreditReportLoading() {
         position="contain_center"
       />
       <h2 className="text-heading text-semibold mt-4 mb-2">
-        Fetching your Credit Score
+        {t("fetching_credit_score")}
       </h2>
-      <p className="clr-text-secondary">This may take a few minutes</p>
+      <p className="clr-text-secondary">{t("fetching_delay")}</p>
     </CreditReportLayout>
   );
 }

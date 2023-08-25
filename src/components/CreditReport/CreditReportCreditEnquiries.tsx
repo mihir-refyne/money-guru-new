@@ -17,6 +17,7 @@ import CreditEnquiriesExplainerData from "../../../data/new_enquiries_explainer.
 import format from "date-fns/format"
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportCreditEnquiriesProps {
   creditReport: CreditReport;
@@ -27,12 +28,16 @@ export default function CreditReportCreditEnquiries({
   creditReport,
   onRatingTagClick,
 }: CreditReportCreditEnquiriesProps) {
+  const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
 
   function handleExplainerClose(isCtaClick: boolean = false) {
-    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED, {
-      cta_type: isCtaClick ? "GOT_IT" : "CLOSE"
-    })
+    logEventInMixpanel(
+      AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED,
+      {
+        cta_type: isCtaClick ? "GOT_IT" : "CLOSE",
+      }
+    );
     setIsExplainerActive(false);
   }
 
@@ -50,15 +55,14 @@ export default function CreditReportCreditEnquiries({
   }, [creditReport.enquiries]);
 
   return (
-    <CreditReportLayout navbarText="Enquiries">
+    <CreditReportLayout navbarText={t("enquiries_label")}>
       <CreditReportMetricHeader
         illustrationUrl={creditEnquiriesIllustration.src}
       >
-        An enquiry occurs when a lending institution checks your credit report
-        when you&apos;ve applied for a credit product (loans, credit cards, etc.)
+        {t("enquiry_definition")}
       </CreditReportMetricHeader>
       <CreditReportMetricValue
-        title="Enquiries"
+        title={t("enquiries_label")}
         text={totalEnquiries.toString()}
         infoTag={{
           type: getTagTypeByCreditMetricRating(rating),
@@ -69,9 +73,7 @@ export default function CreditReportCreditEnquiries({
       <InfoCard
         icon={<Lightbulb size={20} color="var(--clr-info-highlight-default)" />}
       >
-        If you apply for multiple credit products in a short time, your
-        enquiries increase. It shows that you heavily rely on credit. Lending
-        institutions may assume you are a risky borrower
+        {t("multiple_enquiries_impact")}
       </InfoCard>
       {listCardPropsForActiveAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForActiveAccounts} />
@@ -85,7 +87,7 @@ export default function CreditReportCreditEnquiries({
       >
         <CreditReportMetricsExplainer
           {...(CreditEnquiriesExplainerData as CreditReportMetricsExplainerProps)}
-          ctaLabel="Got it"
+          ctaLabel={t("got_it_btn")}
           onCtaClick={() => handleExplainerClose(true)}
         />
       </Modal>

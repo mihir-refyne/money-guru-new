@@ -18,6 +18,7 @@ import CreditReportMetricsExplainer, { CreditReportMetricsExplainerProps } from 
 import PaymentHistoryExplainerData from "../../../data/payment_history_explainer.json"
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportPaymentHistoryProps {
   creditReport: CreditReport;
@@ -28,6 +29,7 @@ export default function CreditReportPaymentHistory({
   creditReport,
   onRatingTagClick,
 }: CreditReportPaymentHistoryProps) {
+  const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
 
   const { onTimePayments, totalPayments, onTimePaymentPercentage, rating } =
@@ -39,9 +41,12 @@ export default function CreditReportPaymentHistory({
     setIsExplainerActive(true);
   }
   function handleExplainerClose(isCtaClick: boolean = false) {
-    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED, {
-      cta_type: isCtaClick ? "GOT_IT" : "CLOSE"
-    })
+    logEventInMixpanel(
+      AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED,
+      {
+        cta_type: isCtaClick ? "GOT_IT" : "CLOSE",
+      }
+    );
     setIsExplainerActive(false);
   }
 
@@ -58,15 +63,14 @@ export default function CreditReportPaymentHistory({
   }, [loanAccounts, creditCardAccounts]);
 
   return (
-    <CreditReportLayout navbarText="Payment History">
+    <CreditReportLayout navbarText={t("payment_history_label")}>
       <CreditReportMetricHeader
         illustrationUrl={paymentHistoryIllustration.src}
       >
-        Paying on time impacts your CREDIT Score the most and shows how reliable
-        you are as a borrower.
+        {t("payment_history_importance")}
       </CreditReportMetricHeader>
       <CreditReportMetricValue
-        title="Payments on time"
+        title={t("payment_on_time")}
         text={`${onTimePayments} / ${totalPayments}`}
         subText={onTimePaymentPercentage}
         infoTag={{
@@ -78,14 +82,14 @@ export default function CreditReportPaymentHistory({
       <InfoCard
         icon={<Lightbulb size={20} color="var(--clr-info-highlight-default)" />}
       >
-        You should always pay the full credit card bill and EMI by the due date.
+        {t("credit_card_bill_advice")}
       </InfoCard>
       {listCardPropsForActiveAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForActiveAccounts} />
       ) : (
         <NoRecordFound
-          title="No available payment history"
-          description="Check this space for further updates"
+          title={t("no_payment_history")}
+          description={t("space_for_updates")}
         />
       )}
       <Modal
@@ -95,7 +99,7 @@ export default function CreditReportPaymentHistory({
       >
         <CreditReportMetricsExplainer
           {...(PaymentHistoryExplainerData as CreditReportMetricsExplainerProps)}
-          ctaLabel="Got it"
+          ctaLabel={t("got_it_btn")}
           onCtaClick={() => handleExplainerClose(true)}
         />
       </Modal>

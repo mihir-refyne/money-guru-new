@@ -8,6 +8,7 @@ interface FeaturedShortProps {
   tag?: string;
   children?: ReactElement;
   onClick?: () => void;
+  ctaLabel?: string;
 }
 
 export default function FeaturedShort({
@@ -16,6 +17,7 @@ export default function FeaturedShort({
   tag,
   children,
   onClick,
+  ctaLabel,
 }: FeaturedShortProps) {
   return (
     <div className={styles.FeaturedShort} role="button" onClick={onClick}>
@@ -28,7 +30,7 @@ export default function FeaturedShort({
         />
       )}
       {children}
-      <button className="btn btn-primary btn-compact mt-2">Read more</button>
+      <button className="btn btn-primary btn-compact mt-2">{ctaLabel}</button>
     </div>
   );
 }

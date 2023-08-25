@@ -25,6 +25,7 @@ import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
+import useTranslation from "@/hooks/useTranslation";
 
 interface HomePageProps {
   shorts: Array<{
@@ -48,6 +49,7 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async (
 };
 
 export default function HomePage({ shorts }: HomePageProps) {
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatchAction } = useSurveyTrigger();
@@ -262,6 +264,7 @@ export default function HomePage({ shorts }: HomePageProps) {
                   mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
                   tag={(shortItem.metadata?.tag ?? "") as string}
                   onClick={() => handleFeaturedShortClick(shortItem.id)}
+                  ctaLabel={t("read_more")}
                 >
                   <article
                     dangerouslySetInnerHTML={{
@@ -304,7 +307,9 @@ export default function HomePage({ shorts }: HomePageProps) {
               </figure>
               <p
                 className="text-caption"
-                dangerouslySetInnerHTML={{ __html: banner.label }}
+                dangerouslySetInnerHTML={{
+                  __html: tWithoutTypeSafety(banner.label),
+                }}
                 style={{
                   flexGrow: 1,
                   marginRight: "var(--spacing-2)",
@@ -316,7 +321,7 @@ export default function HomePage({ shorts }: HomePageProps) {
         </div>
       )}
       <div className="container">
-        <h3 className="clr-text-secondary mb-3">Tools</h3>
+        <h3 className="clr-text-secondary mb-3">{t("tools")}</h3>
         <div
           style={{
             display: "grid",
@@ -342,7 +347,9 @@ export default function HomePage({ shorts }: HomePageProps) {
               </figure>
               <p
                 className="text-caption mt-4"
-                dangerouslySetInnerHTML={{ __html: tool.title }}
+                dangerouslySetInnerHTML={{
+                  __html: tWithoutTypeSafety(tool.title),
+                }}
               />
             </div>
           ))}
@@ -360,7 +367,17 @@ export default function HomePage({ shorts }: HomePageProps) {
             interval={carouselBannerAutoPlayDurationInMs}
           >
             {carouselBanners.map((banner, index) => (
-              <Banner key={index} {...banner} />
+              <Banner
+                key={index}
+                {...banner}
+                heading={banner.heading && tWithoutTypeSafety(banner.heading)}
+                description={
+                  banner.description && tWithoutTypeSafety(banner.description)
+                }
+                ctaLabel={
+                  banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
+                }
+              />
             ))}
           </Carousel>
         </div>

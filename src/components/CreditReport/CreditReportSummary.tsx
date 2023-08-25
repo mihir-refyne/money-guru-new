@@ -26,6 +26,7 @@ import CreditScoreExplainerData from "../../../data/credit_score_explainer.json"
 import { Question } from "phosphor-react";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportSummaryProps {
   creditReport: CreditReport | null;
@@ -46,6 +47,7 @@ export default function CreditReportSummary({
   directAccess,
   onRatingTagClick,
 }: CreditReportSummaryProps) {
+  const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
 
   function handleExplainerOpen() {
@@ -69,7 +71,96 @@ export default function CreditReportSummary({
     onMount?.({ rating: creditReport?.scoreDetails[0]?.rating });
   }, []);
 
-  const isCreditScoreIncrementAnimationShown = isCreditScoreIncrementEffectShown();
+  function getPaymentHistoryListCardProps(
+    paymentHistory?: CumulativeMetricsForPaymentHistory,
+    onClick?: () => void
+  ): ListCardItemProps {
+    return {
+      leftIcon: <Image src={rupeeReloadIconUrl} alt="Payment History" />,
+      contentLeftTitle: t("payment_history_label"),
+      contentLeftDescription: t("high_impact_label"),
+      contentRightTitle: paymentHistory?.onTimePaymentPercentage,
+      contentRightDescription:
+        paymentHistory?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
+      contentRightDescriptionFontColor:
+        paymentHistory && getColorByCreditMetricRating(paymentHistory?.rating),
+      onClick: paymentHistory && onClick,
+    };
+  }
+
+  function getCreditUtilisationListCardProps(
+    creditUsage?: CumulativeMetricsForCreditUsage,
+    onClick?: () => void
+  ): ListCardItemProps {
+    return {
+      leftIcon: <Image src={walletIconUrl} alt="Credit Utilisation" />,
+      contentLeftTitle: t("credit_utilisation_label"),
+      contentLeftDescription: t("high_impact_label"),
+      contentRightTitle: creditUsage?.totalCreditUsageInPercent,
+      contentRightDescription:
+        creditUsage?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
+      contentRightDescriptionFontColor:
+        creditUsage && getColorByCreditMetricRating(creditUsage?.rating),
+      onClick: creditUsage && onClick,
+    };
+  }
+
+  function getCreditMixListCardProps(
+    creditMix?: CumulativeMetricsForCreditMix,
+    onClick?: () => void
+  ): ListCardItemProps {
+    return {
+      leftIcon: <Image src={cardWaitingIconUrl} alt="Credit Mix" />,
+      contentLeftTitle: t("credit_mix_label"),
+      contentLeftDescription: t("medium_impact_label"),
+      contentRightTitle: creditMix && t("credit_mix_summary", creditMix),
+      contentRightDescription:
+        creditMix?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
+      contentRightDescriptionFontColor:
+        creditMix && getColorByCreditMetricRating(creditMix?.rating),
+      onClick: creditMix && onClick,
+    };
+  }
+
+  function getCreditEnquiriesListCardProps(
+    enquiries?: CumulativeMetricsForEnquiry,
+    onClick?: () => void
+  ): ListCardItemProps {
+    return {
+      leftIcon: <Image src={cardSearchIconUrl} alt="Credit Enquiries" />,
+      contentLeftTitle: t("credit_enquiries_label"),
+      contentLeftDescription: t("low_impact_label"),
+      contentRightTitle: enquiries?.totalEnquiries?.toString(),
+      contentRightDescription:
+        enquiries?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
+      contentRightDescriptionFontColor:
+        enquiries && getColorByCreditMetricRating(enquiries?.rating),
+      onClick: enquiries && onClick,
+    };
+  }
+
+  function getTotalAccountsListCardProps(
+    creditMix?: CumulativeMetricsForCreditMix,
+    onClick?: () => void
+  ): ListCardItemProps {
+    const totalAccounts =
+      creditMix &&
+      creditMix.totalActiveCreditCards + creditMix.totalActiveLoans;
+    return {
+      leftIcon: <Image src={moneyBagIconUrl} alt="Total Accounts" />,
+      contentLeftTitle: t("total_accounts_label"),
+      contentLeftDescription: t("low_impact_label"),
+      contentRightTitle: totalAccounts?.toString(),
+      contentRightDescription:
+        creditMix?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
+      contentRightDescriptionFontColor:
+        creditMix && getColorByCreditMetricRating(creditMix?.rating),
+      onClick: creditMix && onClick,
+    };
+  }
+
+  const isCreditScoreIncrementAnimationShown =
+    isCreditScoreIncrementEffectShown();
 
   const refyneAppSupportPageUrl =
     (process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in/") +
@@ -78,7 +169,7 @@ export default function CreditReportSummary({
 
   return (
     <CreditReportLayout
-      navbarText="Credit Score"
+      navbarText={t("credit_score")}
       dispatchPopEventOnBackClick={directAccess}
     >
       <div className="mb-8">
@@ -91,9 +182,11 @@ export default function CreditReportSummary({
           onCtaClick={onCtaClick}
         />
       </div>
-      <h2 className="text-heading text-semibold mb-2">Credit Factors</h2>
+      <h2 className="text-heading text-semibold mb-2">
+        {t("credit_factors_label")}
+      </h2>
       <h4 className="text-caption text-regular clr-text-secondary">
-        See the factors affecting your credit score
+        {t("factors_impacting_score")}
       </h4>
       <div className="mt-4 mb-2">
         <ListCard
@@ -143,10 +236,7 @@ export default function CreditReportSummary({
         />
       </div>
 
-      <InfoCard>
-        It takes up to 4 months before data of your latest credit card activity
-        is accounted by the credit bureau.
-      </InfoCard>
+      <InfoCard>{t("credit_card_activity_delay")}</InfoCard>
 
       <button
         className="btn btn-text btn-inline flex-center my-2"
@@ -155,7 +245,7 @@ export default function CreditReportSummary({
         }
       >
         <Question size={16} className="mr-1" />
-        <span>Report an issue</span>
+        <span>{t("report_issue_btn")}</span>
       </button>
 
       <Modal
@@ -165,99 +255,10 @@ export default function CreditReportSummary({
       >
         <CreditReportMetricsExplainer
           {...(CreditScoreExplainerData as CreditReportMetricsExplainerProps)}
-          ctaLabel="Got it"
+          ctaLabel={t("got_it_btn")}
           onCtaClick={() => handleExplainerClose(true)}
         />
       </Modal>
     </CreditReportLayout>
   );
-}
-
-function getPaymentHistoryListCardProps(
-  paymentHistory?: CumulativeMetricsForPaymentHistory,
-  onClick?: () => void
-): ListCardItemProps {
-  return {
-    leftIcon: <Image src={rupeeReloadIconUrl} alt="Payment History" />,
-    contentLeftTitle: "Payment History",
-    contentLeftDescription: "High impact",
-    contentRightTitle: paymentHistory?.onTimePaymentPercentage,
-    contentRightDescription:
-      paymentHistory?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
-    contentRightDescriptionFontColor:
-      paymentHistory && getColorByCreditMetricRating(paymentHistory?.rating),
-    onClick: paymentHistory && onClick,
-  };
-}
-
-function getCreditUtilisationListCardProps(
-  creditUsage?: CumulativeMetricsForCreditUsage,
-  onClick?: () => void
-): ListCardItemProps {
-  return {
-    leftIcon: <Image src={walletIconUrl} alt="Credit Utilisation" />,
-    contentLeftTitle: "Credit Utilisation",
-    contentLeftDescription: "High impact",
-    contentRightTitle: creditUsage?.totalCreditUsageInPercent,
-    contentRightDescription:
-      creditUsage?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
-    contentRightDescriptionFontColor:
-      creditUsage && getColorByCreditMetricRating(creditUsage?.rating),
-    onClick: creditUsage && onClick,
-  };
-}
-
-function getCreditMixListCardProps(
-  creditMix?: CumulativeMetricsForCreditMix,
-  onClick?: () => void
-): ListCardItemProps {
-  return {
-    leftIcon: <Image src={cardWaitingIconUrl} alt="Credit Mix" />,
-    contentLeftTitle: "Credit Mix",
-    contentLeftDescription: "Medium impact",
-    contentRightTitle:
-      creditMix &&
-      `${creditMix.totalActiveCreditCards} cards & ${creditMix.totalActiveLoans} loans`,
-    contentRightDescription:
-      creditMix?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
-    contentRightDescriptionFontColor:
-      creditMix && getColorByCreditMetricRating(creditMix?.rating),
-    onClick: creditMix && onClick,
-  };
-}
-
-function getCreditEnquiriesListCardProps(
-  enquiries?: CumulativeMetricsForEnquiry,
-  onClick?: () => void
-): ListCardItemProps {
-  return {
-    leftIcon: <Image src={cardSearchIconUrl} alt="Credit Enquiries" />,
-    contentLeftTitle: "Credit Enquiries",
-    contentLeftDescription: "Low impact",
-    contentRightTitle: enquiries?.totalEnquiries?.toString(),
-    contentRightDescription:
-      enquiries?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
-    contentRightDescriptionFontColor:
-      enquiries && getColorByCreditMetricRating(enquiries?.rating),
-    onClick: enquiries && onClick,
-  };
-}
-
-function getTotalAccountsListCardProps(
-  creditMix?: CumulativeMetricsForCreditMix,
-  onClick?: () => void
-): ListCardItemProps {
-  const totalAccounts =
-    creditMix && creditMix.totalActiveCreditCards + creditMix.totalActiveLoans;
-  return {
-    leftIcon: <Image src={moneyBagIconUrl} alt="Total Accounts" />,
-    contentLeftTitle: "Total Accounts",
-    contentLeftDescription: "Low impact",
-    contentRightTitle: totalAccounts?.toString(),
-    contentRightDescription:
-      creditMix?.rating.replaceAll("_", " ").toLowerCase() ?? "NA",
-    contentRightDescriptionFontColor:
-      creditMix && getColorByCreditMetricRating(creditMix?.rating),
-    onClick: creditMix && onClick,
-  };
 }

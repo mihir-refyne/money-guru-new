@@ -1,27 +1,27 @@
 {
-    "title": "Credit Utilisation",
-    "description": "",
-    "tags": [
-      {
-        "type": "success",
-        "text": "Excellent",
-        "description": "If usage is <30% or No late payments in the last year"
-      },
-      {
-        "type": "success-light",
-        "text": "Very Good",
-        "description": "Usage is 30% - 50% or No credit lines / credit card accounts"
-      },
-      {
-        "type": "warning-light",
-        "text": "Good",
-        "description": "Usage is 50% - 70%"
-      },
-      {
-        "type": "error-light",
-        "text": "Needs Help",
-        "description": "Usage is >75%"
-      }
-    ],
-    "footer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, needs help etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne’s own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne’s opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks."
+  "title": "credit_utilisation_label",
+  "description": "",
+  "tags": [
+    {
+      "type": "success",
+      "text": "credit_rating_excellent",
+      "description": "credit_usage_less_than_30_percent_or_no_late_payments"
+    },
+    {
+      "type": "success-light",
+      "text": "credit_rating_very_good",
+      "description": "credit_usage_30_to_50_percent_or_no_credit_lines"
+    },
+    {
+      "type": "warning-light",
+      "text": "credit_rating_good",
+      "description": "credit_usage_50_to_70_percent"
+    },
+    {
+      "type": "error-light",
+      "text": "credit_rating_needs_help",
+      "description": "credit_usage_greater_than_75_percent"
+    }
+  ],
+  "footer": "credit_score_classification_disclaimer"
 }

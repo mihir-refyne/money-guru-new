@@ -20,6 +20,7 @@ import CreditReportMetricsExplainer, {
 import CreditMixExplainer from "../../../data/credit_mix_explainer.json";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportCreditMixProps {
   creditReport: CreditReport;
@@ -30,12 +31,16 @@ export default function CreditReportCreditMix({
   creditReport,
   onRatingTagClick,
 }: CreditReportCreditMixProps) {
+  const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
 
   function handleExplainerClose(isCtaClick: boolean = false) {
-    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED, {
-      cta_type: isCtaClick ? "GOT_IT" : "CLOSE"
-    })
+    logEventInMixpanel(
+      AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED,
+      {
+        cta_type: isCtaClick ? "GOT_IT" : "CLOSE",
+      }
+    );
     setIsExplainerActive(false);
   }
 
@@ -61,12 +66,12 @@ export default function CreditReportCreditMix({
   }, [loanAccounts, creditCardAccounts]);
 
   return (
-    <CreditReportLayout navbarText="Credit Mix">
+    <CreditReportLayout navbarText={t("credit_mix_label")}>
       <CreditReportMetricHeader illustrationUrl={creditMixIllustration.src}>
-        Credit mix shows all your credit cards and loans and how diverse they are.
+        {t("credit_mix_info")}
       </CreditReportMetricHeader>
       <CreditReportMetricValue
-        title="Credit Mix"
+        title={t("credit_mix_label")}
         text={`${totalActiveCreditCards} Credit Cards, ${totalActiveLoans} Loans`}
         infoTag={{
           type: getTagTypeByCreditMetricRating(rating),
@@ -77,7 +82,7 @@ export default function CreditReportCreditMix({
       <InfoCard
         icon={<Lightbulb size={20} color="var(--clr-info-highlight-default)" />}
       >
-        The more credit account types you have, the better (as long as you pay on time). Diverse credit shows you can manage all types of loans and credit cards.
+        {t("diverse_credit_advice")}
       </InfoCard>
       {listCardPropsForActiveAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForActiveAccounts} />
@@ -91,7 +96,7 @@ export default function CreditReportCreditMix({
       >
         <CreditReportMetricsExplainer
           {...(CreditMixExplainer as CreditReportMetricsExplainerProps)}
-          ctaLabel="Got it"
+          ctaLabel={t("got_it_btn")}
           onCtaClick={() => handleExplainerClose(true)}
         />
       </Modal>

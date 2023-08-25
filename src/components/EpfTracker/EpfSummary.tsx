@@ -17,6 +17,7 @@ import { getEpfServicePeriodText } from "./helpers";
 import { useEffect, useState } from "react";
 import { useAutoIncrementNumber } from "@/hooks/useAutoIncrementNumber";
 import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
+import useTranslation from "@/hooks/useTranslation";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 
@@ -33,6 +34,7 @@ export default function EpfSummary({
   onMount,
   onEstablishmentCardClick,
 }: EpfSummaryProps) {
+  const { t } = useTranslation("common");
   const { summary, establishments } = epfDetails;
 
   const [isEpfDetailsIncrementEffectAlreadyShown] = useState(
@@ -47,6 +49,16 @@ export default function EpfSummary({
     if (isEpfDetailsIncrementEffectAlreadyShown) return;
     setEpfDetailsIncrementEffectShown();
   }, [isEpfDetailsIncrementEffectAlreadyShown]);
+
+  function getCardFooter(dateOfJoiningInEPF?: string) {
+    if (!dateOfJoiningInEPF) return null;
+    return (
+      <p className="clr-text-secondary text-caption">
+        {t("invested_since_label")}{" "}
+        {format(new Date(dateOfJoiningInEPF), "dd MMM yyyy")}
+      </p>
+    );
+  }
 
   // INFO: We want to show the total balance
   const totalBalance = Math.floor(
@@ -85,7 +97,7 @@ export default function EpfSummary({
         <div className="mb-4">
           <LabelValue
             type="light"
-            label="PF Balance"
+            label={t("pf_balance_label")}
             labelTextVariant="body_regular"
             value={totalBalanceWithAutoIncrement}
             formatter={formatToInr}
@@ -95,20 +107,20 @@ export default function EpfSummary({
         <Separator separatorColor="var(--clr-pure-white)">
           <LabelValue
             type="light"
-            label="Employee Share"
+            label={t("employee_share_label")}
             value={totalEmployeeShareWithAutoIncrement}
             formatter={formatToInr}
           />
           <LabelValue
             type="light"
-            label="Employer Share"
+            label={t("employer_share_label")}
             value={totalEmployerShareWithAutoIncrement}
             formatter={formatToInr}
           />
         </Separator>
       </Card>
       <h2 className="text-body text-semibold mt-6 mb-4">
-        All Employers ({establishments.length})
+        {t("all_employers_label")} ({establishments.length})
       </h2>
       <div>
         {/* TODO: Check the Array order */}
@@ -145,21 +157,7 @@ export default function EpfSummary({
           );
         })}
       </div>
-      <InfoCard>
-        The EPF data displayed here is for informational purposes only.
-        Transaction amounts may vary from salary deductions. EPF contributions
-        are subject to employer discretion. Verify information with official
-        sources before making financial decisions.
-      </InfoCard>
+      <InfoCard>{t("epf_info_disclaimer")}</InfoCard>
     </EpfTrackerLayout>
-  );
-}
-
-function getCardFooter(dateOfJoiningInEPF?: string) {
-  if (!dateOfJoiningInEPF) return null;
-  return (
-    <p className="clr-text-secondary text-caption">
-      Invested Since: {format(new Date(dateOfJoiningInEPF), "dd MMM yyyy")}
-    </p>
   );
 }

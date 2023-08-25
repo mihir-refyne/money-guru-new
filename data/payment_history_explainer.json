@@ -1,27 +1,27 @@
 {
-  "title": "Payment History",
+  "title": "payment_history_label",
   "description": "",
   "tags": [
     {
       "type": "success",
       "text": "Excellent",
-      "description": "If no late payments in the last 4 years"
+      "description": "no_late_payments_last_4_years"
     },
     {
       "type": "success-light",
       "text": "Very Good",
-      "description": "If only 1 late payment in the last 4 years"
+      "description": "one_late_payment_last_4_years"
     },
     {
       "type": "warning-light",
       "text": "Good",
-      "description": "Upto 3 late payments in the last 4 years"
+      "description": "upto_3_late_payments_last_4_years"
     },
     {
       "type": "error-light",
       "text": "Needs Help",
-      "description": "More than 3 late payments in the last 4 years"
+      "description": "more_than_3_late_payments_last_4_years"
     }
   ],
-  "footer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, needs help etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne’s own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne’s opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks."
+  "footer": "late_payments_classification_disclaimer"
 }

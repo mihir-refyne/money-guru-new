@@ -9,6 +9,7 @@ import LocaleUpdateOptions from "../LocaleUpdateOptions";
 import Modal from "../Modal";
 import Navbar from "../Navbar";
 import styles from "./styles.module.css";
+import useTranslation from "@/hooks/useTranslation";
 
 const DEFAULT_PAGE_TITLE = "Money Guru - Refyne";
 const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
@@ -50,6 +51,7 @@ export default function PageLayout({
   hasContentPadding = true,
   preloads,
 }: PageLayoutProps) {
+  const { t } = useTranslation("common");
   const router = useRouter();
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
@@ -138,7 +140,7 @@ export default function PageLayout({
           className="btn btn-primary btn-block"
           onClick={handleLocaleUpdate}
         >
-          Proceed
+          {t("proceed")}
         </button>
       </Modal>
     </>

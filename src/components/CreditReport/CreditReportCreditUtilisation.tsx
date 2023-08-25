@@ -18,6 +18,7 @@ import CreditReportMetricsExplainer, { CreditReportMetricsExplainerProps } from 
 import CreditUtilisationExplainer from "../../../data/credit_utilisation_explainer.json"
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportCreditUtilisationProps {
   creditReport: CreditReport;
@@ -28,17 +29,25 @@ export default function CreditReportCreditUtilisation({
   creditReport,
   onRatingTagClick,
 }: CreditReportCreditUtilisationProps) {
+  const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
 
   function handleExplainerClose(isCtaClick: boolean = false) {
-    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED, {
-      cta_type: isCtaClick ? "GOT_IT" : "CLOSE"
-    })
+    logEventInMixpanel(
+      AnalyticEvent.CREDIT_SCORE_RATING_TAG_INFO_POPUP_CTA_CLICKED,
+      {
+        cta_type: isCtaClick ? "GOT_IT" : "CLOSE",
+      }
+    );
     setIsExplainerActive(false);
   }
 
-  const { totalCreditLimit, totalCreditUsed, totalCreditUsageInPercent, rating } =
-    creditReport.metrics.creditUsage;
+  const {
+    totalCreditLimit,
+    totalCreditUsed,
+    totalCreditUsageInPercent,
+    rating,
+  } = creditReport.metrics.creditUsage;
   const { creditCardAccounts } = creditReport.retailAccountsInfo;
 
   function handleExplainerOpen() {
@@ -54,15 +63,15 @@ export default function CreditReportCreditUtilisation({
   }, [creditCardAccounts]);
 
   return (
-    <CreditReportLayout navbarText="Credit Utilisation">
-      <CreditReportMetricHeader
-        illustrationUrl={creditUsageIllustration.src}
-      >
-        Credit usage is the amount of credit you use from the total credit limit you have
+    <CreditReportLayout navbarText={t("credit_utilisation_label")}>
+      <CreditReportMetricHeader illustrationUrl={creditUsageIllustration.src}>
+        {t("credit_usage_info")}
       </CreditReportMetricHeader>
       <CreditReportMetricValue
-        title="Credit Utilisation"
-        text={`${formatToInr(totalCreditUsed)} / ${formatToInr(totalCreditLimit)}`}
+        title={t("credit_utilisation_label")}
+        text={`${formatToInr(totalCreditUsed)} / ${formatToInr(
+          totalCreditLimit
+        )}`}
         subText={totalCreditUsageInPercent}
         infoTag={{
           type: getTagTypeByCreditMetricRating(rating),
@@ -73,13 +82,12 @@ export default function CreditReportCreditUtilisation({
       <InfoCard
         icon={<Lightbulb size={20} color="var(--clr-info-highlight-default)" />}
       >
-        You should keep your credit usage under 30% to maintain a high credit score.
+        {t("credit_usage_advice")}
       </InfoCard>
       {listCardPropsForActiveAccounts.length > 0 ? (
         <ListCard className="mt-4" items={listCardPropsForActiveAccounts} />
       ) : (
-        <NoRecordFound
-        />
+        <NoRecordFound />
       )}
       <Modal
         active={isExplainerActive}
@@ -88,7 +96,7 @@ export default function CreditReportCreditUtilisation({
       >
         <CreditReportMetricsExplainer
           {...(CreditUtilisationExplainer as CreditReportMetricsExplainerProps)}
-          ctaLabel="Got it"
+          ctaLabel={t("got_it_btn")}
           onCtaClick={() => handleExplainerClose(true)}
         />
       </Modal>

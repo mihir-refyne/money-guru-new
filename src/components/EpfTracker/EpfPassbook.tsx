@@ -17,6 +17,7 @@ import { formatToInr } from "@/lib/utils";
 import { getEpfServicePeriodText } from "./helpers";
 import NoRecordFound from "../NoRecordFound";
 import Tag, { TagType } from "../Tag";
+import useTranslation from "@/hooks/useTranslation";
 
 const TransactionTableColumns: TableColumn<EpfPassbookEntry>[] = [
   {
@@ -64,6 +65,7 @@ interface EpfPassbookProps {
 export default function EpfPassbook({
   establishmentDetails,
 }: EpfPassbookProps) {
+  const { t } = useTranslation("common");
   const totalEmployeeShare = Math.floor(
     establishmentDetails.totalEmployeeShare
   );
@@ -97,12 +99,12 @@ export default function EpfPassbook({
         ></ListCard>
         <Separator separatorColor="#ADD4FF">
           <LabelValue
-            label="Employee Share"
+            label={t("employee_share_label")}
             value={totalEmployeeShare}
             formatter={formatToInr}
           />
           <LabelValue
-            label="Employer Share"
+            label={t("employer_share_label")}
             value={totalEmployerShare}
             formatter={formatToInr}
           />

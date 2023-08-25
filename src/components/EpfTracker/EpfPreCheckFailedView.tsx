@@ -4,6 +4,7 @@ import EpfTrackerLayout from "./EpfTrackerLayout";
 import CenterContent from "../CenterContent";
 import { APP_BASE_URL } from "@/constants";
 import RiveWrapper from "../RiveWrapper";
+import useTranslation from "@/hooks/useTranslation";
 
 interface EpfPreCheckFailedViewProps {
   error: EpfFetchError;
@@ -18,6 +19,7 @@ export default function EpfPreCheckFailedView({
   onMount,
   onNavigate,
 }: EpfPreCheckFailedViewProps) {
+  const { t } = useTranslation("common");
   useEffect(() => {
     onMount?.();
   }, []);
@@ -25,7 +27,11 @@ export default function EpfPreCheckFailedView({
     <EpfTrackerLayout
       alignContentCenter
       dispatchPopEventOnBackClick={directlyAccessed}
-      footer={getFooterCta(error, onNavigate)}
+      footer={getFooterCta({
+        error,
+        onNavigate,
+        completeKycCtaLabel: t("complete_kyc_btn"),
+      })}
     >
       <Content error={error} />
     </EpfTrackerLayout>
@@ -33,7 +39,8 @@ export default function EpfPreCheckFailedView({
 }
 
 function Content(props: { error: EpfFetchError }) {
-  const textProps = getContentTexts(props.error);
+  const { tWithoutTypeSafety } = useTranslation("common");
+  const textProps = getContentTexts(props.error, tWithoutTypeSafety);
   if (textProps === null) return null;
   return (
     <CenterContent
@@ -52,39 +59,41 @@ function Content(props: { error: EpfFetchError }) {
 }
 
 function getContentTexts(
-  error: EpfFetchError
+  error: EpfFetchError,
+  translate: (code: string) => string
 ): { title: string; description: string } | null {
   if (error === EpfFetchError.USER_IS_IN_VERIFICATION_PENDING) {
     return {
-      title: "Your KYC is in progress...",
-      description: "It will take a some time to verify",
+      title: translate("kyc_in_progress"),
+      description: translate("it_will_take_some_time_verify"),
     };
   }
   if (error === EpfFetchError.USER_IS_NOT_KYC_VERIFIED) {
     return {
-      title: "Complete your KYC",
-      description: "To know about your PF contribution",
+      title: translate("complete_your_kyc"),
+      description: translate("to_know_pf_contribution"),
     };
   }
   return null;
 }
 
-function getFooterCta(
-  error: EpfFetchError,
-  onNavigate: (navigateTo: string, webviewRoute?: string) => void
-) {
+function getFooterCta(context: {
+  error: EpfFetchError;
+  completeKycCtaLabel?: string;
+  onNavigate: (navigateTo: string, webviewRoute?: string) => void;
+}) {
   function handleCompleteKycClick() {
     const appKycStartUrl = `${APP_BASE_URL}/#/?next=startActivation`;
-    onNavigate(appKycStartUrl, "dashboard");
+    context.onNavigate(appKycStartUrl, "dashboard");
   }
-  if (error === EpfFetchError.USER_IS_NOT_KYC_VERIFIED) {
+  if (context.error === EpfFetchError.USER_IS_NOT_KYC_VERIFIED) {
     return (
       <button
         type="submit"
         className="btn btn-primary btn-block"
         onClick={handleCompleteKycClick}
       >
-        Complete KYC
+        {context.completeKycCtaLabel}
       </button>
     );
   }

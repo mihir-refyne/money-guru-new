@@ -5,6 +5,7 @@ import AvatarNotSure from "../../images/avatar-maybe.svg";
 import CreditReportLayout from "./CreditReportLayout";
 import RadioButtonGroup from "../RadioButtonGroup";
 import { List } from "../List";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CreditReportIntroductionProps {
   onUserFeedbackChange?: (answer: string) => void;
@@ -17,6 +18,7 @@ export default function CreditReportIntroduction({
   onNext,
   directAccess = false,
 }: CreditReportIntroductionProps) {
+  const { t } = useTranslation("common");
   const [userFeedback, setUserFeedback] = useState<string>("");
 
   function handleUserFeedbackUpdate(e: React.ChangeEvent<HTMLInputElement>) {
@@ -31,7 +33,7 @@ export default function CreditReportIntroduction({
 
   return (
     <CreditReportLayout
-      navbarText="Credit Score"
+      navbarText={t("credit_score")}
       dispatchPopEventOnBackClick={directAccess}
       footer={
         <div className="p-4">
@@ -39,14 +41,14 @@ export default function CreditReportIntroduction({
             className="btn btn-primary btn-block"
             onClick={handleNextClick}
           >
-            Let&apos;s Check
+            {t("lets_check")}
           </button>
           <div className="mt-4">
             <List
               type="tick"
               items={[
-                "No sharing of credit report with any 3rd party",
-                "Checking your Credit score will not reduce your score",
+                t("no_sharing_credit_report_with_third_party"),
+                t("check_credit_score_impact"),
               ]}
             />
           </div>
@@ -54,8 +56,7 @@ export default function CreditReportIntroduction({
       }
     >
       <h2 className="text-heading text-medium p-4 text-center">
-        A good CREDIT SCORE gets you better interest rates on your Salary Top
-        Up. Wonder if you have a good score?
+        {t("good_credit_score_benefits")}
       </h2>
       <RadioButtonGroup
         name="question"

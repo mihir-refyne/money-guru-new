@@ -1,6 +1,7 @@
 import { ArrowClockwise } from "phosphor-react";
 import NoRecordFound from "../NoRecordFound";
 import EpfTrackerLayout from "./EpfTrackerLayout";
+import useTranslation from "@/hooks/useTranslation";
 
 interface EpfRecordNotFoundProps {
   directlyAccessed: boolean;
@@ -11,6 +12,7 @@ export default function EpfRecordNotFound({
   directlyAccessed,
   onRetryClick,
 }: EpfRecordNotFoundProps) {
+  const { t } = useTranslation("common");
   return (
     <EpfTrackerLayout
       alignContentCenter
@@ -19,7 +21,7 @@ export default function EpfRecordNotFound({
           className="btn btn-primary btn-block flex-center"
           onClick={onRetryClick}
         >
-          <span>Retry</span>
+          <span>{t("retry_btn")}</span>
           <ArrowClockwise size={16} className="ml-2" />
         </button>
       }
@@ -27,8 +29,8 @@ export default function EpfRecordNotFound({
     >
       <NoRecordFound
         transparent
-        title="We couldn’t fetch your PF details"
-        description="Please click on retry"
+        title={t("fetch_pf_details_error")}
+        description={t("click_retry_instruction")}
       />
     </EpfTrackerLayout>
   );

@@ -1,12 +1,14 @@
 import React from "react";
 import PageLayout from "../PageLayout";
 import RiveWrapper from "../RiveWrapper";
+import useTranslation from "@/hooks/useTranslation";
 
 // TODO: This can be a Independent component, refactor later
 export default function EpfTrackerLoading() {
+  const { t } = useTranslation("common");
   return (
     <PageLayout
-      navbarText="PF Passbook"
+      navbarText={t("pf_passbook_label")}
       hasLocaleChange={false}
       alignContentCenter
     >
@@ -18,9 +20,9 @@ export default function EpfTrackerLoading() {
         }}
       />
       <h2 className="text-heading text-semibold mt-4 mb-2">
-        Fetching your EPF Records
+        {t("fetching_epf_records")}
       </h2>
-      <p className="clr-text-secondary">This may take a few minutes</p>
+      <p className="clr-text-secondary">{t("fetching_delay_notice")}</p>
     </PageLayout>
   );
 }

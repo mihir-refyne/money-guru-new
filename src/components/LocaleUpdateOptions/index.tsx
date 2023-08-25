@@ -1,6 +1,7 @@
 import Image from "next/image";
 import languageIconUrl from "@/images/language-icon.svg";
 import RadioButtonGroup from "../RadioButtonGroup";
+import useTranslation from "@/hooks/useTranslation";
 
 interface LocaleUpdateOptionsProps {
   locales?: Array<string>;
@@ -13,6 +14,7 @@ export default function LocaleUpdateOptions({
   currentValue,
   onChange,
 }: LocaleUpdateOptionsProps) {
+  const { t } = useTranslation("common");
   if (!locales || locales.length < 1) return null;
   const localeOptions = locales.map((locale) => ({
     value: locale,
@@ -30,7 +32,7 @@ export default function LocaleUpdateOptions({
           width: "4.8rem",
         }}
       />
-      <h2 className="text-heading mb-6">Change Your Language</h2>
+      <h2 className="text-heading mb-6">{t("change_your_language")}</h2>
       <div className="mb-6">
         <RadioButtonGroup
           items={localeOptions}

@@ -5,13 +5,13 @@
     {
       "backgroundColor": "linear-gradient(359.65deg, #FFFFFF 12.2%, #FFD3C2 99.7%)",
       "durationInMs": 3000,
-      "heading": "Struggling to manage your\nhard-earned money?",
+      "heading": "finlit_intro_short1_title",
       "illustrationImageUrl": "/assets/images/fin-lit-intro-1.svg"
     },
     {
       "backgroundColor": "linear-gradient(359.65deg, #F9FEFF 12.2%, #D7EAFF 99.7%)",
       "durationInMs": 3000,
-      "heading": "Unlock the power of\nfinancial knowledge!",
+      "heading": "finlit_intro_short2_title",
       "illustrationImageUrl": "/assets/images/fin-lit-intro-2.svg"
     }
   ]

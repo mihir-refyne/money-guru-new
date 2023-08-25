@@ -1,27 +1,27 @@
 {
-    "title": "Enquiries",
-    "description": "",
-    "tags": [
-      {
-        "type": "success",
-        "text": "Excellent",
-        "description": "No new enquiries in the last 1 year"
-      },
-      {
-        "type": "success-light",
-        "text": "Very Good",
-        "description": "Upto 1 enquiries in last 1 year"
-      },
-      {
-        "type": "warning-light",
-        "text": "Good",
-        "description": "Upto 3 enquiries in last 1 year"
-      },
-      {
-        "type": "error-light",
-        "text": "Needs Help",
-        "description": "More than 3 enquiries in last 1 year"
-      }
-    ],
-    "footer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, needs help etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne’s own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne’s opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks."
+  "title": "credit_enquiries_label",
+  "description": "",
+  "tags": [
+    {
+      "type": "success",
+      "text": "credit_rating_excellent",
+      "description": "no_new_enquiries_last_year"
+    },
+    {
+      "type": "success-light",
+      "text": "credit_rating_very_good",
+      "description": "upto_1_enquiries_last_year"
+    },
+    {
+      "type": "warning-light",
+      "text": "credit_rating_good",
+      "description": "upto_3_enquiries_last_year"
+    },
+    {
+      "type": "error-light",
+      "text": "credit_rating_needs_help",
+      "description": "more_than_3_enquiries_last_year"
+    }
+  ],
+  "footer": "credit_enquiries_classification_disclaimer"
 }

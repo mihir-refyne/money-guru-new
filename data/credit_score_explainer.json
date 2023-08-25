@@ -1,32 +1,32 @@
 {
-  "title": "Understand CREDIT SCORE",
-  "description": "Your CREDIT SCORE is a 3digit number that appears on your credit report. The usual range is between 300 and 900.",
+  "title": "understand_credit_score_label",
+  "description": "credit_score_definition",
   "tags": [
     {
       "type": "success",
-      "text": "Excellent",
-      "description": "Above 751"
+      "text": "credit_rating_excellent",
+      "description": "score_above_751"
     },
     {
       "type": "success-light",
-      "text": "Very Good",
+      "text": "credit_rating_very_good",
       "description": "731 - 750"
     },
     {
       "type": "warning-light",
-      "text": "Good",
+      "text": "credit_rating_good",
       "description": "706 - 730"
     },
     {
       "type": "warning",
-      "text": "Average",
+      "text": "credit_rating_average",
       "description": "602 - 705"
     },
     {
       "type": "error-light",
-      "text": "Needs Help",
-      "description": "Below 601"
+      "text": "credit_rating_needs_help",
+      "description": "score_below_601"
     }
   ],
-  "footer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, fair etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne's own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne's opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks."
+  "footer": "broad_classification_disclaimer"
 }

@@ -11,6 +11,7 @@ import styles from "./ShortItem.module.css";
 import emptyBoxIllustrationUrl from "@/images/empty-box-illustration.svg";
 import Image from "next/image";
 import { hasShortViewHistory } from "@/lib/shorts";
+import useTranslation from "@/hooks/useTranslation";
 
 const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
 
@@ -50,6 +51,7 @@ export default function ShortItem({
   onNotifyClick,
   onReactionClick,
 }: ShortItemProps) {
+  const { t } = useTranslation("common");
   const [swipePrompt, setSwipePrompt] = useState<{
     location: "top" | "bottom";
     text: string;
@@ -76,7 +78,7 @@ export default function ShortItem({
     if (hasShortViewHistory()) return;
     setSwipePrompt({
       location: "bottom",
-      text: "Swipe up to read the next R-Short",
+      text: t("swipe_up_read_next_short"),
     });
 
     swipePromptCleanupTimeoutRef.current = setTimeout(() => {
@@ -120,9 +122,9 @@ export default function ShortItem({
         <>
           <div className={styles.ShortItem__End__Content}>
             <Image src={emptyBoxIllustrationUrl} alt="ill" />
-            <h3 className="text-sub-title mt-4">Well Done!</h3>
+            <h3 className="text-sub-title mt-4">{t("well_done")}</h3>
             <p className="text-heading clr-text-secondary text-center mt-4">
-              You’ve finished all the R-Shorts. We’ll be adding more soon…
+              {t("finished_all_shorts_will_add_more")}
             </p>
           </div>
           <NotifyButton onClick={onNotifyClick} />

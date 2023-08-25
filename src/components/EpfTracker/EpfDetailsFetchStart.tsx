@@ -8,17 +8,18 @@ import Input from "../Input";
 import EpfTrackerFetchFooter from "./EpfTrackerFetchFooter";
 import epfHeroBlobImageUrl from "@/images/epf-hero-blob.png";
 import { isValueIsNumeric } from "@/lib/utils";
+import useTranslation from "@/hooks/useTranslation";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
-  mobileNo: "Enter Mobile Number",
-  uan: "Enter UAN number",
+  mobileNo: "enter_mobile_number_prompt",
+  uan: "enter_uan_number_prompt",
 };
-const EpfFetchIdentifierToChangeButtonLable: Record<
+const EpfFetchIdentifierToChangeButtonLabel: Record<
   EpfFetchIdentifier,
   string
 > = {
-  mobileNo: "Use Mobile No",
-  uan: "Use UAN",
+  mobileNo: "use_mobile_no_btn",
+  uan: "use_uan_btn",
 };
 const EpfFetchIdentifierInputPlaceholderMap: Record<
   EpfFetchIdentifier,
@@ -63,6 +64,7 @@ export default function EpfDetailsFetchStart({
   onSubmit,
   loading = false,
 }: EpfDetailsFetchStartProps) {
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
   const [identifierValue, setIdentifierValue] = useState<string>(initialValue);
 
@@ -108,7 +110,7 @@ export default function EpfDetailsFetchStart({
           Employees&apos; Provident Fund Organisation, India
         </h2>
         <h4 className="text-body text-regular clr-text-secondary mt-4 mb-4">
-          Check your PF balance on Refyne at ZERO fees
+          {t("check_pf_balance_offer")}
         </h4>
       </div>
       <form
@@ -121,7 +123,9 @@ export default function EpfDetailsFetchStart({
       >
         <Input
           inputMode="numeric"
-          label={EpfFetchIdentifierToInputLabelMap[identifier]}
+          label={tWithoutTypeSafety(
+            EpfFetchIdentifierToInputLabelMap[identifier]
+          )}
           rightLabel={
             onIdentifierChange && (
               <button
@@ -129,7 +133,9 @@ export default function EpfDetailsFetchStart({
                 className="text-caption text-semibold clr-brand-default"
                 onClick={() => onIdentifierChange(nextIdentifier)}
               >
-                {EpfFetchIdentifierToChangeButtonLable[nextIdentifier]}
+                {tWithoutTypeSafety(
+                  EpfFetchIdentifierToChangeButtonLabel[nextIdentifier]
+                )}
               </button>
             )
           }

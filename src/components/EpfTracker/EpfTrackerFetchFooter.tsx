@@ -1,3 +1,5 @@
+import useTranslation from "@/hooks/useTranslation";
+
 interface EpfTrackerFetchFooterProps {
   formId?: string;
   buttonDisabled?: boolean;
@@ -9,6 +11,7 @@ export default function EpfTrackerFetchFooter({
   buttonDisabled,
   onClick,
 }: EpfTrackerFetchFooterProps) {
+  const { t } = useTranslation("common");
   return (
     <>
       <button
@@ -18,11 +21,10 @@ export default function EpfTrackerFetchFooter({
         onClick={onClick}
         disabled={buttonDisabled}
       >
-        Next
+        {t("next_btn")}
       </button>
       <p className="text-caption clr-text-secondary mt-4">
-        By clicking next you agree to the consent to fetch your Provident Fund
-        account details.
+        {t("consent_fetch_pf_details")}
       </p>
     </>
   );

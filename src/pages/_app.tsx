@@ -131,7 +131,6 @@ export default function App({ Component, pageProps }: AppProps) {
     if (!locale || !router.locale) return;
     if (locale === router.locale) return;
     router.replace(router.asPath, undefined, {
-      shallow: true,
       scroll: false,
       locale,
     });
