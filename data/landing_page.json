@@ -3,9 +3,9 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "how-to-find-long-term-stocks",
       "what-is-inflation",
       "save-tax-on-investment",
-      "what-is-ipo",
       "earn-via-sip"
     ],
     "autoPlayDurationInMs": 600000
