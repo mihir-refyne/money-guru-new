@@ -122,5 +122,6 @@
         }
       }
     ]
-  }
+  },
+  "quizManiaQuizUrl": "/quiz?id=QuizMania_1Sep23&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK"
 }
