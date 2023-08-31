@@ -25,7 +25,9 @@ export default function CenterContent({
     >
       {illustration}
       <h3 className="text-body text-semibold mt-4">{title}</h3>
-      {description && <p className="clr-text-secondary mt-2">{description}</p>}
+      {description && (
+        <p className="clr-text-secondary text-center mt-2">{description}</p>
+      )}
     </div>
   );
 }

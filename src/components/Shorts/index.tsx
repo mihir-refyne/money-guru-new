@@ -7,9 +7,11 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 
 interface ShortsProps {
   items: ShortData[];
+  onSwipeUp?: (id: string) => void;
+  onSwipeDown?: (id: string) => void;
 }
 
-export default function Shorts({ items }: ShortsProps) {
+export default function Shorts({ items, onSwipeUp, onSwipeDown }: ShortsProps) {
   function handleOnView(id?: string) {
     if (id) {
       logAnalyticsEvent(
@@ -30,6 +32,12 @@ export default function Shorts({ items }: ShortsProps) {
       logEventInMixpanel(eventName, {
         short_id: id,
       });
+      if (direction === "UP") {
+        onSwipeDown?.(id);
+      }
+      if (direction === "DOWN") {
+        onSwipeUp?.(id);
+      }
     }
   }
 

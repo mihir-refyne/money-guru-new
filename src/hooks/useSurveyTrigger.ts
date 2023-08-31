@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
+  Survey,
   SurveyTriggerAction,
   fetchSurveyByTrigger,
   postSurveyResponse,
@@ -22,12 +23,28 @@ const SurveyEventToAnalyticEventMap: Record<
   removeWindow: null,
 };
 
+interface UseSurveyTriggerProps {
+  onLoad?: () => void;
+  onComplete?: () => void;
+  onNotFound?: () => void;
+}
+
 interface UseSurveyTriggerResponse {
+  isFetching: boolean;
+  isSurveyWindowLoading: boolean;
+  prefetch(trigger: SurveyTriggerAction): void;
   dispatchAction(trigger: SurveyTriggerAction): void;
 }
 
-export function useSurveyTrigger(): UseSurveyTriggerResponse {
+export function useSurveyTrigger({
+  onLoad,
+  onComplete,
+  onNotFound,
+}: UseSurveyTriggerProps = {}): UseSurveyTriggerResponse {
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [isSurveyWindowLoading, setIsSurveyWindowLoading] =
+    useState<boolean>(false);
+  const cachedSurveyMap = useRef<Map<SurveyTriggerAction, Survey>>(new Map());
   const eventListenerUnSubscriber = useRef<Function | null>(null);
 
   useEffect(() => {
@@ -41,6 +58,10 @@ export function useSurveyTrigger(): UseSurveyTriggerResponse {
     }
   }
 
+  function clearSurveyCache(trigger: SurveyTriggerAction): boolean {
+    return cachedSurveyMap.current.delete(trigger);
+  }
+
   function handleSurveyEvent(
     _event: string,
     context: {
@@ -51,8 +72,18 @@ export function useSurveyTrigger(): UseSurveyTriggerResponse {
   ) {
     const event = _event as SurveySparrowLifecycleEvent;
     const { surveyId, triggerAction, token } = context;
+    if (event === SurveySparrowLifecycleEvent.SURVEY_LOAD_STARTED) {
+      setIsSurveyWindowLoading(false);
+      onLoad?.();
+    }
+    if (event === SurveySparrowLifecycleEvent.SURVEY_CLOSED) {
+      setIsSurveyWindowLoading(false);
+    }
     if (event === SurveySparrowLifecycleEvent.SURVEY_COMPLETED) {
-      postSurveyResponse(token).catch(() => {});
+      clearSurveyCache(triggerAction as SurveyTriggerAction);
+      postSurveyResponse(token)
+        .catch(() => {})
+        .finally(onComplete);
     }
     const analyticEvent = SurveyEventToAnalyticEventMap[event];
     if (!analyticEvent) return;
@@ -62,13 +93,32 @@ export function useSurveyTrigger(): UseSurveyTriggerResponse {
     });
   }
 
-  async function fetchSurvey(triggerAction: SurveyTriggerAction) {
+  async function getOrFetchSurvey(
+    triggerAction: SurveyTriggerAction,
+    force: boolean = false
+  ): Promise<Survey | null> {
+    const cachedSurvey = cachedSurveyMap.current.get(triggerAction);
+    if (cachedSurvey && !force) return cachedSurvey;
+    const survey = await fetchSurveyByTrigger(triggerAction);
+    if (!survey || isObjectEmpty(survey)) return null;
+    cachedSurveyMap.current.set(triggerAction, survey);
+    return survey;
+  }
+
+  async function fetchSurveyAndTrigger(
+    triggerAction: SurveyTriggerAction,
+    forceFetch: boolean = false
+  ) {
     try {
       setIsFetching(true);
-      const survey = await fetchSurveyByTrigger(triggerAction);
-      if (survey === null || isObjectEmpty(survey)) return;
+      const survey = await getOrFetchSurvey(triggerAction, forceFetch);
+      if (survey === null || isObjectEmpty(survey)) {
+        onNotFound?.();
+        return;
+      }
       const locale = getPreferredLocale() ?? "en";
       const { encryptedUserId, surveyId, token, name, domain } = survey;
+      setIsSurveyWindowLoading(true);
       const { removeEventListener } = surveySparrowLaunch({
         config: {
           account: domain,
@@ -92,11 +142,18 @@ export function useSurveyTrigger(): UseSurveyTriggerResponse {
     }
   }
 
-  function dispatchAction(trigger: SurveyTriggerAction) {
-    if (isFetching) return;
-    cleanupLastEventListenerIfAvailable();
-    fetchSurvey(trigger);
+  function prefetch(trigger: SurveyTriggerAction): void {
+    getOrFetchSurvey(trigger).catch(() => {});
   }
 
-  return { dispatchAction };
+  function dispatchAction(
+    trigger: SurveyTriggerAction,
+    force: boolean = false
+  ) {
+    if (isFetching) return;
+    cleanupLastEventListenerIfAvailable();
+    fetchSurveyAndTrigger(trigger, force);
+  }
+
+  return { isFetching, isSurveyWindowLoading, prefetch, dispatchAction };
 }

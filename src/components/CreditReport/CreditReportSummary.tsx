@@ -27,6 +27,8 @@ import { Question } from "phosphor-react";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import useTranslation from "@/hooks/useTranslation";
+import Banner, { BannerProps } from "../Banner";
+import Carousel from "../Carousel";
 
 interface CreditReportSummaryProps {
   creditReport: CreditReport | null;
@@ -34,6 +36,7 @@ interface CreditReportSummaryProps {
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   fetchedAt?: string;
   directAccess?: boolean;
+  banners?: Array<BannerProps>;
   onMount?: (context: { rating?: string }) => void;
   onRatingTagClick?: (rating?: string) => void;
 }
@@ -45,10 +48,13 @@ export default function CreditReportSummary({
   fetchedAt,
   onMount,
   directAccess,
+  banners = [],
   onRatingTagClick,
 }: CreditReportSummaryProps) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
+
+  const hasCarouselBanners = banners.length > 0;
 
   function handleExplainerOpen() {
     onRatingTagClick?.(creditReport?.scoreDetails[0]?.rating);
@@ -182,6 +188,25 @@ export default function CreditReportSummary({
           onCtaClick={onCtaClick}
         />
       </div>
+      {hasCarouselBanners && (
+        <div className={`my-4 ${banners.length > 1 ? "px-0" : ""}`}>
+          <Carousel infiniteLoop centerMode centerSlidePercentage={90}>
+            {banners.map((banner, index) => (
+              <Banner
+                key={index}
+                {...banner}
+                heading={banner.heading && tWithoutTypeSafety(banner.heading)}
+                description={
+                  banner.description && tWithoutTypeSafety(banner.description)
+                }
+                ctaLabel={
+                  banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
+                }
+              />
+            ))}
+          </Carousel>
+        </div>
+      )}
       <h2 className="text-heading text-semibold mb-2">
         {t("credit_factors_label")}
       </h2>

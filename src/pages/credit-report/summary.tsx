@@ -1,3 +1,5 @@
+import { useEffect, useMemo } from "react";
+import { useRouter } from "next/router";
 import CreditReportLoading from "@/components/CreditReport/CreditReportLoading";
 import CreditReportSummary from "@/components/CreditReport/CreditReportSummary";
 import useFetcher from "@/hooks/useFetcher";
@@ -14,8 +16,8 @@ import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import creditReportConfig from "../../../data/credit_report_config.json";
+import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
 
 export default function CreditReportSummaryPage() {
   const router = useRouter();
@@ -24,6 +26,21 @@ export default function CreditReportSummaryPage() {
     false,
     3 * 1000
   );
+
+  const employerId = getValueFromMetadata("employerId");
+  const workerId = getValueFromMetadata("workerId");
+
+  const carouselBanners = useMemo(() => {
+    return (creditReportConfig?.carouselBanner as any)?.banners?.filter(
+      (banner: any) => {
+        if (!banner.releaseConfig) return true;
+        return checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
+          employerId,
+          workerId,
+        });
+      }
+    );
+  }, [creditReportConfig?.carouselBanner]);
 
   useEffect(() => {
     if (isCreditReportThereInSessionStorage()) return;
@@ -99,6 +116,7 @@ export default function CreditReportSummaryPage() {
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}
       directAccess={directlyAccessed}
+      banners={carouselBanners}
     />
   );
 }

@@ -4,9 +4,12 @@ import { fetcher } from "../fetcher";
 
 export enum SurveyTriggerAction {
   MONEY_GURU_DASHBOARD_OPEN = "MONEY_GURU_DASHBOARD_OPEN",
+  MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK = "MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK",
+  MONEY_GURU_CREDIT_REPORT_QUIZ_BANNER_CLICK = "MONEY_GURU_CREDIT_REPORT_QUIZ_BANNER_CLICK",
+  MONEY_GURU_R_SHORT_SWIPE_UP = "MONEY_GURU_R_SHORT_SWIPE_UP",
 }
 
-interface Survey {
+export interface Survey {
   encryptedUserId?: string;
   surveyId: string;
   token: string;
