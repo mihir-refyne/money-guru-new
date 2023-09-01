@@ -26,6 +26,7 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
 import useTranslation from "@/hooks/useTranslation";
+import Link from "next/link";
 
 interface HomePageProps {
   shorts: Array<{
@@ -180,6 +181,12 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
   }
 
+  function handleTempQuizBannerClickSideEffect() {
+    logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
+      name: "QUIZ_MANIA_SEP23",
+    });
+  }
+
   function handleFeaturedShortClick(id: string) {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
@@ -277,7 +284,30 @@ export default function HomePage({ shorts }: HomePageProps) {
           })}
         </Carousel>
       </div>
-
+      {/* Info: This is Temp, will have to remove after experiment is done */}
+      <div className="container">
+        <Link
+          href={config.quizManiaQuizUrl}
+          onClick={handleTempQuizBannerClickSideEffect}
+          aria-label="Click to Start Playing Quiz Mania"
+        >
+          <figure
+            style={{
+              minHeight: "36rem",
+            }}
+          >
+            <img
+              src="https://dqkwfm5lwlsho.cloudfront.net/assets/images/quiz_mania_leaderboard_banner.png"
+              alt="Money Guru Quiz Mania"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </figure>
+        </Link>
+      </div>
       {hasBanners && (
         <div className="container">
           {banners.map((banner: any, index) => (
