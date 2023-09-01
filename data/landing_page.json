@@ -3,9 +3,9 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-early-retirement",
       "home-loan-important-facts",
       "what-is-inflation",
-      "save-tax-on-investment",
       "earn-via-sip"
     ],
     "autoPlayDurationInMs": 600000
