@@ -3,9 +3,9 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-gdp",
       "what-is-short-selling",
       "importance-of-early-retirement",
-      "what-is-inflation",
       "earn-via-sip"
     ],
     "autoPlayDurationInMs": 600000
@@ -123,5 +123,5 @@
       }
     ]
   },
-  "quizManiaQuizUrl": "/quiz?id=QuizMania_2Sep23&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK"
+  "quizManiaQuizUrl": "/quiz?id=QuizMania_3Sep23&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK"
 }
