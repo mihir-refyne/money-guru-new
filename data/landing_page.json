@@ -3,11 +3,10 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
-      "what-is-sukanya-samriddhi-yojana",
+      "what-are-rupay-visa-mastercard",
+      "what-is-ppf",
       "what-is-digital-gold",
-      "what-is-gdp",
-      "importance-of-early-retirement",
-      "earn-via-sip"
+      "what-is-gdp"
     ],
     "autoPlayDurationInMs": 600000
   },
