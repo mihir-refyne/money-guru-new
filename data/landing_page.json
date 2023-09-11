@@ -3,9 +3,9 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-ipo",
       "what-is-upi",
       "what-are-rupay-visa-mastercard",
-      "what-is-ppf",
       "what-is-digital-gold",
       "what-is-gdp"
     ],
