@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "savings-vs-current-account",
       "what-is-ipo",
       "what-is-upi",
       "what-are-rupay-visa-mastercard",
-      "what-is-digital-gold",
-      "what-is-gdp"
+      "what-is-digital-gold"
     ],
     "autoPlayDurationInMs": 600000
   },
