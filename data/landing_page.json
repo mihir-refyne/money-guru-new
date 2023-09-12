@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-early-retirement",
       "savings-vs-current-account",
       "what-is-ipo",
       "what-is-upi",
-      "what-are-rupay-visa-mastercard",
-      "what-is-digital-gold"
+      "what-are-rupay-visa-mastercard"
     ],
     "autoPlayDurationInMs": 600000
   },
