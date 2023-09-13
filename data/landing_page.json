@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "fixed-vs-recurring-deposit",
       "importance-of-early-retirement",
       "savings-vs-current-account",
       "what-is-ipo",
-      "what-is-upi",
-      "what-are-rupay-visa-mastercard"
+      "what-is-upi"
     ],
     "autoPlayDurationInMs": 600000
   },
