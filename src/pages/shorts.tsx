@@ -16,6 +16,9 @@ interface ShortsPageProps {
     id: string;
     metadata: Record<string, unknown>;
     content: string;
+    reaction: {
+      liked: number;
+    };
   }>;
 }
 
@@ -105,6 +108,7 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
               dangerouslySetInnerHTML={{ __html: marked(short.content) }}
             />
           ),
+          reaction: short.reaction,
         }))}
         onSwipeUp={handleSwipeUp}
       />

@@ -86,7 +86,7 @@ export default function EpfSummary({
   });
 
   return (
-    <EpfTrackerLayout dispatchPopEventOnBackClick={directlyAccessed}>
+    <EpfTrackerLayout dispatchPopEventOnBackClick={directlyAccessed} hasShare>
       <Card
         // TODO: Ask why colors are not from design system
         backgroundColor="#061D4C"

@@ -1,6 +1,12 @@
+import { useState } from "react";
 import ShortItem, { ShortData } from "./ShortItem";
 import ShortsContainer from "./ShortsContainer";
-import { addShortView } from "@/lib/shorts";
+import {
+  ShortReactionMap,
+  addShortView,
+  getShortReactionMap,
+  setShortReactionMap,
+} from "@/lib/shorts";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logAnalyticsEvent } from "@/lib/analytics";
@@ -12,6 +18,9 @@ interface ShortsProps {
 }
 
 export default function Shorts({ items, onSwipeUp, onSwipeDown }: ShortsProps) {
+  const [shortsLocalReactionMap, _setLocalShortsReactionMap] =
+    useState<ShortReactionMap>(getShortReactionMap);
+    
   function handleOnView(id?: string) {
     if (id) {
       logAnalyticsEvent(
@@ -56,6 +65,9 @@ export default function Shorts({ items, onSwipeUp, onSwipeDown }: ShortsProps) {
       short_id: shortId,
       reaction,
     });
+    const payload = { [shortId]: reaction };
+    _setLocalShortsReactionMap((prev) => ({ ...prev, ...payload }));
+    setShortReactionMap(payload);
   }
 
   return (
@@ -66,6 +78,7 @@ export default function Shorts({ items, onSwipeUp, onSwipeDown }: ShortsProps) {
           data={short}
           onView={handleOnView}
           onLeave={handleViewLeft}
+          reaction={shortsLocalReactionMap[short.id]}
           onReactionClick={(reaction) =>
             handleReactionClick(short.id, reaction)
           }

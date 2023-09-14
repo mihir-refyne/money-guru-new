@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { CaretLeft } from "phosphor-react";
+import { CaretLeft, ShareNetwork } from "phosphor-react";
 import languageIconUrl from "@/images/language-icon.svg";
 import styles from "./styles.module.css";
 
@@ -14,6 +14,8 @@ interface NavbarProps {
   onBackClick?: () => void;
   hasLocaleChange?: boolean;
   onLocaleChangeClick?: () => void;
+  hasShare?: boolean;
+  onShareClick?: () => void;
 }
 
 export default function Navbar({
@@ -23,6 +25,8 @@ export default function Navbar({
   onBackClick,
   hasLocaleChange = true,
   onLocaleChangeClick,
+  hasShare = true,
+  onShareClick,
 }: NavbarProps) {
   const [navbarOpacity, setNavbarOpacity] = useState<number>(0);
 
@@ -67,6 +71,18 @@ export default function Navbar({
             onClick={onLocaleChangeClick}
           >
             <Image src={languageIconUrl} alt="Language Change" />
+          </button>
+        )}
+        {hasShare && (
+          <button
+            className={`${styles.NavbarContent__RightButton} btn-only-icon`}
+            onClick={onShareClick}
+          >
+            <ShareNetwork
+              weight="fill"
+              color="var(--clr-brand-default)"
+              size={20}
+            />
           </button>
         )}
       </div>

@@ -4,11 +4,28 @@ import matter from "gray-matter";
 import { trimNumberFromStartOrEndOfSlug } from "../utils";
 
 const BASE_DIR = "data/shorts";
+const SHORTS_REACTION_MAP_FILE_PATH = "data/rshorts_like_count.json";
 
 export async function getAllShortsPath(): Promise<Array<{ slug: string }>> {
   const dirNames = await fs.readdir(path.join(BASE_DIR));
 
   return dirNames.map((dir) => ({ slug: dir }));
+}
+
+async function getReactionMapOfShorts(): Promise<Record<
+  string,
+  number
+> | null> {
+  try {
+    const fileContent = await fs.readFile(
+      SHORTS_REACTION_MAP_FILE_PATH,
+      "utf-8"
+    );
+    return JSON.parse(fileContent);
+  } catch (error) {
+    console.error(`Failed to get ReactionMapOfShorts due to ${error}`);
+    return null;
+  }
 }
 
 export async function getAllShortsPathForAllLocales(locales: Array<string>) {
@@ -51,12 +68,18 @@ export async function getShortsByLocale(locale: string) {
     id: string;
     metadata: Record<string, unknown>;
     content: string;
+    reaction: {
+      liked: number;
+    };
   }> = [];
+
+  const shortsReactionMap = await getReactionMapOfShorts();
 
   for (const shortPath of shortPaths) {
     const short = await getShortBySlugAndLocale(shortPath.slug, locale);
     const id = trimNumberFromStartOrEndOfSlug(shortPath.slug);
-    shorts.push({ id, ...short });
+    const likedCount = shortsReactionMap?.[shortPath.slug] ?? 0;
+    shorts.push({ id, ...short, reaction: { liked: likedCount } });
   }
 
   // TODO: Do sorting here only

@@ -7,7 +7,7 @@ import useTranslation from "@/hooks/useTranslation";
 export default function CreditReportLoading() {
   const { t } = useTranslation("common");
   return (
-    <CreditReportLayout alignContentCenter>
+    <CreditReportLayout alignContentCenter hasShare={false}>
       <RiveWrapper
         src="/assets/animations/credit_score.riv"
         className={styles.CreditReportLoading}

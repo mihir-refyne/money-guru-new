@@ -4,19 +4,22 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "yarn get-remote-translations",
+    "prebuild": "yarn get-remote-translations && yarn get-rshort-like-count",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "get-remote-translations": "node ./scripts/get-translations-from-remote"
+    "get-remote-translations": "node ./scripts/get-translations-from-remote",
+    "get-rshort-like-count": "node ./scripts/get-like-count-from-mixpanel"
   },
   "dependencies": {
+    "@hugocxl/react-to-image": "^0.0.6",
     "@next/font": "13.1.6",
     "@rive-app/react-canvas": "^3.0.45",
     "date-fns": "^2.29.3",
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "gray-matter": "^4.0.3",
+    "html-to-image": "^1.11.11",
     "marked": "^4.2.12",
     "mixpanel-browser": "^2.45.0",
     "next": "13.1.6",

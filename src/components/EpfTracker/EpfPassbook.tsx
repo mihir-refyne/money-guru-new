@@ -76,7 +76,7 @@ export default function EpfPassbook({
   );
 
   return (
-    <EpfTrackerLayout>
+    <EpfTrackerLayout hasShare>
       <Card
         // Why these color?
         backgroundColor="#EBF5FF"

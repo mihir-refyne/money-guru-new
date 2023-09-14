@@ -1,6 +1,7 @@
 import { useOnScreen } from "@/hooks/useOnScreen";
 import {
   BellRinging,
+  ShareNetwork,
   ThumbsDown,
   ThumbsUp,
 } from "phosphor-react";
@@ -11,9 +12,19 @@ import styles from "./ShortItem.module.css";
 import emptyBoxIllustrationUrl from "@/images/empty-box-illustration.svg";
 import Image from "next/image";
 import { hasShortViewHistory } from "@/lib/shorts";
+import { useToJpeg } from "@hugocxl/react-to-image";
+import { useShare } from "@/hooks/useShare";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import useTranslation from "@/hooks/useTranslation";
 
 const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
+
+const DEFAULT_R_SHORT_SHARE_PAYLOAD = {
+  text: "Stay updated, stay sharp! Dive into today's R-short.",
+  url: "https://refyne.page.link/install",
+  imageUrl: "",
+};
 
 export interface ShortData {
   id: string;
@@ -28,6 +39,9 @@ export interface ShortData {
     url?: string;
     text: string;
   };
+  reaction: {
+    liked: number;
+  };
 }
 
 interface ShortItemProps {
@@ -40,6 +54,7 @@ interface ShortItemProps {
   onView?: (id?: string) => void;
   onLeave?: (id?: string, direction?: string) => void;
   onNotifyClick?: () => void;
+  reaction?: string;
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
 }
 
@@ -49,6 +64,7 @@ export default function ShortItem({
   onView,
   onLeave,
   onNotifyClick,
+  reaction,
   onReactionClick,
 }: ShortItemProps) {
   const { t } = useTranslation("common");
@@ -57,6 +73,31 @@ export default function ShortItem({
     text: string;
   }>();
   const swipePromptCleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const { shareInProgress, shareOrClipboardCopy } = useShare({
+    isNativePlatformShareSupported: isCurrentlyOnRefyneWebview(appPlatformName),
+  });
+  const [
+    screenshotCaptureState,
+    captureScreenshotAndTransformToDataUri,
+    shareElementRef,
+  ] = useToJpeg<HTMLDivElement>({
+    backgroundColor: "#ffffff",
+    quality: 0.7,
+    onSuccess: handleScreenshotCaptureAndShare,
+    onError: handleScreenshotCaptureError,
+    filter(domNode) {
+      if (domNode.tagName === "DIV") {
+        for (let i = 0; i <= domNode.children.length; i++) {
+          const item = domNode.children?.item(i);
+          if (item?.tagName === "DIV") {
+            if (item.children.item(0)?.tagName === "IFRAME") return false;
+          }
+        }
+      }
+      return true;
+    },
+  });
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
       rootMargin: "48px 0px 0px 0px",
@@ -91,6 +132,25 @@ export default function ShortItem({
     }
   }
 
+  function handleScreenshotCaptureError() {
+    const fallbackImageUrl =
+      data?.media?.type === "image" ? data.media.url : undefined;
+    handleScreenshotCaptureAndShare(fallbackImageUrl);
+  }
+
+  function handleScreenshotCaptureAndShare(dataUri?: string) {
+    const _sharePayload = {
+      ...DEFAULT_R_SHORT_SHARE_PAYLOAD,
+      imageUrl: dataUri,
+    };
+    const sharePayload = {
+      text: _sharePayload.text,
+      url: _sharePayload.url,
+      imageUrls: _sharePayload.imageUrl ? [_sharePayload.imageUrl] : [],
+    };
+    shareOrClipboardCopy(sharePayload, { showToastOnClipboardCopy: true });
+  }
+
   useEffect(() => {
     return handleSwipePromptTimeoutCleanup;
   }, []);
@@ -108,13 +168,27 @@ export default function ShortItem({
     >
       {type === "SHORT" && data && (
         <>
-          {data.media && <ShortMedia {...data.media} tag={data.tag} />}
-          {data.content && (
-            <div className={styles.ShortItem__Content}>
-              {data.content}
-              <ShortItemReaction onReactionClick={onReactionClick} />
-            </div>
-          )}
+          <div className={styles.ShortItem__Body} ref={shareElementRef}>
+            {data.media && <ShortMedia {...data.media} tag={data.tag} />}
+            {data.content && (
+              <div className={styles.ShortItem__Content}>{data.content}</div>
+            )}
+          </div>
+          <div className={styles.ShortItem__Footer}>
+            <ShortItemReaction
+              reaction={reaction}
+              reactionCount={data.reaction}
+              onReactionClick={onReactionClick}
+            />
+            <button
+              className="btn flex-center"
+              disabled={shareInProgress || screenshotCaptureState.isLoading}
+              onClick={captureScreenshotAndTransformToDataUri}
+            >
+              <span className="text-body text-medium mr-1">Share</span>
+              <ShareNetwork size={24} />
+            </button>
+          </div>
         </>
       )}
       {/* TODO: Filler */}
@@ -127,7 +201,9 @@ export default function ShortItem({
               {t("finished_all_shorts_will_add_more")}
             </p>
           </div>
-          <NotifyButton onClick={onNotifyClick} />
+          <div className="p-4" style={{ width: "100%" }}>
+            <NotifyButton onClick={onNotifyClick} />
+          </div>
         </>
       )}
     </SwipePrompt>
@@ -156,29 +232,31 @@ function NotifyButton(props: { onClick?: () => void }) {
 }
 
 function ShortItemReaction(props: {
+  reaction?: string;
+  reactionCount?: { liked: number };
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
 }) {
-  const [{ isLiked, isDisliked }, _setReaction] = useState<{
-    isLiked: boolean;
-    isDisliked: boolean;
-  }>({ isLiked: false, isDisliked: false });
+  const { reaction, reactionCount, onReactionClick } = props;
+
+  const isLiked = reaction === "LIKED";
+  const isDisliked = reaction === "DISLIKED";
+
+  const likeCountToBeIncreasedBy = isLiked ? 1 : 0;
+  const likedCount = (reactionCount?.liked ?? 0) + likeCountToBeIncreasedBy;
 
   function setReaction(reaction: "LIKED" | "DISLIKED") {
     return () => {
-      if (reaction === "LIKED") {
-        _setReaction({ isLiked: true, isDisliked: false });
-      } else if (reaction === "DISLIKED") {
-        _setReaction({ isDisliked: true, isLiked: false });
-      }
-      props.onReactionClick?.(reaction);
+      if (reaction === "LIKED" && isLiked) return;
+      if (reaction === "DISLIKED" && isDisliked) return;
+      onReactionClick?.(reaction);
     };
   }
 
   return (
     <div
-      className="border-top-dashed mt-4 pt-3"
       style={{
         display: "flex",
+        alignItems: "center",
       }}
     >
       <button className="btn btn-only-icon" onClick={setReaction("LIKED")}>
@@ -188,6 +266,11 @@ function ShortItemReaction(props: {
           weight={isLiked ? "fill" : "regular"}
         />
       </button>
+      {likedCount > 0 && (
+        <p className="text-body text-medium clr-text-primary mr-2">
+          {likedCount}
+        </p>
+      )}
       <button className="btn btn-only-icon" onClick={setReaction("DISLIKED")}>
         <ThumbsDown
           className="mt-0"

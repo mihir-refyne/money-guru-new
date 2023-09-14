@@ -32,6 +32,8 @@ export interface PageLayoutProps {
   alignContentCenter?: boolean;
   hasContentPadding?: boolean;
   hasLocaleChange?: boolean;
+  hasShare?: boolean;
+  onShareClick?: () => void;
   footer?: ReactElement;
   preloads?: Array<Preload>;
 }
@@ -49,6 +51,8 @@ export default function PageLayout({
   alignContentCenter = false,
   hasLocaleChange = true,
   hasContentPadding = true,
+  hasShare,
+  onShareClick,
   preloads,
 }: PageLayoutProps) {
   const { t } = useTranslation("common");
@@ -87,6 +91,8 @@ export default function PageLayout({
     }
   }
 
+  const _hasShare = !hasLocaleChange && hasShare && !!onShareClick;
+
   return (
     <>
       <Head>
@@ -111,6 +117,8 @@ export default function PageLayout({
             onBackClick={handleBack}
             hasLocaleChange={hasLocaleChange}
             onLocaleChangeClick={handleLocaleUpdateClick}
+            hasShare={_hasShare}
+            onShareClick={onShareClick}
           />
         )}
         <div

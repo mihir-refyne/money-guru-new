@@ -1,4 +1,4 @@
-const https = require("https");
+const { requestGet, toJSON } = require("./utils");
 const path = require("path");
 const fs = require("fs/promises");
 const i18nConfig = require("../i18n.json");
@@ -12,36 +12,6 @@ const LOCALES_DIR_NAME = "locales";
 const regExToCaptureVariable = /#\S+/g;
 
 const requiredKeysFromRemote = new Set(Object.keys(commonLocaleMap));
-
-function requestGet(url) {
-  return new Promise((resolve, reject) => {
-    const req = https.get(url, (res) => {
-      let responseData = "";
-
-      res.on("data", function (chunk) {
-        responseData += chunk;
-      });
-
-      res.on("end", function () {
-        req.end();
-        resolve({
-          headers: res.headers,
-          statusCode: res.statusCode,
-          body: responseData,
-        });
-      });
-
-      res.on("error", function () {
-        reject("Failed to fetch");
-      });
-    });
-  });
-}
-
-function toJSON(value) {
-  if (!value) throw new Error("Falsy value provided");
-  return JSON.parse(value);
-}
 
 function replaceHashVariableToMustache(valueToBeReplaced = "") {
   return valueToBeReplaced.replace(regExToCaptureVariable, (matched) => {

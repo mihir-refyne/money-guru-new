@@ -4,6 +4,7 @@ import {
 } from "../storage/browserstorage";
 
 const SHORTS_VIEW_HISTORY_LOCALSTORAGE_KEY = "__Shorts_Views";
+const SHORTS_REACTION_MAP_LOCALSTORAGE_KEY = "__Shorts_Reactions";
 
 function getShortViewHistoryMap(): Record<string, string> {
   const historyAsString = getFromLocalStorage(
@@ -54,4 +55,32 @@ export function shortViewedAt(shortId: string): Date | null {
 
 export function isShortViewed(shortId: string) {
   return !!shortViewedAt(shortId);
+}
+
+export type ShortReactionMap = Record<string, string>;
+
+export function getShortReactionMap(): ShortReactionMap {
+  const dataAsString = getFromLocalStorage(
+    SHORTS_REACTION_MAP_LOCALSTORAGE_KEY
+  );
+  if (!dataAsString) return {};
+  try {
+    return JSON.parse(dataAsString);
+  } catch (_) {
+    return {};
+  }
+}
+
+export function setShortReactionMap(object: ShortReactionMap): boolean {
+  const currentMap = getShortReactionMap();
+  const updatedMap = { ...currentMap, ...object };
+  try {
+    setInLocalStorage(
+      SHORTS_REACTION_MAP_LOCALSTORAGE_KEY,
+      JSON.stringify(updatedMap)
+    );
+    return true;
+  } catch (_) {
+    return false;
+  }
 }

@@ -1,5 +1,4 @@
 .ShortItem {
-  padding: var(--spacing-4);
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -18,11 +17,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: var(--spacing-4);
 }
 
-.ShortItem__Content {
-  flex-grow: 1;
+.ShortItem__Body {
   overflow-y: hidden;
+  overflow-x: hidden;
+  padding: var(--spacing-4);
+}
+.ShortItem__Content {
   margin-top: var(--spacing-2);
 }
 
@@ -50,4 +53,15 @@
 .ShortItem__Content ul,
 .ShortItem__Content ol {
   padding-left: var(--spacing-4);
+}
+
+.ShortItem__Footer {
+  border-top: 1px dashed var(--clr-grey-default);
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-3) 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 var(--spacing-4);
 }
