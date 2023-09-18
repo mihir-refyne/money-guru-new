@@ -3,9 +3,9 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "digital-vs-physical-KYC",
       "what-is-bhim-upi",
       "what-is-gst",
-      "savings-vs-current-account",
       "what-is-ipo",
       "what-is-upi"
     ],
