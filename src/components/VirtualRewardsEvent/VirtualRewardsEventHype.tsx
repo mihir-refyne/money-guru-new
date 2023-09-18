@@ -1,24 +1,27 @@
 import { useEffect } from "react";
 import { UserStatus } from "@/lib/core/user";
-import IndependenceDayLayout from "./IndependenceDayLayout";
-import IndependenceDayHero from "./IndependenceDayHero";
+import VirtualRewardsEventPageLayout from "./VirtualRewardsEventPageLayout";
+import VirtualRewardsEventHero from "./VirtualRewardsEventHero";
 import Card from "../Card";
 import CountdownDisplay from "../CoundownDisplay";
 import { CaretDoubleRight, ShareNetwork } from "phosphor-react";
-import independenceDayThemeFooterImageUrl from "@/images/independence-day-theme-footer.svg";
-import idsHypeHeroBackgroundImageUrl from "@/images/ids_hype_hero_background.jpg";
+import virtualRewardsEventThemeFooterImageUrl from "@/images/virtual-rewards-event-theme-footer.svg";
 import cardBackgroundUrl from "@/images/card_background.svg";
 import { ListWithCustomIcons } from "../List";
 import InfoCard from "../InfoCard";
 import { getRandomNumberInRange } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
 
-interface IndependenceDayHypeProps {
+const DEFAULT_HERO_ELEM_HEIGHT = "60rem";
+
+interface VirtualRewardsEventHypeProps {
   remainingTimeInSecForFestivalToStart: number;
   userStatus: string;
   gameRules: Array<{ iconUrl: string; text: string }>;
   socialProofTexts: Array<string>;
   isShareLoading: boolean;
+  heroBackgroundImageUrl: string;
+  heroElementHeight?: string;
   onMount?: () => void;
   onCompleteKycClick?: () => void;
   onIncompleteKycClick?: () => void;
@@ -27,19 +30,21 @@ interface IndependenceDayHypeProps {
   onCountdownFinish?: () => void;
 }
 
-export default function IndependenceDayHype({
+export default function VirtualRewardsEventHype({
   userStatus,
   remainingTimeInSecForFestivalToStart,
   gameRules,
   socialProofTexts,
   isShareLoading,
+  heroBackgroundImageUrl,
+  heroElementHeight = DEFAULT_HERO_ELEM_HEIGHT,
   onMount,
   onCompleteKycClick,
   onIncompleteKycClick,
   onShareClick,
   onFaqClick,
   onCountdownFinish,
-}: IndependenceDayHypeProps) {
+}: VirtualRewardsEventHypeProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
 
   useEffect(() => {
@@ -55,7 +60,7 @@ export default function IndependenceDayHype({
     socialProofTexts.length - 1
   );
   return (
-    <IndependenceDayLayout
+    <VirtualRewardsEventPageLayout
       navbarText={t("stamps_landing_page_header_bar_text")}
       footer={
         <PageFooter
@@ -67,8 +72,8 @@ export default function IndependenceDayHype({
         />
       }
     >
-      <IndependenceDayHero
-        height="60rem"
+      <VirtualRewardsEventHero
+        height={heroElementHeight}
         footer={
           <Card backgroundColor="#FDEECA">
             <h4 className="text-body text-medium text-center">
@@ -78,8 +83,8 @@ export default function IndependenceDayHype({
         }
         background={
           <img
-            src={idsHypeHeroBackgroundImageUrl.src}
-            alt="IDS Hype Hero Background"
+            src={heroBackgroundImageUrl}
+            alt="Refyne Festival Hype Hero Background"
             height="100%"
             width="100%"
             style={{
@@ -102,7 +107,7 @@ export default function IndependenceDayHype({
         >
           {t("stamps_share_now")}
         </RoundedShareButton>
-      </IndependenceDayHero>
+      </VirtualRewardsEventHero>
       <div className="px-4">
         <h3 className="text-heading text-medium mb-4">
           {t("stamps_game_rules_header")}
@@ -139,11 +144,11 @@ export default function IndependenceDayHype({
           style={{
             width: "100%",
           }}
-          src={independenceDayThemeFooterImageUrl.src}
-          alt="Independence Day Theme Footer"
+          src={virtualRewardsEventThemeFooterImageUrl.src}
+          alt="Virtual Rewards Event Theme Footer"
         />
       </div>
-    </IndependenceDayLayout>
+    </VirtualRewardsEventPageLayout>
   );
 }
 

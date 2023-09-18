@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import IndependenceDayHype from "@/components/IndependenceDay/IndependenceDayHype";
-import IndependenceDayRegular, {
+import VirtualRewardsEventHype from "@/components/VirtualRewardsEvent/VirtualRewardsEventHype";
+import VirtualRewardsEventRegular, {
   Stamp,
-} from "@/components/IndependenceDay/IndependenceDayRegular";
+} from "@/components/VirtualRewardsEvent/VirtualRewardsEventRegular";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import config from "../../../data/ids_config.json";
+import config from "../../../data/virtual_rewards_event_config.json";
 import { useShare } from "@/hooks/useShare";
 import {
   dispatchDataToNativePlatform,
@@ -41,7 +41,8 @@ import { BannerProps } from "@/components/Banner";
 import { BannerWithCountdownCtaProps } from "@/components/Banner/BannerWithCountdownCta";
 import differenceInSeconds from "date-fns/differenceInSeconds";
 import LoadingPage from "@/components/LoadingPage";
-import IndependenceDayEnd from "@/components/IndependenceDay/IndependenceDayEnd";
+import VirtualRewardsEventEnd from "@/components/VirtualRewardsEvent/VirtualRewardsEventEnd";
+import idsHypeHeroBackgroundImageUrl from "@/images/ids_hype_hero_background.jpg";
 
 // TODO: Maybe move to a helper
 function addUserTokenInUrlIfRequired(
@@ -129,7 +130,7 @@ export const getServerSideProps: GetServerSideProps<
   return { props: { isHypeCreationDay, remainingTimeInSecForFestivalToStart } };
 };
 
-export default function IndependenceDayLandingPage({
+export default function VirtualRewardsEventLandingPage({
   isHypeCreationDay,
   remainingTimeInSecForFestivalToStart,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -588,7 +589,7 @@ export default function IndependenceDayLandingPage({
       if (!giftLinkResponse) throw new Error("Failed to Gift");
       const giftShareMessage = config.giftShareContent.message.replace(
         "{{stampName}}",
-        stampName ?? "Independence"
+        stampName ?? "Refyne"
       );
       const stampInfo = getStampInfoFromConfigById(
         config.rewardIdToStampsConfigMap,
@@ -624,7 +625,7 @@ export default function IndependenceDayLandingPage({
       stampsYetToBeCollected.length === 0 ||
       stampsYetToBeCollected.length > 3
     )
-      return "Independence";
+      return "Refyne";
     return stampsYetToBeCollected
       .map((stamp) => stamp.name)
       .filter(Boolean)
@@ -699,7 +700,7 @@ export default function IndependenceDayLandingPage({
 
   if (isHypeCreationDay)
     return (
-      <IndependenceDayHype
+      <VirtualRewardsEventHype
         onMount={handleHypeOnMount}
         userStatus={userStatus}
         remainingTimeInSecForFestivalToStart={
@@ -708,6 +709,9 @@ export default function IndependenceDayLandingPage({
         gameRules={config.rules}
         socialProofTexts={config.socialProofTexts}
         isShareLoading={shareInProgress}
+        // TODO: Make these driven from config
+        heroBackgroundImageUrl={idsHypeHeroBackgroundImageUrl.src}
+        heroElementHeight="60rem"
         onCompleteKycClick={handleCompleteKycClick}
         onIncompleteKycClick={handleInCompleteKycClick}
         onShareClick={handleShareButtonClick}
@@ -718,7 +722,7 @@ export default function IndependenceDayLandingPage({
 
   if (userStatus !== UserStatus.REFYNE_VERIFIED) {
     return (
-      <IndependenceDayRegular
+      <VirtualRewardsEventRegular
         onMount={handleHypeOnMount}
         userStatus={userStatus}
         gameRules={config.rules}
@@ -751,7 +755,7 @@ export default function IndependenceDayLandingPage({
 
   if (allStampsCollected) {
     return (
-      <IndependenceDayEnd
+      <VirtualRewardsEventEnd
         onMount={handleFestivalEndMount}
         onRedeemClick={handleRedeemClick}
       />
@@ -760,7 +764,7 @@ export default function IndependenceDayLandingPage({
 
   return (
     <>
-      <IndependenceDayRegular
+      <VirtualRewardsEventRegular
         onMount={handleHypeOnMount}
         userStatus={userStatus}
         gameRules={config.rules}

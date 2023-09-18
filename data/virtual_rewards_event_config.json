@@ -3,19 +3,19 @@
   "faqVideoUrl": "https://www.youtube.com/watch?v=A0v-9I0IVOY",
   "rules": [
     {
-      "iconUrl": "/assets/images/ids/blue_tick_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/blue_tick_icon.svg",
       "text": "stamps_rule1"
     },
     {
-      "iconUrl": "/assets/images/ids/giftbox_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/giftbox_icon.svg",
       "text": "stamps_rule2"
     },
     {
-      "iconUrl": "/assets/images/ids/announcement_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/announcement_icon.svg",
       "text": "stamps_rule3"
     },
     {
-      "iconUrl": "/assets/images/ids/flowers_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/flowers_icon.svg",
       "text": "stamps_rule4"
     }
   ],
@@ -26,9 +26,9 @@
     "stamps_landing_page_social_proof4",
     "stamps_landing_page_social_proof5"
   ],
-  "festiveStartDate": "2023-08-11T03:30:00.000Z",
+  "festiveStartDate": "2023-09-20T03:30:00.000Z",
   "defaultSharePayload": {
-    "imageUrl": "/assets/images/ids/ids_share_image.jpeg",
+    "imageUrl": "/assets/images/virtual-rewards-event/ids_share_image.jpeg",
     "text": "Hi there, click on the link and join India's biggest Independence Day celebration on Refyne and stand a chance to win upto ₹10,001",
     "url": "https://refyne.page.link/refynebharat"
   },
@@ -54,55 +54,55 @@
   },
   "rewardIdToStampsConfigMap": {
     "VIR_RWD10000008": {
-      "imageUrl": "/assets/images/ids/red_fort_stamp.svg",
+      "imageUrl": "/assets/images/virtual-rewards-event/red_fort_stamp.svg",
       "name": "Red Fort",
       "info": {
-        "illustrationUrl": "/assets/images/ids/red_fort_info_illustration.png",
+        "illustrationUrl": "/assets/images/virtual-rewards-event/red_fort_info_illustration.png",
         "title": "Here is a fact about Red Fort!",
         "description": "Every year on 15th Aug, the PM hoists the National Flag at Delhi's iconic monument and addresses the nation. Check it out on Refyne"
       }
     },
     "VIR_RWD10000012": {
-      "imageUrl": "/assets/images/ids/taj_mahal_stamp.svg",
+      "imageUrl": "/assets/images/virtual-rewards-event/taj_mahal_stamp.svg",
       "name": "Taj Mahal",
       "info": {
-        "illustrationUrl": "/assets/images/ids/taj_mahal_info_illustration.png",
+        "illustrationUrl": "/assets/images/virtual-rewards-event/taj_mahal_info_illustration.png",
         "title": "Here is a fact about Taj Mahal",
         "description": "One of the 7 wonders of world, this Agra's white-marble masterpiece symbolizes love and beauty! Check it out on Refyne"
       }
     },
     "VIR_RWD10000021": {
-      "imageUrl": "/assets/images/ids/charminar_stamp.svg",
+      "imageUrl": "/assets/images/virtual-rewards-event/charminar_stamp.svg",
       "name": "Charminar",
       "info": {
-        "illustrationUrl": "/assets/images/ids/charminar_info_illustration.jpg",
+        "illustrationUrl": "/assets/images/virtual-rewards-event/charminar_info_illustration.jpg",
         "title": "Here is a fact about Charminar",
         "description": "Charminar represents Hyderabad's rich cultural heritage! Check it out on Refyne"
       }
     },
     "VIR_RWD10000023": {
-      "imageUrl": "/assets/images/ids/hawa_mahal_stamp.svg",
+      "imageUrl": "/assets/images/virtual-rewards-event/hawa_mahal_stamp.svg",
       "name": "Here is a fact about Hawa Mahal",
       "info": {
-        "illustrationUrl": "/assets/images/ids/hawa_mahal_info_illustration.png",
+        "illustrationUrl": "/assets/images/virtual-rewards-event/hawa_mahal_info_illustration.png",
         "title": "About Hawa Mahal",
         "description": "This Jaipur's marvel is designed with 953 decorated windows that allow natural ventilation, symbolizing both aesthetic beauty! Check it out on Refyne"
       }
     },
     "VIR_RWD10000034": {
-      "imageUrl": "/assets/images/ids/gateway_of_india_stamp.svg",
+      "imageUrl": "/assets/images/virtual-rewards-event/gateway_of_india_stamp.svg",
       "name": "Gateway of India",
       "info": {
-        "illustrationUrl": "/assets/images/ids/gateway_of_india_info_illustration.png",
+        "illustrationUrl": "/assets/images/virtual-rewards-event/gateway_of_india_info_illustration.png",
         "title": "Here is a fact about Gateway of India",
         "description": "This big, impressive arch by the sea in Mumbai was a pass-through for visitors to enter India during the British rule! Check it out on Refyne"
       }
     },
     "VIR_RWD10000043": {
-      "imageUrl": "/assets/images/ids/mysore_palace_stamp.svg",
+      "imageUrl": "/assets/images/virtual-rewards-event/mysore_palace_stamp.svg",
       "name": "Mysore Palace",
       "info": {
-        "illustrationUrl": "/assets/images/ids/mysore_palace_info_illustration.png",
+        "illustrationUrl": "/assets/images/virtual-rewards-event/mysore_palace_info_illustration.png",
         "title": "Here is a fact about Mysore Palace",
         "description": "This grand treasure of India shows off the beautiful style of the royals who lived in Mysore, Karnataka! Check it out on Refyne"
       }
@@ -114,7 +114,7 @@
     "headingColor": "#15171A",
     "description": "Refer your coworkers on Refyne today and you might get a Stamp!",
     "descriptionColor": "#696D70",
-    "rightImageUrl": "/assets/images/ids/ids_refer_banner_image.svg",
+    "rightImageUrl": "/assets/images/virtual-rewards-event/ids_refer_banner_image.svg",
     "backgroundColor": "#E4FAFD",
     "ctaLabel": "Refer Now",
     "ctaLabelColor": "#0057B7",

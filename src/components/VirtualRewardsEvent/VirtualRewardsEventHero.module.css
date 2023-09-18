@@ -1,17 +1,17 @@
-.IndependenceDayHero {
+.VirtualRewardsEventHero {
     --negative-bottom-space: var(--spacing-8);
     position: relative;
     margin-bottom: var(--negative-bottom-space);
 }
 
-.IndependenceDayHero__Background {
+.VirtualRewardsEventHero__Background {
     position: absolute;
     width: 100%;
     height: calc(100% - var(--negative-bottom-space));
     z-index: -1;
 }
 
-.IndependenceDayHero__Content {
+.VirtualRewardsEventHero__Content {
     padding: var(--spacing-16) var(--spacing-4) var(--spacing-12);
     width: 100%;
     height: calc(100% - var(--negative-bottom-space));
@@ -22,7 +22,7 @@
     gap: var(--spacing-6);
 }
 
-.IndependenceDayHero__Footer {
+.VirtualRewardsEventHero__Footer {
     position: relative;
     padding: 0 var(--spacing-4);
     margin-top: calc(var(--negative-bottom-space) * -1);

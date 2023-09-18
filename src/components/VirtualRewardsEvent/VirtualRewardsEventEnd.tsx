@@ -1,27 +1,27 @@
 import useTranslation from "@/hooks/useTranslation";
-import IndependenceDayLayout from "./IndependenceDayLayout";
+import VirtualRewardsEventPageLayout from "./VirtualRewardsEventPageLayout";
 import idsendHeroBackgroundImageUrl from "@/images/ids_end_hero_background.png";
-import independenceDayThemeFooterImageUrl from "@/images/independence-day-theme-footer.svg";
+import virtualRewardsEventThemeFooterImageUrl from "@/images/virtual-rewards-event-theme-footer.svg";
 import Card from "../Card";
 import { useEffect } from "react";
 import { ListWithCustomIcons } from "../List";
 import InfoCard from "../InfoCard";
 
-interface IndependenceDayEndProps {
+interface VirtualRewardsEventEndProps {
   onMount?: () => void;
   onRedeemClick?: () => void;
 }
 
-export default function IndependenceDayEnd({
+export default function VirtualRewardsEventEnd({
   onMount,
   onRedeemClick,
-}: IndependenceDayEndProps) {
+}: VirtualRewardsEventEndProps) {
   const { t } = useTranslation("common");
   useEffect(() => {
     onMount?.();
   }, []);
   return (
-    <IndependenceDayLayout
+    <VirtualRewardsEventPageLayout
       navbarText={t("stamps_landing_page_header_bar_text")}
     >
       <img
@@ -42,7 +42,10 @@ export default function IndependenceDayEnd({
             items={[
               {
                 icon: (
-                  <img src="/assets/images/ids/giftbox_icon.svg" alt="Reward" />
+                  <img
+                    src="/assets/images/virtual-rewards-event/giftbox_icon.svg"
+                    alt="Reward"
+                  />
                 ),
                 text: t("all_stamps_collected_step"),
               },
@@ -73,10 +76,10 @@ export default function IndependenceDayEnd({
           style={{
             width: "100%",
           }}
-          src={independenceDayThemeFooterImageUrl.src}
-          alt="Independence Day Theme Footer"
+          src={virtualRewardsEventThemeFooterImageUrl.src}
+          alt="Virtual Rewards Event Theme Footer"
         />
       </div>
-    </IndependenceDayLayout>
+    </VirtualRewardsEventPageLayout>
   );
 }

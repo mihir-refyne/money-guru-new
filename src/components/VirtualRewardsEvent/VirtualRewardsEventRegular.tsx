@@ -1,10 +1,10 @@
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import { UserStatus } from "@/lib/core/user";
-import IndependenceDayLayout from "./IndependenceDayLayout";
-import IndependenceDayHero from "./IndependenceDayHero";
+import VirtualRewardsEventPageLayout from "./VirtualRewardsEventPageLayout";
+import VirtualRewardsEventHero from "./VirtualRewardsEventHero";
 import Card from "../Card";
 import { CaretDoubleRight, CheckCircle, ShareNetwork } from "phosphor-react";
-import independenceDayThemeFooterImageUrl from "@/images/independence-day-theme-footer.svg";
+import virtualRewardsEventThemeFooterImageUrl from "@/images/virtual-rewards-event-theme-footer.svg";
 import refyneBharatDarshanLogo from "@/images/refyne_bharat_darshan_logo.svg";
 import cardBackgroundUrl from "@/images/card_background.svg";
 import { ListWithCustomIcons } from "../List";
@@ -45,9 +45,10 @@ interface StampPodiumStageConfig {
   stampBorderColor: string;
 }
 
-interface IndependenceDayRegularProps {
+interface VirtualRewardsEventRegularProps {
   userStatus: string;
   canGiftAndRequest: boolean;
+  canShare?: boolean;
   isGiftingEnabled: boolean;
   isRequestEnabled?: boolean;
   gameRuleVideoUrl?: string | null;
@@ -85,11 +86,12 @@ interface IndependenceDayRegularProps {
   onFaqClick?: () => void;
 }
 
-export default function IndependenceDayRegular({
+export default function VirtualRewardsEventRegular({
   userStatus,
   gameRuleVideoUrl,
   gameRules,
   canGiftAndRequest,
+  canShare = true,
   isGiftingEnabled,
   isRequestEnabled = false,
   socialProofTexts,
@@ -114,7 +116,7 @@ export default function IndependenceDayRegular({
   onRequestCtaClick,
   onReferCtaClick,
   onFaqClick,
-}: IndependenceDayRegularProps) {
+}: VirtualRewardsEventRegularProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [stampInfoModalContent, setStampInfoModalContent] =
     useState<StampInfo | null>(null);
@@ -194,7 +196,7 @@ export default function IndependenceDayRegular({
     socialProofTexts.length - 1
   );
   return (
-    <IndependenceDayLayout
+    <VirtualRewardsEventPageLayout
       navbarText={t("stamps_landing_page_header_bar_text")}
       footer={
         <PageFooter
@@ -205,7 +207,7 @@ export default function IndependenceDayRegular({
         />
       }
     >
-      <IndependenceDayHero
+      <VirtualRewardsEventHero
         height="66rem"
         footer={
           <Card backgroundColor="#FDEECA">
@@ -216,7 +218,7 @@ export default function IndependenceDayRegular({
         }
         background={
           <RiveWrapper
-            src="/assets/animations/independence_hero_animation.riv"
+            src="/assets/animations/virtual_rewards_event_hero_animation.riv"
             position="cover_center"
             autoplay
           />
@@ -275,14 +277,16 @@ export default function IndependenceDayRegular({
               Request
             </RoundedButton>
           )}
-          <RoundedButton
-            icon={<ShareNetwork weight="fill" size={16} />}
-            onClick={handleHeroShareClick}
-          >
-            {!canGiftAndRequest ? t("stamps_share_now") : undefined}
-          </RoundedButton>
+          {canShare && (
+            <RoundedButton
+              icon={<ShareNetwork weight="fill" size={16} />}
+              onClick={handleHeroShareClick}
+            >
+              {!canGiftAndRequest ? t("stamps_share_now") : undefined}
+            </RoundedButton>
+          )}
         </div>
-      </IndependenceDayHero>
+      </VirtualRewardsEventHero>
       {banner && (
         <div className="px-4 mb-4">
           {banner.countdownForInSec !== undefined ? (
@@ -419,8 +423,8 @@ export default function IndependenceDayRegular({
           style={{
             width: "100%",
           }}
-          src={independenceDayThemeFooterImageUrl.src}
-          alt="Independence Day Theme Footer"
+          src={virtualRewardsEventThemeFooterImageUrl.src}
+          alt="Virtual Rewards Event Theme Footer"
         />
       </div>
       <Modal
@@ -488,7 +492,7 @@ export default function IndependenceDayRegular({
           )}
         </div>
       </Modal>
-    </IndependenceDayLayout>
+    </VirtualRewardsEventPageLayout>
   );
 }
 
