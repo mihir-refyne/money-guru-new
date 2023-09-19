@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-jan-dhan-yojna",
       "digital-vs-physical-KYC",
       "what-is-bhim-upi",
       "what-is-gst",
-      "what-is-ipo",
-      "what-is-upi"
+      "what-is-ipo"
     ],
     "autoPlayDurationInMs": 600000
   },
