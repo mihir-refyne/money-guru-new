@@ -95,38 +95,23 @@
     "autoPlayDurationInMs": 3000,
     "banners": [
       {
-        "name": "Need help with finances?",
-        "heading": "Need help with finances?",
-        "url": "https://product.refyne.co.in/",
-        "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
-        "releaseConfig": {
-          "fieldName": "employerId",
-          "includes": false,
-          "values": ["EMR10000669", "EMR10000790"]
-        }
-      },
-      {
-        "name": "Need help with finances?",
-        "heading": "Need help with finances?",
-        "url": "https://product.refyne.co.in/financial-coach-free",
-        "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
-        "releaseConfig": {
-          "fieldName": "employerId",
-          "includes": true,
-          "values": ["EMR10000669", "EMR10000790"]
-        }
+        "name": "Money Guru Quiz",
+        "heading": "Money Guru Quiz",
+        "headingColor": "#FFFFFF",
+        "url": "/quiz?id=SRV10000565&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK",
+        "description": "Answer 5 Question and become Money Guru Quiz Champion.",
+        "descriptionColor": "#F5F7FA",
+        "rightImageUrl": "/assets/images/gift_box_win_500.svg",
+        "backgroundColor": "#001747",
+        "ctaLabel": "Start Playing",
+        "ctaLabelColor": "#F5C245",
+        "ctaBackgroundColor": "#001747"
       }
     ]
   },
   "componentsOrderConfig": [
     {
-      "order": ["R_SHORT_CAROUSEL", "FIN_TOOLS", "CAROUSEL_BANNERS"]
+      "order": ["R_SHORT_CAROUSEL", "CAROUSEL_BANNERS", "FIN_TOOLS"]
     }
   ]
 }
