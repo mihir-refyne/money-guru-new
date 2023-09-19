@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useState } from "react";
+import { CSSProperties, ReactElement, ReactNode, useState } from "react";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { getPreferredLocale, setPreferredLocale } from "@/lib/locale";
@@ -27,6 +27,7 @@ export interface PageLayoutProps {
   hasNavbar?: boolean;
   transparentNavbar?: boolean;
   navbarText?: string;
+  navbarBackground?: CSSProperties["background"];
   hasBackButton?: boolean;
   children: ReactNode;
   alignContentCenter?: boolean;
@@ -45,6 +46,7 @@ export default function PageLayout({
   dispatchPopEventOnBackClick = false,
   transparentNavbar = false,
   navbarText,
+  navbarBackground,
   hasBackButton = true,
   footer,
   children,
@@ -114,6 +116,7 @@ export default function PageLayout({
             title={navbarText}
             hasBackButton={hasBackButton}
             transparentNavbar={transparentNavbar}
+            background={navbarBackground}
             onBackClick={handleBack}
             hasLocaleChange={hasLocaleChange}
             onLocaleChangeClick={handleLocaleUpdateClick}

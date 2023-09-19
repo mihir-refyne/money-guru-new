@@ -25,7 +25,7 @@
 
 .NavbarContent__RightButton {
   height: 3.2rem;
-  width: 3.2rem;
+  max-width: 4.4rem;
 }
 
 .NavbarContent__RightButton img {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import Image from "next/image";
 import { CaretLeft, ShareNetwork } from "phosphor-react";
 import languageIconUrl from "@/images/language-icon.svg";
@@ -11,6 +11,7 @@ interface NavbarProps {
   hasBackButton?: boolean;
   title?: string;
   transparentNavbar?: boolean;
+  background?: CSSProperties["background"];
   onBackClick?: () => void;
   hasLocaleChange?: boolean;
   onLocaleChangeClick?: () => void;
@@ -22,6 +23,7 @@ export default function Navbar({
   hasBackButton,
   title,
   transparentNavbar,
+  background,
   onBackClick,
   hasLocaleChange = true,
   onLocaleChangeClick,
@@ -53,9 +55,10 @@ export default function Navbar({
         ...(navbarOpacity >= 1 ? { boxShadow: "0 0 10px #f5f5f5" } : {}),
       }
     : undefined;
+  const navBackground = transparentNavbarStyle ?? { background };
 
   return (
-    <nav className={styles.Navbar} style={transparentNavbarStyle}>
+    <nav className={styles.Navbar} style={navBackground}>
       <div className={styles.NavbarContent}>
         <div className={styles.NavbarContent__Left}>
           {hasBackButton && (

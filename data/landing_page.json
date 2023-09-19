@@ -11,7 +11,7 @@
     ],
     "autoPlayDurationInMs": 600000
   },
-  "finLiteracyBanners": [],
+  "stickyBanners": [],
   "finLiteracyTools": [
     {
       "name": "credit_score",
@@ -123,5 +123,10 @@
         }
       }
     ]
-  }
+  },
+  "componentsOrderConfig": [
+    {
+      "order": ["R_SHORT_CAROUSEL", "FIN_TOOLS", "CAROUSEL_BANNERS"]
+    }
+  ]
 }

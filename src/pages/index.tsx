@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import LoadingPage from "@/components/LoadingPage";
 import { hasWatchedIntroduction } from "@/lib/core";
 import PageLayout from "@/components/PageLayout";
 import rightArrowIconUrl from "@/images/right-arrow.svg";
-import heroBlobImageUrl from "@/images/hero-blob.png";
 import Image from "next/image";
 import config from "../../data/landing_page.json";
 import { getShortsByLocale } from "@/lib/shorts/server";
@@ -47,6 +46,20 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async (
     },
   };
 };
+
+enum DashboardComponent {
+  R_SHORT_CAROUSEL = "R_SHORT_CAROUSEL",
+  FIN_TOOLS = "FIN_TOOLS",
+  STICKY_BANNERS = "STICKY_BANNERS",
+  CAROUSEL_BANNERS = "CAROUSEL_BANNERS",
+}
+
+const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
+  DashboardComponent.R_SHORT_CAROUSEL,
+  DashboardComponent.STICKY_BANNERS,
+  DashboardComponent.FIN_TOOLS,
+  DashboardComponent.CAROUSEL_BANNERS,
+];
 
 export default function HomePage({ shorts }: HomePageProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
@@ -209,13 +222,13 @@ export default function HomePage({ shorts }: HomePageProps) {
     [config.finLiteracyTools, employerId, workerId]
   );
 
-  const banners = config.finLiteracyBanners.filter((banner: any) =>
+  const stickyBanners = config.stickyBanners.filter((banner: any) =>
     checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
       employerId,
       workerId,
     })
   );
-  const hasBanners = banners.length > 0;
+  const hasStickyBanners = stickyBanners.length > 0;
 
   const carouselBanners = _carouselBanners?.filter((banner) => {
     if (!banner.releaseConfig) return true;
@@ -226,101 +239,97 @@ export default function HomePage({ shorts }: HomePageProps) {
   });
   const hasCarouselBanners = carouselBanners.length > 0;
 
+  const componentsOrder = useMemo<DashboardComponent[]>(() => {
+    const componentsOrderConfig = config.componentsOrderConfig.find(
+      (order: any) => {
+        return checkIfFeatureEnabledByReleaseConfig(order.releaseConfigs, {
+          employerId,
+          workerId,
+        });
+      }
+    );
+    if (!componentsOrderConfig) return DEFAULT_COMPONENTS_ORDER_FALLBACK;
+    return componentsOrderConfig.order as DashboardComponent[];
+  }, [config.componentsOrderConfig]);
+
   if (!isMounted || isLoading) return <LoadingPage />;
 
-  return (
-    <PageLayout
-      navbarText="Money Guru"
-      transparentNavbar
-      hasContentPadding={false}
-      dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
-    >
-      <div
-        className="hero"
-        style={{
-          backgroundImage: `url(${heroBlobImageUrl.src}), radial-gradient(51.9% 48.2% at 7.22% 14.84%, #FFFFFF 0%, #EBF5FF 100%)`,
-          backgroundPositionX: "right",
-          backgroundRepeat: "no-repeat",
-          minHeight: "10rem",
-        }}
-      ></div>
-      <div
-        className="container pb-0"
-        style={{
-          marginTop: "-16rem",
-        }}
+  const COMPONENTS_NAME_TO_ELEMENT_MAP: Record<
+    DashboardComponent,
+    ReactElement | null
+  > = {
+    R_SHORT_CAROUSEL: (
+      <Carousel
+        autoPlay={!!featuredShortCarouselAutoPlayDuration}
+        infiniteLoop
+        interval={featuredShortCarouselAutoPlayDuration}
+        showIndicators={shortsToBeFeatured.length > 1}
       >
-        <Carousel
-          autoPlay={!!featuredShortCarouselAutoPlayDuration}
-          infiniteLoop
-          interval={featuredShortCarouselAutoPlayDuration}
-          showIndicators={shortsToBeFeatured.length > 1}
-        >
-          {shortsToBeFeatured.map((shortItem) => {
-            return (
-              <div key={shortItem.id} className="mb-8">
-                <FeaturedShort
-                  mediaType={(shortItem.metadata?.mediaType ?? "") as string}
-                  mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
-                  tag={(shortItem.metadata?.tag ?? "") as string}
-                  onClick={() => handleFeaturedShortClick(shortItem.id)}
-                  ctaLabel={t("read_more")}
-                >
-                  <article
-                    dangerouslySetInnerHTML={{
-                      __html: marked(shortItem.content),
-                    }}
-                  />
-                </FeaturedShort>
-              </div>
-            );
-          })}
-        </Carousel>
-      </div>
-
-      {hasBanners && (
-        <div className="container">
-          {banners.map((banner: any, index) => (
-            <a
-              key={index}
-              className="unstyled-link"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                padding: "var(--spacing-3) 0",
-                borderTop: "1px solid #E5EEF8",
-                borderBottom: "1px solid #E5EEF8",
-                textDecoration: "none",
-              }}
-              href={banner.href}
-              onClick={() => handleBannerClick(banner.name)}
-            >
-              <figure
-                style={{
-                  width: "3.2rem",
-                  height: "3.2rem",
-                  marginRight: "var(--spacing-3)",
-                }}
+        {shortsToBeFeatured.map((shortItem) => {
+          return (
+            <div key={shortItem.id} className="mb-8">
+              <FeaturedShort
+                mediaType={(shortItem.metadata?.mediaType ?? "") as string}
+                mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
+                tag={(shortItem.metadata?.tag ?? "") as string}
+                onClick={() => handleFeaturedShortClick(shortItem.id)}
+                ctaLabel={t("read_more")}
               >
-                <img src={banner.leftIconUrl} alt={banner.label} />
-              </figure>
-              <p
-                className="text-caption"
-                dangerouslySetInnerHTML={{
-                  __html: tWithoutTypeSafety(banner.label),
-                }}
-                style={{
-                  flexGrow: 1,
-                  marginRight: "var(--spacing-2)",
-                }}
-              />
-              <Image src={rightArrowIconUrl} alt="right arrow icon" />
-            </a>
-          ))}
-        </div>
-      )}
-      <div className="container">
+                <article
+                  dangerouslySetInnerHTML={{
+                    __html: marked(shortItem.content),
+                  }}
+                />
+              </FeaturedShort>
+            </div>
+          );
+        })}
+      </Carousel>
+    ),
+    STICKY_BANNERS: hasStickyBanners ? (
+      <>
+        {stickyBanners.map((banner: any, index) => (
+          <a
+            key={index}
+            className="unstyled-link"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "var(--spacing-3) 0",
+              borderTop: "1px solid #E5EEF8",
+              borderBottom: "1px solid #E5EEF8",
+              textDecoration: "none",
+            }}
+            href={banner.href}
+            onClick={() => handleBannerClick(banner.name)}
+          >
+            <figure
+              style={{
+                width: "3.2rem",
+                height: "3.2rem",
+                marginRight: "var(--spacing-3)",
+              }}
+            >
+              <img src={banner.leftIconUrl} alt={banner.label} />
+            </figure>
+            <p
+              className="text-caption"
+              dangerouslySetInnerHTML={{
+                __html: tWithoutTypeSafety(banner.label),
+              }}
+              style={{
+                flexGrow: 1,
+                marginRight: "var(--spacing-2)",
+              }}
+            />
+            <Image src={rightArrowIconUrl} alt="right arrow icon" />
+          </a>
+        ))}
+      </>
+    ) : null,
+    FIN_TOOLS: (
+      <>
         <h3 className="clr-text-secondary mb-3">{t("tools")}</h3>
         <div
           style={{
@@ -354,34 +363,52 @@ export default function HomePage({ shorts }: HomePageProps) {
             </div>
           ))}
         </div>
-      </div>
-      {hasCarouselBanners && (
-        <div
-          className={`container ${carouselBanners.length > 1 ? "px-0" : ""}`}
+      </>
+    ),
+    CAROUSEL_BANNERS: hasCarouselBanners ? (
+      <div className={`${carouselBanners.length > 1 ? "px-0" : ""}`}>
+        <Carousel
+          autoPlay={!!carouselBannerAutoPlayDurationInMs}
+          infiniteLoop
+          centerMode
+          centerSlidePercentage={90}
+          interval={carouselBannerAutoPlayDurationInMs}
         >
-          <Carousel
-            autoPlay={!!carouselBannerAutoPlayDurationInMs}
-            infiniteLoop
-            centerMode
-            centerSlidePercentage={90}
-            interval={carouselBannerAutoPlayDurationInMs}
+          {carouselBanners.map((banner, index) => (
+            <Banner
+              key={index}
+              {...banner}
+              heading={banner.heading && tWithoutTypeSafety(banner.heading)}
+              description={
+                banner.description && tWithoutTypeSafety(banner.description)
+              }
+              ctaLabel={banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)}
+            />
+          ))}
+        </Carousel>
+      </div>
+    ) : null,
+  };
+
+  return (
+    <PageLayout
+      navbarText="Money Guru"
+      navbarBackground="radial-gradient(88.74% 79.73% at 7.22% 22.15%, #FFF 0%, #EBF5FF 100%)"
+      hasContentPadding
+      dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
+    >
+      {componentsOrder.map((componentName, index) => {
+        const Elem = COMPONENTS_NAME_TO_ELEMENT_MAP[componentName];
+        if (Elem === null) return null;
+        return (
+          <div
+            key={componentName + index}
+            className="dashboard-contents-container"
           >
-            {carouselBanners.map((banner, index) => (
-              <Banner
-                key={index}
-                {...banner}
-                heading={banner.heading && tWithoutTypeSafety(banner.heading)}
-                description={
-                  banner.description && tWithoutTypeSafety(banner.description)
-                }
-                ctaLabel={
-                  banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
-                }
-              />
-            ))}
-          </Carousel>
-        </div>
-      )}
+            {Elem}
+          </div>
+        );
+      })}
     </PageLayout>
   );
 }
