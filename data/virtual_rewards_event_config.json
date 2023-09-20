@@ -19,13 +19,7 @@
       "text": "stamps_rule4"
     }
   ],
-  "socialProofTexts": [
-    "stamps_landing_page_social_proof1",
-    "stamps_landing_page_social_proof2",
-    "stamps_landing_page_social_proof3",
-    "stamps_landing_page_social_proof4",
-    "stamps_landing_page_social_proof5"
-  ],
+  "socialProofTexts": ["stamps_landing_page_social_proof1"],
   "festiveStartDate": "2023-09-21T18:30:00.000Z",
   "hypeCreationPageConfig": {
     "heroElementTextColor": "#FFFFFF",
