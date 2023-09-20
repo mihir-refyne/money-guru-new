@@ -29,6 +29,7 @@ export interface PageLayoutProps {
   floatingNavbar?: boolean;
   navbarText?: string;
   navbarBackground?: CSSProperties["background"];
+  navbarFontColor?: CSSProperties["color"];
   hasBackButton?: boolean;
   children: ReactNode;
   alignContentCenter?: boolean;
@@ -49,6 +50,7 @@ export default function PageLayout({
   floatingNavbar,
   navbarText,
   navbarBackground,
+  navbarFontColor,
   hasBackButton = true,
   footer,
   children,
@@ -120,6 +122,7 @@ export default function PageLayout({
             transparentNavbar={transparentNavbar}
             floating={floatingNavbar}
             background={navbarBackground}
+            fontColor={navbarFontColor}
             onBackClick={handleBack}
             hasLocaleChange={hasLocaleChange}
             onLocaleChangeClick={handleLocaleUpdateClick}

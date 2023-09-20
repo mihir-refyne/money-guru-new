@@ -21,6 +21,7 @@ export default function VirtualRewardsEventPageLayout(
       hasShare={false}
       hasContentPadding={false}
       hasLocaleChange={false}
+      navbarFontColor="var(--clr-pure-white)"
       {...props}
     />
   );

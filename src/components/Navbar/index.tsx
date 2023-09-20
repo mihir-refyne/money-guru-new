@@ -13,6 +13,7 @@ interface NavbarProps {
   transparentNavbar?: boolean;
   floating?: boolean;
   background?: CSSProperties["background"];
+  fontColor?: CSSProperties["color"];
   onBackClick?: () => void;
   hasLocaleChange?: boolean;
   onLocaleChangeClick?: () => void;
@@ -26,6 +27,7 @@ export default function Navbar({
   transparentNavbar,
   floating = true,
   background,
+  fontColor,
   onBackClick,
   hasLocaleChange = true,
   onLocaleChangeClick,
@@ -62,7 +64,7 @@ export default function Navbar({
   return (
     <nav
       className={`${styles.Navbar} ${floating ? styles.Floating : ""}`}
-      style={navBackground}
+      style={{ ...navBackground, color: fontColor }}
     >
       <div className={styles.NavbarContent}>
         <div className={styles.NavbarContent__Left}>
