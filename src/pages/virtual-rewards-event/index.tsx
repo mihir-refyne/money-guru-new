@@ -1,9 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import VirtualRewardsEventHype from "@/components/VirtualRewardsEvent/VirtualRewardsEventHype";
-import VirtualRewardsEventRegular, {
-  Stamp,
-} from "@/components/VirtualRewardsEvent/VirtualRewardsEventRegular";
+import VirtualRewardsEventRegular from "@/components/VirtualRewardsEvent/VirtualRewardsEventRegular";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import config from "../../../data/virtual_rewards_event_config.json";
 import { useShare } from "@/hooks/useShare";
@@ -42,7 +40,7 @@ import { BannerWithCountdownCtaProps } from "@/components/Banner/BannerWithCount
 import differenceInSeconds from "date-fns/differenceInSeconds";
 import LoadingPage from "@/components/LoadingPage";
 import VirtualRewardsEventEnd from "@/components/VirtualRewardsEvent/VirtualRewardsEventEnd";
-import idsHypeHeroBackgroundImageUrl from "@/images/ids_hype_hero_background.jpg";
+import { Stamp } from "@/components/VirtualRewardsEvent/VirtualRewardsEventStampStage";
 
 // TODO: Maybe move to a helper
 function addUserTokenInUrlIfRequired(
@@ -461,7 +459,6 @@ export default function VirtualRewardsEventLandingPage({
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
     if (!errorMessage) return;
     toast.error(errorMessage);
-    // TODO: Add any event if required
   }
 
   function openStampEarnedModalByStampId(
@@ -503,7 +500,7 @@ export default function VirtualRewardsEventLandingPage({
 
   async function handleBannerClick() {
     if (!bannerConfig) return;
-    const { type, bannerRewardId } = bannerConfig;
+    const { type, bannerRewardId, bannerProps } = bannerConfig;
     await logEventInMixpanelPromise(AnalyticEvent.STAMPS_BANNER_CLICKED, {
       banner_type: bannerConfig.type,
       total_stamps_collected: stampsCollectedTillNow,
@@ -523,6 +520,10 @@ export default function VirtualRewardsEventLandingPage({
       } catch (error) {
         handleError(error);
       }
+      return;
+    }
+    if (bannerProps?.onClickFromServer) {
+      return handleBackendRedirectionDetails(bannerProps.onClickFromServer);
     }
   }
 
@@ -709,9 +710,16 @@ export default function VirtualRewardsEventLandingPage({
         gameRules={config.rules}
         socialProofTexts={config.socialProofTexts}
         isShareLoading={shareInProgress}
-        // TODO: Make these driven from config
-        heroBackgroundImageUrl={idsHypeHeroBackgroundImageUrl.src}
-        heroElementHeight="60rem"
+        heroElementTextColor={
+          config.hypeCreationPageConfig.heroElementTextColor
+        }
+        heroBackgroundImageUrl={
+          config.hypeCreationPageConfig.heroBackgroundImageUrl
+        }
+        heroElementHeight={config.hypeCreationPageConfig.heroBackgroundHeight}
+        heroFooterBackgroundColor={
+          config.hypeCreationPageConfig.heroFooterBackgroundColor
+        }
         onCompleteKycClick={handleCompleteKycClick}
         onIncompleteKycClick={handleInCompleteKycClick}
         onShareClick={handleShareButtonClick}
@@ -730,7 +738,19 @@ export default function VirtualRewardsEventLandingPage({
         canGiftAndRequest={false}
         isGiftingEnabled={false}
         stamps={STAMPS}
-        stampPodiumStages={config.podiumStagesConfig}
+        stampCountBorderColor={config.stampCountBorderColor}
+        stampPodiumStageHasBottomBorder={
+          config.podiumStagesConfig.hasBottomBorder
+        }
+        stampPodiumStages={config.podiumStagesConfig.stages}
+        heroBackgroundRiveUrl={
+          config.festiveDaysPageConfig.heroBackgroundRiveUrl
+        }
+        heroElementHeight={config.festiveDaysPageConfig.heroBackgroundHeight}
+        heroElementTextColor={config.festiveDaysPageConfig.heroElementTextColor}
+        heroFooterBackgroundColor={
+          config.festiveDaysPageConfig.heroFooterBackgroundColor
+        }
         socialProofTexts={config.socialProofTexts}
         isShareLoading={shareInProgress}
         onCompleteKycClick={handleCompleteKycClick}
@@ -773,7 +793,19 @@ export default function VirtualRewardsEventLandingPage({
         isGiftingEnabled={isGiftingEnabled}
         isRequestEnabled={isRequestEnabled}
         stamps={STAMPS}
-        stampPodiumStages={config.podiumStagesConfig}
+        stampCountBorderColor={config.stampCountBorderColor}
+        stampPodiumStageHasBottomBorder={
+          config.podiumStagesConfig.hasBottomBorder
+        }
+        stampPodiumStages={config.podiumStagesConfig.stages}
+        heroBackgroundRiveUrl={
+          config.festiveDaysPageConfig.heroBackgroundRiveUrl
+        }
+        heroElementHeight={config.festiveDaysPageConfig.heroBackgroundHeight}
+        heroElementTextColor={config.festiveDaysPageConfig.heroElementTextColor}
+        heroFooterBackgroundColor={
+          config.festiveDaysPageConfig.heroFooterBackgroundColor
+        }
         socialProofTexts={config.socialProofTexts}
         isShareLoading={shareInProgress}
         stampCollectionActions={userRewardsResponse?.rewards}
@@ -839,7 +871,12 @@ function getBannerProps(context: {
     | "PRE_HAPPY_HOURS_BANNER"
     | "ONGOING_HAPPY_HOURS_BANNER";
   bannerRewardId?: string;
-  bannerProps: Partial<BannerWithCountdownCtaProps> | undefined | null;
+  bannerProps:
+    | (Partial<BannerWithCountdownCtaProps> & {
+        onClickFromServer?: RedirectDetails;
+      })
+    | undefined
+    | null;
 } | null {
   const {
     requestBannerConfig,
@@ -865,6 +902,7 @@ function getBannerProps(context: {
         ctaLabelColor: "var(--clr-brand-default)",
         ctaBackgroundColor: "var(--clr-info-success-light)",
         countdownForInSec: diff,
+        onClickFromServer: uiMetadata.onClick,
       },
     };
   }
@@ -890,6 +928,7 @@ function getBannerProps(context: {
             ctaLabelColor: "var(--clr-text-primary)",
             ctaDisabledTillCountdownFinish: true,
             countdownForInSec: diff,
+            onClickFromServer: uiMetadata.onClick,
           },
         };
       }

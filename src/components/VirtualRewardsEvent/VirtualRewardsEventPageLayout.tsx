@@ -16,6 +16,7 @@ export default function VirtualRewardsEventPageLayout(
       dispatchPopEventOnBackClick
       hasNavbar
       transparentNavbar
+      floatingNavbar={false}
       hasBackButton
       hasShare={false}
       hasContentPadding={false}

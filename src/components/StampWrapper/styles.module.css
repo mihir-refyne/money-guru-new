@@ -17,6 +17,9 @@
     height: 100%;
     padding: var(--spacing-1);
 }
+.StampWrapper__Content__WithoutBg {
+    padding: unset;
+}
 .StampWrapper--disabled .StampWrapper__Content {
     opacity: 50%;
 }

@@ -26,6 +26,7 @@ export interface PageLayoutProps {
   dispatchPopEventOnBackClick?: boolean;
   hasNavbar?: boolean;
   transparentNavbar?: boolean;
+  floatingNavbar?: boolean;
   navbarText?: string;
   navbarBackground?: CSSProperties["background"];
   hasBackButton?: boolean;
@@ -45,6 +46,7 @@ export default function PageLayout({
   hasNavbar = true,
   dispatchPopEventOnBackClick = false,
   transparentNavbar = false,
+  floatingNavbar,
   navbarText,
   navbarBackground,
   hasBackButton = true,
@@ -116,6 +118,7 @@ export default function PageLayout({
             title={navbarText}
             hasBackButton={hasBackButton}
             transparentNavbar={transparentNavbar}
+            floating={floatingNavbar}
             background={navbarBackground}
             onBackClick={handleBack}
             hasLocaleChange={hasLocaleChange}

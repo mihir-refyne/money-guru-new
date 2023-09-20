@@ -1,5 +1,5 @@
 {
-  "faqUrl": "https://app.refyne.co.in/#/?next=%2Ffaq%2Fquestions%2Findependence_day",
+  "faqUrl": "https://app.refyne.co.in/#/?next=%2Ffaq",
   "faqVideoUrl": "https://www.youtube.com/watch?v=A0v-9I0IVOY",
   "rules": [
     {
@@ -7,15 +7,15 @@
       "text": "stamps_rule1"
     },
     {
-      "iconUrl": "/assets/images/virtual-rewards-event/giftbox_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/announcement_icon.svg",
       "text": "stamps_rule2"
     },
     {
-      "iconUrl": "/assets/images/virtual-rewards-event/announcement_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/giftbox_icon.svg",
       "text": "stamps_rule3"
     },
     {
-      "iconUrl": "/assets/images/virtual-rewards-event/flowers_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/confetti_from_cone.svg",
       "text": "stamps_rule4"
     }
   ],
@@ -26,32 +26,46 @@
     "stamps_landing_page_social_proof4",
     "stamps_landing_page_social_proof5"
   ],
-  "festiveStartDate": "2023-09-20T03:30:00.000Z",
-  "defaultSharePayload": {
-    "imageUrl": "/assets/images/virtual-rewards-event/ids_share_image.jpeg",
-    "text": "Hi there, click on the link and join India's biggest Independence Day celebration on Refyne and stand a chance to win upto ₹10,001",
-    "url": "https://refyne.page.link/refynebharat"
+  "festiveStartDate": "2023-09-21T18:30:00.000Z",
+  "hypeCreationPageConfig": {
+    "heroElementTextColor": "#FFFFFF",
+    "heroBackgroundImageUrl": "/assets/images/virtual-rewards-event/hype_creation_hero_background.jpg",
+    "heroBackgroundHeight": "80rem",
+    "heroFooterBackgroundColor": "#DCF5EF"
   },
-  "podiumStagesConfig": [
-    {
-      "backgroundColor": "#EC9527",
-      "stampBorderColor": "#FDEECA"
-    },
-    {
-      "backgroundColor": "#FFFFFF",
-      "stampBorderColor": "#ADD4FF"
-    },
-    {
-      "backgroundColor": "#2C9E82",
-      "stampBorderColor": "#FDEECA"
-    }
-  ],
+  "festiveDaysPageConfig": {
+    "heroElementTextColor": "#FFFFFF",
+    "heroBackgroundRiveUrl": "/assets/animations/virtual_rewards_event_hero_animation.riv",
+    "heroBackgroundHeight": "66rem",
+    "heroFooterBackgroundColor": "#DCF5EF"
+  },
+  "defaultSharePayload": {
+    "imageUrl": "/assets/images/virtual-rewards-event/virtual_rewards_event_default_share.png",
+    "text": "Hi! I am inviting you to the Refyne Marathon. Click on the link to participate in the marathon of financial wellness and stand a chance to win upto ₹20,001.",
+    "url": "https://refyne.page.link/festival"
+  },
+  "podiumStagesConfig": {
+    "hasBottomBorder": false,
+    "stages": [
+      {
+        "count": 3,
+        "borderRadius": "var(--spacing-4) var(--spacing-4) 0px 0px",
+        "backgroundColor": "#D13B3B26"
+      },
+      {
+        "count": 3,
+        "borderRadius": "0px 0px var(--spacing-4) var(--spacing-4)",
+        "backgroundColor": "#D13B3B26"
+      }
+    ]
+  },
   "giftShareContent": {
     "message": "Hi There, I am gifting you {{stampName}} stamp on Refyne as an Independence Day gift. To claim it, please click here"
   },
   "requestShareContent": {
     "message": "Hey, I am looking for {{stampNames}} Stamp(s) on Refyne. Do you have them? Please gift me the stamps by clicking here"
   },
+  "stampCountBorderColor": "#0057B7",
   "rewardIdToStampsConfigMap": {
     "VIR_RWD10000008": {
       "imageUrl": "/assets/images/virtual-rewards-event/red_fort_stamp.svg",

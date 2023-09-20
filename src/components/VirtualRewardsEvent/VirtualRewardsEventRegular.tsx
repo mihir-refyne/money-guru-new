@@ -1,19 +1,17 @@
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { UserStatus } from "@/lib/core/user";
 import VirtualRewardsEventPageLayout from "./VirtualRewardsEventPageLayout";
 import VirtualRewardsEventHero from "./VirtualRewardsEventHero";
 import Card from "../Card";
 import { CaretDoubleRight, CheckCircle, ShareNetwork } from "phosphor-react";
 import virtualRewardsEventThemeFooterImageUrl from "@/images/virtual-rewards-event-theme-footer.svg";
-import refyneBharatDarshanLogo from "@/images/refyne_bharat_darshan_logo.svg";
+import refyneVirtualRewardsEventLogo from "@/images/refyne_virtual_rewards_event_logo.svg";
 import cardBackgroundUrl from "@/images/card_background.svg";
 import { ListWithCustomIcons } from "../List";
 import InfoCard from "../InfoCard";
 import { getRandomNumberInRange } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
 import Image from "next/image";
-import StampWrapper, { StampWrapperImage } from "../StampWrapper";
-import { StampPodium, StampPodiumStage } from "../StampPodium";
 import RiveWrapper from "../RiveWrapper";
 import { TaskCard, TaskCardItem } from "../TaskCard";
 import Modal from "../Modal";
@@ -25,25 +23,12 @@ import BannerWithCountdownCta, {
   BannerWithCountdownCtaProps,
 } from "../Banner/BannerWithCountdownCta";
 import Banner from "../Banner";
+import VirtualRewardsEventStampStage, {
+  Stamp,
+} from "./VirtualRewardsEventStampStage";
+import { StampPodiumStageConfig } from "./VirtualRewardsEventStampStage/StampStagePodium";
 
-interface StampInfo {
-  illustrationUrl: string;
-  title: string;
-  description: string;
-}
-
-export interface Stamp {
-  id: string;
-  imageUrl: string;
-  count: number;
-  name?: string;
-  info?: StampInfo;
-}
-
-interface StampPodiumStageConfig {
-  backgroundColor: string;
-  stampBorderColor: string;
-}
+type StampInfo = NonNullable<Stamp["info"]>;
 
 interface VirtualRewardsEventRegularProps {
   userStatus: string;
@@ -56,7 +41,13 @@ interface VirtualRewardsEventRegularProps {
   socialProofTexts: Array<string>;
   isShareLoading: boolean;
   stamps: Array<Stamp>;
+  stampCountBorderColor?: string;
   stampPodiumStages: Array<StampPodiumStageConfig>;
+  stampPodiumStageHasBottomBorder?: boolean;
+  heroBackgroundRiveUrl: string;
+  heroElementHeight: string;
+  heroElementTextColor?: string;
+  heroFooterBackgroundColor: string;
   banner?: Partial<BannerWithCountdownCtaProps>;
   stampCollectionActions?: Array<UserRewardsSummary>;
   allStampCollectionActionsCompleted?: boolean;
@@ -97,7 +88,13 @@ export default function VirtualRewardsEventRegular({
   socialProofTexts,
   isShareLoading,
   stamps,
+  stampCountBorderColor,
   stampPodiumStages,
+  stampPodiumStageHasBottomBorder,
+  heroBackgroundRiveUrl,
+  heroElementHeight,
+  heroElementTextColor,
+  heroFooterBackgroundColor,
   banner,
   stampCollectionActions,
   allStampCollectionActionsCompleted,
@@ -122,11 +119,6 @@ export default function VirtualRewardsEventRegular({
     useState<StampInfo | null>(null);
   const [actionInfoModal, setActionInfoModal] = useState<AppModalConfig | null>(
     null
-  );
-
-  const podiumStages = useMemo(
-    () => getStampsConfig(stampPodiumStages, stamps),
-    [stampPodiumStages, stamps]
   );
 
   useEffect(() => {
@@ -208,9 +200,9 @@ export default function VirtualRewardsEventRegular({
       }
     >
       <VirtualRewardsEventHero
-        height="66rem"
+        height={heroElementHeight}
         footer={
-          <Card backgroundColor="#FDEECA">
+          <Card backgroundColor={heroFooterBackgroundColor}>
             <h4 className="text-body text-medium text-center">
               {tWithoutTypeSafety(socialProofTexts[randomSocialProofIndex])}
             </h4>
@@ -218,43 +210,29 @@ export default function VirtualRewardsEventRegular({
         }
         background={
           <RiveWrapper
-            src="/assets/animations/virtual_rewards_event_hero_animation.riv"
+            src={heroBackgroundRiveUrl}
             position="cover_center"
             autoplay
           />
         }
       >
-        <Image src={refyneBharatDarshanLogo} alt="Refyne Bharat Darshan" />
-        <h3 className="text-heading text-semi-bold text-center">
+        <Image
+          src={refyneVirtualRewardsEventLogo}
+          alt="Refyne Virtual Rewards Event"
+        />
+        <h3
+          className="text-heading text-semi-bold text-center"
+          style={{ color: heroElementTextColor }}
+        >
           {t("stamps_page_heading")}
         </h3>
-        <StampPodium
-          bottomBorderColor={
-            podiumStages[podiumStages.length - 1].backgroundColor
-          }
-        >
-          {podiumStages.map((stampStage, stageIndex) => (
-            <StampPodiumStage
-              backgroundColor={stampStage.backgroundColor}
-              key={stageIndex}
-            >
-              {stampStage.stamps.map((stamp) => (
-                <StampWrapper
-                  key={stamp.id}
-                  borderColor={stamp.borderColor}
-                  count={stamp.count}
-                  disableWhenCountIsZero
-                  onClick={() => handleStampClick(stamp.id, stamp.info)}
-                >
-                  <StampWrapperImage
-                    imageUrl={stamp.imageUrl}
-                    name={stamp.name ?? "Stamp"}
-                  />
-                </StampWrapper>
-              ))}
-            </StampPodiumStage>
-          ))}
-        </StampPodium>
+        <VirtualRewardsEventStampStage
+          stamps={stamps}
+          stampCountBorderColor={stampCountBorderColor}
+          hasBottomBorder={stampPodiumStageHasBottomBorder}
+          podiumStages={stampPodiumStages}
+          onStampClick={handleStampClick}
+        />
         <div
           className="flex-center"
           style={{
@@ -415,7 +393,6 @@ export default function VirtualRewardsEventRegular({
       </div>
       <div
         style={{
-          marginTop: "-4rem",
           marginBottom: "-0.8rem",
         }}
       >
@@ -600,41 +577,4 @@ function getFooterDataByStatus(userStatus: string): {
     };
   }
   return null;
-}
-
-function getStampsConfig(
-  podiumStages: Array<StampPodiumStageConfig>,
-  stamps: Array<Stamp>
-): Array<{
-  backgroundColor: string;
-  stamps: Array<
-    Stamp & {
-      borderColor: string;
-    }
-  >;
-}> {
-  // INFO: Hardcoding for now
-  const startIndexes = [0, 1, 3, 6, 10];
-  return podiumStages.map((stage, index) => {
-    const { backgroundColor, stampBorderColor } = stage;
-
-    const itemsRequiredInThisStage = index + 1;
-    const startIndex = startIndexes[index];
-    const endIndex = startIndex + itemsRequiredInThisStage - 1;
-
-    const stampsConfig: Array<
-      Stamp & {
-        borderColor: string;
-      }
-    > = [];
-    for (let i = startIndex; i <= endIndex; i++) {
-      const stampAtThisIndex = stamps[i];
-      if (!stampAtThisIndex) continue;
-      stampsConfig.push({
-        ...stampAtThisIndex,
-        borderColor: stampBorderColor,
-      });
-    }
-    return { backgroundColor, stamps: stampsConfig };
-  });
 }

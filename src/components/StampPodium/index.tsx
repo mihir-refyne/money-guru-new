@@ -22,16 +22,23 @@ export function StampPodium({ bottomBorderColor, children }: StampPodiumProps) {
 }
 
 interface StampPodiumStageProps {
-  backgroundColor: string;
+  backgroundColor?: string;
+  background?: CSSProperties["background"];
+  borderRadius?: string;
   children: Array<ReactElement>;
 }
 
 export function StampPodiumStage({
   backgroundColor,
+  background,
+  borderRadius,
   children,
 }: StampPodiumStageProps) {
   return (
-    <div className={styles.StampPodiumStage} style={{ backgroundColor }}>
+    <div
+      className={styles.StampPodiumStage}
+      style={{ background, backgroundColor, borderRadius }}
+    >
       {children}
     </div>
   );

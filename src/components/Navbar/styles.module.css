@@ -1,8 +1,5 @@
 .Navbar {
   padding: var(--spacing-3) var(--spacing-4);
-  position: sticky;
-  position: -webkit-sticky;
-  top: 0;
   z-index: 9;
   background-color: var(--clr-pure-white);
 
@@ -12,6 +9,11 @@
   font-weight: 500;
 }
 
+.Navbar.Floating {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+}
 .NavbarContent {
   display: flex;
   align-items: center;

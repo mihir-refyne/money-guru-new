@@ -28,7 +28,7 @@ export interface UserRewardsSummaryResponse {
 export interface FestiveEventConfig {
   startDate: string;
   endDate: string;
-  rewardId: string;
+  rewardId?: string;
   uiMetadata: UiMetadata;
 }
 

@@ -68,7 +68,6 @@ export default function VirtualRewardsEventEnd({
       </div>
       <div
         style={{
-          marginTop: "-4rem",
           marginBottom: "-0.8rem",
         }}
       >

@@ -9,7 +9,6 @@
 
 .StampPodiumStage {
     padding: var(--spacing-3) var(--spacing-4);
-    background-color: #2C9E82;
     border-top-left-radius: var(--spacing-4);
     border-top-right-radius: var(--spacing-4);
     display: flex;

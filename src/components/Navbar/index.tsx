@@ -11,6 +11,7 @@ interface NavbarProps {
   hasBackButton?: boolean;
   title?: string;
   transparentNavbar?: boolean;
+  floating?: boolean;
   background?: CSSProperties["background"];
   onBackClick?: () => void;
   hasLocaleChange?: boolean;
@@ -23,6 +24,7 @@ export default function Navbar({
   hasBackButton,
   title,
   transparentNavbar,
+  floating = true,
   background,
   onBackClick,
   hasLocaleChange = true,
@@ -42,7 +44,7 @@ export default function Navbar({
   }
 
   useEffect(() => {
-    if (!transparentNavbar) return;
+    if (!transparentNavbar || !floating) return;
     window.addEventListener("scroll", handleOpacityChangeOnScroll);
     return () => {
       window.removeEventListener("scroll", handleOpacityChangeOnScroll);
@@ -58,7 +60,10 @@ export default function Navbar({
   const navBackground = transparentNavbarStyle ?? { background };
 
   return (
-    <nav className={styles.Navbar} style={navBackground}>
+    <nav
+      className={`${styles.Navbar} ${floating ? styles.Floating : ""}`}
+      style={navBackground}
+    >
       <div className={styles.NavbarContent}>
         <div className={styles.NavbarContent__Left}>
           {hasBackButton && (

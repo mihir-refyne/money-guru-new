@@ -21,7 +21,9 @@ interface VirtualRewardsEventHypeProps {
   socialProofTexts: Array<string>;
   isShareLoading: boolean;
   heroBackgroundImageUrl: string;
-  heroElementHeight?: string;
+  heroElementHeight: string;
+  heroElementTextColor?: string;
+  heroFooterBackgroundColor: string;
   onMount?: () => void;
   onCompleteKycClick?: () => void;
   onIncompleteKycClick?: () => void;
@@ -38,6 +40,8 @@ export default function VirtualRewardsEventHype({
   isShareLoading,
   heroBackgroundImageUrl,
   heroElementHeight = DEFAULT_HERO_ELEM_HEIGHT,
+  heroElementTextColor,
+  heroFooterBackgroundColor,
   onMount,
   onCompleteKycClick,
   onIncompleteKycClick,
@@ -61,7 +65,6 @@ export default function VirtualRewardsEventHype({
   );
   return (
     <VirtualRewardsEventPageLayout
-      navbarText={t("stamps_landing_page_header_bar_text")}
       footer={
         <PageFooter
           userStatus={userStatus}
@@ -75,7 +78,7 @@ export default function VirtualRewardsEventHype({
       <VirtualRewardsEventHero
         height={heroElementHeight}
         footer={
-          <Card backgroundColor="#FDEECA">
+          <Card backgroundColor={heroFooterBackgroundColor}>
             <h4 className="text-body text-medium text-center">
               {tWithoutTypeSafety(socialProofTexts[randomSocialProofIndex])}
             </h4>
@@ -93,7 +96,10 @@ export default function VirtualRewardsEventHype({
           />
         }
       >
-        <h3 className="text-heading text-medium text-center">
+        <h3
+          className="text-heading text-medium text-center"
+          style={{ color: heroElementTextColor }}
+        >
           {t("stamps_hype_page_heading")}
         </h3>
         <CountdownDisplay
@@ -136,7 +142,6 @@ export default function VirtualRewardsEventHype({
       </div>
       <div
         style={{
-          marginTop: "-4rem",
           marginBottom: "-0.8rem",
         }}
       >
