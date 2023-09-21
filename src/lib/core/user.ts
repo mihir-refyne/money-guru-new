@@ -39,6 +39,13 @@ interface WorkerDetails {
   entity: Worker;
 }
 
+type PostUserActionPayload = {
+  actionType: "R_SHORT_VISITED";
+  metadata?: {
+    rShortId: string;
+  };
+};
+
 async function getUser(idToken?: string): Promise<User | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -64,6 +71,20 @@ export async function getWorkerDetails(
     }
   );
   return response.data;
+}
+
+export async function postUserAction(
+  payload: PostUserActionPayload
+): Promise<void> {
+  const idToken = getValueFromMetadata("idToken");
+  if (!idToken) return;
+  await fetcher<WorkerDetails>(`${CORE_SERVER_BASE_URL}/user/action`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${idToken}`,
+    },
+    payload,
+  });
 }
 
 export async function getAndSetUserMetadataFromServer(

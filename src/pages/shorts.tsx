@@ -10,6 +10,8 @@ import { SurveyTriggerAction } from "@/lib/survey";
 import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isQuizEitherCompletedOrSkipped } from "@/lib/quiz";
+import useMutation from "@/hooks/useMutation";
+import { postUserAction } from "@/lib/core/user";
 
 interface ShortsPageProps {
   shorts: Array<{
@@ -37,6 +39,8 @@ export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
 
 export default function ShortsPage({ shorts }: ShortsPageProps) {
   const router = useRouter();
+  const { mutate } = useMutation(postUserAction);
+
   const employerId = getValueFromMetadata("employerId");
   const workerId = getValueFromMetadata("workerId");
 
@@ -73,6 +77,10 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
         scroll: false,
       });
     }
+    mutate({
+      actionType: "R_SHORT_VISITED",
+      metadata: hash ? { rShortId: hash } : undefined,
+    });
   }, [router.isReady]);
 
   function handleSwipeUp(id: string) {
