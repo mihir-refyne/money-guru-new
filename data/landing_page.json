@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-ppf-2",
       "what-are-post-office-schemes",
       "what-is-jan-dhan-yojna",
       "digital-vs-physical-KYC",
-      "what-is-bhim-upi",
-      "what-is-gst"
+      "what-is-bhim-upi"
     ],
     "autoPlayDurationInMs": 600000
   },
