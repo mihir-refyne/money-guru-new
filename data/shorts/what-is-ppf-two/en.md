@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/what-is-ppf-2.png
+mediaUrl: /assets/images/shorts/what-is-ppf-two.png
 tag: Investing
 ---
 
