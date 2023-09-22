@@ -196,5 +196,18 @@
   "referral_milestone": "Refer at least one co worker",
   "referral_bottom_sheet_text": "Refer your coworkers",
   "referral_bottom_sheet_desc": "If you like the Refyne app, invite your co - workers Refyne Marathon Badges!",
-  "referral_bottom_sheet_cta": "Refer Now"
+  "referral_bottom_sheet_cta": "Refer Now",
+  "refyne_marathon_winner_text": "Congratulations! You are now a Refyne Champion!",
+  "refyne_marathon_timeout_text": "Thank you for playing Refyne Marathon!",
+  "refyne_marathon_winner_social_proof": "You have collected all 6 badges!",
+  "refyne_marathon_timeout_social_proof": "You have collected {{stampsCollected}} badges",
+  "refyne_marathon_banner_header_timeout": "Thank you for playing Refyne Marathon!",
+  "refyne_marathon_banner_desc_timeout": "2 lakh+ people participated on the Refyne Marathon",
+  "refyne_marathon_banner_cta_timeout": "Share with Co - workers",
+  "refyne_marathon_banner_header_winner": "You've won the Refyne Marathon!",
+  "refyne_marathon_banner_desc_winner": "Tap on the Refyne Marathon Scratch Card to open your prize!",
+  "refyne_marathon_banner_cta_winner": "Redeem Now",
+  "mongu_rshort_visited_milestone": "Check out an Rshort to know more about personal finance",
+  "mongu_rshort_visited_milestone_header": "Read an R - Short",
+  "mongu_rshort_visited_milestone_desc": "Read an R-Short and earn a Refyne Marathon Badge"
 }

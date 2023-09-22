@@ -795,10 +795,13 @@ export default function VirtualRewardsEventLandingPage({
     : undefined;
 
   // TODO: Adding false here for now, will figure out this
-  if (false && (isFestivalEnded || allStampsCollected)) {
+  if (isFestivalEnded || allStampsCollected) {
+    const heroElementText = allStampsCollected
+      ? config.finishedPageConfig.fullyFinishedHeroElementText
+      : config.finishedPageConfig.partiallyFinishedHeroElementText;
     const finishedSocialProofText = allStampsCollected
-      ? "₹20,000 worth of rewards won by 100s of people"
-      : "You’ve collected 6 Refyne Marathon badges";
+      ? "refyne_marathon_timeout_social_proof"
+      : "refyne_marathon_winner_social_proof";
     const heroBackgroundProps = allStampsCollected
       ? {
           heroBackgroundImageUrl:
@@ -812,6 +815,9 @@ export default function VirtualRewardsEventLandingPage({
           heroElementHeight:
             config.finishedPageConfig.partiallyFinishedHeroBackgroundHeight,
         };
+    const heroElementIllustrationUrl = allStampsCollected
+      ? config.finishedPageConfig.fullyFinishedHeroElementIllustrationUrl
+      : undefined;
 
     // TODO: Add banner config
     const banner: BannerProps = allStampsCollected
@@ -819,12 +825,15 @@ export default function VirtualRewardsEventLandingPage({
       : config.finishedPageConfig.partiallyFinishedBanner;
     return (
       <VirtualRewardsEventEnd
+        heroElementText={heroElementText}
         heroElementTextColor={config.finishedPageConfig.heroElementTextColor}
         {...heroBackgroundProps}
         heroFooterBackgroundColor={
           config.finishedPageConfig.heroFooterBackgroundColor
         }
+        heroElementIllustrationUrl={heroElementIllustrationUrl}
         stamps={STAMPS}
+        stampsCollected={stampsCollectedTillNow}
         stampCountBorderColor={config.stampCountBorderColor}
         stampCountDisplayPosition={
           config.stampCountDisplayPosition as StampCountPosition

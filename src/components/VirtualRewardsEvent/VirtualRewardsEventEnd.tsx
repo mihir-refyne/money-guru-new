@@ -13,10 +13,13 @@ import Banner, { BannerProps } from "../Banner";
 
 interface VirtualRewardsEventEndProps {
   heroElementHeight?: string;
+  heroElementText: string;
   heroElementTextColor?: string;
+  heroElementIllustrationUrl?: string;
   heroBackgroundImageUrl?: string;
   heroFooterBackgroundColor?: string;
   stamps: Array<Stamp>;
+  stampsCollected: number;
   stampCountBorderColor?: string;
   stampCountDisplayPosition?: StampCountPosition;
   stampPodiumStages: Array<StampPodiumStageConfig>;
@@ -29,10 +32,13 @@ interface VirtualRewardsEventEndProps {
 
 export default function VirtualRewardsEventEnd({
   heroElementHeight,
+  heroElementText,
   heroElementTextColor,
   heroBackgroundImageUrl,
+  heroElementIllustrationUrl,
   heroFooterBackgroundColor,
   stamps,
+  stampsCollected,
   stampCountBorderColor,
   stampCountDisplayPosition,
   stampPodiumStages,
@@ -54,7 +60,7 @@ export default function VirtualRewardsEventEnd({
           socialProofText ? (
             <Card backgroundColor={heroFooterBackgroundColor}>
               <h4 className="text-body text-medium text-center">
-                {tWithoutTypeSafety(socialProofText)}
+                {tWithoutTypeSafety(socialProofText, { stampsCollected })}
               </h4>
             </Card>
           ) : undefined
@@ -75,17 +81,24 @@ export default function VirtualRewardsEventEnd({
           className="text-heading text-semi-bold text-center"
           style={{ color: heroElementTextColor }}
         >
-          {/* TODO" Update with Thank you for playing Refyne Marathon  */}
-          {t("stamps_page_heading")}
+          {tWithoutTypeSafety(heroElementText)}
         </h3>
-        <VirtualRewardsEventStampStage
-          stamps={stamps}
-          stampCountBorderColor={stampCountBorderColor}
-          stampCountDisplayPosition={stampCountDisplayPosition}
-          hasBottomBorder={stampPodiumStageHasBottomBorder}
-          podiumStages={stampPodiumStages}
-          // onStampClick={handleStampClick}
-        />
+        <div className="flex-center" style={{ flexDirection: "column" }}>
+          {heroElementIllustrationUrl && (
+            <img
+              src={heroElementIllustrationUrl}
+              alt="Refyne Virtual Rewards Event Finish Illustration"
+            />
+          )}
+          <VirtualRewardsEventStampStage
+            stamps={stamps}
+            stampCountBorderColor={stampCountBorderColor}
+            stampCountDisplayPosition={stampCountDisplayPosition}
+            hasBottomBorder={stampPodiumStageHasBottomBorder}
+            podiumStages={stampPodiumStages}
+            // onStampClick={handleStampClick}
+          />
+        </div>
       </VirtualRewardsEventHero>
       {banner && (
         <div className="px-4 mb-4">
