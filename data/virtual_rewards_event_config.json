@@ -1,6 +1,6 @@
 {
   "faqUrl": "https://app.refyne.co.in/#/?next=%2Ffaq",
-  "faqVideoUrl": "https://www.youtube.com/watch?v=A0v-9I0IVOY",
+  "faqVideoUrl": "https://www.youtube.com/watch?v=D4V6C-A73dY",
   "rules": [
     {
       "iconUrl": "/assets/images/virtual-rewards-event/blue_tick_icon.svg",
@@ -20,7 +20,8 @@
     }
   ],
   "socialProofTexts": ["stamps_landing_page_social_proof1"],
-  "festiveStartDate": "2023-09-22T03:30:00.000Z",
+  "festiveStartDate": "2023-09-22T03:00:00.000Z",
+  "festiveEndDate": "2023-09-29T18:30:00.000Z",
   "hypeCreationPageConfig": {
     "heroElementTextColor": "#FFFFFF",
     "heroBackgroundImageUrl": "/assets/images/virtual-rewards-event/hype_creation_hero_background.jpg",
@@ -30,8 +31,38 @@
   "festiveDaysPageConfig": {
     "heroElementTextColor": "#FFFFFF",
     "heroBackgroundRiveUrl": "/assets/animations/virtual_rewards_event_hero_animation.riv",
-    "heroBackgroundHeight": "66rem",
+    "heroBackgroundHeight": "64rem",
     "heroFooterBackgroundColor": "#DCF5EF"
+  },
+  "finishedPageConfig": {
+    "heroElementTextColor": "#FFFFFF",
+    "partiallyFinishedHeroBackgroundImageUrl": "/assets/images/virtual-rewards-event/partial_finished_hero_background.svg",
+    "partiallyFinishedHeroBackgroundHeight": "80rem",
+    "fullyFinishedHeroBackgroundImageUrl": "/assets/images/virtual-rewards-event/fully_finished_hero_background.svg",
+    "fullyFinishedHeroBackgroundHeight": "80rem",
+    "heroFooterBackgroundColor": "#DCF5EF",
+    "partiallyFinishedBanner": {
+      "heading": "Thank you for playing",
+      "headingColor": "var(--clr-text-primary)",
+      "description": "2 Lakh+ players participated in the Refyne Marathon",
+      "descriptionColor": "var(--clr-text-secondary)",
+      "rightImageUrl": "/assets/images/done_blue_bg_blue_tick.svg",
+      "backgroundColor": "var(--clr-info-success-light)",
+      "ctaLabel": "Share with Co-workers",
+      "ctaLabelColor": "var(--clr-brand-default)",
+      "ctaBackgroundColor": "var(--clr-info-success-light)"
+    },
+    "fullyFinishedBanner": {
+      "heading": "Thank you for playing",
+      "headingColor": "var(--clr-text-primary)",
+      "description": "2 Lakh+ players participated in the Refyne Marathon",
+      "descriptionColor": "var(--clr-text-secondary)",
+      "rightImageUrl": "/assets/images/done_blue_bg_blue_tick.svg",
+      "backgroundColor": "var(--clr-info-success-light)",
+      "ctaLabel": "Redeem",
+      "ctaLabelColor": "var(--clr-brand-default)",
+      "ctaBackgroundColor": "var(--clr-info-success-light)"
+    }
   },
   "defaultSharePayload": {
     "imageUrl": "/assets/images/virtual-rewards-event/virtual_rewards_event_default_share.png",
@@ -44,12 +75,12 @@
       {
         "count": 3,
         "borderRadius": "var(--spacing-4) var(--spacing-4) 0px 0px",
-        "backgroundColor": "#D13B3B26"
+        "backgroundColor": "#F8E2E2"
       },
       {
         "count": 3,
         "borderRadius": "0px 0px var(--spacing-4) var(--spacing-4)",
-        "backgroundColor": "#D13B3B26"
+        "backgroundColor": "#F8E2E2"
       }
     ]
   },
@@ -60,67 +91,68 @@
     "message": "Hey, I am looking for {{stampNames}} Stamp(s) on Refyne. Do you have them? Please gift me the stamps by clicking here"
   },
   "stampCountBorderColor": "#0057B7",
+  "stampCountDisplayPosition": "top_left",
   "rewardIdToStampsConfigMap": {
-    "VIR_RWD10000008": {
-      "imageUrl": "/assets/images/virtual-rewards-event/red_fort_stamp.svg",
-      "name": "Red Fort",
+    "VIR_RWD10000046": {
+      "imageUrl": "/assets/images/virtual-rewards-event/master_investor_badge.svg",
+      "name": "Master Investor",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/red_fort_info_illustration.png",
-        "title": "Here is a fact about Red Fort!",
-        "description": "Every year on 15th Aug, the PM hoists the National Flag at Delhi's iconic monument and addresses the nation. Check it out on Refyne"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/master_investor_badge.svg",
+        "title": "Who is a Master Investor?",
+        "description": "As a master investor, you have a good track record of making profitable investment decisions. Try out one of the tasks to see if you're a Master Investor!"
       }
     },
-    "VIR_RWD10000012": {
-      "imageUrl": "/assets/images/virtual-rewards-event/taj_mahal_stamp.svg",
-      "name": "Taj Mahal",
+    "VIR_RWD10000047": {
+      "imageUrl": "/assets/images/virtual-rewards-event/budget_buddy_badge.svg",
+      "name": "Budget Buddy",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/taj_mahal_info_illustration.png",
-        "title": "Here is a fact about Taj Mahal",
-        "description": "One of the 7 wonders of world, this Agra's white-marble masterpiece symbolizes love and beauty! Check it out on Refyne"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/budget_buddy_badge.svg",
+        "title": "Who is a Budget Buddy?",
+        "description": "As a budget buddy, you are someone who helps your friends and family manage their budgets by making smart financial decisions. Try out one of the tasks to see if you're a Budget Buddy!"
       }
     },
-    "VIR_RWD10000021": {
-      "imageUrl": "/assets/images/virtual-rewards-event/charminar_stamp.svg",
-      "name": "Charminar",
+    "VIR_RWD10000053": {
+      "imageUrl": "/assets/images/virtual-rewards-event/money_magnet_badge.svg",
+      "name": "Money Magnet",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/charminar_info_illustration.jpg",
-        "title": "Here is a fact about Charminar",
-        "description": "Charminar represents Hyderabad's rich cultural heritage! Check it out on Refyne"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/money_magnet_badge.svg",
+        "title": "Who is a Money Magnet?",
+        "description": "As a money magnet, you attract wealth and success with your ability to make high investment financial decisions. Try out one of the tasks to see if you're a Money Magnet!"
       }
     },
-    "VIR_RWD10000023": {
-      "imageUrl": "/assets/images/virtual-rewards-event/hawa_mahal_stamp.svg",
-      "name": "Here is a fact about Hawa Mahal",
+    "VIR_RWD10000059": {
+      "imageUrl": "/assets/images/virtual-rewards-event/saving_ninja_badge.svg",
+      "name": "Saving Ninja",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/hawa_mahal_info_illustration.png",
-        "title": "About Hawa Mahal",
-        "description": "This Jaipur's marvel is designed with 953 decorated windows that allow natural ventilation, symbolizing both aesthetic beauty! Check it out on Refyne"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/saving_ninja_badge.svg",
+        "title": "Who is a Saving Ninja?",
+        "description": "As a saving ninja, you have the discipline and skill to save money for the present and the future by avoiding unnecessary expenses. Try out one of the tasks to see if you're a Saving Ninja!"
       }
     },
-    "VIR_RWD10000034": {
-      "imageUrl": "/assets/images/virtual-rewards-event/gateway_of_india_stamp.svg",
-      "name": "Gateway of India",
+    "VIR_RWD10000061": {
+      "imageUrl": "/assets/images/virtual-rewards-event/wealth_wizard_badge.svg",
+      "name": "Wealth Wizard",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/gateway_of_india_info_illustration.png",
-        "title": "Here is a fact about Gateway of India",
-        "description": "This big, impressive arch by the sea in Mumbai was a pass-through for visitors to enter India during the British rule! Check it out on Refyne"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/wealth_wizard_badge.svg",
+        "title": "Who is a Wealth Wizard?",
+        "description": "As a wealth wizard, you are skilled at creating, managing and growing wealth. Try out one of the tasks to see if you're a Wealth Wizard!"
       }
     },
-    "VIR_RWD10000043": {
-      "imageUrl": "/assets/images/virtual-rewards-event/mysore_palace_stamp.svg",
-      "name": "Mysore Palace",
+    "VIR_RWD10000069": {
+      "imageUrl": "/assets/images/virtual-rewards-event/pro_planner_badge.svg",
+      "name": "Pro Planner",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/mysore_palace_info_illustration.png",
-        "title": "Here is a fact about Mysore Palace",
-        "description": "This grand treasure of India shows off the beautiful style of the royals who lived in Mysore, Karnataka! Check it out on Refyne"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/pro_planner_badge.svg",
+        "title": "Who is a Pro Planner?",
+        "description": "As a Pro Planner, you are an expert in financial planning, control your investments, savings, and have a smart approach towards meeting your financial goals. Try out one of the tasks to see if you're a Pro Planner!"
       }
     }
   },
   "requestBannerConfig": null,
   "referBannerConfig": {
-    "heading": "Want more Stamps?",
+    "heading": "Want more Badges?",
     "headingColor": "#15171A",
-    "description": "Refer your coworkers on Refyne today and you might get a Stamp!",
+    "description": "Refer your coworkers on Refyne today and you might get a Badge!",
     "descriptionColor": "#696D70",
     "rightImageUrl": "/assets/images/virtual-rewards-event/ids_refer_banner_image.svg",
     "backgroundColor": "#E4FAFD",

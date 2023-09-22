@@ -1,71 +1,103 @@
+import { useEffect } from "react";
 import useTranslation from "@/hooks/useTranslation";
 import VirtualRewardsEventPageLayout from "./VirtualRewardsEventPageLayout";
-import idsendHeroBackgroundImageUrl from "@/images/ids_end_hero_background.png";
 import virtualRewardsEventThemeFooterImageUrl from "@/images/virtual-rewards-event-theme-footer.svg";
 import Card from "../Card";
-import { useEffect } from "react";
-import { ListWithCustomIcons } from "../List";
-import InfoCard from "../InfoCard";
+import VirtualRewardsEventHero from "./VirtualRewardsEventHero";
+import VirtualRewardsEventStampStage, {
+  Stamp,
+} from "./VirtualRewardsEventStampStage";
+import { StampCountPosition } from "../StampWrapper";
+import { StampPodiumStageConfig } from "./VirtualRewardsEventStampStage/StampStagePodium";
+import Banner, { BannerProps } from "../Banner";
 
 interface VirtualRewardsEventEndProps {
+  heroElementHeight?: string;
+  heroElementTextColor?: string;
+  heroBackgroundImageUrl?: string;
+  heroFooterBackgroundColor?: string;
+  stamps: Array<Stamp>;
+  stampCountBorderColor?: string;
+  stampCountDisplayPosition?: StampCountPosition;
+  stampPodiumStages: Array<StampPodiumStageConfig>;
+  stampPodiumStageHasBottomBorder?: boolean;
+  socialProofText?: string;
+  banner?: Partial<BannerProps>;
   onMount?: () => void;
-  onRedeemClick?: () => void;
+  onBannerClick?: () => void;
 }
 
 export default function VirtualRewardsEventEnd({
+  heroElementHeight,
+  heroElementTextColor,
+  heroBackgroundImageUrl,
+  heroFooterBackgroundColor,
+  stamps,
+  stampCountBorderColor,
+  stampCountDisplayPosition,
+  stampPodiumStages,
+  stampPodiumStageHasBottomBorder,
+  socialProofText,
+  banner,
   onMount,
-  onRedeemClick,
+  onBannerClick,
 }: VirtualRewardsEventEndProps) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   useEffect(() => {
     onMount?.();
   }, []);
   return (
-    <VirtualRewardsEventPageLayout
-      navbarText={t("stamps_landing_page_header_bar_text")}
-    >
-      <img
-        src={idsendHeroBackgroundImageUrl.src}
-        alt="IDS Hype Hero Background"
-        height="100%"
-        width="100%"
-        style={{
-          objectFit: "cover",
-        }}
-      />
-      <div className="px-4 mt-6">
-        <h3 className="text-heading text-medium mb-4">
-          {t("all_stamps_collected_step_header")}
-        </h3>
-        <Card backgroundColor="#EBF5FF">
-          <ListWithCustomIcons
-            items={[
-              {
-                icon: (
-                  <img
-                    src="/assets/images/virtual-rewards-event/giftbox_icon.svg"
-                    alt="Reward"
-                  />
-                ),
-                text: t("all_stamps_collected_step"),
-              },
-            ]}
+    <VirtualRewardsEventPageLayout>
+      <VirtualRewardsEventHero
+        height={heroElementHeight}
+        footer={
+          socialProofText ? (
+            <Card backgroundColor={heroFooterBackgroundColor}>
+              <h4 className="text-body text-medium text-center">
+                {tWithoutTypeSafety(socialProofText)}
+              </h4>
+            </Card>
+          ) : undefined
+        }
+        background={
+          <img
+            src={heroBackgroundImageUrl}
+            alt="Refyne Festival Hype Hero Background"
+            height="100%"
+            width="100%"
+            style={{
+              objectFit: "cover",
+            }}
           />
-          <div className="mt-4 ml-6">
-            <button
-              className="btn btn-primary btn-compact btn-rounded px-4"
-              onClick={onRedeemClick}
-            >
-              {t("all_stamps_collected_step_cta")}
-            </button>
-          </div>
-        </Card>
-      </div>
-      <div className="mt-4">
-        <InfoCard transparentBackground>
-          {t("stamps_disclaimer_footer_text")}
-        </InfoCard>
-      </div>
+        }
+      >
+        <h3
+          className="text-heading text-semi-bold text-center"
+          style={{ color: heroElementTextColor }}
+        >
+          {/* TODO" Update with Thank you for playing Refyne Marathon  */}
+          {t("stamps_page_heading")}
+        </h3>
+        <VirtualRewardsEventStampStage
+          stamps={stamps}
+          stampCountBorderColor={stampCountBorderColor}
+          stampCountDisplayPosition={stampCountDisplayPosition}
+          hasBottomBorder={stampPodiumStageHasBottomBorder}
+          podiumStages={stampPodiumStages}
+          // onStampClick={handleStampClick}
+        />
+      </VirtualRewardsEventHero>
+      {banner && (
+        <div className="px-4 mb-4">
+          <Banner
+            {...banner}
+            heading={tWithoutTypeSafety(banner.heading ?? "")}
+            description={tWithoutTypeSafety(banner.description ?? "")}
+            ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
+            onClick={onBannerClick}
+          />
+        </div>
+      )}
       <div
         style={{
           marginBottom: "-0.8rem",

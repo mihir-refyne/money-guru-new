@@ -29,7 +29,13 @@ export default function StampInfoCard({
 
   return (
     <div>
-      <img src={illustrationUrl} alt={title} width="100%" />
+      <img
+        src={illustrationUrl}
+        alt={title}
+        width="100%"
+        // TODO: Move it to config
+        style={{ maxHeight: "11rem" }}
+      />
       <h4 className="text-heading text-medium text-center mt-6 mb-3">
         {title}
       </h4>

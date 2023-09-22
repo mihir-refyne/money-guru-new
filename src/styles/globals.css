@@ -347,6 +347,9 @@ b {
   margin-bottom: var(--spacing-8);
 }
 
+.mt-1 {
+  margin-top: var(--spacing-1);
+}
 .mt-2 {
   margin-top: var(--spacing-2);
 }

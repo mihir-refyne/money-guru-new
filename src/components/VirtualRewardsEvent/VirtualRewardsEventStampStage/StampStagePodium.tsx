@@ -1,6 +1,9 @@
 import { type CSSProperties, useMemo } from "react";
 import { StampPodium, StampPodiumStage } from "@/components/StampPodium";
-import StampWrapper, { StampWrapperImage } from "@/components/StampWrapper";
+import StampWrapper, {
+  StampCountPosition,
+  StampWrapperImage,
+} from "@/components/StampWrapper";
 import type { Stamp } from ".";
 
 export interface StampPodiumStageConfig {
@@ -14,6 +17,7 @@ export interface StampStagePodiumProps {
   stamps: Array<Stamp>;
   background?: CSSProperties["background"];
   stampCountBorderColor?: CSSProperties["borderColor"];
+  stampCountDisplayPosition?: StampCountPosition;
   hasBottomBorder?: boolean;
   podiumStages: Array<StampPodiumStageConfig>;
   onStampClick?: (stampId: string, stampInfo: Stamp["info"]) => void;
@@ -23,6 +27,7 @@ export default function StampStagePodium({
   stamps,
   background,
   stampCountBorderColor,
+  stampCountDisplayPosition,
   hasBottomBorder = false,
   podiumStages,
   onStampClick,
@@ -53,6 +58,10 @@ export default function StampStagePodium({
               borderColor={stamp.borderColor}
               count={stamp.count}
               countBorderColor={stampCountBorderColor}
+              countDisplayPosition={stampCountDisplayPosition}
+              stampName={stamp.name}
+              // TODO: Move it to config
+              displayStampName
               disableWhenCountIsZero
               disableClickWhenDisabled={false}
               onClick={() => onStampClick?.(stamp.id, stamp.info)}

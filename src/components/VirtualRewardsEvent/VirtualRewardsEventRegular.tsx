@@ -27,6 +27,7 @@ import VirtualRewardsEventStampStage, {
   Stamp,
 } from "./VirtualRewardsEventStampStage";
 import { StampPodiumStageConfig } from "./VirtualRewardsEventStampStage/StampStagePodium";
+import type { StampCountPosition } from "../StampWrapper";
 
 type StampInfo = NonNullable<Stamp["info"]>;
 
@@ -42,6 +43,7 @@ interface VirtualRewardsEventRegularProps {
   isShareLoading: boolean;
   stamps: Array<Stamp>;
   stampCountBorderColor?: string;
+  stampCountDisplayPosition?: StampCountPosition;
   stampPodiumStages: Array<StampPodiumStageConfig>;
   stampPodiumStageHasBottomBorder?: boolean;
   heroBackgroundRiveUrl: string;
@@ -89,6 +91,7 @@ export default function VirtualRewardsEventRegular({
   isShareLoading,
   stamps,
   stampCountBorderColor,
+  stampCountDisplayPosition,
   stampPodiumStages,
   stampPodiumStageHasBottomBorder,
   heroBackgroundRiveUrl,
@@ -189,7 +192,6 @@ export default function VirtualRewardsEventRegular({
   );
   return (
     <VirtualRewardsEventPageLayout
-      navbarText={t("stamps_landing_page_header_bar_text")}
       footer={
         <PageFooter
           userStatus={userStatus}
@@ -216,10 +218,10 @@ export default function VirtualRewardsEventRegular({
           />
         }
       >
-        <Image
+        {/* <Image
           src={refyneVirtualRewardsEventLogo}
           alt="Refyne Virtual Rewards Event"
-        />
+        /> */}
         <h3
           className="text-heading text-semi-bold text-center"
           style={{ color: heroElementTextColor }}
@@ -229,6 +231,7 @@ export default function VirtualRewardsEventRegular({
         <VirtualRewardsEventStampStage
           stamps={stamps}
           stampCountBorderColor={stampCountBorderColor}
+          stampCountDisplayPosition={stampCountDisplayPosition}
           hasBottomBorder={stampPodiumStageHasBottomBorder}
           podiumStages={stampPodiumStages}
           onStampClick={handleStampClick}

@@ -41,6 +41,7 @@ import differenceInSeconds from "date-fns/differenceInSeconds";
 import LoadingPage from "@/components/LoadingPage";
 import VirtualRewardsEventEnd from "@/components/VirtualRewardsEvent/VirtualRewardsEventEnd";
 import { Stamp } from "@/components/VirtualRewardsEvent/VirtualRewardsEventStampStage";
+import { StampCountPosition } from "@/components/StampWrapper";
 
 // TODO: Maybe move to a helper
 function addUserTokenInUrlIfRequired(
@@ -107,6 +108,7 @@ function getActionTypeByReferenceId(
 
 interface ServerSideResponse {
   isHypeCreationDay: boolean;
+  isFestivalEnded: boolean;
   remainingTimeInSecForFestivalToStart: number;
 }
 
@@ -114,6 +116,7 @@ export const getServerSideProps: GetServerSideProps<
   ServerSideResponse
 > = async () => {
   const festivalStart = new Date(config.festiveStartDate);
+  const festivalEnd = new Date(config.festiveEndDate);
   const today = new Date();
 
   const remainingTimeInMsForFestivalToStart = Math.max(
@@ -124,12 +127,20 @@ export const getServerSideProps: GetServerSideProps<
     remainingTimeInMsForFestivalToStart / 1000
   );
   const isHypeCreationDay = remainingTimeInMsForFestivalToStart > 0;
+  const isFestivalEnded = today > festivalEnd;
 
-  return { props: { isHypeCreationDay, remainingTimeInSecForFestivalToStart } };
+  return {
+    props: {
+      isHypeCreationDay,
+      isFestivalEnded,
+      remainingTimeInSecForFestivalToStart,
+    },
+  };
 };
 
 export default function VirtualRewardsEventLandingPage({
   isHypeCreationDay,
+  isFestivalEnded,
   remainingTimeInSecForFestivalToStart,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const userStatus = getValueFromMetadata("status");
@@ -373,6 +384,12 @@ export default function VirtualRewardsEventLandingPage({
     await logEventInMixpanelPromise(
       AnalyticEvent.STAMPS_COLLECTION_DONE_REDEEM_CLICKED
     );
+    handleReferClick();
+  }
+
+  function handleFestivalEndBannerClick() {
+    if (allStampsCollected) return handleRedeemClick();
+    // TODO: Any event?
     handleReferClick();
   }
 
@@ -736,9 +753,13 @@ export default function VirtualRewardsEventLandingPage({
         gameRules={config.rules}
         gameRuleVideoUrl={config.faqVideoUrl}
         canGiftAndRequest={false}
+        canShare={false}
         isGiftingEnabled={false}
         stamps={STAMPS}
         stampCountBorderColor={config.stampCountBorderColor}
+        stampCountDisplayPosition={
+          config.stampCountDisplayPosition as StampCountPosition
+        }
         stampPodiumStageHasBottomBorder={
           config.podiumStagesConfig.hasBottomBorder
         }
@@ -773,11 +794,49 @@ export default function VirtualRewardsEventLandingPage({
       }
     : undefined;
 
-  if (allStampsCollected) {
+  // TODO: Adding false here for now, will figure out this
+  if (false && (isFestivalEnded || allStampsCollected)) {
+    const finishedSocialProofText = allStampsCollected
+      ? "₹20,000 worth of rewards won by 100s of people"
+      : "You’ve collected 6 Refyne Marathon badges";
+    const heroBackgroundProps = allStampsCollected
+      ? {
+          heroBackgroundImageUrl:
+            config.finishedPageConfig.fullyFinishedHeroBackgroundImageUrl,
+          heroElementHeight:
+            config.finishedPageConfig.fullyFinishedHeroBackgroundHeight,
+        }
+      : {
+          heroBackgroundImageUrl:
+            config.finishedPageConfig.partiallyFinishedHeroBackgroundImageUrl,
+          heroElementHeight:
+            config.finishedPageConfig.partiallyFinishedHeroBackgroundHeight,
+        };
+
+    // TODO: Add banner config
+    const banner: BannerProps = allStampsCollected
+      ? config.finishedPageConfig.fullyFinishedBanner
+      : config.finishedPageConfig.partiallyFinishedBanner;
     return (
       <VirtualRewardsEventEnd
+        heroElementTextColor={config.finishedPageConfig.heroElementTextColor}
+        {...heroBackgroundProps}
+        heroFooterBackgroundColor={
+          config.finishedPageConfig.heroFooterBackgroundColor
+        }
+        stamps={STAMPS}
+        stampCountBorderColor={config.stampCountBorderColor}
+        stampCountDisplayPosition={
+          config.stampCountDisplayPosition as StampCountPosition
+        }
+        stampPodiumStageHasBottomBorder={
+          config.podiumStagesConfig.hasBottomBorder
+        }
+        stampPodiumStages={config.podiumStagesConfig.stages}
+        socialProofText={finishedSocialProofText}
+        banner={banner}
         onMount={handleFestivalEndMount}
-        onRedeemClick={handleRedeemClick}
+        onBannerClick={handleFestivalEndBannerClick}
       />
     );
   }
@@ -789,11 +848,16 @@ export default function VirtualRewardsEventLandingPage({
         userStatus={userStatus}
         gameRules={config.rules}
         gameRuleVideoUrl={config.faqVideoUrl}
-        canGiftAndRequest={canGiftAndRequest}
+        // TODO: Move them to config
+        canGiftAndRequest={false}
+        canShare={false}
         isGiftingEnabled={isGiftingEnabled}
         isRequestEnabled={isRequestEnabled}
         stamps={STAMPS}
         stampCountBorderColor={config.stampCountBorderColor}
+        stampCountDisplayPosition={
+          config.stampCountDisplayPosition as StampCountPosition
+        }
         stampPodiumStageHasBottomBorder={
           config.podiumStagesConfig.hasBottomBorder
         }

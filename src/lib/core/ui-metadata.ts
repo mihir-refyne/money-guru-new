@@ -33,4 +33,5 @@ export interface RedirectDetails {
 export const ScreenToAppRouteIdMap: Record<string, string | undefined> = {
   AMOUNT_TO_WITHDRAW: "withdrawAmountPage",
   USER_TXN_DETAILS: "userTxnDetails",
+  REWARDS: "invite",
 };
