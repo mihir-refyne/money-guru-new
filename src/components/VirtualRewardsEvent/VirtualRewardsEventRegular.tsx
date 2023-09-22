@@ -320,7 +320,7 @@ export default function VirtualRewardsEventRegular({
       ) : stampCollectionActions && stampCollectionActions.length > 0 ? (
         <div className="px-4 mb-4">
           <h3 className="text-heading text-medium">
-            How to collect stamps today
+            {t("stamps_page_action_header")}
           </h3>
           <p className="text-caption text-regular clr-text-secondary mb-2">
             Complete actions in any order, your actions will reset tomorrow
