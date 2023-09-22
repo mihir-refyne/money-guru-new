@@ -191,5 +191,9 @@
   "all_stamps_collected_step": "Tap on \"Redeem\" to view your scratch card",
   "all_stamps_collected_step_cta": "Redeem",
   "happy_hour_start_header": "Happy Hour Starts",
-  "happy_hour_start_desc": "Happy hour is here"
+  "happy_hour_start_desc": "Happy hour is here",
+  "referral_milestone": "Refer at least one co worker",
+  "referral_bottom_sheet_text": "Refer your coworkers",
+  "referral_bottom_sheet_desc": "If you like the Refyne app, invite your co - workers Refyne Marathon Badges!",
+  "referral_bottom_sheet_cta": "Refer Now"
 }
