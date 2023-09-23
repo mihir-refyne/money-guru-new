@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "aadhar-link-to-bank-account",
       "benefits-of-digital-payments",
       "what-is-ppf-two",
       "what-are-post-office-schemes",
-      "what-is-jan-dhan-yojna",
-      "digital-vs-physical-KYC"
+      "what-is-jan-dhan-yojna"
     ],
     "autoPlayDurationInMs": 600000
   },
