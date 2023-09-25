@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-gold-loans",
       "gst-for-small-businesses",
       "aadhar-link-to-bank-account",
       "benefits-of-digital-payments",
-      "what-is-ppf-two",
-      "what-is-jan-dhan-yojna"
+      "what-is-ppf-two"
     ],
     "autoPlayDurationInMs": 600000
   },
