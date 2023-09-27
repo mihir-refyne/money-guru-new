@@ -1,0 +1,19 @@
+name: Auto approve - RShorts PR
+on:
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - data/shorts/**
+      - public/assets/images/shorts/**
+
+jobs:
+  auto-approve:
+    runs-on: self-hosted
+    permissions:
+      pull-requests: write
+    if: github.actor == 'manthanbhardwaj03'
+    steps:
+      - uses: hmarr/auto-approve-action@v3
+        with:
+          review-message: "Auto approved RShort PR"
