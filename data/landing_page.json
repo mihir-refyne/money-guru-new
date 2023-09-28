@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "how-upi-works",
       "what-is-ifsc-code",
       "what-is-rtgs-neft",
       "what-are-gold-loans",
-      "gst-for-small-businesses",
-      "aadhar-link-to-bank-account"
+      "gst-for-small-businesses"
     ],
     "autoPlayDurationInMs": 600000
   },
