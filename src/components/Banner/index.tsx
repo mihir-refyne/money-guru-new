@@ -26,6 +26,7 @@ export interface BannerProps {
   ctaDisabled?: boolean;
   ctaLabelColor?: string;
   ctaBackgroundColor?: string;
+  hasHorizontalMargin?: boolean;
 }
 
 export default function Banner({
@@ -42,6 +43,7 @@ export default function Banner({
   ctaDisabled,
   ctaLabelColor,
   ctaBackgroundColor,
+  hasHorizontalMargin = false,
 }: BannerProps) {
   useEffect(() => {
     onMount?.();
@@ -53,7 +55,10 @@ export default function Banner({
   return (
     <RootComponent
       className={styles.Banner}
-      style={{ background: backgroundColor }}
+      style={{
+        background: backgroundColor,
+        margin: !hasHorizontalMargin ? "0px" : undefined,
+      }}
       href={url}
       onClick={onClick}
       disabled={ctaDisabled}

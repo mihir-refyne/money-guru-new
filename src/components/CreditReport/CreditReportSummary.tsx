@@ -202,6 +202,7 @@ export default function CreditReportSummary({
                 ctaLabel={
                   banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
                 }
+                hasHorizontalMargin={banners.length > 1}
               />
             ))}
           </Carousel>

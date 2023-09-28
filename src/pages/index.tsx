@@ -383,6 +383,7 @@ export default function HomePage({ shorts }: HomePageProps) {
                 banner.description && tWithoutTypeSafety(banner.description)
               }
               ctaLabel={banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)}
+              hasHorizontalMargin={carouselBanners.length > 1}
             />
           ))}
         </Carousel>
