@@ -17,6 +17,7 @@ import { useShare } from "@/hooks/useShare";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import useTranslation from "@/hooks/useTranslation";
+import { isIOS } from "@/lib/utils";
 
 const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
 
@@ -56,6 +57,7 @@ interface ShortItemProps {
   onNotifyClick?: () => void;
   reaction?: string;
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
+  onShareClick?: (id?: string) => void;
 }
 
 export default function ShortItem({
@@ -66,6 +68,7 @@ export default function ShortItem({
   onNotifyClick,
   reaction,
   onReactionClick,
+  onShareClick,
 }: ShortItemProps) {
   const { t } = useTranslation("common");
   const [swipePrompt, setSwipePrompt] = useState<{
@@ -75,7 +78,8 @@ export default function ShortItem({
   const swipePromptCleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const appPlatformName = getValueFromMetadata("appPlatformName");
   const { shareInProgress, shareOrClipboardCopy } = useShare({
-    isNativePlatformShareSupported: isCurrentlyOnRefyneWebview(appPlatformName),
+    isNativePlatformShareSupported:
+      isCurrentlyOnRefyneWebview(appPlatformName) && !isIOS(),
   });
   const [
     screenshotCaptureState,
@@ -132,6 +136,14 @@ export default function ShortItem({
     }
   }
 
+  function handleShareClick() {
+    onShareClick?.(data?.id);
+    if (isIOS()) {
+      return handleScreenshotCaptureError();
+    }
+    captureScreenshotAndTransformToDataUri();
+  }
+
   function handleScreenshotCaptureError() {
     const fallbackImageUrl =
       data?.media?.type === "image" ? data.media.url : undefined;
@@ -183,7 +195,7 @@ export default function ShortItem({
             <button
               className="btn flex-center"
               disabled={shareInProgress || screenshotCaptureState.isLoading}
-              onClick={captureScreenshotAndTransformToDataUri}
+              onClick={handleShareClick}
             >
               <span className="text-body text-medium mr-1">Share</span>
               <ShareNetwork size={24} />

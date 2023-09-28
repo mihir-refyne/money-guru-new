@@ -60,6 +60,13 @@ export default function Shorts({ items, onSwipeUp, onSwipeDown }: ShortsProps) {
     );
   }
 
+  function handleShareClickSideEffect(id?: string) {
+    logAnalyticsEvent(["mixpanel"], AnalyticEvent.MONEY_GURU_SHARE_CLICKED, {
+      tool_name: "SHORTS",
+      identifier: id,
+    });
+  }
+
   function handleReactionClick(shortId: string, reaction: string) {
     logEventInMixpanel(AnalyticEvent.R_SHORTS_REACTED, {
       short_id: shortId,
@@ -82,6 +89,7 @@ export default function Shorts({ items, onSwipeUp, onSwipeDown }: ShortsProps) {
           onReactionClick={(reaction) =>
             handleReactionClick(short.id, reaction)
           }
+          onShareClick={handleShareClickSideEffect}
         />
       ))}
       <ShortItem

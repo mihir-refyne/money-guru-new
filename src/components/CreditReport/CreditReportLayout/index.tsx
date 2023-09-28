@@ -5,6 +5,9 @@ import { useShare } from "@/hooks/useShare";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import useTranslation from "@/hooks/useTranslation";
+import { isIOS } from "@/lib/utils";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 const DEFAULT_CREDIT_REPORT_SHARE_PAYLOAD = {
   text: "Aiming for a loan or credit? Check your Credit Score now!",
@@ -31,14 +34,18 @@ export default function CreditReportLayout({
 }: CreditReportLayoutProps) {
   const { t } = useTranslation("common");
   const defaultNavbarText = t("credit_score");
-  
+
   const appPlatformName = getValueFromMetadata("appPlatformName");
   const { shareInProgress, shareOrClipboardCopy } = useShare({
-    isNativePlatformShareSupported: isCurrentlyOnRefyneWebview(appPlatformName),
+    isNativePlatformShareSupported:
+      isCurrentlyOnRefyneWebview(appPlatformName) && !isIOS(),
   });
 
   function handleShareClick() {
     if (shareInProgress) return;
+    logAnalyticsEvent(["mixpanel"], AnalyticEvent.MONEY_GURU_SHARE_CLICKED, {
+      tool_name: "CREDIT_REPORT",
+    });
     shareOrClipboardCopy(DEFAULT_CREDIT_REPORT_SHARE_PAYLOAD, {
       showToastOnClipboardCopy: true,
     });

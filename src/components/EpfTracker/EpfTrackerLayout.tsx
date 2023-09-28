@@ -5,6 +5,9 @@ import { useShare } from "@/hooks/useShare";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import useTranslation from "@/hooks/useTranslation";
+import { isIOS } from "@/lib/utils";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 const DEFAULT_EPF_TRACKER_SHARE_PAYLOAD = {
   text: "Track your savings effortlessly! Stay updated with our EPF Tracker!",
@@ -33,14 +36,18 @@ export default function EpfTrackerLayout({
 }: EpfTrackerLayoutProps) {
   const { t } = useTranslation("common");
   const defaultNavbarText = t("pf_passbook_label");
-  
+
   const appPlatformName = getValueFromMetadata("appPlatformName");
   const { shareInProgress, shareOrClipboardCopy } = useShare({
-    isNativePlatformShareSupported: isCurrentlyOnRefyneWebview(appPlatformName),
+    isNativePlatformShareSupported:
+      isCurrentlyOnRefyneWebview(appPlatformName) && !isIOS(),
   });
 
   function handleShareClick() {
     if (shareInProgress) return;
+    logAnalyticsEvent(["mixpanel"], AnalyticEvent.MONEY_GURU_SHARE_CLICKED, {
+      tool_name: "EPF_TRACKER",
+    });
     shareOrClipboardCopy(DEFAULT_EPF_TRACKER_SHARE_PAYLOAD, {
       showToastOnClipboardCopy: true,
     });
