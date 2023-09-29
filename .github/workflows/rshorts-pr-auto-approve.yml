@@ -4,6 +4,7 @@ on:
     branches:
       - main
     paths:
+      - data/landing_page.json
       - data/shorts/**
       - public/assets/images/shorts/**
 
