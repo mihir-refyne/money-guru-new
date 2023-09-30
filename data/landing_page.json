@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-imps",
       "what-is-tds",
       "how-upi-works",
       "what-is-ifsc-code",
-      "what-is-rtgs-neft",
-      "what-are-gold-loans"
+      "what-is-rtgs-neft"
     ],
     "autoPlayDurationInMs": 600000
   },
