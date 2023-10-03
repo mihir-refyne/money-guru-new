@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-bharat-billpay",
       "aadhar-link-to-bank-account",
       "what-is-imps",
       "what-is-tds",
       "how-upi-works",
-      "what-is-ifsc-code",
-      "what-is-rtgs-neft"
+      "what-is-ifsc-code"
     ],
     "autoPlayDurationInMs": 600000
   },
