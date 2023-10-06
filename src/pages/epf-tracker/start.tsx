@@ -14,6 +14,11 @@ import toast from "react-hot-toast";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logAnalyticsEvent } from "@/lib/analytics";
+import Modal from "@/components/Modal";
+import EpfFetchErrorModalContentWrapper, {
+  EpfFetchErrorModalContentProps,
+} from "@/components/EpfTracker/EpfFetchErrorModalContent";
+import { EpfTrackerServerErrorCodeToResponseModalMapPreOtp } from "@/components/EpfTracker/constants";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -29,6 +34,8 @@ export default function EpfTrackerStartPage() {
   const [lastFetchedIdentifierValue, setLastFetchedIdentifierValue] = useState<
     string | null
   >(null);
+  const [errorModal, setErrorModal] =
+    useState<EpfFetchErrorModalContentProps | null>(null);
   const { isLoading, data, error, mutate } = useMutation(
     triggerOtpForEpfDetailsFetch
   );
@@ -44,9 +51,6 @@ export default function EpfTrackerStartPage() {
   }, [identifier]);
 
   useEffect(() => {
-    const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
-    if (errorMessage)
-      toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
     if (errorCode) {
       logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
@@ -54,7 +58,34 @@ export default function EpfTrackerStartPage() {
         error_code: errorCode,
       });
     }
+    const errorModalContent =
+      errorCode &&
+      EpfTrackerServerErrorCodeToResponseModalMapPreOtp[identifier][errorCode];
+    if (errorModalContent) {
+      if (errorModalContent.primaryCta?.url) {
+        errorModalContent.primaryCta.onClick = handleErrorCtaClick(
+          errorModalContent.primaryCta?.url
+        );
+      }
+      setErrorModal(errorModalContent);
+      return;
+    }
+
+    const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
+    if (errorMessage)
+      toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
   }, [error]);
+
+  function handleErrorModalClose() {
+    setErrorModal(null);
+  }
+  function handleErrorCtaClick(url?: string) {
+    if (!url) return handleErrorModalClose;
+    return () => {
+      handleErrorModalClose();
+      router.push(url);
+    };
+  }
 
   function handleIndetifierChange(newIdentifier: EpfFetchIdentifier) {
     const updatedQuery = { ...router.query, identifier: newIdentifier };
@@ -92,14 +123,26 @@ export default function EpfTrackerStartPage() {
   const directlyAccessed = !!router.query["direct"];
 
   return (
-    <EpfDetailsFetchStart
-      key={identifier}
-      identifier={identifier}
-      directlyAccessed={directlyAccessed}
-      initialValue={formInitialValue}
-      onIdentifierChange={handleIndetifierChange}
-      onSubmit={handleFormSubmit}
-      loading={isLoading}
-    />
+    <>
+      <EpfDetailsFetchStart
+        key={identifier}
+        identifier={identifier}
+        directlyAccessed={directlyAccessed}
+        initialValue={formInitialValue}
+        onIdentifierChange={handleIndetifierChange}
+        onSubmit={handleFormSubmit}
+        loading={isLoading}
+      />
+      <Modal
+        active={errorModal !== null}
+        onClose={handleErrorModalClose}
+        bottomSheetOnMobile
+      >
+        <EpfFetchErrorModalContentWrapper
+          content={errorModal}
+          onCtaClickFallback={handleErrorModalClose}
+        />
+      </Modal>
+    </>
   );
 }

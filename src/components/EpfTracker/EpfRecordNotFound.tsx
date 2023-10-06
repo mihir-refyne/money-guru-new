@@ -21,7 +21,7 @@ export default function EpfRecordNotFound({
           className="btn btn-primary btn-block flex-center"
           onClick={onRetryClick}
         >
-          <span>{t("retry_btn")}</span>
+          <span>{t("epfo_no_record_cta")}</span>
           <ArrowClockwise size={16} className="ml-2" />
         </button>
       }
@@ -29,8 +29,8 @@ export default function EpfRecordNotFound({
     >
       <NoRecordFound
         transparent
-        title={t("fetch_pf_details_error")}
-        description={t("click_retry_instruction")}
+        title={t("epfo_no_record_title")}
+        description={t("epfo_no_record_description")}
       />
     </EpfTrackerLayout>
   );

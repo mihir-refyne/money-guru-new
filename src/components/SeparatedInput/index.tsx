@@ -129,6 +129,10 @@ export default function SeparatedInput({
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     const value = event.currentTarget.value;
     if (acceptOnlyNumber && !isValueIsNumeric(value)) return;
+    // INFO: This is to handle the paste case
+    if (value.length === numberOfInputs) {
+      return onChange(value);
+    }
     changeInputValueAtFocus(value);
     focusInputByIndex(activeInput + 1);
   }
@@ -160,6 +164,8 @@ export default function SeparatedInput({
       event.code === "ArrowDown"
     ) {
       event.preventDefault();
+    } else if ((event.ctrlKey || event.metaKey) && event.key === "v") {
+      // INFO: Ignoring Ctrl/Cmd+v key press
     } else if (acceptOnlyNumber && !isValueIsNumeric(event.key)) {
       event.preventDefault();
     }
@@ -186,7 +192,6 @@ export default function SeparatedInput({
           placeholder={placeholderValues?.[index]}
           aria-label={`Please enter OTP character ${index + 1}`}
           autoComplete="off"
-          maxLength={1}
         />
       ))}
     </fieldset>

@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import useMutation from "@/hooks/useMutation";
 import {
   EPF_NO_RECORDS_FOUND_ERROR_CODES,
+  EpfFetchIdentifier,
   clearEpfDetailsFromSessionStorage,
   triggerOtpForEpfDetailsFetch,
   verifyOtpForEpfDetailsFetch,
@@ -17,6 +18,11 @@ import {
 import toast from "react-hot-toast";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import EpfFetchErrorModalContentWrapper, {
+  EpfFetchErrorModalContentProps,
+} from "@/components/EpfTracker/EpfFetchErrorModalContent";
+import Modal from "@/components/Modal";
+import { EpfTrackerServerErrorCodeToResponseModalMapPostOtp } from "@/components/EpfTracker/constants";
 
 function getOtpHintText(identifier: string, value: string): string | undefined {
   if (identifier === "uan")
@@ -30,6 +36,9 @@ export default function EpfTrackerVerifyPage() {
   const messageFromUrlQuery = router.query.message?.toString();
   const identifierFromUrlQuery = router.query.identifier?.toString();
   const identifierValueFromUrlQuery = router.query.identifierValue?.toString();
+
+  const [errorModal, setErrorModal] =
+    useState<EpfFetchErrorModalContentProps | null>(null);
 
   const { isLoading, data, error, mutate } = useMutation(
     verifyOtpForEpfDetailsFetch
@@ -45,12 +54,6 @@ export default function EpfTrackerVerifyPage() {
 
   useEffect(() => {
     const otpTriggerError = otpTriggerMutation.error;
-    const errorMessage = getCoreServerErrorMessageFromFetcherError(
-      otpTriggerError || error
-    );
-    if (errorMessage)
-      toast.error(errorMessage, { id: "EpfTrackerVerifyPage__error" });
-
     const otpVerifyErrorCode = getCoreServerErrorCodeFromFetcherError(error);
     const otpTriggerErrorCode =
       getCoreServerErrorCodeFromFetcherError(otpTriggerError);
@@ -66,7 +69,27 @@ export default function EpfTrackerVerifyPage() {
       EPF_NO_RECORDS_FOUND_ERROR_CODES.includes(otpVerifyErrorCode)
     ) {
       router.replace("/epf-tracker/no-record");
+      return;
     }
+    const errorModalContent =
+      errorCodeForEvent &&
+      EpfTrackerServerErrorCodeToResponseModalMapPostOtp[
+        identifierFromUrlQuery as EpfFetchIdentifier
+      ]?.[errorCodeForEvent];
+    if (errorModalContent) {
+      if (errorModalContent.primaryCta?.url) {
+        errorModalContent.primaryCta.onClick = handleErrorCtaClick(
+          errorModalContent.primaryCta?.url
+        );
+      }
+      setErrorModal(errorModalContent);
+      return;
+    }
+    const errorMessage = getCoreServerErrorMessageFromFetcherError(
+      otpTriggerError || error
+    );
+    if (errorMessage)
+      toast.error(errorMessage, { id: "EpfTrackerVerifyPage__error" });
   }, [error, otpTriggerMutation.error]);
 
   function handleSubmit(payload: { requestId: string; otp: string }) {
@@ -98,6 +121,16 @@ export default function EpfTrackerVerifyPage() {
     });
   }
 
+  function handleErrorModalClose() {
+    setErrorModal(null);
+  }
+  function handleErrorCtaClick(url?: string) {
+    if (!url) return handleErrorModalClose;
+    return () => {
+      router.push(url);
+    };
+  }
+
   if (
     !requestIdFromUrlQuery ||
     !identifierFromUrlQuery ||
@@ -119,13 +152,25 @@ export default function EpfTrackerVerifyPage() {
   const requestId = otpTriggerMutation.data?.requestId ?? requestIdFromUrlQuery;
 
   return (
-    <EpfDetailsFetchVerify
-      loading={_isLoading}
-      requestId={requestId}
-      message={otpSentHintMessage}
-      onSubmit={handleSubmit}
-      onResendClick={handleOtpResend}
-      onEditClick={handleEditClick}
-    />
+    <>
+      <EpfDetailsFetchVerify
+        loading={_isLoading}
+        requestId={requestId}
+        message={otpSentHintMessage}
+        onSubmit={handleSubmit}
+        onResendClick={handleOtpResend}
+        onEditClick={handleEditClick}
+      />
+      <Modal
+        active={errorModal !== null}
+        onClose={handleErrorModalClose}
+        bottomSheetOnMobile
+      >
+        <EpfFetchErrorModalContentWrapper
+          content={errorModal}
+          onCtaClickFallback={handleErrorModalClose}
+        />
+      </Modal>
+    </>
   );
 }
