@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-imps",
       "aadhar-link-to-bank-account",
       "what-is-upi",
       "what-is-jan-dhan-yojna",
       "effect-of-rbi-monetory-policy",
-      "what-is-bharat-billpay",
-      "what-is-imps"
+      "what-is-bharat-billpay"
     ],
     "autoPlayDurationInMs": 600000
   },
