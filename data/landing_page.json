@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-imps",
       "aadhar-link-to-bank-account",
       "what-is-upi",
       "what-is-jan-dhan-yojna",
       "effect-of-rbi-monetory-policy",
-      "what-is-bharat-billpay",
-      "what-is-imps"
+      "what-is-bharat-billpay"
     ],
     "autoPlayDurationInMs": 600000
   },
@@ -31,7 +31,7 @@
         {
           "fieldName": "employerId",
           "includes": false,
-          "values": ["EMR10000001"]
+          "values": ["EMR10000001", "EMR10000314"]
         }
       ]
     },
@@ -45,7 +45,7 @@
         {
           "fieldName": "employerId",
           "includes": true,
-          "values": ["EMR10000001"]
+          "values": ["EMR10000001", "EMR10000314"]
         }
       ]
     },
