@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-chit-funds",
       "how-emi-works",
       "what-is-bsbda",
       "what-is-imps",
       "aadhar-link-to-bank-account",
-      "what-is-upi",
-      "what-is-jan-dhan-yojna"
+      "what-is-upi"
     ],
     "autoPlayDurationInMs": 600000
   },
