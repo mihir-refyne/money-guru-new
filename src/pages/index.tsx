@@ -112,7 +112,7 @@ export default function HomePage({ shorts }: HomePageProps) {
   const router = useRouter();
 
   const _carouselBanners: Array<
-    BannerProps & { releaseConfig?: ReleaseConfig }
+    BannerProps & { name: string; releaseConfig?: ReleaseConfig }
   > | null = config?.carouselBanner?.banners ?? null;
   const carouselBannerAutoPlayDurationInMs: number | undefined =
     config?.carouselBanner?.autoPlayDurationInMs;
@@ -191,6 +191,15 @@ export default function HomePage({ shorts }: HomePageProps) {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
       name,
     });
+  }
+
+  function handleCarouselBannerClick(name: string) {
+    return () => {
+      logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
+        banner_type: "carousel",
+        name,
+      });
+    };
   }
 
   function handleFeaturedShortClick(id: string) {
@@ -384,6 +393,7 @@ export default function HomePage({ shorts }: HomePageProps) {
               }
               ctaLabel={banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)}
               hasHorizontalMargin={carouselBanners.length > 1}
+              onClick={handleCarouselBannerClick(banner.name)}
             />
           ))}
         </Carousel>

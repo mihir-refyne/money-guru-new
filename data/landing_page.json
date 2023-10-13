@@ -96,7 +96,7 @@
     "autoPlayDurationInMs": 3000,
     "banners": [
       {
-        "name": "Need help with finances?",
+        "name": "fin_coaching_naval",
         "heading": "Need help with finances?",
         "url": "https://fincoachv2.typedream.app/",
         "description": "Get financial advice from SEBI certified industry experts.",
@@ -110,7 +110,7 @@
         }
       },
       {
-        "name": "Need help with finances?",
+        "name": "fin_coaching_naval_free",
         "heading": "Need help with finances?",
         "url": "https://fincoachv2.typedream.app/financial-coach-free",
         "description": "Get financial advice from SEBI certified industry experts.",
