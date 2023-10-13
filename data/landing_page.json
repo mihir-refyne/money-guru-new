@@ -127,7 +127,46 @@
   },
   "componentsOrderConfig": [
     {
-      "order": ["R_SHORT_CAROUSEL", "FIN_TOOLS", "CAROUSEL_BANNERS"]
+      "order": [
+        "R_SHORT_CAROUSEL",
+        "IMAGE_BANNER",
+        "FIN_TOOLS",
+        "CAROUSEL_BANNERS"
+      ]
     }
-  ]
+  ],
+  "imagesBannerConfig": {
+    "banners": [
+      {
+        "name": "financial_health_good",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/financial-health-good.jpg",
+        "url": "/credit-report",
+        "releaseConfig": {
+          "fieldName": "userId",
+          "includes": true,
+          "values": ["USR20812878"]
+        }
+      },
+      {
+        "name": "financial_health_average",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/financial-health-average.jpg",
+        "url": "/credit-report",
+        "releaseConfig": {
+          "fieldName": "userId",
+          "includes": true,
+          "values": ["USR20921176"]
+        }
+      },
+      {
+        "name": "financial_health_bad",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/financial-health-bad.jpg",
+        "url": "/credit-report",
+        "releaseConfig": {
+          "fieldName": "userId",
+          "includes": true,
+          "values": ["USR20055951"]
+        }
+      }
+    ]
+  }
 }

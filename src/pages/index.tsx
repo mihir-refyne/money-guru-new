@@ -25,6 +25,7 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
 import useTranslation from "@/hooks/useTranslation";
+import Link from "next/link";
 
 interface HomePageProps {
   shorts: Array<{
@@ -52,6 +53,9 @@ enum DashboardComponent {
   FIN_TOOLS = "FIN_TOOLS",
   STICKY_BANNERS = "STICKY_BANNERS",
   CAROUSEL_BANNERS = "CAROUSEL_BANNERS",
+
+  // Temp
+  IMAGE_BANNER = "IMAGE_BANNER",
 }
 
 const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
@@ -193,10 +197,13 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
   }
 
-  function handleCarouselBannerClick(name: string) {
+  function handleCarouselBannerClick(
+    name: string,
+    bannerType: "carousel" | "experiment"
+  ) {
     return () => {
       logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
-        banner_type: "carousel",
+        banner_type: bannerType,
         name,
       });
     };
@@ -247,6 +254,18 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
   });
   const hasCarouselBanners = carouselBanners.length > 0;
+
+  const imageBanner = useMemo(() => {
+    const applicableBanners = config.imagesBannerConfig.banners.filter(
+      (banner) => {
+        if (!banner.releaseConfig) return true;
+        return checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
+          userId,
+        });
+      }
+    );
+    return applicableBanners[0] ?? null;
+  }, []);
 
   const componentsOrder = useMemo<DashboardComponent[]>(() => {
     const componentsOrderConfig = config.componentsOrderConfig.find(
@@ -393,10 +412,30 @@ export default function HomePage({ shorts }: HomePageProps) {
               }
               ctaLabel={banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)}
               hasHorizontalMargin={carouselBanners.length > 1}
-              onClick={handleCarouselBannerClick(banner.name)}
+              onClick={handleCarouselBannerClick(banner.name, "carousel")}
             />
           ))}
         </Carousel>
+      </div>
+    ) : null,
+    IMAGE_BANNER: imageBanner ? (
+      <div>
+        <Link
+          href={imageBanner.url}
+          onClick={handleCarouselBannerClick(imageBanner.name, "experiment")}
+        >
+          <figure>
+            <img
+              src={imageBanner.imageUrl}
+              alt="Money Guru"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </figure>
+        </Link>
       </div>
     ) : null,
   };
