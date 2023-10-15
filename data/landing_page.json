@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-fastag",
       "health-insurance-important-points",
       "importance-of-credit-score",
       "importance-of-pan-card",
       "what-are-chit-funds",
-      "how-emi-works",
-      "what-is-bsbda"
+      "how-emi-works"
     ],
     "autoPlayDurationInMs": 600000
   },
