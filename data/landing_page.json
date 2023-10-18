@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-credit-score",
       "importance-of-pan-card",
       "what-is-e-rupi",
       "what-is-fastag",
       "health-insurance-important-points",
-      "importance-of-credit-score",
       "what-are-chit-funds"
     ],
     "autoPlayDurationInMs": 600000
