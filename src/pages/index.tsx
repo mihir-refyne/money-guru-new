@@ -255,9 +255,9 @@ export default function HomePage({ shorts }: HomePageProps) {
   });
   const hasCarouselBanners = carouselBanners.length > 0;
 
-  const imageBanner = useMemo(() => {
+  const imageBanner = useMemo<Record<string, any>>(() => {
     const applicableBanners = config.imagesBannerConfig.banners.filter(
-      (banner) => {
+      (banner: any) => {
         if (!banner.releaseConfig) return true;
         return checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
           userId,
