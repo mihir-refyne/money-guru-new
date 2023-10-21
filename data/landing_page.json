@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
-      "what-is-jan-dhan-yojna",
       "aadhar-link-to-bank-account",
       "what-is-ifsc-code",
       "how-upi-works",
       "effect-of-rbi-monetory-policy",
-      "what-is-upi"
+      "what-is-upi",
+      "what-is-jan-dhan-yojna"
     ],
     "autoPlayDurationInMs": 600000
   },
