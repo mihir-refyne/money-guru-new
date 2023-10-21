@@ -127,10 +127,21 @@
   },
   "componentsOrderConfig": [
     {
-      "order": ["R_SHORT_CAROUSEL", "FIN_TOOLS", "CAROUSEL_BANNERS"]
+      "order": [
+        "R_SHORT_CAROUSEL",
+        "IMAGE_BANNER",
+        "FIN_TOOLS",
+        "CAROUSEL_BANNERS"
+      ]
     }
   ],
   "imagesBannerConfig": {
-    "banners": []
+    "banners": [
+      {
+        "name": "fin_quiz_SRV10000698",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/quiz_exp_banner_21oct.jpg",
+        "url": "/quiz?id=SRV10000698&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK"
+      }
+    ]
   }
 }
