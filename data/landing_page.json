@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-credit-score",
       "what-is-budgeting",
       "what-is-ifsc-code",
       "how-upi-works",
       "effect-of-rbi-monetory-policy",
-      "what-is-upi",
-      "what-is-jan-dhan-yojna"
+      "what-is-upi"
     ],
     "autoPlayDurationInMs": 600000
   },
