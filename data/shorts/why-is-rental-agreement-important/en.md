@@ -1,7 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/why-is-rental-agreement-important.png
-tag: Insurance
+tag: Economics
 ---
 
 ### Rental agreement kyun zaroori hai?
