@@ -13,7 +13,7 @@ import { isQuizEitherCompletedOrSkipped } from "@/lib/quiz";
 import useMutation from "@/hooks/useMutation";
 import { postUserAction } from "@/lib/core/user";
 
-interface ShortsPageProps {
+export interface ShortsPageProps {
   shorts: Array<{
     id: string;
     metadata: Record<string, unknown>;
@@ -105,20 +105,24 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
     <PageLayout hasContentPadding={false}>
       <Shorts
         items={shorts.map((short) => ({
-          id: short.id,
-          media: {
-            type: short.metadata?.mediaType ?? ("image" as any),
-            url: short.metadata?.mediaUrl ?? ("" as any),
+          type: "SHORT",
+          data: {
+            id: short.id,
+            media: {
+              type: short.metadata?.mediaType ?? ("image" as any),
+              url: short.metadata?.mediaUrl ?? ("" as any),
+            },
+            tag: short.metadata?.tag as any,
+            content: (
+              <article
+                dangerouslySetInnerHTML={{ __html: marked(short.content) }}
+              />
+            ),
+            reaction: short.reaction,
           },
-          tag: short.metadata?.tag as any,
-          content: (
-            <article
-              dangerouslySetInnerHTML={{ __html: marked(short.content) }}
-            />
-          ),
-          reaction: short.reaction,
         }))}
         onSwipeUp={handleSwipeUp}
+        hasEnd
       />
     </PageLayout>
   );

@@ -52,6 +52,7 @@ interface ShortItemProps {
     text: string;
   };
   data?: ShortData;
+  fillerContent?: ReactNode;
   onView?: (id?: string) => void;
   onLeave?: (id?: string, direction?: string) => void;
   onNotifyClick?: () => void;
@@ -63,6 +64,7 @@ interface ShortItemProps {
 export default function ShortItem({
   type = "SHORT",
   data,
+  fillerContent,
   onView,
   onLeave,
   onNotifyClick,
@@ -203,7 +205,7 @@ export default function ShortItem({
           </div>
         </>
       )}
-      {/* TODO: Filler */}
+      {type === "FILLER" && fillerContent}
       {type === "END" && (
         <>
           <div className={styles.ShortItem__End__Content}>
