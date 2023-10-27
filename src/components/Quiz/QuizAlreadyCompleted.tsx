@@ -7,7 +7,7 @@ import QuizLayout from "./QuizLayout";
 const DEFAULT_ILLUSTRATION_URL = quizStartIllustrationUrl.src;
 const DEFAULT_TITLE = "money_guru_quiz_completed_title";
 const DEFAULT_DESCRIPTION = "money_guru_quiz_completed_description";
-const DEFAULT_BACK_CTA_LABEL = "start_quiz";
+const DEFAULT_BACK_CTA_LABEL = "go_back";
 
 interface QuizAlreadyCompletedProps {
   illustrationUrl?: string;
@@ -49,7 +49,7 @@ export default function QuizAlreadyCompleted({
         illustration={
           <img
             src={illustrationUrl}
-            alt="Money Guru Quiz Start"
+            alt="Money Guru Quiz Completed"
             style={{
               maxWidth: "18rem",
               maxHeight: "20rem",
