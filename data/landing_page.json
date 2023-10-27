@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "buying-home-vs-renting",
+      "how-to-control-overspending",
       "how-upi-works",
       "importance-of-life-insurance",
       "importance-of-credit-score",
-      "what-is-budgeting",
-      "what-is-ifsc-code",
-      "how-upi-works"
+      "what-is-budgeting"
     ],
     "autoPlayDurationInMs": 600000
   },
