@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/buying-home-vs-renting.png
+mediaUrl: /assets/images/shorts/buying-home-vs-renting.jpg
 tag: Economics
 ---
 

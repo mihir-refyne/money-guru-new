@@ -1,6 +1,6 @@
 ---
 mediaType: image
-mediaUrl: /assets/images/shorts/how-to-control-overspending.png
+mediaUrl: /assets/images/shorts/how-to-control-overspending.jpg
 tag: Savings
 ---
 
