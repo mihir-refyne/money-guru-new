@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-credit-score",
       "how-to-control-overspending",
       "buying-home-vs-renting",
       "how-upi-works",
       "importance-of-life-insurance",
-      "importance-of-credit-score",
       "what-is-budgeting"
     ],
     "autoPlayDurationInMs": 600000
