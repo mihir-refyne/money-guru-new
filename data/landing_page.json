@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "how-student-loans-work",
       "importance-of-credit-score",
       "how-to-control-overspending",
       "buying-home-vs-renting",
       "how-upi-works",
-      "importance-of-life-insurance",
-      "what-is-budgeting"
+      "importance-of-life-insurance"
     ],
     "autoPlayDurationInMs": 600000
   },
