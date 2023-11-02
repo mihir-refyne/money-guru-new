@@ -113,7 +113,7 @@
   },
   "componentsOrderConfig": [
     {
-      "order": ["R_SHORT_CAROUSEL", "FIN_TOOLS", "CAROUSEL_BANNERS"]
+      "order": ["R_SHORT_CAROUSEL", "IMAGE_BANNER", "FIN_TOOLS", "CAROUSEL_BANNERS"]
     }
   ],
   "imagesBannerConfig": {
