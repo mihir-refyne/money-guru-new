@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-jan-dhan-yojna",
       "importance-terms-for-insurance",
       "importance-of-credit-score",
       "how-student-loans-work",
       "how-to-control-overspending",
-      "buying-home-vs-renting",
       "how-upi-works"
     ],
     "autoPlayDurationInMs": 600000
