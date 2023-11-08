@@ -76,6 +76,13 @@
       "iconUrl": "/assets/images/retirement_cal_icon.svg",
       "backgroundColor": "#EBF5FF",
       "url": "https://financialcoachingv0-1.bubbleapps.io/retirement-calculator"
+    },
+    {
+      "name": "fin_quiz",
+      "title": "fin_quiz_tool_coming_soon",
+      "iconUrl": "/assets/images/question_bulb_icon.svg",
+      "backgroundColor": "#FCF2E3",
+      "url": "https://kahoot.it/"
     }
   ],
   "carouselBanner": {
