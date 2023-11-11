@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-personal-loans",
       "what-are-medical-loans",
       "important-terms-for-car-loans",
       "how-to-avoid-lifestyle-inflation",
       "important-tips-for-currency-exchange",
-      "what-are-personal-loans",
       "how-upi-works"
     ],
     "autoPlayDurationInMs": 600000
