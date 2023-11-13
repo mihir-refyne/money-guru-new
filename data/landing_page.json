@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "important-tips-for-currency-exchange",
       "how-to-avoid-lifestyle-inflation",
       "what-are-personal-loans",
       "what-are-medical-loans",
       "important-terms-for-car-loans",
-      "important-tips-for-currency-exchange",
       "how-upi-works"
     ],
     "autoPlayDurationInMs": 600000
