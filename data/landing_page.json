@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-credit-score",
       "what-are-personal-loans",
       "important-tips-for-currency-exchange",
       "how-to-avoid-lifestyle-inflation",
       "what-are-medical-loans",
-      "important-terms-for-car-loans",
-      "how-upi-works"
+      "important-terms-for-car-loans"
     ],
     "autoPlayDurationInMs": 600000
   },
