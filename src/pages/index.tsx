@@ -26,6 +26,7 @@ import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
 import useTranslation from "@/hooks/useTranslation";
 import Link from "next/link";
+import CreditScoreWidget from "@/components/CreditReport/CreditScoreWidget";
 
 interface HomePageProps {
   shorts: Array<{
@@ -53,6 +54,7 @@ enum DashboardComponent {
   FIN_TOOLS = "FIN_TOOLS",
   STICKY_BANNERS = "STICKY_BANNERS",
   CAROUSEL_BANNERS = "CAROUSEL_BANNERS",
+  CREDIT_SCORE_WIDGET = "CREDIT_SCORE_WIDGET",
 
   // Temp
   IMAGE_BANNER = "IMAGE_BANNER",
@@ -267,6 +269,15 @@ export default function HomePage({ shorts }: HomePageProps) {
     return applicableBanners[0] ?? null;
   }, []);
 
+  const isCreditScoreWidgetToBeShown = useMemo<boolean>(() => {
+    const releaseConfig = config.creditScoreWidgetConfig.releaseConfig;
+    return checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
+      employerId,
+      workerId,
+      userId,
+    });
+  }, []);
+
   const componentsOrder = useMemo<DashboardComponent[]>(() => {
     const componentsOrderConfig = config.componentsOrderConfig.find(
       (order: any) => {
@@ -437,6 +448,9 @@ export default function HomePage({ shorts }: HomePageProps) {
           </figure>
         </Link>
       </div>
+    ) : null,
+    CREDIT_SCORE_WIDGET: isCreditScoreWidgetToBeShown ? (
+      <CreditScoreWidget screen="DASHBOARD" />
     ) : null,
   };
 

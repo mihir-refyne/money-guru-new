@@ -36,7 +36,7 @@ interface CreditReportSummaryProps {
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   fetchedAt?: string;
   directAccess?: boolean;
-  banners?: Array<BannerProps>;
+  banners?: Array<BannerProps & { name: string }>;
   onMount?: (context: { rating?: string }) => void;
   onRatingTagClick?: (rating?: string) => void;
 }
@@ -71,6 +71,13 @@ export default function CreditReportSummary({
   }
   function handleSectionClick(routePath: string) {
     return () => onCtaClick(routePath);
+  }
+  function handleCarouselBannerClickSideEffect(name: string) {
+    return () => {
+      logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_DASHBOARD_BANNER_CLICKED, {
+        name,
+      });
+    };
   }
 
   useEffect(() => {
@@ -203,6 +210,7 @@ export default function CreditReportSummary({
                   banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
                 }
                 hasHorizontalMargin={banners.length > 1}
+                onClick={handleCarouselBannerClickSideEffect(banner.name)}
               />
             ))}
           </Carousel>

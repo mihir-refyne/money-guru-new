@@ -105,6 +105,12 @@ export interface CreditReportResponse {
   fetchedAt: string;
 }
 
+export interface CreditReportMetadataResponse {
+  fetchedAt: Date;
+  expiresAt: Date;
+  hasExpired: boolean;
+}
+
 export enum CreditReportFetchError {
   USER_IS_IN_VERIFICATION_PENDING = "USER_IS_IN_VERIFICATION_PENDING",
   USER_IS_NOT_KYC_VERIFIED = "USER_IS_NOT_KYC_VERIFIED",
@@ -150,6 +156,23 @@ async function fetchCreditReport(
   return creditReport.data;
 }
 
+async function fetchCreditReportMetadata(
+  idToken?: string
+): Promise<CreditReportMetadataResponse | null> {
+  if (!idToken) idToken = getValueFromMetadata("idToken");
+  if (!idToken) return null;
+  runFetchCreditReportPreCheckOrThrow();
+  const creditReportMetadata = await fetcher<CreditReportMetadataResponse>(
+    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-report/metadata`,
+    {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    }
+  );
+  return creditReportMetadata.data;
+}
+
 export function isCreditReportThereInSessionStorage(): boolean {
   return !!getFromSessionStorage(getSessionStorageKey());
 }
@@ -169,6 +192,19 @@ export async function getOrFetchCreditReport(
   if (!creditReport) return null;
   setInSessionStorage(getSessionStorageKey(), JSON.stringify(creditReport));
   return creditReport;
+}
+
+export async function fetchCreditReportMetadataAndReportIfActive(
+  idToken?: string
+): Promise<{
+  metadata: CreditReportMetadataResponse;
+  reportResponse: CreditReportResponse | null;
+} | null> {
+  const metadata = await fetchCreditReportMetadata(idToken);
+  if (!metadata) return null;
+  if (metadata.hasExpired) return { metadata, reportResponse: null };
+  const reportResponse = await getOrFetchCreditReport(idToken);
+  return { metadata, reportResponse };
 }
 
 export function isCreditScoreIncrementEffectShown(): boolean {

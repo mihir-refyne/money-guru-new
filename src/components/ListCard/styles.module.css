@@ -31,6 +31,11 @@
   gap: var(--spacing-2);
 }
 
-.ListCardItem__Content__Item > *:not(:last-child) {
+.ListCardItem.align-center,
+.ListCardItem__Content.align-center {
+  align-items: center;
+}
+
+.HasGap .ListCardItem__Content__Item>*:not(:last-child) {
   margin-bottom: var(--spacing-2);
 }

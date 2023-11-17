@@ -120,9 +120,22 @@
   },
   "componentsOrderConfig": [
     {
-      "order": ["R_SHORT_CAROUSEL", "IMAGE_BANNER", "FIN_TOOLS", "CAROUSEL_BANNERS"]
+      "order": [
+        "R_SHORT_CAROUSEL",
+        "CREDIT_SCORE_WIDGET",
+        "IMAGE_BANNER",
+        "FIN_TOOLS",
+        "CAROUSEL_BANNERS"
+      ]
     }
   ],
+  "creditScoreWidgetConfig": {
+    "releaseConfig": {
+      "fieldName": "userId",
+      "includes": true,
+      "values": ["USR20921176", "USR20055951"]
+    }
+  },
   "imagesBannerConfig": {
     "banners": [
       {
