@@ -36,6 +36,10 @@
   align-items: center;
 }
 
+/* TODO: Refactor this */
+.ListCardItem__Content__Item>*:not(:last-child) {
+  margin-bottom: var(--spacing-1);
+}
 .HasGap .ListCardItem__Content__Item>*:not(:last-child) {
   margin-bottom: var(--spacing-2);
 }
