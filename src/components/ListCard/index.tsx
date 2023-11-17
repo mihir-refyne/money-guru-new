@@ -87,7 +87,7 @@ function ListCardItem({
       >
         <div className={styles.ListCardItem__Content__Item}>
           {contentLeftTitle && (
-            <h5 className="text-medium">{contentLeftTitle}</h5>
+            <h5 className="text-medium text-body">{contentLeftTitle}</h5>
           )}
           {contentLeftDescription && (
             <p className="text-caption clr-text-secondary">

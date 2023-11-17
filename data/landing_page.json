@@ -133,7 +133,7 @@
     "releaseConfig": {
       "fieldName": "userId",
       "includes": true,
-      "values": ["USR20921176", "USR20055951"]
+      "values": ["USR20921176", "USR20055951", "USR20914950"]
     }
   },
   "imagesBannerConfig": {

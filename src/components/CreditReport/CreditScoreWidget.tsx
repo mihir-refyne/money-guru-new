@@ -93,12 +93,12 @@ export default function CreditScoreWidget({ screen }: CreditScoreWidgetProps) {
       items={[
         {
           leftIcon: (
-            <Image src={content.illustration} alt="Credit Score" width={32} />
+            <Image src={content.illustration} alt="Credit Score" width={48} />
           ),
           contentLeftTitle: content.title,
           contentLeftDescription: content.description,
           contentRightTitle: content.score?.toString(),
-          contentRightTitleClassName: "text-sub-title",
+          contentRightTitleClassName: "text-sub-title text-semibold",
           contentRightDescription: content.rating ? (
             <Tag type={content.tagType} compact>
               {content.rating}

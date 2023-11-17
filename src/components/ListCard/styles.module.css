@@ -20,8 +20,8 @@
 }
 
 .ListCardItem__Icon {
-  width: 3.2rem;
-  height: 3.2rem;
+  max-width: 4.8rem;
+  max-height: 4.8rem;
 }
 
 .ListCardItem__Content {
