@@ -7,6 +7,11 @@ import {
   setInSessionStorage,
 } from "../storage/browserstorage";
 import { isObjectEmpty } from "../utils";
+import getDate from "date-fns/getDate";
+import sub from "date-fns/sub";
+import setDate from "date-fns/setDate";
+import add from "date-fns/add";
+import isWithinInterval from "date-fns/isWithinInterval";
 
 export interface EpfDetailsSummary {
   currentBalance: number;
@@ -207,4 +212,31 @@ export function setEpfDetailsIncrementEffectShown() {
     USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
     Date.now().toString()
   );
+}
+
+function getEpfRefetchEligiblePeriod(onDate: Date): {
+  fromDate: Date;
+  toDate: Date;
+} {
+  const dayOfTheMonth = getDate(onDate);
+  if (dayOfTheMonth < 16) {
+    const fromDate = setDate(sub(onDate, { months: 1 }), 16);
+    const toDate = setDate(onDate, 15);
+    return { fromDate, toDate };
+  }
+  const fromDate = setDate(onDate, 16);
+  const toDate = setDate(add(onDate, { months: 1 }), 15);
+  return { fromDate, toDate };
+}
+
+export function isEligibleForRefetchOfEpfDetails(
+  onDate: Date,
+  lastFetchedAt: Date
+) {
+  const { fromDate, toDate } = getEpfRefetchEligiblePeriod(onDate);
+  const hasAlreadyFetchedInThePeriod = isWithinInterval(lastFetchedAt, {
+    start: fromDate,
+    end: toDate,
+  });
+  return !hasAlreadyFetchedInThePeriod;
 }

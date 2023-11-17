@@ -63,7 +63,7 @@
   "all_employers_label": "All Employers",
   "present_status_label": "Present",
   "epf_info_disclaimer": "The EPF data displayed here is for informational purposes only. Transaction amounts may vary from salary deductions. EPF contributions are subject to employer discretion. Verify information with official sources before making financial decisions.",
-  "invested_since_label": "Invested Since:",
+  "last_updated": "Last updated:",
   "retry_btn": "Retry",
   "fetch_pf_details_error": "We couldn’t fetch your PF details",
   "click_retry_instruction": "Please click on retry",
@@ -155,6 +155,9 @@
   "epfo_logged_in_elsewhere_title": "LoggedIn somewere else",
   "epfo_logged_in_elsewhere_description": "LoggedIn somewere else",
   "epfo_logged_in_elsewhere_cta": "Okay",
+  "epfo_refresh_cta": "Refresh",
+  "epfo_passbook_updated": "Your PF passbook has been updated",
+  "epfo_passbook_update_rule_info_msg": "PF passbook is updated every 16th of every month. You can update the PF passbook in 30 day cycle",
   "to_start_fin_course": "To start on the Financial course",
   "want_to_know_more_about_fin": "Want to know more about Finance in general?",
 

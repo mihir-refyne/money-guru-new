@@ -1,6 +1,7 @@
-import { Buildings } from "phosphor-react";
 import {
   EpfDetailsResponse,
+  EpfFetchIdentifier,
+  isEligibleForRefetchOfEpfDetails,
   isEpfDetailsIncrementEffectShown,
   setEpfDetailsIncrementEffectShown,
 } from "@/lib/epf";
@@ -18,14 +19,18 @@ import { useEffect, useState } from "react";
 import { useAutoIncrementNumber } from "@/hooks/useAutoIncrementNumber";
 import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
 import useTranslation from "@/hooks/useTranslation";
+import { ArrowsClockwise, Buildings } from "phosphor-react";
+import toast from "react-hot-toast";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
+const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
 
 interface EpfSummaryProps {
   epfDetails: EpfDetailsResponse;
   directlyAccessed: boolean;
   onMount?: () => void;
   onEstablishmentCardClick: (memberId: string) => void;
+  onRefetchClick?: (identifier: EpfFetchIdentifier, value?: string) => void;
 }
 
 export default function EpfSummary({
@@ -33,13 +38,21 @@ export default function EpfSummary({
   directlyAccessed,
   onMount,
   onEstablishmentCardClick,
+  onRefetchClick,
 }: EpfSummaryProps) {
   const { t } = useTranslation("common");
-  const { summary, establishments } = epfDetails;
+  const { summary, establishments, metadata = {} } = epfDetails;
 
   const [isEpfDetailsIncrementEffectAlreadyShown] = useState(
     isEpfDetailsIncrementEffectShown
   );
+  const [disabledRefetchClickCount, setDisabledRefetchClickCount] =
+    useState<number>(0);
+
+  const today = new Date();
+  const isRefetchPossible =
+    !!metadata.fetchedAt &&
+    isEligibleForRefetchOfEpfDetails(today, new Date(metadata.fetchedAt));
 
   useEffect(() => {
     onMount?.();
@@ -50,13 +63,53 @@ export default function EpfSummary({
     setEpfDetailsIncrementEffectShown();
   }, [isEpfDetailsIncrementEffectAlreadyShown]);
 
-  function getCardFooter(dateOfJoiningInEPF?: string) {
-    if (!dateOfJoiningInEPF) return null;
+  useEffect(() => {
+    if (
+      disabledRefetchClickCount < MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO
+    )
+      return;
+    toast(t("epfo_passbook_update_rule_info_msg"), {
+      id: "epfo_passbook_update_rule_info_msg",
+    });
+  }, [disabledRefetchClickCount]);
+
+  function handleRefetchClick() {
+    if (!isRefetchPossible) {
+      setDisabledRefetchClickCount((prev) => prev + 1);
+      return;
+    }
+    const identifier: EpfFetchIdentifier = metadata.uan ? "uan" : "mobileNo";
+    const value = metadata.uan ?? metadata.mobileNo;
+    onRefetchClick?.(identifier, value);
+  }
+
+  function getCardFooter(
+    lastFetchedAt: string | undefined,
+    refetchEnabled: boolean,
+    onRefetchClick?: VoidFunction
+  ) {
+    if (!lastFetchedAt) return null;
     return (
-      <p className="clr-text-secondary text-caption">
-        {t("invested_since_label")}{" "}
-        {format(new Date(dateOfJoiningInEPF), "dd MMM yyyy")}
-      </p>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <p className="clr-text-secondary text-caption">
+          {t("last_updated")} {format(new Date(lastFetchedAt), "dd MMM yy")}
+        </p>
+        <button
+          className={`${
+            refetchEnabled ? "clr-brand-default" : "clr-text-tertiary"
+          } text-medium flex-center`}
+          onClick={onRefetchClick}
+        >
+          <span className="mr-1">{t("epfo_refresh_cta")}</span>
+          <ArrowsClockwise />
+        </button>
+      </div>
     );
   }
 
@@ -92,7 +145,11 @@ export default function EpfSummary({
         backgroundColor="#061D4C"
         backgroundImageUrl={EpfSummaryCardBg.src}
         footerBackgroundColor="#EBF5FF"
-        footer={getCardFooter(summary.dateOfJoiningInEPF)}
+        footer={getCardFooter(
+          metadata.fetchedAt,
+          isRefetchPossible,
+          handleRefetchClick
+        )}
       >
         <div className="mb-4">
           <LabelValue

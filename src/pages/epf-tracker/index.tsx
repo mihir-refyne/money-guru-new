@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import EpfSummary from "@/components/EpfTracker/EpfSummary";
 import Redirect from "@/components/Redirect";
 import useFetcher from "@/hooks/useFetcher";
-import { getOrFetchEpfDetails } from "@/lib/epf";
+import { EpfFetchIdentifier, getOrFetchEpfDetails } from "@/lib/epf";
 import { isObjectEmpty } from "@/lib/utils";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
@@ -64,6 +64,21 @@ export default function EpfTrackerSummaryPage() {
     });
   }
 
+  function handleEpfRefetchClick(
+    identifier: EpfFetchIdentifier,
+    value?: string
+  ) {
+    logAnalyticsEvent(["mixpanel"], AnalyticEvent.EPF_REFETCH_BUTTON_CLICKED);
+    router.push({
+      pathname: "/epf-tracker/start",
+      query: {
+        identifier,
+        value,
+        autoSubmit: !!value,
+      },
+    });
+  }
+
   if (isLoading) return <EpfTrackerLoading />;
 
   if (error) {
@@ -95,6 +110,7 @@ export default function EpfTrackerSummaryPage() {
       directlyAccessed={directlyAccessed}
       onMount={handleOnMount}
       onEstablishmentCardClick={handleEstablishmentCardClick}
+      onRefetchClick={handleEpfRefetchClick}
     />
   );
 }

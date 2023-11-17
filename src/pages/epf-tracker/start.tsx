@@ -19,17 +19,20 @@ import EpfFetchErrorModalContentWrapper, {
   EpfFetchErrorModalContentProps,
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
 import { EpfTrackerServerErrorCodeToResponseModalMapPreOtp } from "@/components/EpfTracker/constants";
+import { isValueIsNumeric } from "@/lib/utils";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
   const identifierFromUrlQuery = router.query.identifier;
   const valueFromUrlQuery = router.query.value?.toString();
+  const autoSubmitUrlQuery = router.query.autoSubmit?.toString();
   const identifier = getEpfFetchIdentifierFromString(
     identifierFromUrlQuery?.toString()
   );
   const userMobileNo = getValueFromMetadata("mobileNo");
   const formInitialValue =
     valueFromUrlQuery ?? (identifier === "mobileNo" ? userMobileNo : undefined);
+  const autoSubmit = autoSubmitUrlQuery === "true";
 
   const [lastFetchedIdentifierValue, setLastFetchedIdentifierValue] = useState<
     string | null
@@ -41,6 +44,13 @@ export default function EpfTrackerStartPage() {
   );
 
   useEffect(() => {
+    if (
+      autoSubmit &&
+      valueFromUrlQuery &&
+      isValueIsNumeric(valueFromUrlQuery)
+    ) {
+      handleTriggerOtp(identifier, valueFromUrlQuery);
+    }
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.EPF_AUTH_SCREEN,
@@ -48,7 +58,7 @@ export default function EpfTrackerStartPage() {
         auth_method: identifier,
       }
     );
-  }, [identifier]);
+  }, [identifier, valueFromUrlQuery, autoSubmit]);
 
   useEffect(() => {
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
@@ -95,12 +105,16 @@ export default function EpfTrackerStartPage() {
     });
   }
 
+  function handleTriggerOtp(type: EpfFetchIdentifier, value: string) {
+    setLastFetchedIdentifierValue(value);
+    return mutate(type, value);
+  }
+
   function handleFormSubmit(type: EpfFetchIdentifier, value: string) {
     logEventInMixpanel(AnalyticEvent.EPF_AUTH_SCREEN_NEXT_CLICKED, {
       auth_method: type,
     });
-    setLastFetchedIdentifierValue(value);
-    return mutate(type, value);
+    handleTriggerOtp(type, value);
   }
 
   if (lastFetchedIdentifierValue && data?.requestId) {
@@ -113,7 +127,7 @@ export default function EpfTrackerStartPage() {
     }
     return (
       <Redirect
-        replace={false}
+        replace={autoSubmit}
         to="/epf-tracker/verify"
         query={Object.fromEntries(urlSearchQuery.entries())}
       />

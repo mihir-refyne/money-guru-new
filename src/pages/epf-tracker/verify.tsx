@@ -23,6 +23,9 @@ import EpfFetchErrorModalContentWrapper, {
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
 import Modal from "@/components/Modal";
 import { EpfTrackerServerErrorCodeToResponseModalMapPostOtp } from "@/components/EpfTracker/constants";
+import useTranslation from "@/hooks/useTranslation";
+
+const SHOW_SUCCESS_TOAST_AFTER_IN_MS = 500;
 
 function getOtpHintText(identifier: string, value: string): string | undefined {
   if (identifier === "uan")
@@ -32,6 +35,7 @@ function getOtpHintText(identifier: string, value: string): string | undefined {
 
 export default function EpfTrackerVerifyPage() {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const requestIdFromUrlQuery = router.query.requestId?.toString();
   const messageFromUrlQuery = router.query.message?.toString();
   const identifierFromUrlQuery = router.query.identifier?.toString();
@@ -131,6 +135,14 @@ export default function EpfTrackerVerifyPage() {
     };
   }
 
+  function handleSuccessRedirectSideEffect() {
+    setTimeout(() => {
+      toast.success(t("epfo_passbook_updated"), {
+        id: "EpfTrackerVerifyPage__success",
+      });
+    }, SHOW_SUCCESS_TOAST_AFTER_IN_MS);
+  }
+
   if (
     !requestIdFromUrlQuery ||
     !identifierFromUrlQuery ||
@@ -141,6 +153,7 @@ export default function EpfTrackerVerifyPage() {
 
   if (data) {
     clearEpfDetailsFromSessionStorage();
+    handleSuccessRedirectSideEffect();
     return <Redirect to="/epf-tracker" />;
   }
 

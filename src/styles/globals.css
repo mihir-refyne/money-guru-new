@@ -449,6 +449,10 @@ b {
   color: var(--clr-text-secondary);
 }
 
+.clr-text-tertiary {
+  color: var(--clr-text-tertiary);
+}
+
 .clr-grey-dark {
   color: var(--clr-grey-dark);
 }
