@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-imps",
       "how-emi-works",
       "importance-of-credit-score",
       "what-are-personal-loans",
       "important-tips-for-currency-exchange",
-      "how-to-avoid-lifestyle-inflation",
-      "what-are-medical-loans"
+      "how-to-avoid-lifestyle-inflation"
     ],
     "autoPlayDurationInMs": 600000
   },
