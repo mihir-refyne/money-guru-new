@@ -156,7 +156,7 @@ function getContent(
     const creditScoreRating = score.rating.replaceAll("_", " ").toLowerCase();
     return {
       illustration: creditScoreMeterIllustration,
-      title: t("credit_score"),
+      title: t("credit_score_widget_title"),
       description: t("check_score_details_here"),
       score: score.value,
       rating: creditScoreRating,
