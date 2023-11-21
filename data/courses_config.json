@@ -1,3 +1,46 @@
 {
-  "courses": []
+  "courses": [
+    {
+      "id": "budgeting_21_nov_23",
+      "items": [
+        {
+          "type": "short",
+          "content": {
+            "shortId": "what-is-budgeting"
+          }
+        },
+        {
+          "type": "short",
+          "content": {
+            "shortId": "how-to-start-budgeting"
+          }
+        },
+        {
+          "type": "short",
+          "content": {
+            "shortId": "how-to-create-budget"
+          }
+        },
+        {
+          "type": "short",
+          "content": {
+            "shortId": "strategies-for-budgeting"
+          }
+        },
+        {
+          "type": "short",
+          "content": {
+            "shortId": "how-to-monitor-your-budgets"
+          }
+        },
+        {
+          "type": "quiz",
+          "content": {
+            "quizId": "SRV10000752",
+            "surveyTriggerAction": "MONEY_GURU_COURSES_QUIZ_OPEN"
+          }
+        }
+      ]
+    }
+  ]
 }

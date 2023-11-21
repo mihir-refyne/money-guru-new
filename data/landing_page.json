@@ -82,32 +82,13 @@
     "autoPlayDurationInMs": 3000,
     "banners": [
       {
-        "name": "fin_coaching_naval",
-        "heading": "Need help with finances?",
-        "url": "https://fincoachv2.typedream.app/",
-        "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
-        "releaseConfig": {
-          "fieldName": "employerId",
-          "includes": false,
-          "values": ["EMR10000669", "EMR10000790", "EMR10000976"]
-        }
-      },
-      {
-        "name": "fin_coaching_naval_free",
-        "heading": "Need help with finances?",
-        "url": "https://fincoachv2.typedream.app/financial-coach-free",
-        "description": "Get financial advice from SEBI certified industry experts.",
-        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
-        "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
-        "releaseConfig": {
-          "fieldName": "employerId",
-          "includes": true,
-          "values": ["EMR10000669", "EMR10000790", "EMR10000976"]
-        }
+        "name": "financial_course_budgetting_budgeting_21_nov_23",
+        "heading": "financial_course_budgetting_banner_title",
+        "url": "/courses/budgeting_21_nov_23",
+        "description": "financial_course_budgetting_banner_description",
+        "rightImageUrl": "/assets/images/mongu_course_banner_illustration.svg",
+        "backgroundColor": "#EBF5FF",
+        "ctaLabel": "financial_course_budgetting_banner_cta"
       }
     ]
   },
@@ -116,8 +97,8 @@
       "order": [
         "R_SHORT_CAROUSEL",
         "CREDIT_SCORE_WIDGET",
-        "FIN_TOOLS",
-        "CAROUSEL_BANNERS"
+        "CAROUSEL_BANNERS",
+        "FIN_TOOLS"
       ]
     }
   ],
