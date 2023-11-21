@@ -3,10 +3,10 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "benefits-of-compound-interest",
+      "benefits-of-investment-diversification",
       "financial-news-recurring-deposit",
       "what-is-imps",
-      "how-emi-works",
-      "importance-of-credit-score",
       "what-are-personal-loans",
       "important-tips-for-currency-exchange"
     ],
