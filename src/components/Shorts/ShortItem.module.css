@@ -47,7 +47,7 @@
   line-height: 2.4rem;
   font-weight: 400;
   letter-spacing: 0;
-  color: var(--clr-text-secondary);
+  color: var(--clr-text-primary);
 }
 
 .ShortItem__Content ul,
