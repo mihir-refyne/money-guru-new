@@ -80,26 +80,11 @@
   ],
   "carouselBanner": {
     "autoPlayDurationInMs": 3000,
-    "banners": [
-      {
-        "name": "financial_course_budgetting_budgeting_21_nov_23",
-        "heading": "financial_course_budgetting_banner_title",
-        "url": "/courses/budgeting_21_nov_23",
-        "description": "financial_course_budgetting_banner_description",
-        "rightImageUrl": "/assets/images/mongu_course_banner_illustration.svg",
-        "backgroundColor": "#EBF5FF",
-        "ctaLabel": "financial_course_budgetting_banner_cta"
-      }
-    ]
+    "banners": []
   },
   "componentsOrderConfig": [
     {
-      "order": [
-        "R_SHORT_CAROUSEL",
-        "CREDIT_SCORE_WIDGET",
-        "CAROUSEL_BANNERS",
-        "FIN_TOOLS"
-      ]
+      "order": ["R_SHORT_CAROUSEL", "CREDIT_SCORE_WIDGET", "IMAGE_BANNER", "FIN_TOOLS"]
     }
   ],
   "creditScoreWidgetConfig": {
@@ -110,6 +95,12 @@
     }
   },
   "imagesBannerConfig": {
-    "banners": []
+    "banners": [
+      {
+        "name": "mongu_course_budgeting_22_nov_23",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/mongu_course_budgetting_banner.png",
+        "url": "/courses/budgeting_21_nov_23"
+      }
+    ]
   }
 }
