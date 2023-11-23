@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-personal-loans",
       "what-is-hsa",
       "benefits-of-compound-interest",
       "financial-news-recurring-deposit",
       "what-is-imps",
-      "what-are-personal-loans",
       "important-tips-for-currency-exchange"
     ],
     "autoPlayDurationInMs": 600000
