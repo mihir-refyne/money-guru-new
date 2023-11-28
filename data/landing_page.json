@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "importance-of-credit-score",
       "how-emi-works",
       "what-are-personal-loans",
       "what-is-imps",
       "what-is-hsa",
-      "benefits-of-compound-interest",
-      "financial-news-recurring-deposit"
+      "benefits-of-compound-interest"
     ],
     "autoPlayDurationInMs": 600000
   },
