@@ -192,6 +192,7 @@ function getShortItems(
           media: {
             type: short.metadata?.mediaType ?? ("image" as any),
             url: short.metadata?.mediaUrl ?? ("" as any),
+            fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
           },
           tag: short.metadata?.tag as any,
           content: (

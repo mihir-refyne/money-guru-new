@@ -5,6 +5,7 @@ import styles from "./ShortMedia.module.css";
 interface ShortMediaProps {
   type: "image" | "video";
   url: string;
+  fullHeight?: boolean;
   tag?: string;
   showOnlyThumbnailForVideo?: boolean;
   hideIfNotInView?: boolean;
@@ -15,6 +16,7 @@ interface ShortMediaProps {
 export default function ShortMedia({
   type,
   url,
+  fullHeight = false,
   tag,
   showOnlyThumbnailForVideo = false,
   hideIfNotInView,
@@ -23,7 +25,11 @@ export default function ShortMedia({
 }: ShortMediaProps) {
   if (type === "image") {
     return (
-      <figure className={styles.ShortMedia__Image__Wrapper}>
+      <figure
+        className={`${styles.ShortMedia__Image__Wrapper} ${
+          fullHeight ? styles.FullHeight : ""
+        }`}
+      >
         {tag && <span className={styles.ShortMedia__Tag}>{tag}</span>}
         <img
           src={url}
@@ -36,7 +42,11 @@ export default function ShortMedia({
   }
   if (type === "video") {
     return (
-      <div className={styles.ShortMedia__Image__Wrapper}>
+      <div
+        className={`${styles.ShortMedia__Image__Wrapper} ${
+          fullHeight ? styles.FullHeight : ""
+        }`}
+      >
         {tag && <span className={styles.ShortMedia__Tag}>{tag}</span>}
         <YoutubePlayer
           className={styles.ShortMedia__Image}

@@ -25,6 +25,12 @@
   padding-top: calc(9 / 16 * 100%);
 }
 
+.ShortMedia__Image__Wrapper.FullHeight {
+  border-radius: unset;
+  padding-top: 177.77%;
+  padding-top: calc(16 / 9 * 100%);
+  height: 100%;
+}
 .ShortMedia__Image {
   width: 100%;
   height: 100%;

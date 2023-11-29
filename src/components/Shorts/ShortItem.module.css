@@ -25,6 +25,10 @@
   overflow-x: hidden;
   padding: var(--spacing-4);
 }
+.ShortItem__Body.FullHeight {
+  padding: unset;
+  flex-grow: 1;
+}
 .ShortItem__Content {
   margin-top: var(--spacing-2);
 }

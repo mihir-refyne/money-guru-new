@@ -5,7 +5,7 @@ import {
   ThumbsDown,
   ThumbsUp,
 } from "phosphor-react";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, forwardRef, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
 import ShortMedia from "./ShortMedia";
 import styles from "./ShortItem.module.css";
@@ -32,6 +32,7 @@ export interface ShortData {
   media?: {
     type: "image";
     url: string;
+    fullHeight?: boolean;
   };
   tag?: string;
   content?: ReactNode;
@@ -181,29 +182,14 @@ export default function ShortItem({
       }`}
     >
       {type === "SHORT" && data && (
-        <>
-          <div className={styles.ShortItem__Body} ref={shareElementRef}>
-            {data.media && <ShortMedia {...data.media} tag={data.tag} />}
-            {data.content && (
-              <div className={styles.ShortItem__Content}>{data.content}</div>
-            )}
-          </div>
-          <div className={styles.ShortItem__Footer}>
-            <ShortItemReaction
-              reaction={reaction}
-              reactionCount={data.reaction}
-              onReactionClick={onReactionClick}
-            />
-            <button
-              className="btn flex-center"
-              disabled={shareInProgress || screenshotCaptureState.isLoading}
-              onClick={handleShareClick}
-            >
-              <span className="text-body text-medium mr-1">Share</span>
-              <ShareNetwork size={24} />
-            </button>
-          </div>
-        </>
+        <ShortItemContent
+          ref={shareElementRef}
+          data={data}
+          reaction={reaction}
+          onReactionClick={onReactionClick}
+          shareLoading={shareInProgress || screenshotCaptureState.isLoading}
+          onShareClick={handleShareClick}
+        />
       )}
       {type === "FILLER" && fillerContent}
       {type === "END" && (
@@ -223,6 +209,55 @@ export default function ShortItem({
     </SwipePrompt>
   );
 }
+
+const ShortItemContent = forwardRef<
+  HTMLDivElement,
+  {
+    data: ShortData;
+    reaction?: string;
+    onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
+    shareLoading: boolean;
+    onShareClick?: () => void;
+  }
+>(function ShortItemContent(props, ref) {
+  const { data, reaction, onReactionClick, shareLoading, onShareClick } = props;
+  const isMediaFullHeight = data.media?.fullHeight ?? false;
+  /*
+  - fullHeight media will take full height space
+  - content and fotter will be floating above them with transparent backgrounf
+  */
+  return (
+    <>
+      <div
+        className={`${styles.ShortItem__Body} ${
+          isMediaFullHeight ? styles.FullHeight : ""
+        }`}
+        ref={ref}
+      >
+        {data.media && <ShortMedia {...data.media} autoplay tag={data.tag} />}
+        {/* TODO: Check what to do with content */}
+        {!isMediaFullHeight && data.content && (
+          <div className={styles.ShortItem__Content}>{data.content}</div>
+        )}
+      </div>
+      <div className={styles.ShortItem__Footer}>
+        <ShortItemReaction
+          reaction={reaction}
+          reactionCount={data.reaction}
+          onReactionClick={onReactionClick}
+        />
+        <button
+          className="btn flex-center"
+          disabled={shareLoading}
+          onClick={onShareClick}
+        >
+          <span className="text-body text-medium mr-1">Share</span>
+          <ShareNetwork size={24} />
+        </button>
+      </div>
+    </>
+  );
+});
 
 function NotifyButton(props: { onClick?: () => void }) {
   const [isPressed, setIsPressed] = useState(false);
