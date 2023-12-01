@@ -1,5 +1,7 @@
 import type { CreditReportMetricRating } from "@/lib/credit-report";
 import type { TagType } from "../Tag";
+import sub from "date-fns/sub";
+import format from "date-fns/format";
 
 const CREDIT_REPORT_METRIC_RATING_TO_COLOR_MAP: Record<
   CreditReportMetricRating,
@@ -33,4 +35,16 @@ export function getTagTypeByCreditMetricRating(
   rating: CreditReportMetricRating
 ): TagType {
   return CREDIT_REPORT_METRIC_RATING_TO_TAG_TYPE[rating];
+}
+
+// INFO: Might need to change Chart project comes up
+const FETCH_ANALYSIS_FOR_LAST_N_MONTHS = 6;
+const DATE_FORMAT = "yyyy-MM";
+export function getCreditReportAnalysisPeriod(): { from: string; to: string } {
+  const today = new Date();
+  const fromDate = sub(today, { months: FETCH_ANALYSIS_FOR_LAST_N_MONTHS });
+  return {
+    from: format(fromDate, DATE_FORMAT),
+    to: format(today, DATE_FORMAT),
+  };
 }

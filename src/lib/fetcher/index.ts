@@ -1,5 +1,6 @@
 interface FetcherOption {
   method?: "GET" | "POST" | "PATCH" | "DELETE";
+  query?: Record<string, string>;
   payload?: Record<string, unknown>;
   headers?: Record<string, string>;
 }
@@ -18,8 +19,11 @@ export async function fetcher<T extends unknown>(
   url: string,
   options: FetcherOption = {}
 ): Promise<{ statusCode: number; headers: Record<string, unknown>; data: T }> {
-  const { method = "GET", payload, headers = {} } = options;
-  const res = await fetch(url, {
+  const { method = "GET", payload, headers = {}, query } = options;
+  const urlSearchParams = new URLSearchParams(query).toString();
+  const urlWithSearchParams =
+    urlSearchParams.length > 0 ? `${url}?${urlSearchParams}` : url;
+  const res = await fetch(urlWithSearchParams, {
     method,
     headers: Object.assign({}, headers, {
       "Content-Type": "application/json",

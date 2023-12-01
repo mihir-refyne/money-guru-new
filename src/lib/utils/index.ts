@@ -144,6 +144,16 @@ export function isObjectEmpty(
   );
 }
 
+export function getLastItemOfArray<T>(arr: T[]): T | null {
+  if (arr.length < 1) return null;
+  return arr[arr.length - 1] ?? null;
+}
+
+export function getFirstItemOfArray<T>(arr: T[]): T | null {
+  if (arr.length < 1) return null;
+  return arr[0] ?? null;
+}
+
 export function isValueIsNumeric(value: string): boolean {
   return !Number.isNaN(Number(value));
 }

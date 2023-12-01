@@ -9,55 +9,72 @@ import {
   CumulativeMetricsForCreditUsage,
   CumulativeMetricsForCreditMix,
   CumulativeMetricsForEnquiry,
-  isCreditScoreIncrementEffectShown,
+  CreditReportAnalysis,
 } from "@/lib/credit-report";
 import rupeeReloadIconUrl from "@/images/rupee_reload.svg";
 import walletIconUrl from "@/images/wallet.svg";
 import moneyBagIconUrl from "@/images/money_bag.svg";
 import cardWaitingIconUrl from "@/images/card_waiting.svg";
 import cardSearchIconUrl from "@/images/card_search.svg";
-import CreditScore from "./CreditScore";
 import Modal from "../Modal";
 import CreditReportMetricsExplainer, {
   CreditReportMetricsExplainerProps,
 } from "./CreditReportMetricsExplainer";
-import { getColorByCreditMetricRating } from "./helpers";
+import {
+  getColorByCreditMetricRating,
+  getTagTypeByCreditMetricRating,
+} from "./helpers";
 import CreditScoreExplainerData from "../../../data/credit_score_explainer.json";
-import { Question } from "phosphor-react";
+import { Info, Question } from "phosphor-react";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import useTranslation from "@/hooks/useTranslation";
-import Banner, { BannerProps } from "../Banner";
+import Card from "../Card";
+import Separator from "../Separator";
+import Tag from "../Tag";
 import Carousel from "../Carousel";
+import FeaturedShort from "../Shorts/FeaturedShort";
+import { marked } from "marked";
+import { getLastItemOfArray } from "@/lib/utils";
+import CreditScoreDifferenceText from "./CreditScoreDifferenceText";
 
-interface CreditReportSummaryProps {
-  creditReport: CreditReport | null;
-  error: Error | null;
+interface CreditReportSummaryDetailedProps {
+  creditReport: CreditReport;
+  creditReportAnalysis?: CreditReportAnalysis;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
-  fetchedAt?: string;
   directAccess?: boolean;
-  banners?: Array<BannerProps & { name: string }>;
   onMount?: (context: { rating?: string }) => void;
   onRatingTagClick?: (rating?: string) => void;
+  featuredShortCarouselAutoPlayDuration?: number;
+  shortsToBeFeatured: Array<{
+    id: string;
+    metadata: Record<string, unknown>;
+    content: string;
+  }>;
+  onFeaturedShortClick?: (id: string) => void;
 }
 
-export default function CreditReportSummary({
+export default function CreditReportSummaryDetailed({
   creditReport,
-  error,
+  creditReportAnalysis,
   onCtaClick,
-  fetchedAt,
   onMount,
   directAccess,
-  banners = [],
   onRatingTagClick,
-}: CreditReportSummaryProps) {
-  const { t, tWithoutTypeSafety } = useTranslation("common");
+  featuredShortCarouselAutoPlayDuration,
+  shortsToBeFeatured,
+  onFeaturedShortClick,
+}: CreditReportSummaryDetailedProps) {
+  const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
 
-  const hasCarouselBanners = banners.length > 0;
+  const scoreDetails = creditReport.scoreDetails?.[0];
+  const currentMonthScoreDifference =
+    getLastItemOfArray(creditReportAnalysis?.creditScoresAnalysis ?? [])
+      ?.differenceFromLastFetched ?? null;
 
   function handleExplainerOpen() {
-    onRatingTagClick?.(creditReport?.scoreDetails[0]?.rating);
+    onRatingTagClick?.(scoreDetails?.rating);
     setIsExplainerActive(true);
   }
   function handleExplainerClose(isCtaClick: boolean = false) {
@@ -72,16 +89,9 @@ export default function CreditReportSummary({
   function handleSectionClick(routePath: string) {
     return () => onCtaClick(routePath);
   }
-  function handleCarouselBannerClickSideEffect(name: string) {
-    return () => {
-      logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_DASHBOARD_BANNER_CLICKED, {
-        name,
-      });
-    };
-  }
 
   useEffect(() => {
-    onMount?.({ rating: creditReport?.scoreDetails[0]?.rating });
+    onMount?.({ rating: scoreDetails?.rating });
   }, []);
 
   function getPaymentHistoryListCardProps(
@@ -172,50 +182,75 @@ export default function CreditReportSummary({
     };
   }
 
-  const isCreditScoreIncrementAnimationShown =
-    isCreditScoreIncrementEffectShown();
-
   const refyneAppSupportPageUrl =
     (process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in/") +
     "#/?next=/contact";
   const refyneAppSupportPageRouteId = "support";
+
+  const hasFeaturedShorts = shortsToBeFeatured.length > 0;
+  if (!scoreDetails) return null;
+
+  const ScoreDetailsElem = (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+      }}
+    >
+      <div>
+        <h4 className="text-heading text-medium mb-2">{t("credit_score")}</h4>
+        <Tag
+          type={getTagTypeByCreditMetricRating(scoreDetails?.rating)}
+          rightIcon={<Info size={16} />}
+          onClick={handleExplainerOpen}
+        >
+          {scoreDetails?.rating}
+        </Tag>
+      </div>
+      <div>
+        <h2 className="text-title text-semi-bold">{scoreDetails.score}</h2>
+        <p className="text-caption clr-text-secondary">out of 900</p>
+      </div>
+    </div>
+  );
 
   return (
     <CreditReportLayout
       navbarText={t("credit_score")}
       dispatchPopEventOnBackClick={directAccess}
     >
-      <div className="mb-8">
-        <CreditScore
-          score={creditReport?.scoreDetails[0]}
-          error={error}
-          fetchedAt={fetchedAt}
-          autoIncrementEffect={!isCreditScoreIncrementAnimationShown}
-          onTagClick={handleExplainerOpen}
-          onCtaClick={onCtaClick}
-        />
+      <div className="mb-4">
+        <Card
+          backgroundColor="var(--clr-grey-light)"
+          footerBackgroundColor="#EBF5FF"
+          footer={
+            !currentMonthScoreDifference && (
+              <p className="text-center clr-text-secondary">
+                {t("track_score_trends_next_month")}
+              </p>
+            )
+          }
+        >
+          {/* TODO: Maybe find more elegent way to do this */}
+          {currentMonthScoreDifference ? (
+            <Separator
+              orientation="vertical"
+              separatorColor="var(--clr-grey-default)"
+              spacing={3}
+            >
+              {ScoreDetailsElem}
+              <div>
+                <CreditScoreDifferenceText className="text-caption">
+                  {currentMonthScoreDifference}
+                </CreditScoreDifferenceText>
+              </div>
+            </Separator>
+          ) : (
+            ScoreDetailsElem
+          )}
+        </Card>
       </div>
-      {hasCarouselBanners && (
-        <div className={`my-4 ${banners.length > 1 ? "px-0" : ""}`}>
-          <Carousel infiniteLoop centerMode centerSlidePercentage={90}>
-            {banners.map((banner, index) => (
-              <Banner
-                key={index}
-                {...banner}
-                heading={banner.heading && tWithoutTypeSafety(banner.heading)}
-                description={
-                  banner.description && tWithoutTypeSafety(banner.description)
-                }
-                ctaLabel={
-                  banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
-                }
-                hasHorizontalMargin={banners.length > 1}
-                onClick={handleCarouselBannerClickSideEffect(banner.name)}
-              />
-            ))}
-          </Carousel>
-        </div>
-      )}
       <h2 className="text-heading text-semibold mb-2">
         {t("credit_factors_label")}
       </h2>
@@ -281,6 +316,40 @@ export default function CreditReportSummary({
         <Question size={16} className="mr-1" />
         <span>{t("report_issue_btn")}</span>
       </button>
+
+      {hasFeaturedShorts && (
+        <>
+          <h2 className="text-heading text-semibold my-4">
+            {t("learn_more_credit_score")}
+          </h2>
+          <Carousel
+            autoPlay={!!featuredShortCarouselAutoPlayDuration}
+            infiniteLoop
+            interval={featuredShortCarouselAutoPlayDuration}
+            showIndicators={shortsToBeFeatured.length > 1}
+          >
+            {shortsToBeFeatured.map((shortItem) => {
+              return (
+                <div key={shortItem.id} className="mb-8">
+                  <FeaturedShort
+                    mediaType={(shortItem.metadata?.mediaType ?? "") as string}
+                    mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
+                    tag={(shortItem.metadata?.tag ?? "") as string}
+                    onClick={() => onFeaturedShortClick?.(shortItem.id)}
+                    ctaLabel={t("read_more")}
+                  >
+                    <article
+                      dangerouslySetInnerHTML={{
+                        __html: marked(shortItem.content),
+                      }}
+                    />
+                  </FeaturedShort>
+                </div>
+              );
+            })}
+          </Carousel>
+        </>
+      )}
 
       <Modal
         active={isExplainerActive}

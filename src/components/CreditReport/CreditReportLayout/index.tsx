@@ -17,7 +17,9 @@ const DEFAULT_CREDIT_REPORT_SHARE_PAYLOAD = {
 
 interface CreditReportLayoutProps {
   navbarText?: string;
+  transparentNavbar?: boolean;
   alignContentCenter?: boolean;
+  hasContentPadding?: boolean;
   children: ReactNode;
   footer?: ReactNode;
   hasShare?: boolean;
@@ -26,7 +28,9 @@ interface CreditReportLayoutProps {
 
 export default function CreditReportLayout({
   navbarText,
+  transparentNavbar,
   alignContentCenter,
+  hasContentPadding,
   children,
   footer,
   hasShare = true,
@@ -53,6 +57,8 @@ export default function CreditReportLayout({
   return (
     <PageLayout
       navbarText={navbarText ?? defaultNavbarText}
+      transparentNavbar={transparentNavbar}
+      hasContentPadding={hasContentPadding}
       alignContentCenter={alignContentCenter}
       hasLocaleChange={false}
       dispatchPopEventOnBackClick={dispatchPopEventOnBackClick}

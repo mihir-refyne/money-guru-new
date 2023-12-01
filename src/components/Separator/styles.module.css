@@ -33,6 +33,7 @@
 .Separator__vertical .Separator {
   padding-bottom: var(--separator-spacing);
   border-bottom: 1px solid var(--clr-text-secondary);
+  width: 100%;
 }
 
 .Separator:last-child {

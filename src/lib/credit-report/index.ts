@@ -88,6 +88,13 @@ export interface CumulativeMetricsForEnquiry {
   rating: CreditReportMetricRating;
 }
 
+interface CreditScoresAnalytics {
+  score: string;
+  rating: CreditReportMetricRating;
+  fetchedAt: string;
+  differenceFromLastFetched: number | null;
+}
+
 export interface CreditReport {
   scoreDetails: ScoreValues[];
   retailAccountsInfo: RetailAccountsInfo;
@@ -103,12 +110,21 @@ export interface CreditReport {
 export interface CreditReportResponse {
   report: CreditReport;
   fetchedAt: string;
+  expiresAt: string;
 }
 
 export interface CreditReportMetadataResponse {
   fetchedAt: Date;
   expiresAt: Date;
   hasExpired: boolean;
+}
+
+export interface CreditReportAnalysis {
+  creditScoresAnalysis: Array<CreditScoresAnalytics>;
+}
+
+export interface CreditReportWithAnalysis extends CreditReportResponse {
+  analysis?: CreditReportAnalysis;
 }
 
 export enum CreditReportFetchError {
@@ -173,6 +189,29 @@ async function fetchCreditReportMetadata(
   return creditReportMetadata.data;
 }
 
+async function fetchCreditReportAnalysis(
+  fromMonthYear: string,
+  toMonthYear: string,
+  idToken?: string
+): Promise<CreditReportAnalysis | null> {
+  if (!idToken) idToken = getValueFromMetadata("idToken");
+  if (!idToken) return null;
+  runFetchCreditReportPreCheckOrThrow();
+  const creditReportAnalysis = await fetcher<CreditReportAnalysis>(
+    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/analysis`,
+    {
+      query: {
+        fromMonthYear,
+        toMonthYear,
+      },
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    }
+  );
+  return creditReportAnalysis.data;
+}
+
 export function isCreditReportThereInSessionStorage(): boolean {
   return !!getFromSessionStorage(getSessionStorageKey());
 }
@@ -192,6 +231,42 @@ export async function getOrFetchCreditReport(
   if (!creditReport) return null;
   setInSessionStorage(getSessionStorageKey(), JSON.stringify(creditReport));
   return creditReport;
+}
+
+export async function getOrFetchCreditReportWithAnalysis(context: {
+  fromMonthYear: string;
+  toMonthYear: string;
+  idToken?: string;
+}): Promise<CreditReportWithAnalysis | null> {
+  const { fromMonthYear, toMonthYear, idToken } = context;
+  // INFO: We are using the same local storage key as the object is just extended
+  const creditReportRawFromStorage = getFromSessionStorage(
+    getSessionStorageKey()
+  );
+  try {
+    if (creditReportRawFromStorage) {
+      const cachedReport = JSON.parse(
+        creditReportRawFromStorage
+      ) as CreditReportWithAnalysis;
+      if (cachedReport.analysis) return cachedReport;
+    }
+  } catch (_) {}
+  const [creditReport, creditReportAnalysis] = await Promise.all([
+    fetchCreditReport(idToken),
+    fetchCreditReportAnalysis(fromMonthYear, toMonthYear, idToken).catch(
+      () => null
+    ),
+  ]);
+  if (!creditReport) return null;
+  const creditReportWithAnalysis: CreditReportWithAnalysis = {
+    ...creditReport,
+    analysis: creditReportAnalysis || undefined,
+  };
+  setInSessionStorage(
+    getSessionStorageKey(),
+    JSON.stringify(creditReportWithAnalysis)
+  );
+  return creditReportWithAnalysis;
 }
 
 export async function fetchCreditReportMetadataAndReportIfActive(

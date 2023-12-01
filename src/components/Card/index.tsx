@@ -6,6 +6,7 @@ interface CardProps {
   backgroundColor?: string;
   backgroundImageUrl?: string;
   backgroundSize?: string;
+  border?: string;
   footer?: ReactNode;
   footerBackgroundColor?: string;
 }
@@ -14,6 +15,7 @@ export default function Card({
   backgroundImageUrl,
   backgroundColor,
   backgroundSize,
+  border,
   children,
   footer,
   footerBackgroundColor,
@@ -36,6 +38,7 @@ export default function Card({
           backgroundPositionX: "right",
           backgroundRepeat: "no-repeat",
           backgroundSize: backgroundSize,
+          border,
         }}
       >
         {children}

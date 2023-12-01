@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
 import CreditReportLoading from "@/components/CreditReport/CreditReportLoading";
-import CreditReportSummary from "@/components/CreditReport/CreditReportSummary";
+import CreditReportSummaryShort from "@/components/CreditReport/CreditReportSummaryShort";
 import useFetcher from "@/hooks/useFetcher";
 import useSyntheticLoader from "@/hooks/useSyntheticLoader";
 import { logAnalyticsEvent } from "@/lib/analytics";
@@ -9,19 +9,27 @@ import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import {
-  getOrFetchCreditReport,
+  getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
 } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import creditReportConfig from "../../../data/credit_report_config.json";
+import creditReportConfig from "../../../../data/credit_report_config.json";
 import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
+import type { CreditReportTool } from "@/components/CreditReport/CreditReportToolsTile";
+import { getCreditReportAnalysisPeriod } from "@/components/CreditReport/helpers";
 
 export default function CreditReportSummaryPage() {
   const router = useRouter();
-  const { isLoading, data, error } = useFetcher(getOrFetchCreditReport);
+  const { isLoading, data, error } = useFetcher(() => {
+    const { from, to } = getCreditReportAnalysisPeriod();
+    return getOrFetchCreditReportWithAnalysis({
+      fromMonthYear: from,
+      toMonthYear: to,
+    });
+  });
   const { isLoading: syntheticLoader, setIsLoading } = useSyntheticLoader(
     false,
     3 * 1000
@@ -40,7 +48,22 @@ export default function CreditReportSummaryPage() {
         });
       }
     );
-  }, [creditReportConfig?.carouselBanner]);
+  }, [creditReportConfig?.carouselBanner, employerId, workerId]);
+
+  const creditReportTools = useMemo<Array<CreditReportTool>>(
+    () =>
+      creditReportConfig.tools.filter((tool: any) => {
+        const releaseConfigs = tool.releaseConfigs;
+        if (!Array.isArray(releaseConfigs)) return true;
+        return releaseConfigs.some((releaseConfig) =>
+          checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
+            employerId,
+            workerId,
+          })
+        );
+      }),
+    [creditReportConfig.tools, employerId, workerId]
+  );
 
   useEffect(() => {
     if (isCreditReportThereInSessionStorage()) return;
@@ -60,29 +83,18 @@ export default function CreditReportSummaryPage() {
   function handleRatingTagClick(rating?: string) {
     logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_RATING_TAG_CLICKED, {
       rating,
-      screen_name: router.pathname.split("/").pop(),
+      screen_name: "DASHBOARD",
     });
   }
 
   function handleCtaClickSideEffect(routePath: string) {
-    const isCreditReportFactorClicked = routePath.startsWith("/credit-report");
-    if (isCreditReportFactorClicked) {
-      const factorType = routePath.split("/").pop();
-      if (!factorType) return;
-      return logEventInMixpanel(
-        AnalyticEvent.CREDIT_SCORE_DASHBOARD_FACTORS_CLICKED,
-        {
-          factor_type: factorType,
-        }
-      );
-    }
-    if (routePath.endsWith("contact")) {
-      return logEventInMixpanel(
-        AnalyticEvent.CREDIT_SCORE_DASHBOARD_REPORT_ISSUE_CLICKED
-      );
-    }
+    const isCreditReportClicked = routePath.startsWith("/credit-report");
     // INFO: Please change this if we add more cta
-    const cta_type = routePath === "/shorts" ? "READ_R_SHORTS" : "COMPLETE_KYC";
+    const cta_type = isCreditReportClicked
+      ? "SEE_FULL_REPORT"
+      : routePath.startsWith("/shorts")
+      ? "READ_R_SHORTS"
+      : "COMPLETE_KYC";
     logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_DASHBOARD_CTA_CLICKED, {
       cta_type,
     });
@@ -108,15 +120,18 @@ export default function CreditReportSummaryPage() {
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
   return (
-    <CreditReportSummary
+    <CreditReportSummaryShort
       creditReport={data?.report ?? null}
+      creditReportAnalysis={data?.analysis ?? null}
       error={error}
       fetchedAt={data?.fetchedAt}
+      expiresAt={data?.expiresAt}
       onCtaClick={handleCtaClickRouting}
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}
       directAccess={directlyAccessed}
       banners={carouselBanners}
+      tools={creditReportTools}
     />
   );
 }

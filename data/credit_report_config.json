@@ -1,3 +1,21 @@
 {
-  "carouselBanner": {}
+  "carouselBanner": {},
+  "tools": [
+    {
+      "name": "homeloan_emi_calculator",
+      "title": "credit_report_tool_emi_calc_title",
+      "description": "credit_report_tool_emi_calc_desc",
+      "iconUrl": "/assets/images/credit_tool_emi_calculator_icon.svg",
+      "backgroundColor": "#EBF5FF",
+      "url": "https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
+    }
+  ],
+  "featuredShort": {
+    "shortsToBeFeatured": [
+      "importance-of-credit-score",
+      "credit-card-tips-tricks",
+      "credit-card-management"
+    ],
+    "autoPlayDurationInMs": 600000
+  }
 }
