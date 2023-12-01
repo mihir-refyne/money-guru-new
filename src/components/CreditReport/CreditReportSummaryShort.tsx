@@ -54,7 +54,7 @@ export default function CreditReportSummaryShort({
 
   const currentMonthScoreDifference =
     getLastItemOfArray(creditReportAnalysis?.creditScoresAnalysis ?? [])
-      ?.differenceFromLastFetched ?? null;
+      ?.differenceFromLastFetchedScore ?? null;
 
   const hasCarouselBanners = banners.length > 0;
   const hasAnyTools = tools.length > 0;

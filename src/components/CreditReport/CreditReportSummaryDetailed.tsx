@@ -71,7 +71,7 @@ export default function CreditReportSummaryDetailed({
   const scoreDetails = creditReport.scoreDetails?.[0];
   const currentMonthScoreDifference =
     getLastItemOfArray(creditReportAnalysis?.creditScoresAnalysis ?? [])
-      ?.differenceFromLastFetched ?? null;
+      ?.differenceFromLastFetchedScore ?? null;
 
   function handleExplainerOpen() {
     onRatingTagClick?.(scoreDetails?.rating);

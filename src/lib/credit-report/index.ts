@@ -92,7 +92,7 @@ interface CreditScoresAnalytics {
   score: string;
   rating: CreditReportMetricRating;
   fetchedAt: string;
-  differenceFromLastFetched: number | null;
+  differenceFromLastFetchedScore: number | null;
 }
 
 export interface CreditReport {
