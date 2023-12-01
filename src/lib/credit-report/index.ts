@@ -251,13 +251,13 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
       if (cachedReport.analysis) return cachedReport;
     }
   } catch (_) {}
-  const [creditReport, creditReportAnalysis] = await Promise.all([
-    fetchCreditReport(idToken),
-    fetchCreditReportAnalysis(fromMonthYear, toMonthYear, idToken).catch(
-      () => null
-    ),
-  ]);
+  const creditReport = await fetchCreditReport(idToken);
   if (!creditReport) return null;
+  const creditReportAnalysis = await fetchCreditReportAnalysis(
+    fromMonthYear,
+    toMonthYear,
+    idToken
+  ).catch(() => null);
   const creditReportWithAnalysis: CreditReportWithAnalysis = {
     ...creditReport,
     analysis: creditReportAnalysis || undefined,
