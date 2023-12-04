@@ -98,9 +98,9 @@
   "imagesBannerConfig": {
     "banners": [
       {
-        "name": "mongu_course_budgeting_22_nov_23",
-        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/mongu_course_budgetting_banner.png",
-        "url": "/courses/budgeting_21_nov_23"
+        "name": "fin_quiz_loans_4_dec_23",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/fin_quiz_4dec_loans.png",
+        "url": "/quiz?id=fin_quiz_loans_4_dec_23&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK"
       }
     ]
   }
