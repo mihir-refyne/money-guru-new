@@ -3,13 +3,13 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "credit-card-vs-personal-loan",
       "what-is-debt-consolidation",
       "what-are-personal-loans",
       "what-are-ballon-payments-in-loans",
       "what-are-interest-only-loans",
       "loan-approval-process",
-      "importance-of-credit-score",
-      "how-emi-works"
+      "importance-of-credit-score"
     ],
     "autoPlayDurationInMs": 600000
   },
