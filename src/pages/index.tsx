@@ -262,6 +262,7 @@ export default function HomePage({ shorts }: HomePageProps) {
       (banner: any) => {
         if (!banner.releaseConfig) return true;
         return checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
+          employerId,
           userId,
         });
       }

@@ -98,6 +98,16 @@
   "imagesBannerConfig": {
     "banners": [
       {
+        "name": "fin_quiz_raj_govt_6_dec_23",
+        "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/rajasthan_fin_quiz_filler_banner.png",
+        "url": "/quiz?id=fin_quiz_raj_govt_6_dec_23&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK",
+        "releaseConfig": {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": ["EMR10000001", "EMR10000905"]
+        }
+      },
+      {
         "name": "fin_quiz_loans_4_dec_23",
         "imageUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/fin_quiz_4dec_loans.png",
         "url": "/quiz?id=fin_quiz_loans_4_dec_23&trigger=MONEY_GURU_DASHBOARD_QUIZ_BANNER_CLICK"
