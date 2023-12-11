@@ -32,7 +32,14 @@
         {
           "fieldName": "employerId",
           "includes": false,
-          "values": ["EMR10000001", "EMR10000314", "EMR10000976", "EMR10000409", "EMR10000688"]
+          "values": [
+            "EMR10000001",
+            "EMR10000314",
+            "EMR10000976",
+            "EMR10000409",
+            "EMR10000688",
+            "EMR10001065"
+          ]
         }
       ]
     },
@@ -46,7 +53,13 @@
         {
           "fieldName": "employerId",
           "includes": true,
-          "values": ["EMR10000001", "EMR10000314", "EMR10000976", "EMR10000409", "EMR10000688"]
+          "values": [
+            "EMR10000001",
+            "EMR10000314",
+            "EMR10000976",
+            "EMR10000409",
+            "EMR10000688"
+          ]
         }
       ]
     },
