@@ -3,12 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-medical-loans",
       "credit-card-vs-personal-loan",
       "how-emi-works",
       "importance-of-credit-score",
       "loan-approval-process",
-      "what-are-medical-loans",
-      "what-are-personal-loans",
       "what-are-interest-only-loans"
     ],
     "autoPlayDurationInMs": 600000
