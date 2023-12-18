@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "loan-approval-process",
       "importance-of-credit-score",
       "buying-home-vs-renting",
       "what-is-ifsc-code",
       "credit-card-vs-personal-loan",
-      "how-emi-works",
-      "loan-approval-process"
+      "how-emi-works"
     ],
     "autoPlayDurationInMs": 600000
   },
