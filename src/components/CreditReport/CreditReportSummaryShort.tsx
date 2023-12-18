@@ -80,11 +80,12 @@ export default function CreditReportSummaryShort({
     onCtaClick(navigateTo);
   }
 
-  function handleCarouselBannerClickSideEffect(name: string) {
+  function handleCarouselBannerClickSideEffect(name: string, url?: string) {
     return () => {
       logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_DASHBOARD_BANNER_CLICKED, {
         name,
       });
+      if (url) onCtaClick(url);
     };
   }
 
@@ -135,7 +136,11 @@ export default function CreditReportSummaryShort({
                     banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)
                   }
                   hasHorizontalMargin={banners.length > 1}
-                  onClick={handleCarouselBannerClickSideEffect(banner.name)}
+                  url={undefined}
+                  onClick={handleCarouselBannerClickSideEffect(
+                    banner.name,
+                    banner.url
+                  )}
                 />
               ))}
             </Carousel>

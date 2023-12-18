@@ -4,11 +4,12 @@ import styles from "./styles.module.css";
 function getRootComponent(context: {
   hasUrl: boolean;
   hasOnCall: boolean;
+  hasButtonInside: boolean;
 }): "div" | "a" | "button" {
-  const { hasUrl, hasOnCall } = context;
+  const { hasUrl, hasOnCall, hasButtonInside } = context;
   if (hasUrl && hasOnCall) return "a";
   if (hasUrl) return "a";
-  if (hasOnCall) return "button";
+  if (hasOnCall && !hasButtonInside) return "button";
   return "div";
 }
 
@@ -51,6 +52,7 @@ export default function Banner({
   const RootComponent = getRootComponent({
     hasUrl: !!url,
     hasOnCall: !!onClick,
+    hasButtonInside: !!ctaLabel,
   });
   return (
     <RootComponent
@@ -62,6 +64,7 @@ export default function Banner({
       href={url}
       onClick={onClick}
       disabled={ctaDisabled}
+      role="button"
     >
       <div>
         {heading && (
