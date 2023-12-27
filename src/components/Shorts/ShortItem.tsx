@@ -57,6 +57,7 @@ interface ShortItemProps {
   onView?: (id?: string) => void;
   onLeave?: (id?: string, direction?: string) => void;
   onNotifyClick?: () => void;
+  reactionElementId?: string;
   reaction?: string;
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
   onShareClick?: (id?: string) => void;
@@ -69,6 +70,7 @@ export default function ShortItem({
   onView,
   onLeave,
   onNotifyClick,
+  reactionElementId,
   reaction,
   onReactionClick,
   onShareClick,
@@ -186,6 +188,7 @@ export default function ShortItem({
           ref={shareElementRef}
           data={data}
           reaction={reaction}
+          reactionElementId={reactionElementId}
           onReactionClick={onReactionClick}
           shareLoading={shareInProgress || screenshotCaptureState.isLoading}
           onShareClick={handleShareClick}
@@ -215,12 +218,20 @@ const ShortItemContent = forwardRef<
   {
     data: ShortData;
     reaction?: string;
+    reactionElementId?: string;
     onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
     shareLoading: boolean;
     onShareClick?: () => void;
   }
 >(function ShortItemContent(props, ref) {
-  const { data, reaction, onReactionClick, shareLoading, onShareClick } = props;
+  const {
+    data,
+    reaction,
+    reactionElementId,
+    onReactionClick,
+    shareLoading,
+    onShareClick,
+  } = props;
   const isMediaFullHeight = data.media?.fullHeight ?? false;
   /*
   - fullHeight media will take full height space
@@ -242,6 +253,7 @@ const ShortItemContent = forwardRef<
       </div>
       <div className={styles.ShortItem__Footer}>
         <ShortItemReaction
+          id={reactionElementId}
           reaction={reaction}
           reactionCount={data.reaction}
           onReactionClick={onReactionClick}
@@ -281,11 +293,12 @@ function NotifyButton(props: { onClick?: () => void }) {
 }
 
 function ShortItemReaction(props: {
+  id?: string;
   reaction?: string;
   reactionCount?: { liked: number };
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
 }) {
-  const { reaction, reactionCount, onReactionClick } = props;
+  const { id, reaction, reactionCount, onReactionClick } = props;
 
   const isLiked = reaction === "LIKED";
   const isDisliked = reaction === "DISLIKED";
@@ -303,6 +316,7 @@ function ShortItemReaction(props: {
 
   return (
     <div
+      id={id}
       style={{
         display: "flex",
         alignItems: "center",

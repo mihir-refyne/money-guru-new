@@ -12,6 +12,8 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isQuizEitherCompletedOrSkipped } from "@/lib/quiz";
 import useMutation from "@/hooks/useMutation";
 import { postUserAction } from "@/lib/core/user";
+import constructElementId from "@/lib/utils/constructElementId";
+import { ScreenName } from "@/constants/ScreenName";
 
 export interface ShortsPageProps {
   shorts: Array<{
@@ -124,6 +126,10 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
         }))}
         onSwipeUp={handleSwipeUp}
         hasEnd
+        reactionElementId={constructElementId({
+          screenName: ScreenName.MONGU_R_SHORTS,
+          elementName: "REACTION",
+        })}
       />
     </PageLayout>
   );

@@ -29,6 +29,7 @@ export default function ListCard({
 }
 
 export interface ListCardItemProps {
+  id?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   contentLeftTitle?: string;
@@ -43,6 +44,7 @@ export interface ListCardItemProps {
 }
 
 function ListCardItem({
+  id,
   leftIcon,
   rightIcon,
   contentLeftTitle,
@@ -75,6 +77,7 @@ function ListCardItem({
   const alignClassName = styles[`align-${alignItems}`];
   return (
     <div
+      id={id}
       className={`${styles.ListCardItem} ${alignClassName}`}
       role={isClickable ? "button" : undefined}
       onClick={onClick}

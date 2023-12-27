@@ -21,6 +21,8 @@ import CreditScoreDifferenceText, {
   getFooterBackgroundColorByScoreDifference,
 } from "./CreditScoreDifferenceText";
 import differenceInDays from "date-fns/differenceInDays";
+import constructElementId from "@/lib/utils/constructElementId";
+import { ScreenName } from "@/constants/ScreenName";
 
 interface CreditScoreProps {
   score?: ScoreValues;
@@ -195,7 +197,14 @@ function BelowScoreCta(props: {
   return (
     <div>
       <p className="text-medium text-center mb-3">{t(text)}</p>
-      <button className="btn btn-block btn-primary" onClick={handleCtaClick}>
+      <button
+        id={constructElementId({
+          screenName: ScreenName.MONGU_CREDIT_REPORT_DASHBOARD,
+          elementName: "HERO_CTA",
+        })}
+        className="btn btn-block btn-primary"
+        onClick={handleCtaClick}
+      >
         {t(ctaLabel)}
       </button>
     </div>
@@ -296,7 +305,13 @@ function CreditScoreMeterWrapper({
       }
       {...creditScoreHeroFooterProps}
     >
-      <div className="flex-center">
+      <div
+        className="flex-center"
+        id={constructElementId({
+          screenName: ScreenName.MONGU_CREDIT_REPORT_DASHBOARD,
+          elementName: "CREDIT_SCORE_METER",
+        })}
+      >
         <CreditScoreMeter
           value={scoreToBeDisplayed}
           min={300}

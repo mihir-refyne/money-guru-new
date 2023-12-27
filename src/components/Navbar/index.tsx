@@ -77,6 +77,7 @@ export default function Navbar({
         </div>
         {hasLocaleChange && (
           <button
+            id="LOCALE_CHANGE"
             className={`${styles.NavbarContent__RightButton} btn-only-icon`}
             onClick={onLocaleChangeClick}
           >
@@ -85,6 +86,7 @@ export default function Navbar({
         )}
         {hasShare && (
           <button
+            id="NAVBAR_SHARE_BUTTON"
             className={`${styles.NavbarContent__RightButton} btn-only-icon`}
             onClick={onShareClick}
           >

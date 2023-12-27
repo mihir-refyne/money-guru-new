@@ -21,6 +21,8 @@ import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
 import useTranslation from "@/hooks/useTranslation";
 import { ArrowsClockwise, Buildings } from "phosphor-react";
 import toast from "react-hot-toast";
+import constructElementId from "@/lib/utils/constructElementId";
+import { ScreenName } from "@/constants/ScreenName";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
@@ -101,6 +103,10 @@ export default function EpfSummary({
           {t("last_updated")} {format(new Date(lastFetchedAt), "dd MMM yy")}
         </p>
         <button
+          id={constructElementId({
+            screenName: ScreenName.MONGU_PF_TRACKER_SUMMARY,
+            elementName: "REFRESH_CTA",
+          })}
           className={`${
             refetchEnabled ? "clr-brand-default" : "clr-text-tertiary"
           } text-medium flex-center`}

@@ -33,7 +33,7 @@ export default function LocaleUpdateOptions({
         }}
       />
       <h2 className="text-heading mb-6">{t("change_your_language")}</h2>
-      <div className="mb-6">
+      <div className="mb-6" id="LOCALE_OPTIONS">
         <RadioButtonGroup
           items={localeOptions}
           name="locale-selector"

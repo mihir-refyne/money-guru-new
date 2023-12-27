@@ -1,5 +1,6 @@
 import mixpanel from "mixpanel-browser";
 import { isUserId } from "../utils";
+import { logEventInPlotline } from "./plotline";
 
 const globalProperties = new Map<string, unknown>();
 export function setMixpanelGlobalProperties(key: string, value: unknown) {
@@ -20,10 +21,11 @@ export function initializeMixpanel() {
 export function logEventInMixpanel(eventName: string, eventData?: object) {
   // INFO: Drop Event log if user id is not set
   if (!isUserId(mixpanel?.get_distinct_id())) return;
-  mixpanel?.track(
-    eventName,
-    Object.assign({}, Object.fromEntries(globalProperties), eventData)
-  );
+  const updatedProperties = { ...globalProperties, ...eventData };
+  mixpanel?.track(eventName, updatedProperties);
+
+  // INFO: TEMP to flow all mixpanel events to plotline
+  logEventInPlotline(eventName, updatedProperties);
 }
 
 export async function logEventInMixpanelPromise(

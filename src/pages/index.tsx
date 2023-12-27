@@ -5,6 +5,7 @@ import { hasWatchedIntroduction } from "@/lib/core";
 import PageLayout from "@/components/PageLayout";
 import rightArrowIconUrl from "@/images/right-arrow.svg";
 import Image from "next/image";
+import Link from "next/link";
 import config from "../../data/landing_page.json";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { GetStaticProps } from "next";
@@ -25,8 +26,9 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
 import useTranslation from "@/hooks/useTranslation";
-import Link from "next/link";
 import CreditScoreWidget from "@/components/CreditReport/CreditScoreWidget";
+import constructElementId from "@/lib/utils/constructElementId";
+import { ScreenName } from "@/constants/ScreenName";
 
 interface HomePageProps {
   shorts: Array<{
@@ -382,6 +384,11 @@ export default function HomePage({ shorts }: HomePageProps) {
           {finLiteracyTools.map((tool, index) => (
             <div
               key={index}
+              id={constructElementId({
+                screenName: ScreenName.MONGU_DASHBOARD,
+                elementName: "FIN_TOOLS",
+                elementId: tool.name,
+              })}
               style={{
                 backgroundColor: tool.backgroundColor,
                 borderRadius: "0.8rem",
@@ -465,9 +472,14 @@ export default function HomePage({ shorts }: HomePageProps) {
       {componentsOrder.map((componentName, index) => {
         const Elem = COMPONENTS_NAME_TO_ELEMENT_MAP[componentName];
         if (Elem === null) return null;
+        const elementId = constructElementId({
+          screenName: ScreenName.MONGU_DASHBOARD,
+          elementName: componentName,
+        });
         return (
           <div
             key={componentName + index}
+            id={elementId}
             className="dashboard-contents-container"
           >
             {Elem}

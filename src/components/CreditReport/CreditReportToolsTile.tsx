@@ -1,5 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import ListCard from "../ListCard";
+import { ScreenName } from "@/constants/ScreenName";
+import constructElementId from "@/lib/utils/constructElementId";
 
 export interface CreditReportTool {
   name: string;
@@ -30,6 +32,11 @@ export default function CreditReportToolsTile({
       {tools.map((tool) => {
         const title = tWithoutTypeSafety(tool.title);
         const description = tWithoutTypeSafety(tool.description);
+        const elementHtmlId = constructElementId({
+          screenName: ScreenName.MONGU_CREDIT_REPORT_DASHBOARD,
+          elementName: "TOOLS_TILE",
+          elementId: tool.name,
+        });
         return (
           <ListCard
             key={tool.name}
@@ -37,6 +44,7 @@ export default function CreditReportToolsTile({
             background={tool.backgroundColor}
             items={[
               {
+                id: elementHtmlId,
                 leftIcon: (
                   <img
                     src={tool.iconUrl}

@@ -1,7 +1,8 @@
 import { logEventInMixpanel } from "./mixpanel";
+import { logEventInPlotline } from "./plotline";
 import { logEventInWebengage } from "./webengage";
 
-type AnalyticsService = "mixpanel" | "webengage";
+type AnalyticsService = "mixpanel" | "webengage" | "plotline";
 type LogEventHandler = (eventName: string, eventData?: object) => void;
 
 const AnalyticsServiceToLogEventHandlerMap: Record<
@@ -10,6 +11,7 @@ const AnalyticsServiceToLogEventHandlerMap: Record<
 > = {
   mixpanel: logEventInMixpanel,
   webengage: logEventInWebengage,
+  plotline: logEventInPlotline,
 };
 
 export function logAnalyticsEvent(

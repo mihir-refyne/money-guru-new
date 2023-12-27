@@ -27,6 +27,12 @@ import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
 import useScreenOrientation from "@/hooks/useScreenOrientation";
 import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
 import { Toaster } from "react-hot-toast";
+import PlotlineScript from "@/scripts/plotline";
+import {
+  initializePlotline,
+  setLocaleInPlotline,
+  setPlotlineGlobalProperties,
+} from "@/lib/analytics/plotline";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -73,18 +79,18 @@ export default function App({ Component, pageProps }: AppProps) {
     if (metadata?.id) {
       setUserIdInMixpanel(metadata.id);
       setUserIdInWebengage(metadata.id);
+      // For now initializing here, as plotline requires userId
+      initializePlotline(metadata.id);
     }
     if (metadata?.status) {
-      setMixpanelGlobalProperties("user_status", metadata.status);
-      setWebengageGlobalProperties("user_status", metadata.status);
-      setMixpanelGlobalProperties(
-        "platform",
-        getPlatformName(appPlatformName?.toString())
-      );
-      setWebengageGlobalProperties(
-        "platform",
-        getPlatformName(appPlatformName?.toString())
-      );
+      const userStatus = metadata.status;
+      const platform = getPlatformName(appPlatformName?.toString());
+      setMixpanelGlobalProperties("user_status", userStatus);
+      setWebengageGlobalProperties("user_status", userStatus);
+      setPlotlineGlobalProperties("user_status", userStatus);
+      setMixpanelGlobalProperties("platform", platform);
+      setWebengageGlobalProperties("platform", platform);
+      setPlotlineGlobalProperties("platform", platform);
     }
     router.replace(
       {
@@ -102,7 +108,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   function setViewportVariable() {
     const vh = window.innerHeight * 0.01;
-    console.log("Calculated vh ", vh);
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }
 
@@ -124,6 +129,9 @@ export default function App({ Component, pageProps }: AppProps) {
 
   // INFO: This will force user preferred locale in route path
   useEffect(() => {
+    if (router.locale) {
+      setLocaleInPlotline(router.locale);
+    }
     // TEMP HACK to not force on virtual-rewards-event pages
     if (router.pathname.includes("virtual-rewards-event")) return;
     const locale = getOrUpdatePreferredLocale({
@@ -152,6 +160,7 @@ export default function App({ Component, pageProps }: AppProps) {
       `}</style>
       <ResetFontBoostingScript />
       <WebengageScript />
+      <PlotlineScript />
       <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
       {isLoading && <LoadingPage />}
       {!isLoading && <Component {...pageProps} />}

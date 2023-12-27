@@ -9,6 +9,8 @@ import EpfTrackerFetchFooter from "./EpfTrackerFetchFooter";
 import epfHeroBlobImageUrl from "@/images/epf-hero-blob.png";
 import { isValueIsNumeric } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
+import constructElementId from "@/lib/utils/constructElementId";
+import { ScreenName } from "@/constants/ScreenName";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
   mobileNo: "enter_mobile_number_prompt",
@@ -129,6 +131,10 @@ export default function EpfDetailsFetchStart({
           rightLabel={
             onIdentifierChange && (
               <button
+                id={constructElementId({
+                  screenName: ScreenName.MONGU_PF_TRACKER_AUTH_START,
+                  elementName: "AUTH_IDENTIFIER_TOGGLE_BUTTON",
+                })}
                 type="button"
                 className="text-caption text-semibold clr-brand-default"
                 onClick={() => onIdentifierChange(nextIdentifier)}

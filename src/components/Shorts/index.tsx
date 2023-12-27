@@ -27,6 +27,7 @@ interface ShortsProps {
   onSwipeDown?: (id: string) => void;
   hasEnd?: boolean;
   eventMetadata?: Record<string, string>;
+  reactionElementId?: string;
 }
 
 export default function Shorts({
@@ -35,6 +36,7 @@ export default function Shorts({
   onSwipeDown,
   hasEnd = false,
   eventMetadata,
+  reactionElementId,
 }: ShortsProps) {
   const [shortsLocalReactionMap, _setLocalShortsReactionMap] =
     useState<ShortReactionMap>(getShortReactionMap);
@@ -98,7 +100,9 @@ export default function Shorts({
   return (
     <ShortsContainer>
       {items.map((short, index) => {
-        if (short.type === "SHORT")
+        if (short.type === "SHORT") {
+          const _reactionElementId =
+            reactionElementId && [reactionElementId, short.data.id].join("_");
           return (
             <ShortItem
               key={short.data.id}
@@ -106,12 +110,14 @@ export default function Shorts({
               onView={handleOnView}
               onLeave={handleViewLeft}
               reaction={shortsLocalReactionMap[short.data.id]}
+              reactionElementId={_reactionElementId}
               onReactionClick={(reaction) =>
                 handleReactionClick(short.data.id, reaction)
               }
               onShareClick={handleShareClickSideEffect}
             />
           );
+        }
         if (short.type === "FILLER")
           return (
             <ShortItem

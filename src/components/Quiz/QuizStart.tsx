@@ -49,6 +49,7 @@ export default function QuizStart({
       footer={
         <>
           <button
+            id="QUIZ_START_CTA"
             className="btn btn-primary btn-block"
             onClick={onStartClick}
             disabled={loading}
