@@ -276,5 +276,9 @@
   "mongu_rshort_visited_milestone": "Check out an Rshort to know more about personal finance",
   "mongu_rshort_visited_milestone_header": "Read an R - Short",
   "mongu_rshort_visited_milestone_desc": "Read an R-Short and earn a Refyne Marathon Badge",
-  "mongu_rshort_visited_milestone_cta": "Check out Now"
+  "mongu_rshort_visited_milestone_cta": "Check out Now",
+  "festive_page_visit_milestone": "festive_page_visit_milestone",
+  "festive_page_visit_bottomsheet_header": "festive_page_visit_bottomsheet_header",
+  "festive_page_visit_bottomsheet_desc": "festive_page_visit_bottomsheet_header",
+  "festive_page_visit_cta": "festive_page_visit_cta"
 }
