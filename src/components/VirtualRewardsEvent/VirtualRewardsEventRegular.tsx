@@ -46,7 +46,8 @@ interface VirtualRewardsEventRegularProps {
   stampCountDisplayPosition?: StampCountPosition;
   stampPodiumStages: Array<StampPodiumStageConfig>;
   stampPodiumStageHasBottomBorder?: boolean;
-  heroBackgroundRiveUrl: string;
+  heroBackgroundRiveUrl: string | null;
+  heroBackgroundImageUrl: string | null;
   heroElementHeight: string;
   heroElementTextColor?: string;
   heroFooterBackgroundColor: string;
@@ -95,6 +96,7 @@ export default function VirtualRewardsEventRegular({
   stampPodiumStages,
   stampPodiumStageHasBottomBorder,
   heroBackgroundRiveUrl,
+  heroBackgroundImageUrl,
   heroElementHeight,
   heroElementTextColor,
   heroFooterBackgroundColor,
@@ -211,11 +213,23 @@ export default function VirtualRewardsEventRegular({
           </Card>
         }
         background={
-          <RiveWrapper
-            src={heroBackgroundRiveUrl}
-            position="cover_center"
-            autoplay
-          />
+          heroBackgroundRiveUrl ? (
+            <RiveWrapper
+              src={heroBackgroundRiveUrl}
+              position="cover_center"
+              autoplay
+            />
+          ) : heroBackgroundImageUrl ? (
+            <img
+              src={heroBackgroundImageUrl}
+              alt="Refyne Festival Hype Hero Background"
+              height="100%"
+              width="100%"
+              style={{
+                objectFit: "cover",
+              }}
+            />
+          ) : undefined
         }
       >
         {/* <Image
@@ -268,29 +282,6 @@ export default function VirtualRewardsEventRegular({
           )}
         </div>
       </VirtualRewardsEventHero>
-      {banner && (
-        <div className="px-4 mb-4">
-          {banner.countdownForInSec !== undefined ? (
-            <BannerWithCountdownCta
-              {...banner}
-              heading={tWithoutTypeSafety(banner.heading ?? "")}
-              description={tWithoutTypeSafety(banner.description ?? "")}
-              ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
-              countdownForInSec={banner.countdownForInSec}
-              onMount={onBannerMount}
-              onCountdownExpiry={onBannerCountdownExpiry}
-            />
-          ) : (
-            <Banner
-              {...banner}
-              heading={tWithoutTypeSafety(banner.heading ?? "")}
-              description={tWithoutTypeSafety(banner.description ?? "")}
-              ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
-              onMount={onBannerMount}
-            />
-          )}
-        </div>
-      )}
       {allStampCollectionActionsCompleted ? (
         <div className="px-4 mb-4">
           <Card backgroundColor="var(--clr-grey-light)">
@@ -381,15 +372,38 @@ export default function VirtualRewardsEventRegular({
             }))}
           />
         </Card>
-        <button
+        {/* <button
           className="btn btn-text btn-inline flex-center"
           onClick={onFaqClick}
         >
           <span>{t("stamps_faq_hyperlink_text")}</span>
           <CaretDoubleRight size={16} />
-        </button>
+        </button> */}
       </div>
-      <div className="mt-4">
+      {banner && (
+        <div className="px-4 my-4">
+          {banner.countdownForInSec !== undefined ? (
+            <BannerWithCountdownCta
+              {...banner}
+              heading={tWithoutTypeSafety(banner.heading ?? "")}
+              description={tWithoutTypeSafety(banner.description ?? "")}
+              ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
+              countdownForInSec={banner.countdownForInSec}
+              onMount={onBannerMount}
+              onCountdownExpiry={onBannerCountdownExpiry}
+            />
+          ) : (
+            <Banner
+              {...banner}
+              heading={tWithoutTypeSafety(banner.heading ?? "")}
+              description={tWithoutTypeSafety(banner.description ?? "")}
+              ctaLabel={tWithoutTypeSafety(banner.ctaLabel ?? "")}
+              onMount={onBannerMount}
+            />
+          )}
+        </div>
+      )}
+      <div className="mt-3">
         <InfoCard transparentBackground>
           {t("stamps_disclaimer_footer_text")}
         </InfoCard>

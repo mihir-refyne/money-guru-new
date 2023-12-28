@@ -39,7 +39,10 @@ export default function StampInfoCard({
       <h4 className="text-heading text-medium text-center mt-6 mb-3">
         {title}
       </h4>
-      <p className="text-body clr-text-secondary text-center mb-8">
+      <p
+        className="text-body clr-text-secondary text-center mb-8"
+        style={{ whiteSpace: "pre-wrap" }}
+      >
         {description}
       </p>
       <button

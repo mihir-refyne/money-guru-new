@@ -767,6 +767,9 @@ export default function VirtualRewardsEventLandingPage({
         heroBackgroundRiveUrl={
           config.festiveDaysPageConfig.heroBackgroundRiveUrl
         }
+        heroBackgroundImageUrl={
+          config.festiveDaysPageConfig.heroBackgroundImageUrl
+        }
         heroElementHeight={config.festiveDaysPageConfig.heroBackgroundHeight}
         heroElementTextColor={config.festiveDaysPageConfig.heroElementTextColor}
         heroFooterBackgroundColor={
@@ -873,6 +876,9 @@ export default function VirtualRewardsEventLandingPage({
         stampPodiumStages={config.podiumStagesConfig.stages}
         heroBackgroundRiveUrl={
           config.festiveDaysPageConfig.heroBackgroundRiveUrl
+        }
+        heroBackgroundImageUrl={
+          config.festiveDaysPageConfig.heroBackgroundImageUrl
         }
         heroElementHeight={config.festiveDaysPageConfig.heroBackgroundHeight}
         heroElementTextColor={config.festiveDaysPageConfig.heroElementTextColor}

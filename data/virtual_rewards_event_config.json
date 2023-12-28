@@ -1,26 +1,22 @@
 {
   "faqUrl": "https://app.refyne.co.in/#/?next=%2Ffaq",
-  "faqVideoUrl": "https://www.youtube.com/watch?v=D4V6C-A73dY",
+  "faqVideoUrl": null,
   "rules": [
     {
       "iconUrl": "/assets/images/virtual-rewards-event/blue_tick_icon.svg",
       "text": "stamps_rule1"
     },
     {
-      "iconUrl": "/assets/images/virtual-rewards-event/announcement_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/giftbox_icon.svg",
       "text": "stamps_rule2"
     },
     {
-      "iconUrl": "/assets/images/virtual-rewards-event/giftbox_icon.svg",
+      "iconUrl": "/assets/images/virtual-rewards-event/announcement_icon.svg",
       "text": "stamps_rule3"
-    },
-    {
-      "iconUrl": "/assets/images/virtual-rewards-event/confetti_from_cone.svg",
-      "text": "stamps_rule4"
     }
   ],
   "socialProofTexts": ["stamps_landing_page_social_proof1"],
-  "festiveStartDate": "2023-12-14T03:00:00.000Z",
+  "festiveStartDate": "2023-12-28T03:00:00.000Z",
   "festiveEndDate": "2024-01-01T18:30:00.000Z",
   "hypeCreationPageConfig": {
     "heroElementTextColor": "#FFFFFF",
@@ -30,8 +26,9 @@
   },
   "festiveDaysPageConfig": {
     "heroElementTextColor": "#FFFFFF",
-    "heroBackgroundRiveUrl": "/assets/animations/virtual_rewards_event_hero_animation.riv",
-    "heroBackgroundHeight": "64rem",
+    "heroBackgroundRiveUrl": null,
+    "heroBackgroundImageUrl": "/assets/images/virtual-rewards-event/festive_hero_background.jpg",
+    "heroBackgroundHeight": "58rem",
     "heroFooterBackgroundColor": "#DCF5EF"
   },
   "finishedPageConfig": {
@@ -68,8 +65,8 @@
     }
   },
   "defaultSharePayload": {
-    "imageUrl": "/assets/images/virtual-rewards-event/virtual_rewards_event_default_share.png",
-    "text": "Hi! I am inviting you to the Refyne Marathon. Click on the link to participate in the marathon of financial wellness and stand a chance to win upto ₹20,001.",
+    "imageUrl": "",
+    "text": "Hi! I am inviting you to the Refyne New Year Party. Click on the link to participate in the marathon of financial wellness and stand a chance to win upto ₹20,024",
     "url": "https://refyne.page.link/festival"
   },
   "podiumStagesConfig": {
@@ -77,13 +74,9 @@
     "stages": [
       {
         "count": 3,
-        "borderRadius": "var(--spacing-4) var(--spacing-4) 0px 0px",
-        "backgroundColor": "#F8E2E2"
-      },
-      {
-        "count": 3,
-        "borderRadius": "0px 0px var(--spacing-4) var(--spacing-4)",
-        "backgroundColor": "#F8E2E2"
+        "borderRadius": "var(--spacing-4)",
+        "textColor": "#FFFFFF",
+        "backgroundColor": "#001747"
       }
     ]
   },
@@ -96,71 +89,44 @@
   "stampCountBorderColor": "#0057B7",
   "stampCountDisplayPosition": "top_left",
   "rewardIdToStampsConfigMap": {
-    "VIR_RWD10000046": {
-      "imageUrl": "/assets/images/virtual-rewards-event/master_investor_badge.svg",
-      "name": "Master Investor",
+    "VIR_RWD10000110": {
+      "imageUrl": "/assets/images/virtual-rewards-event/baloon_badge.svg",
+      "name": "Baloon",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/master_investor_badge.svg",
-        "title": "Who is a Master Investor?",
-        "description": "As a master investor, you have a good track record of making profitable investment decisions. Try out one of the tasks to see if you're a Master Investor!"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/baloon_badge.svg",
+        "title": "Baloon",
+        "description": "Did you know?\nRefyne is now present in 3000+  locations in India!"
       }
     },
-    "VIR_RWD10000047": {
-      "imageUrl": "/assets/images/virtual-rewards-event/budget_buddy_badge.svg",
-      "name": "Budget Buddy",
+    "VIR_RWD10000105": {
+      "imageUrl": "/assets/images/virtual-rewards-event/party_hat_badge.svg",
+      "name": "Party Hat",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/budget_buddy_badge.svg",
-        "title": "Who is a Budget Buddy?",
-        "description": "As a budget buddy, you are someone who helps your friends and family manage their budgets by making smart financial decisions. Try out one of the tasks to see if you're a Budget Buddy!"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/party_hat_badge.svg",
+        "title": "Party Hat",
+        "description": "Did you know?\n6 Million+ users have benefitted from Refyne till 2023"
       }
     },
-    "VIR_RWD10000053": {
-      "imageUrl": "/assets/images/virtual-rewards-event/money_magnet_badge.svg",
-      "name": "Money Magnet",
+    "VIR_RWD10000100": {
+      "imageUrl": "/assets/images/virtual-rewards-event/fireworks_badge.svg",
+      "name": "Fireworks",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/money_magnet_badge.svg",
-        "title": "Who is a Money Magnet?",
-        "description": "As a money magnet, you attract wealth and success with your ability to make high investment financial decisions. Try out one of the tasks to see if you're a Money Magnet!"
-      }
-    },
-    "VIR_RWD10000059": {
-      "imageUrl": "/assets/images/virtual-rewards-event/saving_ninja_badge.svg",
-      "name": "Saving Ninja",
-      "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/saving_ninja_badge.svg",
-        "title": "Who is a Saving Ninja?",
-        "description": "As a saving ninja, you have the discipline and skill to save money for the present and the future by avoiding unnecessary expenses. Try out one of the tasks to see if you're a Saving Ninja!"
-      }
-    },
-    "VIR_RWD10000061": {
-      "imageUrl": "/assets/images/virtual-rewards-event/wealth_wizard_badge.svg",
-      "name": "Wealth Wizard",
-      "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/wealth_wizard_badge.svg",
-        "title": "Who is a Wealth Wizard?",
-        "description": "As a wealth wizard, you are skilled at creating, managing and growing wealth. Try out one of the tasks to see if you're a Wealth Wizard!"
-      }
-    },
-    "VIR_RWD10000069": {
-      "imageUrl": "/assets/images/virtual-rewards-event/pro_planner_badge.svg",
-      "name": "Pro Planner",
-      "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/pro_planner_badge.svg",
-        "title": "Who is a Pro Planner?",
-        "description": "As a Pro Planner, you are an expert in financial planning, control your investments, savings, and have a smart approach towards meeting your financial goals. Try out one of the tasks to see if you're a Pro Planner!"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/fireworks_badge.svg",
+        "title": "Fireworks",
+        "description": "Did you know?\n400+ companies prefer Refyne as their trusted financial wellness partner for their employees!"
       }
     }
   },
   "requestBannerConfig": null,
   "referBannerConfig": {
-    "heading": "Want more Badges?",
+    "heading": "Ran out of actions?",
     "headingColor": "#15171A",
     "description": "Refer your coworkers on Refyne today and you might get a Badge!",
     "descriptionColor": "#696D70",
     "rightImageUrl": "/assets/images/virtual-rewards-event/ids_refer_banner_image.svg",
-    "backgroundColor": "#E4FAFD",
+    "backgroundColor": "#FFEFDA",
     "ctaLabel": "Refer Now",
     "ctaLabelColor": "#0057B7",
-    "ctaBackgroundColor": "#E4FAFD"
+    "ctaBackgroundColor": "#FFEFDA"
   }
 }
