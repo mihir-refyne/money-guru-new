@@ -121,6 +121,30 @@ export interface CreditReportMetadataResponse {
 
 export interface CreditReportAnalysis {
   creditScoresAnalysis: Array<CreditScoresAnalytics>;
+  metricsAnalysis: {
+    comparisionPeriod: {
+      fromDate: string | null;
+      tillDate: string;
+    } | null;
+    paymentHistory: {
+      onTimePayments: number;
+      totalPayments: number;
+      onTimePaymentPercentage: string;
+      differenceInLatePaymentsFromLastFetched: number | null;
+    } | null;
+    creditAccounts: {
+      totalAccounts: number;
+      differenceInNewAccountsAddedFromLastFetched: number | null;
+    } | null;
+    creditUsage: {
+      totalCreditUsageInPercent: string;
+      differenceInCreditUsageFromLastFetched: number | null;
+    } | null;
+    creditEnquiries: {
+      totalEnquiries: number;
+      differenceInCreditEnquiriesFromLastFetched: number | null;
+    } | null;
+  };
 }
 
 export interface CreditReportWithAnalysis extends CreditReportResponse {

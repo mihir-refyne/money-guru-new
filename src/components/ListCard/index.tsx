@@ -33,7 +33,7 @@ export interface ListCardItemProps {
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   contentLeftTitle?: string;
-  contentLeftDescription?: string;
+  contentLeftDescription?: string | ReactElement;
   contentRightTitle?: string;
   contentRightTitleClassName?: string;
   contentRightDescription?: string | ReactElement;

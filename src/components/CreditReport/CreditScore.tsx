@@ -281,6 +281,7 @@ function CreditScoreMeterWrapper({
     : null;
 
   const creditScoreHeroFooterProps: Partial<CreditScoreHeroProps> =
+    // TODO: Handle creditScoreDifference == 0 case if required
     isSyntheticScoreEqualsRealScore && creditScoreDifference
       ? {
           cardFooter: (

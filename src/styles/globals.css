@@ -162,6 +162,9 @@ b {
 .text-capitalize {
   text-transform: capitalize;
 }
+.text-uppercase {
+  text-transform: uppercase;
+}
 
 /* Layout */
 .container-wrapper {

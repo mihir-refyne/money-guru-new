@@ -21,11 +21,12 @@ import CreditReportMetricsExplainer, {
   CreditReportMetricsExplainerProps,
 } from "./CreditReportMetricsExplainer";
 import {
+  checkIfAnyFactorChanged,
   getColorByCreditMetricRating,
   getTagTypeByCreditMetricRating,
 } from "./helpers";
 import CreditScoreExplainerData from "../../../data/credit_score_explainer.json";
-import { Info, Question } from "phosphor-react";
+import { CaretDoubleRight, Info, Question } from "phosphor-react";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import useTranslation from "@/hooks/useTranslation";
@@ -37,6 +38,7 @@ import FeaturedShort from "../Shorts/FeaturedShort";
 import { marked } from "marked";
 import { getLastItemOfArray } from "@/lib/utils";
 import CreditScoreDifferenceText from "./CreditScoreDifferenceText";
+import CreditReportFactorChangeView from "./CreditReportFactorChangeView";
 
 interface CreditReportSummaryDetailedProps {
   creditReport: CreditReport;
@@ -67,11 +69,20 @@ export default function CreditReportSummaryDetailed({
 }: CreditReportSummaryDetailedProps) {
   const { t } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
+  const [
+    isFactorChangeDisplayModalActive,
+    setIsFactorChangeDisplayModalActive,
+  ] = useState<boolean>(false);
 
   const scoreDetails = creditReport.scoreDetails?.[0];
   const currentMonthScoreDifference =
     getLastItemOfArray(creditReportAnalysis?.creditScoresAnalysis ?? [])
       ?.differenceFromLastFetchedScore ?? null;
+
+  const hasPreviousReport = currentMonthScoreDifference !== null;
+  const hasAnyFactorChanged = checkIfAnyFactorChanged(
+    creditReportAnalysis?.metricsAnalysis
+  );
 
   function handleExplainerOpen() {
     onRatingTagClick?.(scoreDetails?.rating);
@@ -88,6 +99,13 @@ export default function CreditReportSummaryDetailed({
   }
   function handleSectionClick(routePath: string) {
     return () => onCtaClick(routePath);
+  }
+
+  function handleFactorChangeDisplayModalOpen() {
+    setIsFactorChangeDisplayModalActive(true);
+  }
+  function handleFactorChangeDisplayModalClose() {
+    setIsFactorChangeDisplayModalActive(false);
   }
 
   useEffect(() => {
@@ -215,6 +233,20 @@ export default function CreditReportSummaryDetailed({
     </div>
   );
 
+  const CardFooterElem = hasAnyFactorChanged ? (
+    <button
+      className=" btn-block flex-center text-caption text-semibold clr-brand-default"
+      onClick={handleFactorChangeDisplayModalOpen}
+    >
+      <span className="mr-1">{t("credit_report_see_what_changed")}</span>
+      <CaretDoubleRight />
+    </button>
+  ) : !hasPreviousReport ? (
+    <p className="text-center clr-text-secondary">
+      {t("track_score_trends_next_month")}
+    </p>
+  ) : null;
+
   return (
     <CreditReportLayout
       navbarText={t("credit_score")}
@@ -224,16 +256,10 @@ export default function CreditReportSummaryDetailed({
         <Card
           backgroundColor="var(--clr-grey-light)"
           footerBackgroundColor="#EBF5FF"
-          footer={
-            !currentMonthScoreDifference && (
-              <p className="text-center clr-text-secondary">
-                {t("track_score_trends_next_month")}
-              </p>
-            )
-          }
+          footer={CardFooterElem}
         >
           {/* TODO: Maybe find more elegent way to do this */}
-          {currentMonthScoreDifference ? (
+          {currentMonthScoreDifference !== null ? (
             <Separator
               orientation="vertical"
               separatorColor="var(--clr-grey-default)"
@@ -360,6 +386,16 @@ export default function CreditReportSummaryDetailed({
           {...(CreditScoreExplainerData as CreditReportMetricsExplainerProps)}
           ctaLabel={t("got_it_btn")}
           onCtaClick={() => handleExplainerClose(true)}
+        />
+      </Modal>
+      <Modal
+        active={isFactorChangeDisplayModalActive}
+        bottomSheetOnMobile
+        onClose={handleFactorChangeDisplayModalClose}
+      >
+        <CreditReportFactorChangeView
+          creditReportAnalysis={creditReportAnalysis}
+          onPrimaryCtaClick={handleFactorChangeDisplayModalClose}
         />
       </Modal>
     </CreditReportLayout>

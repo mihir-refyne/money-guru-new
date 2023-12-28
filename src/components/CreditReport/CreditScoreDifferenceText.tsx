@@ -13,7 +13,12 @@ export default function CreditScoreDifferenceText({
 
   const type = getScoreDifferenceType(children);
   const absoluteDiff = Math.abs(children);
-  if (type === "neutral") return null;
+  if (type === "neutral")
+    return (
+      <p className={`text-center ${className}`}>
+        {t("credit_score_not_changed")}
+      </p>
+    );
   const text = t(
     type === "increment"
       ? "credit_score_increased_by_points"

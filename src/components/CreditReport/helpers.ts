@@ -1,4 +1,7 @@
-import type { CreditReportMetricRating } from "@/lib/credit-report";
+import type {
+  CreditReportAnalysis,
+  CreditReportMetricRating,
+} from "@/lib/credit-report";
 import type { TagType } from "../Tag";
 import sub from "date-fns/sub";
 import format from "date-fns/format";
@@ -47,4 +50,33 @@ export function getCreditReportAnalysisPeriod(): { from: string; to: string } {
     from: format(fromDate, DATE_FORMAT),
     to: format(today, DATE_FORMAT),
   };
+}
+
+export function checkIfAnyFactorChanged(
+  metricsAnalysis?: CreditReportAnalysis["metricsAnalysis"]
+): boolean {
+  if (!metricsAnalysis) return false;
+  const { creditAccounts, creditEnquiries, creditUsage, paymentHistory } =
+    metricsAnalysis;
+  if (
+    creditAccounts?.differenceInNewAccountsAddedFromLastFetched != null &&
+    creditAccounts?.differenceInNewAccountsAddedFromLastFetched !== 0
+  )
+    return true;
+  if (
+    creditEnquiries?.differenceInCreditEnquiriesFromLastFetched != null &&
+    creditEnquiries.differenceInCreditEnquiriesFromLastFetched !== 0
+  )
+    return true;
+  if (
+    creditUsage?.differenceInCreditUsageFromLastFetched != null &&
+    creditUsage.differenceInCreditUsageFromLastFetched !== 0
+  )
+    return true;
+  if (
+    paymentHistory?.differenceInLatePaymentsFromLastFetched != null &&
+    paymentHistory.differenceInLatePaymentsFromLastFetched !== 0
+  )
+    return true;
+  return false;
 }
