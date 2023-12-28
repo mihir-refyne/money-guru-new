@@ -34,12 +34,12 @@
   "finishedPageConfig": {
     "heroElementTextColor": "#FFFFFF",
     "partiallyFinishedHeroElementText": "refyne_marathon_timeout_text",
-    "partiallyFinishedHeroBackgroundImageUrl": "/assets/images/virtual-rewards-event/partial_finished_hero_background.svg",
-    "partiallyFinishedHeroBackgroundHeight": "60rem",
-    "fullyFinishedHeroElementText": "refyne_marathon_winner_text",
-    "fullyFinishedHeroBackgroundImageUrl": "/assets/images/virtual-rewards-event/fully_finished_hero_background.svg",
-    "fullyFinishedHeroBackgroundHeight": "70rem",
-    "fullyFinishedHeroElementIllustrationUrl": "/assets/images/virtual-rewards-event/winner_trophy_and_flags.svg",
+    "partiallyFinishedHeroBackgroundImageUrl": "/assets/images/virtual-rewards-event/festive_hero_background.jpg",
+    "partiallyFinishedHeroBackgroundHeight": "58rem",
+    "fullyFinishedHeroElementText": "refyne_marathon_timeout_text",
+    "fullyFinishedHeroBackgroundImageUrl": "/assets/images/virtual-rewards-event/festive_hero_background.jpg",
+    "fullyFinishedHeroBackgroundHeight": "58rem",
+    "fullyFinishedHeroElementIllustrationUrl": "",
     "heroFooterBackgroundColor": "#DCF5EF",
     "partiallyFinishedBanner": {
       "heading": "refyne_marathon_banner_header_timeout",
