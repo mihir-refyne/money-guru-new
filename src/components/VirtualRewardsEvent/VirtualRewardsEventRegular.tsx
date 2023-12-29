@@ -299,10 +299,11 @@ export default function VirtualRewardsEventRegular({
                 weight="fill"
               />
               <p className="text-caption clr-text-secondary mt-4">
-                Wohoo! You’ve completed all of today’s actions
+                Woohoo! All your actions for today are complete.
               </p>
               <h5 className="text-body text-semibold text-center mt-2 mb-4">
-                You can always earn more stamps by referring your co-workers
+                Get new actions everyday or you can also REFER a friend and earn
+                more stamps!
               </h5>
               <RoundedButton onClick={onReferCtaClick}>Refer Now</RoundedButton>
             </div>
