@@ -91,11 +91,11 @@
   "rewardIdToStampsConfigMap": {
     "VIR_RWD10000110": {
       "imageUrl": "/assets/images/virtual-rewards-event/baloon_badge.svg",
-      "name": "Baloon",
+      "name": "Balloon",
       "info": {
         "illustrationUrl": "/assets/images/virtual-rewards-event/baloon_badge.svg",
-        "title": "Baloon",
-        "description": "Did you know?\nRefyne is now present in 3000+  locations in India!"
+        "title": "Balloon",
+        "description": "Did you know?\nRefyne is now present in 3000+ locations in India!"
       }
     },
     "VIR_RWD10000105": {
