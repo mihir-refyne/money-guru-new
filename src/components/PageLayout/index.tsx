@@ -149,7 +149,9 @@ export default function PageLayout({
         bottomSheetOnMobile
       >
         <LocaleUpdateOptions
-          locales={router.locales}
+          // locales={router.locales}
+          // INFO: This is hack for now, remove after Festival is done
+          locales={["en", "hi"]}
           currentValue={currentLocale}
           onChange={setCurrentLocale}
         />
