@@ -107,11 +107,32 @@
   ],
   "carouselBanner": {
     "autoPlayDurationInMs": 3000,
-    "banners": []
+    "banners": [
+      {
+        "name": "fin_coaching_naval",
+        "heading": "Need help with finances?",
+        "url": "https://fincoachv2.typedream.app/",
+        "description": "Get financial advice from SEBI certified industry experts.",
+        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
+        "backgroundColor": "#E5EEF8",
+        "ctaLabel": "Know More",
+        "releaseConfig": {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": ["EMR10000001", "EMR10001326"]
+        }
+      }
+    ]
   },
   "componentsOrderConfig": [
     {
-      "order": ["R_SHORT_CAROUSEL", "CREDIT_SCORE_WIDGET", "IMAGE_BANNER", "FIN_TOOLS"]
+      "order": [
+        "R_SHORT_CAROUSEL",
+        "CREDIT_SCORE_WIDGET",
+        "IMAGE_BANNER",
+        "FIN_TOOLS",
+        "CAROUSEL_BANNERS"
+      ]
     }
   ],
   "creditScoreWidgetConfig": {
