@@ -37,6 +37,12 @@ export function setLocaleInPlotline(locale: string) {
   plotline("setLocale", locale);
 }
 
+export function setPlotlineEventsHandler(
+  callback: (eventName: string, properties?: Record<string, unknown>) => void
+) {
+  plotline("setPlotlineEventsListener", callback);
+}
+
 export function resetPlotline() {
   plotline("logout");
 }

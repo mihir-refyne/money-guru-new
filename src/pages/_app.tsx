@@ -14,6 +14,7 @@ import {
 import { getUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
 import {
   initializeMixpanel,
+  logEventInMixpanel,
   setMixpanelGlobalProperties,
   setUserIdInMixpanel,
 } from "@/lib/analytics/mixpanel";
@@ -31,6 +32,7 @@ import PlotlineScript from "@/scripts/plotline";
 import {
   initializePlotline,
   setLocaleInPlotline,
+  setPlotlineEventsHandler,
   setPlotlineGlobalProperties,
 } from "@/lib/analytics/plotline";
 
@@ -117,6 +119,8 @@ export default function App({ Component, pageProps }: AppProps) {
     initializeWebengage();
 
     onLoad();
+
+    setPlotlineEventsHandler(logEventInMixpanel);
 
     window.addEventListener("DOMContentLoaded", setViewportVariable, {
       once: true,
