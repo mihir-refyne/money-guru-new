@@ -3,13 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "course-strategies-for-loans",
       "course-risks-associated-with-loans",
       "course-interest-and-loan-terms",
       "course-what-are-loans",
       "importance-of-life-insurance",
-      "loan-approval-process",
-      "buying-home-vs-renting",
-      "what-is-ifsc-code"
+      "loan-approval-process"
     ],
     "autoPlayDurationInMs": 600000
   },
