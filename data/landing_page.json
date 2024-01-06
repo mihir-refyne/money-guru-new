@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
-      "course-strategies-for-loans",
-      "course-risks-associated-with-loans",
-      "course-interest-and-loan-terms",
+      "course-credit-score-importance",
       "course-what-are-loans",
-      "importance-of-life-insurance",
+      "course-interest-and-loan-terms",
+      "course-risks-associated-with-loans",
+      "course-strategies-for-loans",
       "loan-approval-process"
     ],
     "autoPlayDurationInMs": 600000
