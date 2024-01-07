@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "loan-approval-process",
       "course-credit-score-importance",
       "course-what-are-loans",
       "course-interest-and-loan-terms",
       "course-risks-associated-with-loans",
-      "course-strategies-for-loans",
-      "loan-approval-process"
+      "course-strategies-for-loans"
     ],
     "autoPlayDurationInMs": 600000
   },
