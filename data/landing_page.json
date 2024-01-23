@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "important-terms-for-car-loans",
       "what-is-rtgs-neft",
       "what-is-fastag",
       "buying-home-vs-renting",
       "importance-of-credit-score",
-      "course-risks-associated-with-loans",
       "course-strategies-for-loans"
     ],
     "autoPlayDurationInMs": 600000
