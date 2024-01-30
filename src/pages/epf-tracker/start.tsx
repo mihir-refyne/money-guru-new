@@ -51,6 +51,9 @@ export default function EpfTrackerStartPage() {
     ) {
       handleTriggerOtp(identifier, valueFromUrlQuery);
     }
+  }, []);
+
+  useEffect(() => {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.EPF_AUTH_SCREEN,
@@ -58,7 +61,7 @@ export default function EpfTrackerStartPage() {
         auth_method: identifier,
       }
     );
-  }, [identifier, valueFromUrlQuery, autoSubmit]);
+  }, [identifier]);
 
   useEffect(() => {
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
@@ -98,7 +101,8 @@ export default function EpfTrackerStartPage() {
   }
 
   function handleIndetifierChange(newIdentifier: EpfFetchIdentifier) {
-    const updatedQuery = { ...router.query, identifier: newIdentifier };
+    const { value, autoSubmit, ...restQuery } = router.query;
+    const updatedQuery = { ...restQuery, identifier: newIdentifier };
     router.replace({
       pathname: router.pathname,
       query: updatedQuery,

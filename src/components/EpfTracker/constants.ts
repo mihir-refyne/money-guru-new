@@ -4,23 +4,6 @@ import { EpfFetchErrorModalContentProps } from "./EpfFetchErrorModalContent";
 const INFO_BLUE_ICON_URL = "/assets/images/info-blue-icon.svg";
 const WARNING_YELLOW_ICON_URL = "/assets/images/warn-circle-yellow-icon.svg";
 
-// const EpfTrackerServerErrorCodeMap = {
-//   E74001: "NO_RECORDS_FOUND",
-//   E74002: "MAX_RETRIES_EXCEEDED",
-//   E74003: "MULTIPLE_RECORDS_EXISTS",
-//   E74004: "REQUEST_EXPIRED",
-//   E74005: "SERVICE_UNAVAILABLE",
-//   E74006: "INVALID_INPUT",
-// } as const;
-
-// {
-//     '102': "INVALID_INPUT",
-//     '103': "NO_RECORDS_FOUND",
-//     '104': "MAX_RETRIES_EXCEEDED",
-//     '106': "MULTIPLE_RECORDS_EXISTS",
-//     '503': "SERVICE_UNAVAILABLE"
-// }
-
 type ServerErrorCodeToResponseModalMapType = Record<
   EpfFetchIdentifier,
   Partial<Record<string, EpfFetchErrorModalContentProps>>
