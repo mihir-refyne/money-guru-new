@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "negative-effect-of-credit-card",
       "how-to-avoid-lifestyle-inflation",
       "what-is-gst",
       "what-are-gold-loans",
       "important-terms-for-car-loans",
-      "what-is-rtgs-neft",
       "buying-home-vs-renting"
     ],
     "autoPlayDurationInMs": 600000
