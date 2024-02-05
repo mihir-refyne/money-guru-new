@@ -2,7 +2,7 @@ import { useState } from "react";
 import PageLayout from "../PageLayout";
 import IntroductionStoryItem, {
   IntroductionStoryItemProps,
-  StoryFooterSolidCta,
+  IntroStoryFooterdCta,
 } from "./IntroductionStoryItem";
 import styles from "./Introduction.module.css";
 import Stories from "../Stories";
@@ -19,7 +19,7 @@ interface IntroductionProps {
   stories: Array<IntroductionStoryItemConfig>;
   onSkipClick?: () => void;
   onComplete?: () => void;
-  finalStoryFooterCtaConfig?: StoryFooterSolidCta;
+  finalStoryFooterCtaConfig?: IntroStoryFooterdCta;
   loop?: boolean;
 }
 
@@ -55,7 +55,6 @@ export default function Introduction({
             <button
               className="btn btn-text btn-inline text-semibold"
               onClick={onSkipClick}
-              style={{ fontWeight: "600" }}
             >
               {t("skip")} &gt;
             </button>
@@ -65,16 +64,14 @@ export default function Introduction({
               _stories: stories,
               onMount: handleStoryOnMount,
               translate: tWithoutTypeSafety,
-              finalStoryFooterCtaConfig: finalStoryFooterCtaConfig,
+              finalStoryFooterCtaConfig,
             })}
             storyContainerStyles={{ background: "unset" }}
             progressStyles={{ backgroundColor: "var(--clr-brand-default)" }}
             progressWrapperStyles={{
               backgroundColor: "#BAD7FF",
             }}
-            onAllStoriesEnd={
-              !finalStoryFooterCtaConfig ? onComplete : undefined
-            }
+            onAllStoriesEnd={onComplete}
             loop={loop}
           />
         </div>
@@ -87,7 +84,7 @@ function getStories(props: {
   _stories: Array<IntroductionStoryItemConfig>;
   onMount: (context: { backgroundColor?: string }) => void;
   translate: (code: string) => string;
-  finalStoryFooterCtaConfig?: StoryFooterSolidCta;
+  finalStoryFooterCtaConfig?: IntroStoryFooterdCta;
 }) {
   const { _stories, onMount, translate, finalStoryFooterCtaConfig } = props;
   const lastStoryIndex = _stories.length - 1;

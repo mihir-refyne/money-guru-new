@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./IntroductionStoryItem.module.css";
 
-export type StoryFooterSolidCta = {
+export type IntroStoryFooterdCta = {
   text: string;
   onClick: () => void;
 };
@@ -11,7 +11,7 @@ export interface IntroductionStoryItemProps {
   illustrationImageUrl?: string;
   footerText?: string;
   onMount?: () => void;
-  footerCta?: StoryFooterSolidCta;
+  footerCta?: IntroStoryFooterdCta;
 }
 
 export default function IntroductionStory({

@@ -23,7 +23,6 @@ export default function IntroductionPage() {
 
   function handleNextClick() {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LAUNCH_SCREEN_COMPLETED);
-    handleContinue();
   }
 
   function handleSkipClick() {
@@ -38,7 +37,7 @@ export default function IntroductionPage() {
       onSkipClick={handleSkipClick}
       finalStoryFooterCtaConfig={{
         text: "Get started",
-        onClick: handleNextClick,
+        onClick: handleContinue,
       }}
       loop={false}
     />
