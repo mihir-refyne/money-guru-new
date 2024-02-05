@@ -3,16 +3,28 @@
   "illustrationUrl": "/assets/images/financial-literacy-intro.svg",
   "stories": [
     {
-      "backgroundColor": "linear-gradient(359.65deg, #FFFFFF 12.2%, #FFD3C2 99.7%)",
+      "backgroundColor": "#FFFFF",
       "durationInMs": 3000,
       "heading": "finlit_intro_short1_title",
-      "illustrationImageUrl": "/assets/images/fin-lit-intro-1.svg"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-one.png"
     },
     {
-      "backgroundColor": "linear-gradient(359.65deg, #F9FEFF 12.2%, #D7EAFF 99.7%)",
+      "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
       "durationInMs": 3000,
       "heading": "finlit_intro_short2_title",
-      "illustrationImageUrl": "/assets/images/fin-lit-intro-2.svg"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-two.svg"
+    },
+    {
+      "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
+      "durationInMs": 3000,
+      "heading": "finlit_intro_short3_title",
+      "illustrationImageUrl": "/assets/images/intro-story-slide-three.svg"
+    },
+    {
+      "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
+      "durationInMs": 3000,
+      "heading": "finlit_intro_short4_title",
+      "illustrationImageUrl": "/assets/images/intro-story-slide-four.png"
     }
   ]
 }

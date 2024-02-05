@@ -2,6 +2,7 @@ import { useState } from "react";
 import PageLayout from "../PageLayout";
 import IntroductionStoryItem, {
   IntroductionStoryItemProps,
+  StoryFooterSolidCta,
 } from "./IntroductionStoryItem";
 import styles from "./Introduction.module.css";
 import Stories from "../Stories";
@@ -18,12 +19,16 @@ interface IntroductionProps {
   stories: Array<IntroductionStoryItemConfig>;
   onSkipClick?: () => void;
   onComplete?: () => void;
+  finalStoryFooterCtaConfig?: StoryFooterSolidCta;
+  loop?: boolean;
 }
 
 export default function Introduction({
   stories,
   onComplete,
   onSkipClick,
+  finalStoryFooterCtaConfig,
+  loop = true,
 }: IntroductionProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [backgroundColor, setBackgroundColor] = useState<string>();
@@ -46,34 +51,47 @@ export default function Introduction({
         }}
       >
         <div className={styles.Introduction__Body}>
+          <div className="text-right">
+            <button
+              className="btn btn-text btn-inline text-semibold"
+              onClick={onSkipClick}
+              style={{ fontWeight: "600" }}
+            >
+              {t("skip")} &gt;
+            </button>
+          </div>
           <Stories
-            stories={getStories(
-              stories,
-              handleStoryOnMount,
-              tWithoutTypeSafety
-            )}
+            stories={getStories({
+              _stories: stories,
+              onMount: handleStoryOnMount,
+              translate: tWithoutTypeSafety,
+              finalStoryFooterCtaConfig: finalStoryFooterCtaConfig,
+            })}
             storyContainerStyles={{ background: "unset" }}
-            progressStyles={{ backgroundColor: "var(--clr-text-primary)" }}
-            progressWrapperStyles={{ backgroundColor: "var(--clr-pure-white)" }}
-            onAllStoriesEnd={onComplete}
+            progressStyles={{ backgroundColor: "var(--clr-brand-default)" }}
+            progressWrapperStyles={{
+              backgroundColor: "#BAD7FF",
+            }}
+            onAllStoriesEnd={
+              !finalStoryFooterCtaConfig ? onComplete : undefined
+            }
+            loop={loop}
           />
         </div>
-        <footer className="my-2 text-center">
-          <button className="btn btn-text btn-inline" onClick={onSkipClick}>
-            {t("skip")}
-          </button>
-        </footer>
       </div>
     </PageLayout>
   );
 }
 
-function getStories(
-  _stories: Array<IntroductionStoryItemConfig>,
-  onMount: (context: { backgroundColor?: string }) => void,
-  translate: (code: string) => string
-) {
-  const stories = _stories.map(({ durationInMs, ...props }) => {
+function getStories(props: {
+  _stories: Array<IntroductionStoryItemConfig>;
+  onMount: (context: { backgroundColor?: string }) => void;
+  translate: (code: string) => string;
+  finalStoryFooterCtaConfig?: StoryFooterSolidCta;
+}) {
+  const { _stories, onMount, translate, finalStoryFooterCtaConfig } = props;
+  const lastStoryIndex = _stories.length - 1;
+  const stories = _stories.map(({ durationInMs, ...props }, index) => {
     return {
       duration: durationInMs,
       content: () => {
@@ -82,6 +100,9 @@ function getStories(
             {...props}
             heading={props.heading ? translate(props.heading) : undefined}
             onMount={() => onMount({ backgroundColor: props.backgroundColor })}
+            footerCta={
+              index === lastStoryIndex ? finalStoryFooterCtaConfig : undefined
+            }
           />
         );
       },

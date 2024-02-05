@@ -36,6 +36,11 @@ export default function IntroductionPage() {
       stories={config.stories}
       onComplete={handleNextClick}
       onSkipClick={handleSkipClick}
+      finalStoryFooterCtaConfig={{
+        text: "Get started",
+        onClick: handleNextClick,
+      }}
+      loop={false}
     />
   );
 }

@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import styles from "./IntroductionStoryItem.module.css";
 
+export type StoryFooterSolidCta = {
+  text: string;
+  onClick: () => void;
+};
+
 export interface IntroductionStoryItemProps {
   heading?: string;
   illustrationImageUrl?: string;
   footerText?: string;
   onMount?: () => void;
+  footerCta?: StoryFooterSolidCta;
 }
 
 export default function IntroductionStory({
@@ -13,6 +19,7 @@ export default function IntroductionStory({
   illustrationImageUrl,
   footerText,
   onMount,
+  footerCta,
 }: IntroductionStoryItemProps) {
   useEffect(() => {
     onMount?.();
@@ -27,6 +34,19 @@ export default function IntroductionStory({
             {footerText}
           </p>
         </div>
+      )}
+      {footerCta && (
+        <footer
+          style={{ zIndex: 9999 }}
+          className={`my-2 text-center ${!footerText ? "mt-20" : ""}`}
+        >
+          <button
+            className="btn btn-primary btn-block"
+            onClick={footerCta.onClick}
+          >
+            {footerCta.text}
+          </button>
+        </footer>
       )}
     </div>
   );
