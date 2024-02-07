@@ -5,9 +5,11 @@ import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import config from "../../data/introduction_page.json";
 import Introduction from "@/components/Introduction";
+import useTranslation from "next-translate/useTranslation";
 
 export default function IntroductionPage() {
   const router = useRouter();
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LAUNCH_SCREEN);
@@ -36,7 +38,7 @@ export default function IntroductionPage() {
       onComplete={handleNextClick}
       onSkipClick={handleSkipClick}
       finalStoryFooterCtaConfig={{
-        text: "Get started",
+        text: t("mongu_intro_story_cta_text"),
         onClick: handleContinue,
       }}
       loop={false}
