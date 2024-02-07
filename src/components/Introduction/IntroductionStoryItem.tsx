@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./IntroductionStoryItem.module.css";
 
-export type IntroStoryFooterdCta = {
+export type IntroStoryFooterCta = {
   text: string;
   onClick: () => void;
 };
@@ -11,7 +11,7 @@ export interface IntroductionStoryItemProps {
   illustrationImageUrl?: string;
   footerText?: string;
   onMount?: () => void;
-  footerCta?: IntroStoryFooterdCta;
+  footerCta?: IntroStoryFooterCta;
 }
 
 export default function IntroductionStory({
@@ -24,29 +24,32 @@ export default function IntroductionStory({
   useEffect(() => {
     onMount?.();
   }, []);
+
+  const isFooterElementAvailable = footerCta || footerText;
   return (
     <div className={styles.IntroductionStoryItem}>
       {heading && <h2 className="text-sub-title text-semibold">{heading}</h2>}
       {illustrationImageUrl && <img src={illustrationImageUrl} alt={heading} />}
-      {footerText && (
-        <div className={styles.IntroductionStoryItem__Footer}>
-          <p className="text-caption text-regular clr-text-secondary">
-            {footerText}
-          </p>
+      {isFooterElementAvailable && (
+        <div className={styles.IntroductionStoryItem__Footer__Wrapper}>
+          {footerText && (
+            <div className={styles.IntroductionStoryItem__Footer}>
+              <p className="text-caption text-regular clr-text-secondary">
+                {footerText}
+              </p>
+            </div>
+          )}
+          {footerCta && (
+            <footer className="text-center">
+              <button
+                className="btn btn-primary btn-block"
+                onClick={footerCta.onClick}
+              >
+                {footerCta.text}
+              </button>
+            </footer>
+          )}
         </div>
-      )}
-      {footerCta && (
-        <footer
-          style={{ zIndex: 9999 }}
-          className={`my-2 text-center ${!footerText ? "mt-20" : ""}`}
-        >
-          <button
-            className="btn btn-primary btn-block"
-            onClick={footerCta.onClick}
-          >
-            {footerCta.text}
-          </button>
-        </footer>
       )}
     </div>
   );

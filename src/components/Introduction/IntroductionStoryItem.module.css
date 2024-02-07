@@ -8,13 +8,25 @@
   margin-top: var(--spacing-10);
   min-height: 70svh;
 }
+.IntroductionStoryItem__Footer__Wrapper{
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--spacing-16);
+  z-index: 9999;
+}
 
 .IntroductionStoryItem__Footer {
   padding: var(--spacing-3);
-  border-radius: var(--spacing-2);
-  background-color: var(--clr-pure-white);
+  text-align: center;
 }
 
 .IntroductionStoryItem h2 {
   white-space: pre-wrap;
+}
+
+@media screen and (max-width:400px) {
+  .IntroductionStoryItem__Footer__Wrapper{
+    margin-top: 0;
+    margin-right: var(--spacing-3);
+  }
 }

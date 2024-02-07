@@ -2,7 +2,7 @@ import { useState } from "react";
 import PageLayout from "../PageLayout";
 import IntroductionStoryItem, {
   IntroductionStoryItemProps,
-  IntroStoryFooterdCta,
+  IntroStoryFooterCta,
 } from "./IntroductionStoryItem";
 import styles from "./Introduction.module.css";
 import Stories from "../Stories";
@@ -19,7 +19,7 @@ interface IntroductionProps {
   stories: Array<IntroductionStoryItemConfig>;
   onSkipClick?: () => void;
   onComplete?: () => void;
-  finalStoryFooterCtaConfig?: IntroStoryFooterdCta;
+  finalStoryFooterCtaConfig?: IntroStoryFooterCta;
   loop?: boolean;
 }
 
@@ -84,11 +84,11 @@ function getStories(props: {
   _stories: Array<IntroductionStoryItemConfig>;
   onMount: (context: { backgroundColor?: string }) => void;
   translate: (code: string) => string;
-  finalStoryFooterCtaConfig?: IntroStoryFooterdCta;
+  finalStoryFooterCtaConfig?: IntroStoryFooterCta;
 }) {
   const { _stories, onMount, translate, finalStoryFooterCtaConfig } = props;
-  const lastStoryIndex = _stories.length - 1;
   const stories = _stories.map(({ durationInMs, ...props }, index) => {
+    const isLastStory = index === _stories.length - 1;
     return {
       duration: durationInMs,
       content: () => {
@@ -97,9 +97,7 @@ function getStories(props: {
             {...props}
             heading={props.heading ? translate(props.heading) : undefined}
             onMount={() => onMount({ backgroundColor: props.backgroundColor })}
-            footerCta={
-              index === lastStoryIndex ? finalStoryFooterCtaConfig : undefined
-            }
+            footerCta={isLastStory ? finalStoryFooterCtaConfig : undefined}
           />
         );
       },
