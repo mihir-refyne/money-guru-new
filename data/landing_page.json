@@ -3,10 +3,10 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "loan-approval-process",
       "benefits-of-compound-interest",
       "importance-of-credit-score",
       "what-are-personal-loans",
-      "importance-of-pan-card",
       "important-terms-for-car-loans",
       "buying-home-vs-renting"
     ],
