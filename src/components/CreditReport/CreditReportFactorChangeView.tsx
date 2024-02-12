@@ -139,7 +139,9 @@ function CreditUtilisationChange(props: {
         })
       : t("credit_report_factor_diff_credit_usage_decr", {
           creditUsedInPercent: totalCreditUsageInPercent,
-          creditUseDecreasedInPercent: differenceInCreditUsageFromLastFetched,
+          creditUseDecreasedInPercent: Math.abs(
+            differenceInCreditUsageFromLastFetched
+          ),
         });
   const showHint =
     differenceInCreditUsageFromLastFetched >
