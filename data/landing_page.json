@@ -47,7 +47,7 @@
       "title": "pf_tracker_tool_title",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": "/epf-tracker",
+      "url": "https://financialcoachingv0-1.bubbleapps.io/pf-epfo-down",
       "releaseConfigs": [
         {
           "fieldName": "employerId",
