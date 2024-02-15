@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-is-imps",
       "how-student-loans-work",
       "benefits-of-compound-interest",
       "importance-of-credit-score",
       "what-are-personal-loans",
-      "important-terms-for-car-loans",
-      "buying-home-vs-renting"
+      "important-terms-for-car-loans"
     ],
     "autoPlayDurationInMs": 600000
   },
