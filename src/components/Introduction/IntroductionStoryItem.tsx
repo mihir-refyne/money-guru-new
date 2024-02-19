@@ -29,7 +29,13 @@ export default function IntroductionStory({
   return (
     <div className={styles.IntroductionStoryItem}>
       {heading && <h2 className="text-sub-title text-semibold">{heading}</h2>}
-      {illustrationImageUrl && <img src={illustrationImageUrl} alt={heading} />}
+      {illustrationImageUrl && (
+        <img
+          style={{ maxWidth: "100%" }}
+          src={illustrationImageUrl}
+          alt={heading}
+        />
+      )}
       {isFooterElementAvailable && (
         <div className={styles.IntroductionStoryItem__Footer__Wrapper}>
           {footerText && (
