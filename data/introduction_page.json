@@ -12,13 +12,13 @@
       "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
       "durationInMs": 3000,
       "heading": "finlit_intro_short2_title",
-      "illustrationImageUrl": "/assets/images/intro-story-slide-two.svg"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-two.png"
     },
     {
       "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
       "durationInMs": 3000,
       "heading": "finlit_intro_short3_title",
-      "illustrationImageUrl": "/assets/images/intro-story-slide-three.svg"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-three.png"
     },
     {
       "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
