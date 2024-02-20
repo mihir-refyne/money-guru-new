@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-medical-loans",
       "what-is-ppf",
       "what-is-imps",
       "how-student-loans-work",
       "importance-of-credit-score",
-      "what-are-personal-loans",
-      "important-terms-for-car-loans"
+      "what-are-personal-loans"
     ],
     "autoPlayDurationInMs": 600000
   },
