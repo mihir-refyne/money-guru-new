@@ -31,8 +31,37 @@ function flutterNativeDispatcher(
   }
 }
 
+let isFlutterInAppWebViewReady = false;
+export function flutterNativeDispatcherV2Init() {
+  window.addEventListener(
+    "flutterInAppWebViewPlatformReady",
+    function () {
+      isFlutterInAppWebViewReady = true;
+    },
+    { once: true }
+  );
+}
+function flutterNativeDispatcherV2<T extends Record<string, unknown>>(
+  handlerName: string,
+  payload: NativeHandlerPayload,
+  debug?: boolean
+): T | undefined {
+  try {
+    if (!isFlutterInAppWebViewReady) {
+      throw new Error("FlutterInAppWebView is not Ready yet");
+    }
+    return (window as any).flutter_inappwebview.callHandler(
+      handlerName,
+      payload
+    );
+  } catch (error) {
+    if (debug) console.error(error);
+  }
+}
+
 export function dispatchDataToNativePlatform(payload: NativeHandlerPayload) {
   flutterNativeDispatcher(REFYNE_ANDROID_HANDLER_NAME, payload);
+  flutterNativeDispatcherV2(REFYNE_ANDROID_HANDLER_NAME, payload);
 
   // INFO: Add other native implementations here
 }

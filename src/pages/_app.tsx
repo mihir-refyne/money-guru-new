@@ -35,6 +35,7 @@ import {
   setPlotlineEventsHandler,
   setPlotlineGlobalProperties,
 } from "@/lib/analytics/plotline";
+import { flutterNativeDispatcherV2Init } from "@/lib/webview";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -122,6 +123,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
     setPlotlineEventsHandler(logEventInMixpanel);
 
+    flutterNativeDispatcherV2Init();
     window.addEventListener("DOMContentLoaded", setViewportVariable, {
       once: true,
     });
