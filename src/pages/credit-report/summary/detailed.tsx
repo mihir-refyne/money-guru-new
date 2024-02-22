@@ -50,6 +50,7 @@ export default function CreditReportSummaryDetailedPage({
     return getOrFetchCreditReportWithAnalysis({
       fromMonthYear: from,
       toMonthYear: to,
+      cachePreferred: true,
     });
   });
 

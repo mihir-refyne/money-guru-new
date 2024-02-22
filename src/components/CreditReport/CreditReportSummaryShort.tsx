@@ -21,6 +21,7 @@ import { getLastItemOfArray } from "@/lib/utils";
 import CreditReportToolsTile, {
   type CreditReportTool,
 } from "./CreditReportToolsTile";
+import CreditReportFetchConsent from "./CreditReportFetchConsent";
 
 interface CreditReportSummaryShortProps {
   creditReport: CreditReport | null;
@@ -29,11 +30,13 @@ interface CreditReportSummaryShortProps {
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   fetchedAt?: string;
   expiresAt?: string;
+  hasExpired?: boolean;
   directAccess?: boolean;
   banners?: Array<BannerProps & { name: string }>;
   tools?: Array<CreditReportTool>;
-  onMount?: (context: { rating?: string }) => void;
+  onMount?: (context: { rating?: string; hasExpired?: boolean }) => void;
   onRatingTagClick?: (rating?: string) => void;
+  onRefetchClick?: () => void;
 }
 
 export default function CreditReportSummaryShort({
@@ -43,14 +46,18 @@ export default function CreditReportSummaryShort({
   onCtaClick,
   fetchedAt,
   expiresAt,
+  hasExpired,
   onMount,
   directAccess,
   banners = [],
   tools = [],
   onRatingTagClick,
+  onRefetchClick,
 }: CreditReportSummaryShortProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
+  const [isRefetchConsentDialogActive, setisRefetchConsentDialogActive] =
+    useState<boolean>(false);
 
   const currentMonthScoreDifference =
     getLastItemOfArray(creditReportAnalysis?.creditScoresAnalysis ?? [])
@@ -73,6 +80,27 @@ export default function CreditReportSummaryShort({
     setIsExplainerActive(false);
   }
 
+  function handleConsentDialogOpen() {
+    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_REFETCH_CTA_CLICKED);
+    setisRefetchConsentDialogActive(true);
+  }
+  function handleConsentDialogClose() {
+    setisRefetchConsentDialogActive(false);
+  }
+  function handleConsentNotNowClick() {
+    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_REFETCH_POPUP_CTA_CLICKED, {
+      allowed_refetch: false,
+    });
+    handleConsentDialogClose();
+  }
+  function handleConsentContinue() {
+    logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_REFETCH_POPUP_CTA_CLICKED, {
+      allowed_refetch: true,
+    });
+    handleConsentDialogClose();
+    onRefetchClick?.();
+  }
+
   function handleToolClick(name: string, navigateTo: string) {
     logEventInMixpanel(AnalyticEvent.CREDIT_SCORE_DASHBOARD_TOOLS_CTA_CLICKED, {
       tool_name: name,
@@ -90,7 +118,7 @@ export default function CreditReportSummaryShort({
   }
 
   useEffect(() => {
-    onMount?.({ rating: creditReport?.scoreDetails[0]?.rating });
+    onMount?.({ rating: creditReport?.scoreDetails[0]?.rating, hasExpired });
   }, []);
 
   const isCreditScoreIncrementAnimationShown =
@@ -109,9 +137,11 @@ export default function CreditReportSummaryShort({
         error={error}
         fetchedAt={fetchedAt}
         expiresAt={expiresAt}
+        hasExpired={hasExpired}
         autoIncrementEffect={!isCreditScoreIncrementAnimationShown}
         onTagClick={handleExplainerOpen}
         onCtaClick={onCtaClick}
+        onRefetchClick={handleConsentDialogOpen}
       />
       <div className="px-4">
         <InfoCard>
@@ -151,6 +181,16 @@ export default function CreditReportSummaryShort({
         )}
       </div>
 
+      <Modal
+        active={isRefetchConsentDialogActive}
+        bottomSheetOnMobile
+        onClose={handleConsentDialogClose}
+      >
+        <CreditReportFetchConsent
+          onContinueClick={handleConsentContinue}
+          onNotNowClick={handleConsentNotNowClick}
+        />
+      </Modal>
       <Modal
         active={isExplainerActive}
         bottomSheetOnMobile

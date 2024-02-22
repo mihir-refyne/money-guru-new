@@ -258,6 +258,16 @@ b {
   color: var(--clr-text-secondary);
 }
 
+.btn-primary-outline {
+  background-color: var(--clr-pure-white);
+  border: 1px solid var(--clr-brand-default);
+  color: var(--clr-brand-default);
+  min-height: 4.8rem;
+  border-radius: 0.6rem;
+  max-width: 45rem;
+  margin-left: auto;
+  margin-right: auto;
+}
 .btn-primary-light {
   background-color: var(--clr-brand-light);
   color: var(--clr-brand-default);
@@ -439,6 +449,10 @@ b {
   margin-left: var(--spacing-6);
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
 /* Color Utility */
 .clr-brand-default {
   color: var(--clr-brand-default);

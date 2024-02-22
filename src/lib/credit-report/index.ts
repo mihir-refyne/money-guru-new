@@ -111,6 +111,7 @@ export interface CreditReportResponse {
   report: CreditReport;
   fetchedAt: string;
   expiresAt: string;
+  hasExpired: boolean;
 }
 
 export interface CreditReportMetadataResponse {
@@ -180,13 +181,14 @@ function runFetchCreditReportPreCheckOrThrow() {
 }
 
 async function fetchCreditReport(
+  cachePreferred: boolean,
   idToken?: string
 ): Promise<CreditReportResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
   runFetchCreditReportPreCheckOrThrow();
   const creditReport = await fetcher<CreditReportResponse>(
-    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-report`,
+    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-report?cachePreferred=${cachePreferred}`,
     {
       headers: {
         Authorization: `Bearer ${idToken}`,
@@ -241,7 +243,7 @@ export function isCreditReportThereInSessionStorage(): boolean {
 }
 
 export async function getOrFetchCreditReport(
-  idToken?: string
+  cachePreferred: boolean = true
 ): Promise<CreditReportResponse | null> {
   const creditReportRawFromStorage = getFromSessionStorage(
     getSessionStorageKey()
@@ -251,7 +253,7 @@ export async function getOrFetchCreditReport(
       return JSON.parse(creditReportRawFromStorage) as CreditReportResponse;
     }
   } catch (_) {}
-  const creditReport = await fetchCreditReport(idToken);
+  const creditReport = await fetchCreditReport(cachePreferred);
   if (!creditReport) return null;
   setInSessionStorage(getSessionStorageKey(), JSON.stringify(creditReport));
   return creditReport;
@@ -260,22 +262,27 @@ export async function getOrFetchCreditReport(
 export async function getOrFetchCreditReportWithAnalysis(context: {
   fromMonthYear: string;
   toMonthYear: string;
+  cachePreferred: boolean;
   idToken?: string;
 }): Promise<CreditReportWithAnalysis | null> {
-  const { fromMonthYear, toMonthYear, idToken } = context;
+  const { fromMonthYear, toMonthYear, idToken, cachePreferred } = context;
   // INFO: We are using the same local storage key as the object is just extended
-  const creditReportRawFromStorage = getFromSessionStorage(
-    getSessionStorageKey()
-  );
-  try {
-    if (creditReportRawFromStorage) {
-      const cachedReport = JSON.parse(
-        creditReportRawFromStorage
-      ) as CreditReportWithAnalysis;
-      if (cachedReport.analysis) return cachedReport;
-    }
-  } catch (_) {}
-  const creditReport = await fetchCreditReport(idToken);
+  if (cachePreferred) {
+    const creditReportRawFromStorage = getFromSessionStorage(
+      getSessionStorageKey()
+    );
+    try {
+      if (creditReportRawFromStorage) {
+        const cachedReport = JSON.parse(
+          creditReportRawFromStorage
+        ) as CreditReportWithAnalysis;
+        // INFO: Check for new keys in cached objects
+        if (cachedReport.analysis && "hasExpired" in cachedReport)
+          return cachedReport;
+      }
+    } catch (_) {}
+  }
+  const creditReport = await fetchCreditReport(cachePreferred, idToken);
   if (!creditReport) return null;
   const creditReportAnalysis = await fetchCreditReportAnalysis(
     fromMonthYear,
@@ -302,7 +309,7 @@ export async function fetchCreditReportMetadataAndReportIfActive(
   const metadata = await fetchCreditReportMetadata(idToken);
   if (!metadata) return null;
   if (metadata.hasExpired) return { metadata, reportResponse: null };
-  const reportResponse = await getOrFetchCreditReport(idToken);
+  const reportResponse = await getOrFetchCreditReport();
   return { metadata, reportResponse };
 }
 

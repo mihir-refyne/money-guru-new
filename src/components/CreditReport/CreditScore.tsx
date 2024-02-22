@@ -8,7 +8,7 @@ import {
 import Image from "next/image";
 import cardSearchErrorIconUrl from "@/images/card_search_error.svg";
 import creditScoreMeterBlurredUrl from "@/images/credit_score_meter_blurred.png";
-import { Info, Lock } from "phosphor-react";
+import { ArrowsClockwise, Info, Lock } from "phosphor-react";
 import Tag from "../Tag";
 import { getTagTypeByCreditMetricRating } from "./helpers";
 import format from "date-fns/format";
@@ -30,9 +30,11 @@ interface CreditScoreProps {
   error: Error | null;
   fetchedAt?: string;
   expiresAt?: string;
+  hasExpired?: boolean;
   autoIncrementEffect?: boolean;
   onTagClick?: () => void;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
+  onRefetchClick?: () => void;
 }
 
 export default function CreditScore({
@@ -41,9 +43,11 @@ export default function CreditScore({
   error,
   fetchedAt,
   expiresAt,
+  hasExpired,
   autoIncrementEffect,
   onTagClick,
   onCtaClick,
+  onRefetchClick,
 }: CreditScoreProps) {
   const { t } = useTranslation("common");
 
@@ -54,12 +58,14 @@ export default function CreditScore({
         <CreditScoreMeterWrapper
           fetchedAt={fetchedAt}
           expiresAt={expiresAt}
+          hasExpired={hasExpired}
           onTagClick={onTagClick}
           creditScore={creditSocre}
           creditScoreDifference={scoreDifference}
           creditRating={score.rating}
           autoIncrementEffect={autoIncrementEffect}
           onCtaClick={onCtaClick}
+          onRefetchClick={onRefetchClick}
         />
       );
     }
@@ -248,8 +254,10 @@ interface CreditScoreMeterWrapperProps {
   autoIncrementEffect?: boolean;
   fetchedAt?: string;
   expiresAt?: string;
+  hasExpired?: boolean;
   onTagClick?: () => void;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
+  onRefetchClick?: () => void;
 }
 
 function CreditScoreMeterWrapper({
@@ -258,9 +266,11 @@ function CreditScoreMeterWrapper({
   autoIncrementEffect,
   fetchedAt,
   expiresAt,
+  hasExpired,
   onTagClick,
   onCtaClick,
   creditRating,
+  onRefetchClick,
 }: CreditScoreMeterWrapperProps) {
   const { t } = useTranslation("common");
   const [_score, setScore] = useDelayedStepChangeState(50, 5, 300);
@@ -279,6 +289,8 @@ function CreditScoreMeterWrapper({
   const creditScoreWillBeUpdatedIn: number | null = expiresAt
     ? differenceInDays(new Date(expiresAt), new Date())
     : null;
+
+  const canRefetchScore = hasExpired ?? false;
 
   const creditScoreHeroFooterProps: Partial<CreditScoreHeroProps> =
     // TODO: Handle creditScoreDifference == 0 case if required
@@ -369,13 +381,34 @@ function CreditScoreMeterWrapper({
           </div>
         </CreditScoreMeter>
       </div>
-      <p className="text-caption clr-text-secondary text-center">
-        {creditScoreWillBeUpdatedIn
-          ? t("credit_report_next_update_in_days", {
-              days: creditScoreWillBeUpdatedIn,
-            })
-          : t("credit_report_next_update")}
-      </p>
+      {canRefetchScore ? (
+        <>
+          {fetchedAt && (
+            <p className="text-caption clr-text-secondary text-center">
+              {t("last_updated")} {format(new Date(fetchedAt), "dd MMM yy")}
+            </p>
+          )}
+          <button
+            id={constructElementId({
+              screenName: ScreenName.MONGU_CREDIT_REPORT_DASHBOARD,
+              elementName: "REFRESH_CTA",
+            })}
+            className="clr-brand-default text-medium flex-center mx-auto mt-2"
+            onClick={onRefetchClick}
+          >
+            <ArrowsClockwise />
+            <span className="ml-1">{t("epfo_refresh_cta")}</span>
+          </button>
+        </>
+      ) : (
+        <p className="text-caption clr-text-secondary text-center">
+          {creditScoreWillBeUpdatedIn
+            ? t("credit_report_next_update_in_days", {
+                days: creditScoreWillBeUpdatedIn,
+              })
+            : t("credit_report_next_update")}
+        </p>
+      )}
     </CreditScoreHero>
   );
 }

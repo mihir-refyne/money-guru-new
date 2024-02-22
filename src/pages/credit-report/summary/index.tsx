@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import CreditReportLoading from "@/components/CreditReport/CreditReportLoading";
 import CreditReportSummaryShort from "@/components/CreditReport/CreditReportSummaryShort";
@@ -23,11 +23,13 @@ import { getCreditReportAnalysisPeriod } from "@/components/CreditReport/helpers
 
 export default function CreditReportSummaryPage() {
   const router = useRouter();
-  const { isLoading, data, error } = useFetcher(() => {
+  const cachePreferred = useRef<boolean>(true);
+  const { isLoading, data, error, refetch } = useFetcher(() => {
     const { from, to } = getCreditReportAnalysisPeriod();
     return getOrFetchCreditReportWithAnalysis({
       fromMonthYear: from,
       toMonthYear: to,
+      cachePreferred: cachePreferred.current,
     });
   });
   const { isLoading: syntheticLoader, setIsLoading } = useSyntheticLoader(
@@ -70,12 +72,13 @@ export default function CreditReportSummaryPage() {
     setIsLoading(true);
   }, []);
 
-  function handleOnMount(context?: { rating?: string }) {
+  function handleOnMount(context?: { rating?: string; hasExpired?: boolean }) {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.CREDIT_SCORE_DASHBOARD_SCREEN,
       {
         rating: context?.rating,
+        is_expired: context?.hasExpired,
       }
     );
   }
@@ -116,6 +119,12 @@ export default function CreditReportSummaryPage() {
     router.push(navigateTo);
   }
 
+  async function handleRefetch() {
+    cachePreferred.current = false;
+    await refetch(true);
+    cachePreferred.current = true;
+  }
+
   const directlyAccessed = !!router.query["direct"];
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
@@ -126,9 +135,11 @@ export default function CreditReportSummaryPage() {
       error={error}
       fetchedAt={data?.fetchedAt}
       expiresAt={data?.expiresAt}
+      hasExpired={data?.hasExpired}
       onCtaClick={handleCtaClickRouting}
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}
+      onRefetchClick={handleRefetch}
       directAccess={directlyAccessed}
       banners={carouselBanners}
       tools={creditReportTools}
