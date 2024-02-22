@@ -71,6 +71,7 @@ export default function Introduction({
             progressWrapperStyles={{
               backgroundColor: "#BAD7FF",
             }}
+            progressContainerStyles={{ filter: "none" }}
             onAllStoriesEnd={onComplete}
             loop={loop}
           />
