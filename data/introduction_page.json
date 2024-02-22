@@ -6,25 +6,25 @@
       "backgroundColor": "#FFFFF",
       "durationInMs": 3000,
       "heading": "finlit_intro_short1_title",
-      "illustrationImageUrl": "/assets/images/intro-story-slide-one.png"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-one.webp"
     },
     {
       "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
       "durationInMs": 3000,
       "heading": "finlit_intro_short2_title",
-      "illustrationImageUrl": "/assets/images/intro-story-slide-two.png"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-two.svg"
     },
     {
       "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
       "durationInMs": 3000,
       "heading": "finlit_intro_short3_title",
-      "illustrationImageUrl": "/assets/images/intro-story-slide-three.png"
+      "illustrationImageUrl": "/assets/images/intro-story-slide-three.svg"
     },
     {
       "backgroundColor": "linear-gradient(9deg, #EFF6FF 29.47%, #FFF 79.49%), linear-gradient(11deg, #EFF6FF 18%, #FFF 65.21%)",
       "durationInMs": 3000,
       "heading": "finlit_intro_short4_title",
-      "illustrationImageUrl": "/assets/images/intro-story-slide-four.png",
+      "illustrationImageUrl": "/assets/images/intro-story-slide-four.webp",
       "footerText":"60 Lakh+ people are building wealth with Refyne"
     }
   ]
