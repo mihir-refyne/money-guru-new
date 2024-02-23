@@ -2,8 +2,10 @@
   "proceed": "Proceed",
   "change_your_language": "Change Your Language",
   "skip": "Skip",
-  "finlit_intro_short1_title": "Struggling to manage your\nhard-earned money?",
-  "finlit_intro_short2_title": "Unlock the power of\nfinancial knowledge!",
+  "finlit_intro_short1_title": "Financial Literacy Made Easy",
+  "finlit_intro_short2_title": "Track credit score, provident fund, and more",
+  "finlit_intro_short3_title":"Financial Calculators for your Money Needs",
+  "finlit_intro_short4_title":"Unlock Financial wellness.",
   "tools": "Tools",
   "swipe_up_read_next_short": "Swipe up to read the next R-Short",
   "well_done": "Well Done!",
@@ -280,5 +282,6 @@
   "festive_page_visit_milestone": "festive_page_visit_milestone",
   "festive_page_visit_bottomsheet_header": "festive_page_visit_bottomsheet_header",
   "festive_page_visit_bottomsheet_desc": "festive_page_visit_bottomsheet_header",
-  "festive_page_visit_cta": "festive_page_visit_cta"
+  "festive_page_visit_cta": "festive_page_visit_cta",
+  "mongu_intro_story_cta_text":"mongu_intro_story_cta_text"
 }
