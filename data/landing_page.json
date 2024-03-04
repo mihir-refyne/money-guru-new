@@ -3,11 +3,11 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "what-are-interest-only-loans",
       "what-are-personal-loans",
       "what-are-medical-loans",
       "importance-terms-for-insurance",
       "buying-home-vs-renting",
-      "what-is-imps",
       "importance-of-credit-score"
     ],
     "autoPlayDurationInMs": 600000
