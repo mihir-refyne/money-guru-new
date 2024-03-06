@@ -3,7 +3,7 @@ import Shorts from "@/components/Shorts";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { GetStaticProps } from "next";
 import { marked } from "marked";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import shortsConfig from "../../data/shorts_config.json";
 import { SurveyTriggerAction } from "@/lib/survey";
@@ -14,6 +14,7 @@ import useMutation from "@/hooks/useMutation";
 import { postUserAction } from "@/lib/core/user";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
+import { getLastViewedShortId } from "@/lib/shorts";
 
 export interface ShortsPageProps {
   shorts: Array<{
@@ -25,6 +26,8 @@ export interface ShortsPageProps {
     };
   }>;
 }
+
+type ShortItemType = ShortsPageProps["shorts"][number];
 
 export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
   context
@@ -39,12 +42,31 @@ export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
   };
 };
 
-export default function ShortsPage({ shorts }: ShortsPageProps) {
+export default function ShortsPage({ shorts: rawShorts }: ShortsPageProps) {
   const router = useRouter();
   const { mutate } = useMutation(postUserAction);
+  const [shortIdFromUrlHash, setShortIdFromUrlHash] = useState<string | null>(
+    null
+  );
+  const [lastViewedShortIdOnLoad] = useState(getLastViewedShortId);
 
   const employerId = getValueFromMetadata("employerId");
   const workerId = getValueFromMetadata("workerId");
+
+  const shorts = useMemo<Array<ShortItemType>>(() => {
+    if (!shortIdFromUrlHash) return rawShorts;
+
+    const startShortId = shortIdFromUrlHash;
+    const lastViewedShortId = lastViewedShortIdOnLoad;
+
+    if (lastViewedShortId)
+      return getReOrderedShortsByStartAndLastViewedShortId(
+        rawShorts,
+        startShortId,
+        lastViewedShortId
+      );
+    return getReOrderedShortsByStartShortId(rawShorts, startShortId);
+  }, [shortIdFromUrlHash, lastViewedShortIdOnLoad, rawShorts]);
 
   const quizToBeTriggeredOnShorts = useMemo<{
     quizId: string;
@@ -72,6 +94,7 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
   useEffect(() => {
     if (!router.isReady) return;
     const hash = router.asPath.split("#")[1];
+    setShortIdFromUrlHash(hash);
     if (hash) {
       const path = router.asPath.replace(`#${hash}`, "");
       router.replace(path, undefined, {
@@ -130,7 +153,50 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
           screenName: ScreenName.MONGU_R_SHORTS,
           elementName: "REACTION",
         })}
+        persistShortView
       />
     </PageLayout>
   );
+}
+
+function getReOrderedShortsByStartShortId(
+  shorts: Array<ShortItemType>,
+  startShortId: string
+): Array<ShortItemType> {
+  const startShortIndex = shorts.findIndex(
+    (short) => short.id === startShortId
+  );
+  if (startShortIndex < 0) return shorts;
+  const newShortSeries = [...shorts];
+  const itemToBeAddedAtStart = newShortSeries.splice(startShortIndex);
+  return itemToBeAddedAtStart.concat(newShortSeries);
+}
+
+function getReOrderedShortsByStartAndLastViewedShortId(
+  shorts: Array<ShortItemType>,
+  startShortId: string,
+  lastViewedShortId: string
+): Array<ShortItemType> {
+  const startShortIndex = shorts.findIndex(
+    (short) => short.id === startShortId
+  );
+  if (startShortIndex < 0) return shorts;
+  const newShortSeries = [...shorts];
+  const startShortItem = newShortSeries.splice(startShortIndex, 1);
+
+  const lastViewedShortIndex = newShortSeries.findIndex(
+    (short) => short.id === lastViewedShortId
+  );
+  if (lastViewedShortIndex < 0)
+    return getReOrderedShortsByStartShortId(shorts, startShortId);
+
+  const nextShortAfterLastViewedIndex =
+    lastViewedShortIndex === newShortSeries.length - 1
+      ? 0
+      : lastViewedShortIndex + 1;
+
+  const itemToBeAddedAtStart = newShortSeries.splice(
+    nextShortAfterLastViewedIndex
+  );
+  return startShortItem.concat(itemToBeAddedAtStart, newShortSeries);
 }
