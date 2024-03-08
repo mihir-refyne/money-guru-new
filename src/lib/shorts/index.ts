@@ -6,8 +6,6 @@ import {
 const SHORTS_VIEW_HISTORY_LOCALSTORAGE_KEY = "__Shorts_Views";
 const SHORTS_REACTION_MAP_LOCALSTORAGE_KEY = "__Shorts_Reactions";
 
-const LAST_VIEWED_SHORT_ID_OBJECT_KEY = "lastViewedShortId";
-
 function getShortViewHistoryMap(): Record<string, string> {
   const historyAsString = getFromLocalStorage(
     SHORTS_VIEW_HISTORY_LOCALSTORAGE_KEY
@@ -41,7 +39,6 @@ export function hasShortViewHistory(): boolean {
 export function addShortView(shortId: string, onDate: Date = new Date()) {
   setShortViewHistoryMap({
     [shortId]: onDate.toISOString(),
-    [LAST_VIEWED_SHORT_ID_OBJECT_KEY]: shortId,
   });
 }
 
@@ -58,11 +55,6 @@ export function shortViewedAt(shortId: string): Date | null {
 
 export function isShortViewed(shortId: string) {
   return !!shortViewedAt(shortId);
-}
-
-export function getLastViewedShortId(): string | null {
-  const currentMap = getShortViewHistoryMap();
-  return currentMap[LAST_VIEWED_SHORT_ID_OBJECT_KEY] ?? null;
 }
 
 export type ShortReactionMap = Record<string, string>;

@@ -28,7 +28,6 @@ interface ShortsProps {
   hasEnd?: boolean;
   eventMetadata?: Record<string, string>;
   reactionElementId?: string;
-  persistShortView?: boolean;
 }
 
 export default function Shorts({
@@ -38,7 +37,6 @@ export default function Shorts({
   hasEnd = false,
   eventMetadata,
   reactionElementId,
-  persistShortView = false,
 }: ShortsProps) {
   const [shortsLocalReactionMap, _setLocalShortsReactionMap] =
     useState<ShortReactionMap>(getShortReactionMap);
@@ -50,7 +48,7 @@ export default function Shorts({
         AnalyticEvent.R_SHORTS_SCREEN,
         { short_id: id, ...eventMetadata }
       );
-      if (persistShortView) addShortView(id);
+      addShortView(id);
     }
   }
 
