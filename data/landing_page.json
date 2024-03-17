@@ -3,12 +3,12 @@
     "random": true,
     "numberOfShortsToBeFeatured": 5,
     "shortsToBeFeatured": [
+      "how-student-loans-work",
       "importance-of-credit-score",
       "what-is-gdp",
       "what-are-medical-loans",
       "importance-terms-for-insurance",
-      "buying-home-vs-renting",
-      "importance-of-credit-score"
+      "buying-home-vs-renting"
     ],
     "autoPlayDurationInMs": 600000
   },
