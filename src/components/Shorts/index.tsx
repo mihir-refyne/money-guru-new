@@ -41,12 +41,12 @@ export default function Shorts({
   const [shortsLocalReactionMap, _setLocalShortsReactionMap] =
     useState<ShortReactionMap>(getShortReactionMap);
 
-  function handleOnView(id?: string) {
+  function handleOnView(id?: string, isContentOverflowing?: boolean) {
     if (id) {
       logAnalyticsEvent(
         ["mixpanel", "webengage"],
         AnalyticEvent.R_SHORTS_SCREEN,
-        { short_id: id, ...eventMetadata }
+        { short_id: id, is_truncated: isContentOverflowing, ...eventMetadata }
       );
       addShortView(id);
     }
@@ -97,6 +97,16 @@ export default function Shorts({
     setShortReactionMap(payload);
   }
 
+  function handleReadMoreClickSideEffect(shortId: string) {
+    logAnalyticsEvent(
+      ["mixpanel"],
+      AnalyticEvent.R_SHORTS_READ_MORE_CTA_CLICKED,
+      {
+        short_id: shortId,
+      }
+    );
+  }
+
   return (
     <ShortsContainer>
       {items.map((short, index) => {
@@ -115,6 +125,9 @@ export default function Shorts({
                 handleReactionClick(short.data.id, reaction)
               }
               onShareClick={handleShareClickSideEffect}
+              onReadMoreClick={() =>
+                handleReadMoreClickSideEffect(short.data.id)
+              }
             />
           );
         }

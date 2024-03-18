@@ -18,8 +18,11 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import useTranslation from "@/hooks/useTranslation";
 import { isIOS } from "@/lib/utils";
+import { useIsOverflowing } from "@/hooks/useIsOverflowing";
 
 const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
+const TRUNCATE_RESET_DELAY_MS = 0.5 * 1000;
+const DEFERRED_ON_VIEW_TRIGGER_DELAY_MS = 500;
 
 const DEFAULT_R_SHORT_SHARE_PAYLOAD = {
   text: "Stay updated, stay sharp! Dive into today's R-short.",
@@ -54,13 +57,14 @@ interface ShortItemProps {
   };
   data?: ShortData;
   fillerContent?: ReactNode;
-  onView?: (id?: string) => void;
+  onView?: (id?: string, isContentOverflowing?: boolean) => void;
   onLeave?: (id?: string, direction?: string) => void;
   onNotifyClick?: () => void;
   reactionElementId?: string;
   reaction?: string;
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
   onShareClick?: (id?: string) => void;
+  onReadMoreClick?: () => void;
 }
 
 export default function ShortItem({
@@ -74,13 +78,18 @@ export default function ShortItem({
   reaction,
   onReactionClick,
   onShareClick,
+  onReadMoreClick,
 }: ShortItemProps) {
   const { t } = useTranslation("common");
   const [swipePrompt, setSwipePrompt] = useState<{
     location: "top" | "bottom";
     text: string;
   }>();
+  const [isTruncated, setIsTruncated] = useState(true);
+  const isContentOverflowingRef = useRef<boolean | null>(null);
   const swipePromptCleanupTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const resetTruncateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const deferredOnViewTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const appPlatformName = getValueFromMetadata("appPlatformName");
   const { shareInProgress, shareOrClipboardCopy } = useShare({
     isNativePlatformShareSupported:
@@ -115,13 +124,27 @@ export default function ShortItem({
     onEnter: handleOnEnter,
     onLeave(direction) {
       handleSwipePromptTimeoutCleanup();
+      resetTruncationWithDelay();
       onLeave?.(data?.id, direction);
     },
   });
 
   function handleOnEnter() {
     handleSwipePrompt();
-    onView?.(data?.id);
+    handleOnViewWithDeferred();
+  }
+
+  function handleOnViewWithDeferred() {
+    const deferred = isContentOverflowingRef.current === null;
+    if (deferred) {
+      deferredOnViewTimeoutRef.current = setTimeout(handleOnView, DEFERRED_ON_VIEW_TRIGGER_DELAY_MS);
+      return;
+    }
+    handleOnView();
+  };
+
+  function handleOnView() {
+    onView?.(data?.id, !!isContentOverflowingRef.current);
   }
 
   function handleSwipePrompt() {
@@ -141,6 +164,16 @@ export default function ShortItem({
     }
   }
 
+  function handleReadMoreClick() {
+    setIsTruncated(false);
+    onReadMoreClick?.();
+  }
+  function resetTruncationWithDelay() {
+    resetTruncateTimeoutRef.current = setTimeout(() => {
+      setIsTruncated(true);
+    }, TRUNCATE_RESET_DELAY_MS);
+  }
+
   function handleShareClick() {
     onShareClick?.(data?.id);
     if (isIOS()) {
@@ -153,6 +186,10 @@ export default function ShortItem({
     const fallbackImageUrl =
       data?.media?.type === "image" ? data.media.url : undefined;
     handleScreenshotCaptureAndShare(fallbackImageUrl);
+  }
+
+  function handleContentOverflowChange(overflowing: boolean) {
+    isContentOverflowingRef.current = overflowing;
   }
 
   function handleScreenshotCaptureAndShare(dataUri?: string) {
@@ -169,7 +206,15 @@ export default function ShortItem({
   }
 
   useEffect(() => {
-    return handleSwipePromptTimeoutCleanup;
+    return () => {
+      handleSwipePromptTimeoutCleanup();
+      if (resetTruncateTimeoutRef.current) {
+        clearTimeout(resetTruncateTimeoutRef.current);
+      }
+      if (deferredOnViewTimeoutRef.current) {
+        clearTimeout(deferredOnViewTimeoutRef.current);
+      }
+    };
   }, []);
 
   return (
@@ -189,9 +234,13 @@ export default function ShortItem({
           data={data}
           reaction={reaction}
           reactionElementId={reactionElementId}
+          isTruncated={isTruncated}
           onReactionClick={onReactionClick}
           shareLoading={shareInProgress || screenshotCaptureState.isLoading}
           onShareClick={handleShareClick}
+          readMoreCtaLabel={t("read_more")}
+          onReadMoreClick={handleReadMoreClick}
+          onContentOverflowChange={handleContentOverflowChange}
         />
       )}
       {type === "FILLER" && fillerContent}
@@ -213,6 +262,19 @@ export default function ShortItem({
   );
 }
 
+function getLineNumberPostTextToBeTruncated(viewHeightInPx: number): number {
+  if (viewHeightInPx < 600) return 6;
+  if (viewHeightInPx < 700) return 8;
+  if (viewHeightInPx < 750) return 9;
+  if (viewHeightInPx < 800) return 10;
+  if (viewHeightInPx < 850) return 11;
+  if (viewHeightInPx < 900) return 14;
+  if (viewHeightInPx < 950) return 16;
+  if (viewHeightInPx < 1000) return 17;
+  if (viewHeightInPx < 1050) return 18;
+  return 20;
+}
+
 const ShortItemContent = forwardRef<
   HTMLDivElement,
   {
@@ -222,6 +284,10 @@ const ShortItemContent = forwardRef<
     onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
     shareLoading: boolean;
     onShareClick?: () => void;
+    isTruncated?: boolean;
+    readMoreCtaLabel?: string;
+    onReadMoreClick?: () => void;
+    onContentOverflowChange?: (overflowing: boolean) => void;
   }
 >(function ShortItemContent(props, ref) {
   const {
@@ -231,8 +297,30 @@ const ShortItemContent = forwardRef<
     onReactionClick,
     shareLoading,
     onShareClick,
+    isTruncated,
+    readMoreCtaLabel,
+    onReadMoreClick,
+    onContentOverflowChange,
   } = props;
   const isMediaFullHeight = data.media?.fullHeight ?? false;
+  const { ref: contentElemRef, isOverflowing: isContentOverflowing } =
+    useIsOverflowing<HTMLDivElement>({
+      dependencies: [data.content, isTruncated],
+    });
+  const [lineClampCount, setLineClampCount] = useState<number>();
+
+  useEffect(() => {
+    if (isContentOverflowing === null) return;
+    onContentOverflowChange?.(isContentOverflowing);
+  }, [isContentOverflowing]);
+
+  useEffect(() => {
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    setLineClampCount(getLineNumberPostTextToBeTruncated(viewportHeight));
+  }, [contentElemRef]);
+
+  const isContentOverflowDetectionLoading = isContentOverflowing === null;
   /*
   - fullHeight media will take full height space
   - content and fotter will be floating above them with transparent backgrounf
@@ -244,28 +332,48 @@ const ShortItemContent = forwardRef<
           isMediaFullHeight ? styles.FullHeight : ""
         }`}
         ref={ref}
+        style={
+          {
+            "--line-clamp-count": lineClampCount,
+          } as React.CSSProperties
+        }
       >
         {data.media && <ShortMedia {...data.media} autoplay tag={data.tag} />}
         {/* TODO: Check what to do with content */}
         {!isMediaFullHeight && data.content && (
-          <div className={styles.ShortItem__Content}>{data.content}</div>
+          <div
+            ref={contentElemRef}
+            className={`${styles.ShortItem__Content} ${
+              isTruncated ? styles.Truncated : ""
+            } ${isContentOverflowDetectionLoading ? styles.Loading : ""}`}
+          >
+            {data.content}
+          </div>
         )}
-      </div>
-      <div className={styles.ShortItem__Footer}>
-        <ShortItemReaction
-          id={reactionElementId}
-          reaction={reaction}
-          reactionCount={data.reaction}
-          onReactionClick={onReactionClick}
-        />
-        <button
-          className="btn flex-center"
-          disabled={shareLoading}
-          onClick={onShareClick}
-        >
-          <span className="text-body text-medium mr-1">Share</span>
-          <ShareNetwork size={24} />
-        </button>
+        {isContentOverflowing && isTruncated && (
+          <button
+            className="text-semibold clr-brand-default mt-2"
+            onClick={onReadMoreClick}
+          >
+            {readMoreCtaLabel}
+          </button>
+        )}
+        <div className={styles.ShortItem__Footer}>
+          <ShortItemReaction
+            id={reactionElementId}
+            reaction={reaction}
+            reactionCount={data.reaction}
+            onReactionClick={onReactionClick}
+          />
+          <button
+            className="btn flex-center"
+            disabled={shareLoading}
+            onClick={onShareClick}
+          >
+            <span className="text-body text-medium mr-1">Share</span>
+            <ShareNetwork size={24} />
+          </button>
+        </div>
       </div>
     </>
   );
