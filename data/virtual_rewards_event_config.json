@@ -16,12 +16,12 @@
     }
   ],
   "socialProofTexts": ["stamps_landing_page_social_proof1"],
-  "festiveStartDate": "2023-12-28T03:00:00.000Z",
-  "festiveEndDate": "2023-12-31T18:29:59.000Z",
+  "festiveStartDate": "2024-04-10T18:30:00.000Z",
+  "festiveEndDate": "2024-04-13T18:30:00.000Z",
   "hypeCreationPageConfig": {
     "heroElementTextColor": "#FFFFFF",
     "heroBackgroundImageUrl": "/assets/images/virtual-rewards-event/hype_creation_hero_background.jpg",
-    "heroBackgroundHeight": "80rem",
+    "heroBackgroundHeight": "64rem",
     "heroFooterBackgroundColor": "#DCF5EF"
   },
   "festiveDaysPageConfig": {
@@ -66,7 +66,7 @@
   },
   "defaultSharePayload": {
     "imageUrl": "",
-    "text": "Hi! I am inviting you to the Refyne New Year Party. Click on the link to participate in the marathon of financial wellness and stand a chance to win upto ₹20,024",
+    "text": "Hi there! I am inviting you to play the Refyne Premier League. Click on the link to participate and stand a chance to win upto ₹10000! Check out now!",
     "url": "https://refyne.page.link/festival"
   },
   "podiumStagesConfig": {

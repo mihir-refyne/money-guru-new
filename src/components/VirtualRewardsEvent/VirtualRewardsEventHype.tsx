@@ -135,12 +135,14 @@ export default function VirtualRewardsEventHype({
           <CaretDoubleRight size={16} />
         </button>
       </div>
-      <div className="mt-4">
+      <div className="mt-4 mb-6">
         <InfoCard transparentBackground>
           {t("stamps_disclaimer_footer_text")}
         </InfoCard>
       </div>
-      <div
+      {/* NOTE: There's no footer this time,
+      TODO: Move it to config */}
+      {/* <div
         style={{
           marginBottom: "-0.8rem",
         }}
@@ -152,7 +154,7 @@ export default function VirtualRewardsEventHype({
           src={virtualRewardsEventThemeFooterImageUrl.src}
           alt="Virtual Rewards Event Theme Footer"
         />
-      </div>
+      </div> */}
     </VirtualRewardsEventPageLayout>
   );
 }
