@@ -9,10 +9,6 @@
     {
       "iconUrl": "/assets/images/virtual-rewards-event/giftbox_icon.svg",
       "text": "stamps_rule2"
-    },
-    {
-      "iconUrl": "/assets/images/virtual-rewards-event/announcement_icon.svg",
-      "text": "stamps_rule3"
     }
   ],
   "socialProofTexts": ["stamps_landing_page_social_proof1"],
