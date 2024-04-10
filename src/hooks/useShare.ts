@@ -134,9 +134,8 @@ export function useShare({
     payload: ShareContentWithImageUrls,
     config: ShareOrClipboardCopyConfig = {}
   ): Promise<ShareResponse<ShareMediumWithCopy>> {
-    // INFO: Removing share for temp period, until we debug the share on APP
-    // const shareResponse = await share(payload);
-    // if (shareResponse.success) return shareResponse;
+    const shareResponse = await share(payload);
+    if (shareResponse.success) return shareResponse;
     const {
       showToastOnClipboardCopy = false,
       clipboardCopyToastMessage = "Copied to clipboard",
