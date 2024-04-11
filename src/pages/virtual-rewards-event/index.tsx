@@ -440,7 +440,7 @@ export default function VirtualRewardsEventLandingPage({
 
   function handleBackendRedirectionDetails(redirectDetails: RedirectDetails) {
     const { screen, webViewUrl, externalUrl } = redirectDetails;
-    const webviewRoute = screen;
+    const webviewRoute = screen && (ScreenToAppRouteIdMap[screen] ?? screen);
     const navigateUrl = webViewUrl ?? externalUrl;
     handleRouting(navigateUrl, webviewRoute);
   }

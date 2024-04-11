@@ -34,5 +34,5 @@ export const ScreenToAppRouteIdMap: Record<string, string | undefined> = {
   AMOUNT_TO_WITHDRAW: "withdrawAmountPage",
   USER_TXN_DETAILS: "userTxnDetails",
   REWARDS: "invite",
-  REFYNE_PAY_HOME_PAGE: "REFYNE_PAY_HOME_PAGE",
+  REFYNE_PAY_HOME_PAGE: "refynePayHomePage",
 };
