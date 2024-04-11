@@ -3,19 +3,21 @@ import styles from "./styles.module.css";
 
 interface StampPodiumProps {
   bottomBorderColor?: string;
+  background?: string;
+  border?: string;
   children:
     | ReactElement<StampPodiumStageProps>
     | Array<ReactElement<StampPodiumStageProps>>;
 }
 
-export function StampPodium({ bottomBorderColor, children }: StampPodiumProps) {
+export function StampPodium({ bottomBorderColor, background, border, children }: StampPodiumProps) {
   const style: CSSProperties | undefined = bottomBorderColor
     ? {
         borderBottom: `0.2rem solid ${bottomBorderColor}`,
       }
     : undefined;
   return (
-    <div className={styles.StampPodium} style={style}>
+    <div className={styles.StampPodium} style={{ ...style, background, border, }}>
       {children}
     </div>
   );

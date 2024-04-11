@@ -4,12 +4,12 @@
     align-items: center;
     justify-content: center;
     /* TODO: Move it to config */
-        color: var(--clr-pure-white);
+    color: var(--clr-pure-white);
 }
 .StampWrapper {
     position: relative;
-    max-width: var(--spacing-20);
-    max-height: var(--spacing-20);
+    max-width: var(--spacing-16);
+    max-height: var(--spacing-16);
 }
 
 .StampWrapper__Background {

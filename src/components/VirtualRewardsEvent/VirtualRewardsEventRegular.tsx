@@ -45,6 +45,8 @@ interface VirtualRewardsEventRegularProps {
   stampCountBorderColor?: string;
   stampCountDisplayPosition?: StampCountPosition;
   stampPodiumStages: Array<StampPodiumStageConfig>;
+  stampPodiumBackground?: string;
+  stampPodiumBorder?: string;
   stampPodiumStageHasBottomBorder?: boolean;
   heroBackgroundRiveUrl: string | null;
   heroBackgroundImageUrl: string | null;
@@ -95,6 +97,8 @@ export default function VirtualRewardsEventRegular({
   stampCountDisplayPosition,
   stampPodiumStages,
   stampPodiumStageHasBottomBorder,
+  stampPodiumBackground,
+  stampPodiumBorder,
   heroBackgroundRiveUrl,
   heroBackgroundImageUrl,
   heroElementHeight,
@@ -247,6 +251,8 @@ export default function VirtualRewardsEventRegular({
           stampCountBorderColor={stampCountBorderColor}
           stampCountDisplayPosition={stampCountDisplayPosition}
           hasBottomBorder={stampPodiumStageHasBottomBorder}
+          podiumBackground={stampPodiumBackground}
+          podiumBorder={stampPodiumBorder}
           podiumStages={stampPodiumStages}
           onStampClick={handleStampClick}
         />
@@ -404,12 +410,12 @@ export default function VirtualRewardsEventRegular({
           )}
         </div>
       )}
-      <div className="mt-3">
+      <div className="mt-4 mb-6">
         <InfoCard transparentBackground>
           {t("stamps_disclaimer_footer_text")}
         </InfoCard>
       </div>
-      <div
+      {/* <div
         style={{
           marginBottom: "-0.8rem",
         }}
@@ -421,7 +427,7 @@ export default function VirtualRewardsEventRegular({
           src={virtualRewardsEventThemeFooterImageUrl.src}
           alt="Virtual Rewards Event Theme Footer"
         />
-      </div>
+      </div> */}
       <Modal
         active={stampInfoModalContent !== null}
         onClose={handleStampInfoModalClose}
@@ -502,7 +508,7 @@ function RoundedButton(props: {
   const hasBothIconAndText = icon && children;
   return (
     <button
-      className={`btn btn-primary btn-compact btn-rounded flex-center ${
+      className={`btn btn-primary-outline btn-compact btn-rounded flex-center clr-text-primary ${
         !onlyIcon ? "px-6" : ""
       }`}
       onClick={onClick}

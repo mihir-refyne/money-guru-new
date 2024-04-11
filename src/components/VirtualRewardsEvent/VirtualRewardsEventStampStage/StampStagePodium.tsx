@@ -20,6 +20,8 @@ export interface StampStagePodiumProps {
   stampCountDisplayPosition?: StampCountPosition;
   hasBottomBorder?: boolean;
   podiumStages: Array<StampPodiumStageConfig>;
+  podiumBackground?: string;
+  podiumBorder?: string;
   onStampClick?: (stampId: string, stampInfo: Stamp["info"]) => void;
 }
 
@@ -30,6 +32,8 @@ export default function StampStagePodium({
   stampCountDisplayPosition,
   hasBottomBorder = false,
   podiumStages,
+  podiumBackground,
+  podiumBorder,
   onStampClick,
 }: StampStagePodiumProps) {
   const _podiumStages = useMemo(
@@ -39,6 +43,8 @@ export default function StampStagePodium({
 
   return (
     <StampPodium
+      background={podiumBackground}
+      border={podiumBorder}
       bottomBorderColor={
         hasBottomBorder
           ? _podiumStages[_podiumStages.length - 1].backgroundColor

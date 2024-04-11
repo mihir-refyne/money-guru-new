@@ -1,6 +1,6 @@
 {
   "faqUrl": "https://app.refyne.co.in/#/?next=%2Ffaq",
-  "faqVideoUrl": null,
+  "faqVideoUrl": "https://www.youtube.com/watch?v=wugX5bzFxio",
   "rules": [
     {
       "iconUrl": "/assets/images/virtual-rewards-event/blue_tick_icon.svg",
@@ -11,7 +11,7 @@
       "text": "stamps_rule2"
     }
   ],
-  "socialProofTexts": ["stamps_landing_page_social_proof1"],
+  "socialProofTexts": ["stamps_landing_page_social_proof1", "stamps_landing_page_social_proof2"],
   "festiveStartDate": "2024-04-10T18:30:00.000Z",
   "festiveEndDate": "2024-04-13T18:30:00.000Z",
   "hypeCreationPageConfig": {
@@ -24,7 +24,7 @@
     "heroElementTextColor": "#FFFFFF",
     "heroBackgroundRiveUrl": null,
     "heroBackgroundImageUrl": "/assets/images/virtual-rewards-event/festive_hero_background.jpg",
-    "heroBackgroundHeight": "58rem",
+    "heroBackgroundHeight": "72rem",
     "heroFooterBackgroundColor": "#DCF5EF"
   },
   "finishedPageConfig": {
@@ -62,67 +62,134 @@
   },
   "defaultSharePayload": {
     "imageUrl": "",
-    "text": "Hi there! I am inviting you to play the Refyne Premier League. Click on the link to participate and stand a chance to win upto ₹10000! Check out now!",
+    "text": "Hey there! Catch LIVE ACTION on Refyne 🏏 Collect badges of your favourite IPL teams and unlock thrilling cash rewards. Check it out now!",
     "url": "https://refyne.page.link/festival"
   },
   "podiumStagesConfig": {
     "hasBottomBorder": false,
+    "stampPodiumBackground": "radial-gradient(39.77% 64.05% at 50% 50%, #0057B7 0%, #001747 100%)",
+    "stampPodiumBorder": "1px solid #003779",
     "stages": [
       {
-        "count": 3,
+        "count": 4,
         "borderRadius": "var(--spacing-4)",
         "textColor": "#FFFFFF",
-        "backgroundColor": "#001747"
+        "backgroundColor": ""
+      },
+      {
+        "count": 4,
+        "borderRadius": "var(--spacing-4)",
+        "textColor": "#FFFFFF",
+        "backgroundColor": ""
+      },
+      {
+        "count": 2,
+        "borderRadius": "var(--spacing-4)",
+        "textColor": "#FFFFFF",
+        "backgroundColor": ""
       }
     ]
   },
   "giftShareContent": {
-    "message": "Hi There, I am gifting you {{stampName}} stamp on Refyne as an Independence Day gift. To claim it, please click here"
+    "message": "Hey there! I am gifting you {{stampName}} badge on Refyne! 🎁 🟢 Refyne Premier League is LIVE: Collect badges of your favourite IPL teams and win ₹10,000! Claim your badge and join now!"
   },
   "requestShareContent": {
-    "message": "Hey, I am looking for {{stampNames}} Stamp(s) on Refyne. Do you have them? Please gift me the stamps by clicking here"
+    "message": "Hey there! 🏏 I'm on the hunt for IPL Team Badges on Refyne. Do you have any to spare? Please gift me badges by clicking here. Let's win this together!"
   },
-  "stampCountBorderColor": "#0057B7",
+  "stampCountBorderColor": "#121212",
   "stampCountDisplayPosition": "top_left",
   "rewardIdToStampsConfigMap": {
-    "VIR_RWD10000110": {
-      "imageUrl": "/assets/images/virtual-rewards-event/baloon_badge.svg",
-      "name": "Balloon",
+    "VIR_RWD10000120": {
+      "imageUrl": "/assets/images/virtual-rewards-event/csk_stamp.svg",
+      "name": "Chennai",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/baloon_badge.svg",
-        "title": "Balloon",
-        "description": "Did you know?\nRefyne is now present in 3000+ locations in India!"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/csk_stamp.svg",
+        "title": "Whistle Podu! 💛",
+        "description": "Chennai Super Kings, previously led by the legendary MS Dhoni, are the kings of consistency in the IPL kingdom. With Dhoni's cool demeanor and a squad as solid as a fortress, they're geared up to defend their title and reign supreme in 2024."
       }
     },
-    "VIR_RWD10000105": {
-      "imageUrl": "/assets/images/virtual-rewards-event/party_hat_badge.svg",
-      "name": "Party Hat",
+    "VIR_RWD10000122": {
+      "imageUrl": "/assets/images/virtual-rewards-event/mi_stamp.svg",
+      "name": "Mumbai",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/party_hat_badge.svg",
-        "title": "Party Hat",
-        "description": "Did you know?\n6 Million+ users have benefitted from Refyne till 2023"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/mi_stamp.svg",
+        "title": "Yeh Hai Mumbai Meri Jaan! 🏰",
+        "description": "Mumbai Indians, the undisputed champions of the IPL, boast more trophies than a pirate's treasure chest! With their star-studded lineup and a swagger that could outshine Bollywood, they're ready to rock the stadium and keep the trophy at home in 2024."
       }
     },
-    "VIR_RWD10000100": {
-      "imageUrl": "/assets/images/virtual-rewards-event/fireworks_badge.svg",
-      "name": "Fireworks",
+    "VIR_RWD10000125": {
+      "imageUrl": "/assets/images/virtual-rewards-event/rcb_stamp.svg",
+      "name": "Bengaluru",
       "info": {
-        "illustrationUrl": "/assets/images/virtual-rewards-event/fireworks_badge.svg",
-        "title": "Fireworks",
-        "description": "Did you know?\n400+ companies prefer Refyne as their trusted financial wellness partner for their employees!"
+        "illustrationUrl": "/assets/images/virtual-rewards-event/rcb_stamp.svg",
+        "title": "Ee Sala Cup Namdu! 🏆",
+        "description": "Royal Challengers Bangalore, the eternal dreamers of the IPL, have more close calls than a suspense thriller! Including the charismatic Virat Kohli , they're on a mission to turn their fortunes around and bring the elusive trophy home in 2024 - cue the dramatic music!"
+      }
+    },
+    "VIR_RWD10000128": {
+      "imageUrl": "/assets/images/virtual-rewards-event/srh_stamp.svg",
+      "name": "Hyderabad",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/srh_stamp.svg",
+        "title": "Hail the Orange Army! ☀️",
+        "description": "Sunrisers Hyderabad are the silent warriors of the IPL, surprising everyone with their skills. With their focused team, they're ready to rise like the sun and shine bright in 2024."
+      }
+    },
+    "VIR_RWD10000134": {
+      "imageUrl": "/assets/images/virtual-rewards-event/pk_stamp.svg",
+      "name": "Punjab",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/pk_stamp.svg",
+        "title": "Live Punjabi, Play Punjabi! 👑",
+        "description": "Punjab Kings have faced challenges but always bounce back with strength. With their determined team, they're ready to roar like lions and show their true power in 2024."
+      }
+    },
+    "VIR_RWD10000138": {
+      "imageUrl": "/assets/images/virtual-rewards-event/dc_stamp.svg",
+      "name": "Delhi",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/dc_stamp.svg",
+        "title": "Yeh Hai Nayi Dilli! 🦁",
+        "description": "Delhi Capitals, the rising force in the IPL, reached their first final in 2020. With Rishabh Pant's fearless approach, they're poised to build on their recent success and stake their claim as genuine contenders in 2024."
+      }
+    },
+    "VIR_RWD10000145": {
+      "imageUrl": "/assets/images/virtual-rewards-event/rr_stamp.svg",
+      "name": "Rajasthan",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/rr_stamp.svg",
+        "title": "Halla Bol! 📢",
+        "description": "Rajasthan Royals are the rebels of the IPL, always ready for an adventure. With their unpredictable style, they're set to shake things up and steal the show in 2024."
+      }
+    },
+    "VIR_RWD10000154": {
+      "imageUrl": "/assets/images/virtual-rewards-event/gt_stamp.svg",
+      "name": "Gujarat",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/gt_stamp.svg",
+        "title": "Jeet ka Jashn, Aava De! 🥳",
+        "description": "Gujarat Titans, the rising stars of the IPL, have showcased their potential in the last two seasons. Despite being newcomers, they've made significant strides, aiming to build on their promising performances and make a mark in 2024."
+      }
+    },
+    "VIR_RWD10000160": {
+      "imageUrl": "/assets/images/virtual-rewards-event/lsg_stamp.svg",
+      "name": "Lucknow",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/lsg_stamp.svg",
+        "title": "Ab Apni Baari Hai! 😎",
+        "description": "Lucknow Super Giants, the ambitious newcomers to the IPL, have quickly made their presence felt in the league over the last two seasons. With their strong performances and hunger for success, they're poised to continue their upward trajectory and challenge the established teams in 2024."
+      }
+    },
+    "VIR_RWD10000167": {
+      "imageUrl": "/assets/images/virtual-rewards-event/kkr_stamp.svg",
+      "name": "Kolkata",
+      "info": {
+        "illustrationUrl": "/assets/images/virtual-rewards-event/kkr_stamp.svg",
+        "title": "Korbo Lorbo Jeetbo Re! 💪",
+        "description": "Kolkata Knight Riders have won the IPL twice and are hungry for more. They're like the brave knights of cricket, ready to fight for glory and make their fans proud in 2024."
       }
     }
   },
   "requestBannerConfig": null,
-  "referBannerConfig": {
-    "heading": "Ran out of actions?",
-    "headingColor": "#15171A",
-    "description": "Refer your coworkers on Refyne today and you might get a Stamp!",
-    "descriptionColor": "#696D70",
-    "rightImageUrl": "/assets/images/virtual-rewards-event/ids_refer_banner_image.svg",
-    "backgroundColor": "#FFEFDA",
-    "ctaLabel": "Refer Now",
-    "ctaLabelColor": "#0057B7",
-    "ctaBackgroundColor": "#FFEFDA"
-  }
+  "referBannerConfig": null
 }

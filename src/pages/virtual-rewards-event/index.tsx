@@ -77,30 +77,13 @@ function getStampInfoFromConfigById(
   return config;
 }
 
-// INFO: Doing this hack to make the order correct as order config was wrong
-// TODO: Remove after festival
-function sortVirtualRewardsAsRequired(
-  virtualRewards: Array<UserVirtualRewardSummary>
-): Array<UserVirtualRewardSummary> {
-  const idsInOrder = ["VIR_RWD10000110", "VIR_RWD10000105", "VIR_RWD10000100"];
-  const newArr: Array<UserVirtualRewardSummary> = [];
-  for (const id of idsInOrder) {
-    const item = virtualRewards.find((el) => el.rewardId === id);
-    if (item) {
-      newArr.push(item);
-    }
-  }
-  return newArr;
-}
-
 function getStampsFromVirtualRewardsAndConfig(
   virtualRewards: Array<UserVirtualRewardSummary> | undefined,
   configMap: Record<string, Omit<Stamp, "id" | "count">>
 ): Array<Stamp> {
   if (!virtualRewards) return [];
   const stamps: Array<Stamp> = [];
-  const _virtualRewards = sortVirtualRewardsAsRequired(virtualRewards);
-  for (const virtualReward of _virtualRewards) {
+  for (const virtualReward of virtualRewards) {
     const config = getStampInfoFromConfigById(
       configMap,
       virtualReward.rewardId
@@ -457,7 +440,7 @@ export default function VirtualRewardsEventLandingPage({
 
   function handleBackendRedirectionDetails(redirectDetails: RedirectDetails) {
     const { screen, webViewUrl, externalUrl } = redirectDetails;
-    const webviewRoute = screen && ScreenToAppRouteIdMap[screen];
+    const webviewRoute = screen;
     const navigateUrl = webViewUrl ?? externalUrl;
     handleRouting(navigateUrl, webviewRoute);
   }
@@ -781,6 +764,8 @@ export default function VirtualRewardsEventLandingPage({
           config.podiumStagesConfig.hasBottomBorder
         }
         stampPodiumStages={config.podiumStagesConfig.stages}
+        stampPodiumBackground={config.podiumStagesConfig.stampPodiumBackground}
+        stampPodiumBorder={config.podiumStagesConfig.stampPodiumBorder}
         heroBackgroundRiveUrl={
           config.festiveDaysPageConfig.heroBackgroundRiveUrl
         }
@@ -878,8 +863,8 @@ export default function VirtualRewardsEventLandingPage({
         gameRules={config.rules}
         gameRuleVideoUrl={config.faqVideoUrl}
         // TODO: Move them to config
-        canGiftAndRequest={false}
-        canShare={false}
+        canGiftAndRequest={canGiftAndRequest}
+        canShare={true}
         isGiftingEnabled={isGiftingEnabled}
         isRequestEnabled={isRequestEnabled}
         stamps={STAMPS}
@@ -891,6 +876,8 @@ export default function VirtualRewardsEventLandingPage({
           config.podiumStagesConfig.hasBottomBorder
         }
         stampPodiumStages={config.podiumStagesConfig.stages}
+        stampPodiumBackground={config.podiumStagesConfig.stampPodiumBackground}
+        stampPodiumBorder={config.podiumStagesConfig.stampPodiumBorder}
         heroBackgroundRiveUrl={
           config.festiveDaysPageConfig.heroBackgroundRiveUrl
         }
