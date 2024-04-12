@@ -294,5 +294,12 @@
   "festive_page_visit_bottomsheet_header": "festive_page_visit_bottomsheet_header",
   "festive_page_visit_bottomsheet_desc": "festive_page_visit_bottomsheet_header",
   "festive_page_visit_cta": "festive_page_visit_cta",
-  "mongu_intro_story_cta_text":"mongu_intro_story_cta_text"
+  "mongu_intro_story_cta_text":"mongu_intro_story_cta_text",
+  "rpay_ct_task_swiggy": "rpay_ct_task_swiggy",
+  "rpro_ut_task": "rpro_ut_task",
+  "rshort_ut_cat1": "rshort_ut_cat1",
+  "rshort_ut_cat2": "rshort_ut_cat2",
+  "gold_task": "gold_task",
+  "rpay_ct_task_nonswiggy": "rpay_ct_task_nonswiggy",
+  "rshort_ut_cat3": "rshort_ut_cat3"
 }
