@@ -301,5 +301,16 @@
   "rshort_ut_cat2": "rshort_ut_cat2",
   "gold_task": "gold_task",
   "rpay_ct_task_nonswiggy": "rpay_ct_task_nonswiggy",
-  "rshort_ut_cat3": "rshort_ut_cat3"
+  "rshort_ut_cat3": "rshort_ut_cat3",
+  "rpay_ut_task_nongig": "rpay_ut_task_nongig",
+  "rpay_ut_task_gig": "rpay_ut_task_gig",
+  "withdrawal_ut_cat1_day3": "withdrawal_ut_cat1_day3",
+  "withdrawal_ut_cat2_day3": "withdrawal_ut_cat2_day3",
+  "withdrawal_ut_cat3_day3": "withdrawal_ut_cat3_day3",
+  "withdrawal_ut_cat1_day4": "withdrawal_ut_cat1_day4",
+  "withdrawal_ut_cat2_day4": "withdrawal_ut_cat2_day4",
+  "withdrawal_ut_cat3_day4": "withdrawal_ut_cat3_day4",
+  "rshort_cat1_day2": "rshort_cat1_day2",
+  "rshort_cat2_day2": "rshort_cat2_day2",
+  "rshort_cat3_day2": "rshort_cat3_day2"
 }
