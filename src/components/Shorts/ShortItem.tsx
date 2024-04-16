@@ -19,6 +19,7 @@ import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import useTranslation from "@/hooks/useTranslation";
 import { isIOS } from "@/lib/utils";
 import { useIsOverflowing } from "@/hooks/useIsOverflowing";
+import format from "date-fns/format";
 
 const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
 const TRUNCATE_RESET_DELAY_MS = 0.5 * 1000;
@@ -39,6 +40,7 @@ export interface ShortData {
   };
   tag?: string;
   content?: ReactNode;
+  publishedAt?: Date;
   share?: {
     imageUrl?: string;
     url?: string;
@@ -348,6 +350,11 @@ const ShortItemContent = forwardRef<
             } ${isContentOverflowDetectionLoading ? styles.Loading : ""}`}
           >
             {data.content}
+            {data.publishedAt && (
+              <p className={styles.ShortItem__Content__Date}>
+                {format(data.publishedAt, "dd MMM yyyy")}
+              </p>
+            )}
           </div>
         )}
         {isContentOverflowing && isTruncated && (

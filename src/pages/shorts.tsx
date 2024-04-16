@@ -122,6 +122,10 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
               />
             ),
             reaction: short.reaction,
+            publishedAt: parseAndValidatePublishedDate(
+              short.metadata?.publishedAt, 
+              short.metadata?.tag
+            ),
           },
         }))}
         onSwipeUp={handleSwipeUp}
@@ -133,4 +137,15 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
       />
     </PageLayout>
   );
+}
+
+function parseAndValidatePublishedDate(publishedAt: any, tag: unknown): Date | undefined {
+  if (!publishedAt) return;
+  // TODO: Get the tag from Manthan
+  if (tag !== "News") return;
+    try {
+      return new Date(publishedAt);
+    } catch (_) {
+      return;
+    }
 }
