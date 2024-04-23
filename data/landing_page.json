@@ -99,7 +99,7 @@
         {
           "fieldName": "employerId",
           "includes": true,
-          "values": ["EMR10000001", "EMR10000968", "EMR10000976"]
+          "values": ["EMR10000001", "EMR10000669", "EMR10000968", "EMR10000976"]
         }
       ]
     }
