@@ -1,55 +1,34 @@
-import { ReactElement, useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/router";
+import Banner, { BannerProps } from "@/components/Banner";
+import Carousel from "@/components/Carousel";
+import CreditScoreWidget from "@/components/CreditReport/CreditScoreWidget";
 import LoadingPage from "@/components/LoadingPage";
-import { hasWatchedIntroduction } from "@/lib/core";
 import PageLayout from "@/components/PageLayout";
-import rightArrowIconUrl from "@/images/right-arrow.svg";
-import Image from "next/image";
-import Link from "next/link";
-import config from "../../data/landing_page.json";
-import { getShortsByLocale } from "@/lib/shorts/server";
-import { GetStaticProps } from "next";
-import { marked } from "marked";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { ScreenName } from "@/constants/ScreenName";
+import useFetcher from "@/hooks/useFetcher";
+import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
+import useTranslation from "@/hooks/useTranslation";
+import rightArrowIconUrl from "@/images/right-arrow.svg";
+import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { hasWatchedIntroduction } from "@/lib/core";
 import {
-  checkIfFeatureEnabledByReleaseConfig,
   ReleaseConfig,
+  checkIfFeatureEnabledByReleaseConfig,
 } from "@/lib/core/release-config";
-import { getRandomNumbersInRange } from "@/lib/utils";
-import Carousel from "@/components/Carousel";
-import Banner, { BannerProps } from "@/components/Banner";
-import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
-import { logAnalyticsEvent } from "@/lib/analytics";
-import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { fetcher } from "@/lib/fetcher";
 import { SurveyTriggerAction } from "@/lib/survey";
-import useTranslation from "@/hooks/useTranslation";
-import CreditScoreWidget from "@/components/CreditReport/CreditScoreWidget";
 import constructElementId from "@/lib/utils/constructElementId";
-import { ScreenName } from "@/constants/ScreenName";
-
-interface HomePageProps {
-  shorts: Array<{
-    id: string;
-    metadata: Record<string, unknown>;
-    content: string;
-  }>;
-}
-
-export const getStaticProps: GetStaticProps<HomePageProps> = async (
-  context
-) => {
-  const { locale = "en" } = context;
-  const shorts = await getShortsByLocale(locale);
-
-  return {
-    props: {
-      shorts,
-    },
-  };
-};
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { marked } from "marked";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { ReactElement, useEffect, useMemo, useState } from "react";
+import config from "../../data/landing_page.json";
+import { ShortsResponse } from "./api/shorts";
 
 enum DashboardComponent {
   R_SHORT_CAROUSEL = "R_SHORT_CAROUSEL",
@@ -69,50 +48,17 @@ const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.CAROUSEL_BANNERS,
 ];
 
-export default function HomePage({ shorts }: HomePageProps) {
+export default function HomePage() {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatchAction } = useSurveyTrigger();
 
-  const shortsToBeFeatured = useMemo<
-    Array<{
-      id: string;
-      metadata: Record<string, unknown>;
-      content: string;
-    }>
-  >(() => {
-    const maxRange = shorts.length - 1 - 5;
-    const numberOfShorts =
-      config?.featuredShort?.numberOfShortsToBeFeatured ?? 1;
-    const shortsToBeFeaturedFromConfig =
-      config?.featuredShort?.shortsToBeFeatured ?? [];
+  const { data, isLoading: isLoadingShorts } = useFetcher(() => {
+    return fetcher<ShortsResponse>("/api/shorts");
+  });
 
-    const shortsToBeFeaturedFromConfigIndexes: number[] =
-      shortsToBeFeaturedFromConfig
-        .map((shortId) => {
-          return shorts.findIndex((val) => val.id === shortId);
-        })
-        .filter((val) => val >= 0);
-
-    const numberOfShortsRequiredToBeRandom = Math.max(
-      numberOfShorts - shortsToBeFeaturedFromConfigIndexes.length,
-      0
-    );
-
-    const randomIndexes = getRandomNumbersInRange(
-      0,
-      maxRange,
-      numberOfShortsRequiredToBeRandom,
-      shortsToBeFeaturedFromConfigIndexes
-    );
-    const shortIndexes =
-      shortsToBeFeaturedFromConfigIndexes.concat(randomIndexes);
-    const shortsToBeFeatured = shortIndexes.map(
-      (shortIndex) => shorts[shortIndex]
-    );
-    return shortsToBeFeatured;
-  }, [shorts]);
+  const shorts = data?.data.data ?? [];
 
   const featuredShortCarouselAutoPlayDuration: number | undefined =
     config.featuredShort?.autoPlayDurationInMs;
@@ -294,7 +240,9 @@ export default function HomePage({ shorts }: HomePageProps) {
     return componentsOrderConfig.order as DashboardComponent[];
   }, [config.componentsOrderConfig]);
 
-  if (!isMounted || isLoading) return <LoadingPage />;
+  if (!isMounted || isLoading || isLoadingShorts) return <LoadingPage />;
+
+  console.log(shorts);
 
   const COMPONENTS_NAME_TO_ELEMENT_MAP: Record<
     DashboardComponent,
@@ -305,9 +253,9 @@ export default function HomePage({ shorts }: HomePageProps) {
         autoPlay={!!featuredShortCarouselAutoPlayDuration}
         infiniteLoop
         interval={featuredShortCarouselAutoPlayDuration}
-        showIndicators={shortsToBeFeatured.length > 1}
+        showIndicators={shorts.length > 1}
       >
-        {shortsToBeFeatured.map((shortItem) => {
+        {shorts.map((shortItem) => {
           return (
             <div key={shortItem.id} className="mb-8">
               <FeaturedShort

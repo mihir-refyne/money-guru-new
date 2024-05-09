@@ -68,8 +68,7 @@ export default function ShortsPage() {
     const hash = router.asPath.split("#")[1];
     console.log("hash", hash);
     if (hash) {
-      const path = router.asPath.replace(`#${hash}`, "");
-      router.replace(path, undefined, {
+      router.replace(router.asPath, undefined, {
         shallow: true,
         scroll: false,
       });
