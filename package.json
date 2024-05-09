@@ -12,6 +12,7 @@
     "get-rshort-like-count": "node ./scripts/get-like-count-from-mixpanel"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.569.0",
     "@hugocxl/react-to-image": "^0.0.6",
     "@next/font": "13.1.6",
     "@rive-app/react-canvas": "^3.0.45",

@@ -1,6 +1,7 @@
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import fs from "fs/promises";
-import path from "path";
 import matter from "gray-matter";
+import path from "path";
 import { trimNumberFromStartOrEndOfSlug } from "../utils";
 
 const BASE_DIR = "data/shorts";
@@ -12,7 +13,7 @@ export async function getAllShortsPath(): Promise<Array<{ slug: string }>> {
   return dirNames.map((dir) => ({ slug: dir }));
 }
 
-async function getReactionMapOfShorts(): Promise<Record<
+export async function getReactionMapOfShorts(): Promise<Record<
   string,
   number
 > | null> {
@@ -85,4 +86,26 @@ export async function getShortsByLocale(locale: string) {
   // TODO: Do sorting here only
 
   return shorts;
+}
+
+export async function getObjectFromS3(
+  client: S3Client,
+  Bucket: string,
+  Key: string
+) {
+  const command = new GetObjectCommand({
+    Bucket,
+    Key,
+  });
+
+  const response = await client.send(command);
+  return response.Body?.transformToString();
+}
+
+export function parseMarkdown(rawContent: string) {
+  const { data: metadata, content } = matter(rawContent);
+  return {
+    content,
+    metadata,
+  };
 }
