@@ -1,0 +1,35 @@
+name: Fetch News Article (Cron)
+on:
+  schedule:
+    - cron: "10 10 * * *"
+jobs:
+  fetch-articles:
+    runs-on: ubuntu-latest
+    env:
+      S3_BUCKET: "refyne-env-assets-uat"
+      NEWSSOURCE_Q: "mutual funds OR Stocks OR economics OR commodities OR mergers OR acquisition OR trading OR ipo"
+      NEWSSOURCE_API_KEY: ${{ secrets.NEWSSOURCE_API_KEY }}
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::533267310038:role/GithubActionsFetchNews
+          role-session-name: fetch-news
+          aws-region: ap-south-1
+
+      - name: Checkout
+        uses: actions/checkout@4
+        with:
+          ref: "uat"
+
+      - name: Setup yarn
+        run: npm install -g yarn
+
+      - name: Install node dependencies
+        run: yarn install
+
+      - name: Run script
+        run: node ./scripts/get-shorts-from-source.js
+
+      - name: Upload to S3
+        run: aws s3 cp --recursive ./scripts/tmp/ s3://${{ env.S3_BUCKET }}/shorts/
