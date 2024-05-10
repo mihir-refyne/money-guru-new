@@ -16,6 +16,8 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef } from "react";
 import shortsConfig from "../../data/shorts_config.json";
 
+const SCROLL_BUFFER_TO_FETCH = 3;
+
 export interface ShortsPageProps {
   shorts: Array<{
     id: string;
@@ -68,6 +70,11 @@ export default function ShortsPage() {
     const hash = router.asPath.split("#")[1];
     console.log("hash", hash);
     if (hash) {
+      const currentScroll = data?.findIndex((d) => d.id === hash);
+      countRef.current = currentScroll ?? 0;
+      if (countRef.current >= (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH) {
+        next();
+      }
       router.replace(router.asPath, undefined, {
         shallow: true,
         scroll: false,
@@ -81,7 +88,7 @@ export default function ShortsPage() {
 
   function handleSwipeUp(id: string) {
     console.log(countRef);
-    if (countRef.current === (data?.length ?? 0) - 3) {
+    if (countRef.current === (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH) {
       next();
     }
     countRef.current = countRef.current + 1;
