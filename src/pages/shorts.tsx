@@ -36,11 +36,15 @@ export default function ShortsPage() {
   const employerId = getValueFromMetadata("employerId");
   const workerId = getValueFromMetadata("workerId");
 
-  const countRef = useRef(0);
+  const scrollCountRef = useRef(0);
 
   const { data, isLoading, next } = useInfiniteFetcher(shortsInfiniteFetcher);
 
   const shorts = data ?? [];
+
+  const scrollTriggerIndex = useMemo(() => {
+    return (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH;
+  }, [data]);
 
   const quizToBeTriggeredOnShorts = useMemo<{
     quizId: string;
@@ -68,11 +72,10 @@ export default function ShortsPage() {
   useEffect(() => {
     if (!router.isReady || isLoading) return;
     const hash = router.asPath.split("#")[1];
-    console.log("hash", hash);
     if (hash) {
       const currentScroll = data?.findIndex((d) => d.id === hash);
-      countRef.current = currentScroll ?? 0;
-      if (countRef.current >= (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH) {
+      scrollCountRef.current = currentScroll ?? 0;
+      if (scrollCountRef.current >= scrollTriggerIndex) {
         next();
       }
       router.replace(router.asPath, undefined, {
@@ -86,19 +89,11 @@ export default function ShortsPage() {
     });
   }, [router.isReady, isLoading]);
 
-  const shouldTriggerNext = useMemo(() => {
-    console.log();
-    if (countRef.current === (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH) {
-      return true;
-    }
-    return false;
-  }, [data]);
-
   function handleSwipeUp(id: string) {
-    if (shouldTriggerNext) {
+    if (scrollCountRef.current === scrollTriggerIndex) {
       next();
     }
-    countRef.current = countRef.current + 1;
+    scrollCountRef.current += 1;
     if (quizToBeTriggeredOnShorts?.shortIds.includes(id)) {
       const isTheQuizAlreadySkippedOrSubmitted = isQuizEitherCompletedOrSkipped(
         quizToBeTriggeredOnShorts.quizId
@@ -117,8 +112,8 @@ export default function ShortsPage() {
   }
 
   function handleSwipeDown() {
-    if (countRef.current > 0) {
-      countRef.current -= 1;
+    if (scrollCountRef.current > 0) {
+      scrollCountRef.current -= 1;
     }
   }
 

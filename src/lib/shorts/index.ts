@@ -90,20 +90,11 @@ export function setShortReactionMap(object: ShortReactionMap): boolean {
 
 export const shortsInfiniteFetcher: InfiniteFetcher<
   ShortsResponse["data"]
-> = async (setData, setIsDone, nextToken) => {
+> = async (nextToken) => {
   const { data } = await fetcher<ShortsResponse>("/api/shorts", {
     query: {
       ...(nextToken ? { ContinuationToken: nextToken } : {}),
     },
   });
-  setData((oldData) => {
-    if (Array.isArray(oldData)) {
-      return [...oldData, ...data.data];
-    }
-    return [...data.data];
-  });
-  if (!data.isTruncated) {
-    setIsDone(true);
-  }
-  return data.NextContinuationToken;
+  return [data.data, data.NextContinuationToken, !data.isTruncated];
 };

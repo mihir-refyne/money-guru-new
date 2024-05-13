@@ -1,17 +1,20 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+type NextToken = string | undefined;
+type IsDone = boolean;
 
 export type InfiniteFetcher<T> = (
-  setData: Dispatch<SetStateAction<T | undefined>>,
-  setIsDone: Dispatch<SetStateAction<boolean>>,
   nextToken?: string
-) => Promise<string | undefined>;
+) => Promise<[T | undefined, NextToken, IsDone]>;
 
-export default function useInfiniteFetcher<T>(fetcher: InfiniteFetcher<T>) {
-  const [data, setDataInternal] = useState<T | undefined>();
+export default function useInfiniteFetcher<T extends Array<unknown>>(
+  fetcher: InfiniteFetcher<T>
+) {
+  const [data, setData] = useState<T | undefined>();
   const [isLoading, setIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const nextTokenRef = useRef<string | undefined>();
-  const [isDone, setIsDoneInternal] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   async function* createInfiniteGen() {
     try {
@@ -23,11 +26,20 @@ export default function useInfiniteFetcher<T>(fetcher: InfiniteFetcher<T>) {
           yield;
         }
         setIsFetching(true);
-        nextTokenRef.current = await fetcher(
-          setDataInternal,
-          setIsDoneInternal,
+        const [newData, nextTokenToSet, isDoneToSet] = await fetcher(
           nextTokenRef.current
         );
+        setData((oldData) => {
+          if (oldData && newData) {
+            return [...oldData, ...newData] as T;
+          }
+          if (newData) {
+            return newData;
+          }
+          return undefined;
+        });
+        setIsDone(isDoneToSet);
+        nextTokenRef.current = nextTokenToSet;
         setIsFetching(false);
         if (isLoading) {
           setIsLoading(false);
