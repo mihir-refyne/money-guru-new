@@ -1,37 +1,46 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
 export type InfiniteFetcher<T> = (
   setData: Dispatch<SetStateAction<T | undefined>>,
-  setNextToken: Dispatch<SetStateAction<string | undefined>>,
   setIsDone: Dispatch<SetStateAction<boolean>>,
   nextToken?: string
-) => Promise<void>;
+) => Promise<string | undefined>;
 
 export default function useInfiniteFetcher<T>(fetcher: InfiniteFetcher<T>) {
   const [data, setDataInternal] = useState<T | undefined>();
   const [isLoading, setIsLoading] = useState(true);
-  const [isFetching, setIsFetching] = useState(true);
-  const [nextToken, setNextTokenInternal] = useState<string | undefined>("");
+  const [isFetching, setIsFetching] = useState(false);
+  const nextTokenRef = useRef<string | undefined>();
   const [isDone, setIsDoneInternal] = useState(false);
 
   async function* createInfiniteGen() {
-    while (true) {
-      if (isDone) {
-        return;
+    try {
+      while (true) {
+        if (isDone) {
+          return;
+        }
+        if (isFetching) {
+          yield;
+        }
+        setIsFetching(true);
+        nextTokenRef.current = await fetcher(
+          setDataInternal,
+          setIsDoneInternal,
+          nextTokenRef.current
+        );
+        setIsFetching(false);
+        if (isLoading) {
+          setIsLoading(false);
+        }
+        setIsFetching(false);
+        yield;
       }
-      setIsFetching(true);
-      await fetcher(
-        setDataInternal,
-        setNextTokenInternal,
-        setIsDoneInternal,
-        nextToken
-      );
+    } catch (e) {
+      console.error(e);
+      return;
+    } finally {
       setIsFetching(false);
-      if (isLoading) {
-        setIsLoading(false);
-      }
-      setIsFetching(false);
-      yield;
+      setIsLoading(false);
     }
   }
 

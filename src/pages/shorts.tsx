@@ -86,9 +86,16 @@ export default function ShortsPage() {
     });
   }, [router.isReady, isLoading]);
 
-  function handleSwipeUp(id: string) {
-    console.log(countRef);
+  const shouldTriggerNext = useMemo(() => {
+    console.log();
     if (countRef.current === (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH) {
+      return true;
+    }
+    return false;
+  }, [data]);
+
+  function handleSwipeUp(id: string) {
+    if (shouldTriggerNext) {
       next();
     }
     countRef.current = countRef.current + 1;
