@@ -1,4 +1,3 @@
-import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import fs from "fs/promises";
 import matter from "gray-matter";
 import path from "path";
@@ -86,20 +85,6 @@ export async function getShortsByLocale(locale: string) {
   // TODO: Do sorting here only
 
   return shorts;
-}
-
-export async function getObjectFromS3(
-  client: S3Client,
-  Bucket: string,
-  Key: string
-) {
-  const command = new GetObjectCommand({
-    Bucket,
-    Key,
-  });
-
-  const response = await client.send(command);
-  return response.Body?.transformToString();
 }
 
 export function parseMarkdown(rawContent: string) {

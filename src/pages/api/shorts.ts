@@ -1,10 +1,11 @@
+import { getReactionMapOfShorts, parseMarkdown } from "@/lib/shorts/server";
 import {
   getObjectFromS3,
-  getReactionMapOfShorts,
-  parseMarkdown,
-} from "@/lib/shorts/server";
-import { trimNumberFromStartOrEndOfSlug } from "@/lib/utils";
-import { ListObjectsV2Command, S3Client } from "@aws-sdk/client-s3";
+  listObjectsV2,
+  queryParamsParser,
+  trimNumberFromStartOrEndOfSlug,
+} from "@/lib/utils";
+import { S3Client } from "@aws-sdk/client-s3";
 import { NextApiHandler } from "next";
 
 const RSHORTS_S3_PATH = process.env.RSHORTS_S3_PATH;
@@ -28,6 +29,8 @@ export type ShortsError = {
   error: string;
 };
 
+const client = new S3Client();
+
 const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
   req,
   res
@@ -38,19 +41,14 @@ const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
       error: errorMsg,
     });
   }
-  let ContinuationToken = req.query.ContinuationToken;
-  if (Array.isArray(ContinuationToken)) {
-    ContinuationToken = ContinuationToken[0];
-  }
-  if (Array.isArray(req.query.limit)) {
-    req.query.limit = req.query.limit[0];
-  }
+  const parsedQuery = queryParamsParser(req.query);
 
-  const locale = req.query.locale ?? "en";
+  const locale = parsedQuery.locale ?? "en";
+
   let limit;
   try {
-    limit = parseInt(req.query.limit ?? DEFAULT_LIMIT);
-    if (!ContinuationToken) {
+    limit = parseInt(parsedQuery.limit ?? DEFAULT_LIMIT);
+    if (!parsedQuery.ContinuationToken) {
       limit += 1;
     }
   } catch (error) {
@@ -60,29 +58,26 @@ const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
     });
   }
 
-  let listObjectsResponse;
-  const client = new S3Client();
   let response: ShortsResponse = {
     data: [],
     isTruncated: false,
   };
-  try {
-    const command = new ListObjectsV2Command({
+
+  const listObjectsResponse = await listObjectsV2(
+    {
       Bucket: RSHORTS_S3_BUCKET,
       Prefix: RSHORTS_S3_PATH,
-      MaxKeys: limit,
+      ContinuationToken: parsedQuery.ContinuationToken,
       Delimiter: "/",
-      ContinuationToken,
-    });
+      MaxKeys: limit,
+    },
+    client
+  );
 
-    listObjectsResponse = await client.send(command);
-  } catch (error) {
-    const errorMsg = "Failed to list objects in shorts folder";
-    console.error(errorMsg, error);
-    return res.status(500).json({
-      error: errorMsg,
-    });
+  if ("error" in listObjectsResponse) {
+    return res.status(500).json(listObjectsResponse);
   }
+
   if (
     listObjectsResponse.CommonPrefixes &&
     listObjectsResponse.CommonPrefixes.length < 1
@@ -129,6 +124,7 @@ const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
   try {
     await Promise.all(filePromises);
   } catch (error) {
+    // TODO: Sentry instrumentation
     console.error(error);
     return res.status(500).json({
       error: "Failed to get or parse shorts data",
