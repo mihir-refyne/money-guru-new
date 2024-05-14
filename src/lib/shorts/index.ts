@@ -96,5 +96,5 @@ export const shortsInfiniteFetcher: InfiniteFetcher<
       ...(nextToken ? { ContinuationToken: nextToken } : {}),
     },
   });
-  return [data.data, data.NextContinuationToken, !data.isTruncated];
+  return [data.data, data.nextContinuationToken, !data.isTruncated];
 };

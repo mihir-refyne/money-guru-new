@@ -21,7 +21,7 @@ export type ShortsResponse = {
       liked: number;
     };
   }>;
-  NextContinuationToken?: string;
+  nextContinuationToken?: string;
   isTruncated: boolean;
 };
 
@@ -36,9 +36,8 @@ const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
   res
 ) => {
   if (!RSHORTS_S3_BUCKET || !RSHORTS_S3_PATH) {
-    let errorMsg = "S3 env vars not set correctly";
     return res.status(500).json({
-      error: errorMsg,
+      error: "S3 env vars not set correctly",
     });
   }
   const parsedQuery = queryParamsParser(req.query);
@@ -87,7 +86,7 @@ const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
     });
   }
 
-  response.NextContinuationToken = listObjectsResponse.NextContinuationToken;
+  response.nextContinuationToken = listObjectsResponse.NextContinuationToken;
   response.isTruncated = listObjectsResponse.IsTruncated ?? false;
 
   const shortsPaths = listObjectsResponse.CommonPrefixes?.map(
