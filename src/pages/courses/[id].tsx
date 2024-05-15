@@ -1,24 +1,24 @@
-import { ReactNode, useCallback, useMemo } from "react";
-import { GetStaticPaths, GetStaticProps } from "next";
-import { useRouter } from "next/router";
-import {
-  ShortsPageProps,
-  getStaticProps as getStaticPropsOnShortsPage,
-} from "../shorts";
-import _config from "../../../data/courses_config.json";
+import CoursePreKyc from "@/components/Course/CoursePreKyc";
 import PageLayout from "@/components/PageLayout";
-import { marked } from "marked";
-import { ShortData } from "@/components/Shorts/ShortItem";
-import Shorts from "@/components/Shorts";
 import Quiz from "@/components/Quiz";
 import { getSurveyTriggerFromStringValue } from "@/components/Quiz/helpers";
-import CoursePreKyc from "@/components/Course/CoursePreKyc";
+import Shorts from "@/components/Shorts";
+import { ShortData } from "@/components/Shorts/ShortItem";
+import { UserStatus } from "@/lib/core/user";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { getShortsByLocale } from "@/lib/shorts/server";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import { UserStatus } from "@/lib/core/user";
+import { marked } from "marked";
+import { GetStaticPaths, GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import { ReactNode, useCallback, useMemo } from "react";
+import _config from "../../../data/courses_config.json";
+import {
+  ShortsPageProps
+} from "../shorts";
 
 const config = _config as CoursesConfig;
 
@@ -87,10 +87,7 @@ export const getStaticProps: GetStaticProps<
   const courseId = context.params?.id;
   if (!courseId)
     throw new Error("courseId missing at getStaticProps of courses page");
-  const { props } = (await getStaticPropsOnShortsPage(context)) as {
-    props: ShortsPageProps;
-  };
-  const shorts = props.shorts;
+  const shorts = await getShortsByLocale(context.locale ?? "en");
   const shortsMapById = shorts.reduce((accum, curr) => {
     accum[curr.id] = curr;
     return accum;
