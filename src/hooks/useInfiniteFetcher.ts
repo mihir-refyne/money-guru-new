@@ -3,14 +3,16 @@ import { useEffect, useRef, useState } from "react";
 type NextToken = string | undefined;
 type IsDone = boolean;
 
-export type InfiniteFetcher<T> = (
-  nextToken?: string
-) => Promise<[T | undefined, NextToken, IsDone]>;
+export type InfiniteFetcher<T> = (nextToken?: string) => Promise<{
+  data: T;
+  nextToken: NextToken;
+  isDone: IsDone;
+}>;
 
 export default function useInfiniteFetcher<T extends Array<unknown>>(
   fetcher: InfiniteFetcher<T>
 ) {
-  const [data, setData] = useState<T | undefined>();
+  const [data, setData] = useState<T | undefined | null>();
   const [isLoading, setIsLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const nextTokenRef = useRef<string | undefined>();
@@ -26,9 +28,11 @@ export default function useInfiniteFetcher<T extends Array<unknown>>(
           yield;
         }
         setIsFetching(true);
-        const [newData, nextTokenToSet, isDoneToSet] = await fetcher(
-          nextTokenRef.current
-        );
+        const {
+          data: newData,
+          isDone: isDoneToSet,
+          nextToken: nextTokenToSet,
+        } = await fetcher(nextTokenRef.current);
         setData((oldData) => {
           if (oldData && newData) {
             return [...oldData, ...newData] as T;
@@ -36,7 +40,7 @@ export default function useInfiniteFetcher<T extends Array<unknown>>(
           if (newData) {
             return newData;
           }
-          return undefined;
+          return null;
         });
         setIsDone(isDoneToSet);
         nextTokenRef.current = nextTokenToSet;
