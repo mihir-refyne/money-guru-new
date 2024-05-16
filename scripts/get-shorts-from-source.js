@@ -4,6 +4,8 @@ const YAML = require("yamljs")
 const { mkdir, writeFile } = require("fs/promises")
 const { join } = require("path")
 
+const tmpPath =join(__dirname, process.env.TMP_DIR ?? "shorts-tmp") 
+
 async function main() {
   const searchParams = new URLSearchParams({
     apiKey: process.env.NEWSSOURCE_API_KEY,
@@ -20,7 +22,7 @@ async function main() {
   const response = await requestGet(sourceUrl);
   const responseJson = toJSON(response.body);
 
-  await mkdir(join(__dirname, process.env.TMP_DIR ?? "shorts-tmp"));
+  await mkdir(tmpPath);
 
   // INFO: This prefix makes sure that new articles are added to the top of the bucket (for S3 ascending alphabetical sort-order)
   const epochInverse = 9999999999 - Math.floor(new Date().getTime() / 1000);
@@ -46,8 +48,6 @@ ${frontmatter}---
 ${mdBody}`;
 
     const normArticleTitle = article.title.trim().replace(/[^a-zA-Z0-9 ]/g, "").replace(/ /g, "-").toLowerCase();
-
-    const tmpPath = join(__dirname, "tmp");
 
     const articleDirPath = join(tmpPath, `${epochInverse}-${normArticleTitle}`);
 

@@ -9,6 +9,7 @@ jobs:
       S3_BUCKET: "refyne-env-assets-uat"
       NEWSSOURCE_Q: "mutual funds OR Stocks OR economics OR commodities OR mergers OR acquisition OR trading OR ipo"
       NEWSSOURCE_API_KEY: ${{ secrets.NEWSSOURCE_API_KEY }}
+      TMP_DIR: shorts-tmp
     steps:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -32,4 +33,4 @@ jobs:
         run: node ./scripts/get-shorts-from-source.js
 
       - name: Upload to S3
-        run: aws s3 cp --recursive ./scripts/tmp/ s3://${{ env.S3_BUCKET }}/shorts/
+        run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/ s3://${{ env.S3_BUCKET }}/shorts/
