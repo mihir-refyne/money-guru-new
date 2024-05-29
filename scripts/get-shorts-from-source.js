@@ -9,6 +9,7 @@ const tmpPath = join(__dirname, process.env.TMP_DIR ?? "shorts-tmp");
 const minImageWidth = process.env.MIN_IMAGE_WIDTH ?? 640;
 const minImageHeight = process.env.MIN_IMAGE_HEIGHT ?? 480;
 const minDescLength = process.env.MIN_DESCRIPTION_LENGTH ?? 300;
+const limit = process.env.LIMIT ?? 5;
 
 async function main() {
   const articles = await fetchNewsArticles();
@@ -28,7 +29,9 @@ async function main() {
     `Found ${filteredArticles.length} articles with an image bigger than ${minImageWidth} x ${minImageHeight} and content length bigger than ${minDescLength} characters from list of ${articles.length} articles`
   );
 
-  for (const article of filteredArticles) {
+  const limitedArticles = filterArticles.slice(0, limit);
+
+  for (const article of limitedArticles) {
     const mdBody = json2md([{ h3: article.title }, { p: article.description }]);
     const frontmatter = YAML.stringify({
       mediaType: "image",
