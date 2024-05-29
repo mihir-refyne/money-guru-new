@@ -11,6 +11,8 @@ import { isValueIsNumeric } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
+import useFetcher from "@/hooks/useFetcher";
+import { checkPfStatus } from "@/lib/credit-report";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
   mobileNo: "enter_mobile_number_prompt",
@@ -69,7 +71,6 @@ export default function EpfDetailsFetchStart({
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
   const [identifierValue, setIdentifierValue] = useState<string>(initialValue);
-
   const isTypedIdentifierValueValid = isValueValid(identifier, identifierValue);
   const nextIdentifier = getNextIdentifier(identifier);
 

@@ -18,8 +18,13 @@ import Modal from "@/components/Modal";
 import EpfFetchErrorModalContentWrapper, {
   EpfFetchErrorModalContentProps,
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
-import { EpfTrackerServerErrorCodeToResponseModalMapPreOtp } from "@/components/EpfTracker/constants";
+import {
+  EpfTrackerServerErrorCodeToResponseModalMapPreOtp,
+  SERVICE_UNAVAILABLE_COMMON_MODAL,
+} from "@/components/EpfTracker/constants";
 import { isValueIsNumeric } from "@/lib/utils";
+import useFetcher from "@/hooks/useFetcher";
+import { checkPfStatus } from "@/lib/credit-report";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -39,6 +44,7 @@ export default function EpfTrackerStartPage() {
   >(null);
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
+  const { data: serviceAvailability } = useFetcher(checkPfStatus);
   const { isLoading, data, error, mutate } = useMutation(
     triggerOtpForEpfDetailsFetch
   );
@@ -64,6 +70,10 @@ export default function EpfTrackerStartPage() {
   }, [identifier]);
 
   useEffect(() => {
+    if (serviceAvailability === "UNAVAILABLE") {
+      setErrorModal(SERVICE_UNAVAILABLE_COMMON_MODAL);
+      return;
+    }
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
     if (errorCode) {
       logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
@@ -87,7 +97,7 @@ export default function EpfTrackerStartPage() {
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
     if (errorMessage)
       toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
-  }, [error]);
+  }, [error, serviceAvailability]);
 
   function handleErrorModalClose() {
     setErrorModal(null);

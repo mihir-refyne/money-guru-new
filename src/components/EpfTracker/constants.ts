@@ -9,14 +9,15 @@ type ServerErrorCodeToResponseModalMapType = Record<
   Partial<Record<string, EpfFetchErrorModalContentProps>>
 >;
 
-const SERVICE_UNAVAILABLE_COMMAN_MODAL: EpfFetchErrorModalContentProps = {
-  illustrationUrl: WARNING_YELLOW_ICON_URL,
-  title: "epfo_portal_down_title",
-  description: "epfo_portal_down_description",
-  primaryCta: {
-    label: "epfo_portal_down_cta",
-  },
-};
+export const SERVICE_UNAVAILABLE_COMMON_MODAL: EpfFetchErrorModalContentProps =
+  {
+    illustrationUrl: WARNING_YELLOW_ICON_URL,
+    title: "epfo_portal_down_title",
+    description: "epfo_portal_down_description",
+    primaryCta: {
+      label: "epfo_portal_down_cta",
+    },
+  };
 
 const NO_RECORDS_FOUND_COMMON_MODAL: EpfFetchErrorModalContentProps = {
   illustrationUrl: INFO_BLUE_ICON_URL,
@@ -56,7 +57,7 @@ export const EpfTrackerServerErrorCodeToResponseModalMapPreOtp: ServerErrorCodeT
           url: "/epf-tracker/start?identifier=uan",
         },
       },
-      E74005: SERVICE_UNAVAILABLE_COMMAN_MODAL,
+      E74005: SERVICE_UNAVAILABLE_COMMON_MODAL,
     },
     uan: {
       E74001: {
@@ -67,7 +68,7 @@ export const EpfTrackerServerErrorCodeToResponseModalMapPreOtp: ServerErrorCodeT
           label: "epfo_no_record_cta_uan",
         },
       },
-      E74005: SERVICE_UNAVAILABLE_COMMAN_MODAL,
+      E74005: SERVICE_UNAVAILABLE_COMMON_MODAL,
     },
   };
 
@@ -91,9 +92,9 @@ export const EpfTrackerServerErrorCodeToResponseModalMapPostOtp: ServerErrorCode
           label: "epfo_logged_in_elsewhere_cta",
         },
       },
-      E74005: SERVICE_UNAVAILABLE_COMMAN_MODAL,
+      E74005: SERVICE_UNAVAILABLE_COMMON_MODAL,
     },
     uan: {
-      E74005: SERVICE_UNAVAILABLE_COMMAN_MODAL,
+      E74005: SERVICE_UNAVAILABLE_COMMON_MODAL,
     },
   };
