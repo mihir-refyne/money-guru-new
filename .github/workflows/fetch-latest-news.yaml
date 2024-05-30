@@ -39,5 +39,8 @@ jobs:
       - name: Run script
         run: node ./scripts/get-shorts-from-source.js
 
+      - name: Upload Analytics to S3
+        run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/analytics s3://${{ env.S3_BUCKET }}/shorts-analytics/
+
       - name: Upload to S3
         run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/ s3://${{ env.S3_BUCKET }}/shorts/

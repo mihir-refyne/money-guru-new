@@ -30,6 +30,29 @@ async function main() {
   );
 
   const limitedArticles = filteredArticles.slice(0, limit);
+  const analyticsForTheDay = {
+    totalArticlesFetched: articles.length,
+    filter: {
+      minImageWidth,
+      minImageHeight,
+      minDescLength,
+    },
+    filteredArticles: filteredArticles.length,
+  };
+
+  const analyticsPath = join(tmpPath, "analytics");
+  await mkdir(analyticsPath);
+  await writeFile(
+    join(
+      analyticsPath,
+      `${new Date()
+        .toLocaleDateString("en-in", {
+          dateStyle: "long",
+        })
+        .replaceAll(" ", "-")}`
+    ),
+    JSON.stringify(analyticsForTheDay)
+  );
 
   for (const article of limitedArticles) {
     const mdBody = json2md([{ h3: article.title }, { p: article.description }]);
@@ -117,6 +140,10 @@ async function fetchNewsArticles() {
 
     const response = await requestGet(sourceUrl);
     const responseJson = toJSON(response.body);
+
+    if (responseJson.status === "error") {
+      throw responseJson;
+    }
 
     if (Array.isArray(responseJson?.results)) {
       results.push(...responseJson.results);
