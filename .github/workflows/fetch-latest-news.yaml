@@ -2,6 +2,7 @@ name: Fetch News Article UAT (Cron)
 on:
   schedule:
     - cron: "30 4 * * *"
+  workflow_dispatch:
 
 permissions:
   id-token: write
@@ -28,12 +29,9 @@ jobs:
           aws-region: ap-south-1
 
       - name: Checkout
-        uses: actions/checkout@4
+        uses: actions/checkout@v4
         with:
           ref: "uat"
-
-      - name: Setup yarn
-        run: npm install -g yarn
 
       - name: Install node dependencies
         run: yarn install
