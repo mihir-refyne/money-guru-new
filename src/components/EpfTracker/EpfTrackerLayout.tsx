@@ -19,6 +19,7 @@ interface EpfTrackerLayoutProps {
   navbarText?: string;
   alignContentCenter?: boolean;
   children: ReactNode;
+  hasFooter?: boolean;
   footer?: ReactElement;
   dispatchPopEventOnBackClick?: boolean;
   hasContentPadding?: boolean;
@@ -29,6 +30,7 @@ export default function EpfTrackerLayout({
   navbarText,
   alignContentCenter,
   children,
+  hasFooter = true,
   footer,
   dispatchPopEventOnBackClick,
   hasContentPadding,
@@ -60,7 +62,11 @@ export default function EpfTrackerLayout({
       hasLocaleChange={false}
       dispatchPopEventOnBackClick={dispatchPopEventOnBackClick}
       hasContentPadding={hasContentPadding}
-      footer={<div className="p-4">{footer ?? <EpfTrackerCommonFooter />}</div>}
+      footer={
+        hasFooter ? (
+          <div className="p-4">{footer ?? <EpfTrackerCommonFooter />}</div>
+        ) : undefined
+      }
       hasShare={hasShare}
       onShareClick={handleShareClick}
     >

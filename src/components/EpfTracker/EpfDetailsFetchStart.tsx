@@ -13,6 +13,14 @@ import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
 import useFetcher from "@/hooks/useFetcher";
 import { checkPfStatus } from "@/lib/credit-report";
+import EpfTrackerCommonFooter from "./EpfTrackerCommonFooter";
+import styles from "./styles.module.css";
+import { CaretRight } from "phosphor-react";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
   mobileNo: "enter_mobile_number_prompt",
@@ -58,6 +66,7 @@ interface EpfDetailsFetchStartProps {
   onIdentifierChange?: (identifier: EpfFetchIdentifier) => void;
   onSubmit: (identifier: EpfFetchIdentifier, value: string) => void;
   loading?: boolean;
+  onFaqClick?: () => void;
 }
 
 export default function EpfDetailsFetchStart({
@@ -67,6 +76,7 @@ export default function EpfDetailsFetchStart({
   onIdentifierChange,
   onSubmit,
   loading = false,
+  onFaqClick,
 }: EpfDetailsFetchStartProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
@@ -90,13 +100,8 @@ export default function EpfDetailsFetchStart({
   return (
     <EpfTrackerLayout
       hasContentPadding={false}
+      hasFooter={false}
       dispatchPopEventOnBackClick={directlyAccessed}
-      footer={
-        <EpfTrackerFetchFooter
-          formId={formId}
-          buttonDisabled={!isTypedIdentifierValueValid}
-        />
-      }
     >
       <div
         className="px-4 pt-6"
@@ -125,6 +130,7 @@ export default function EpfDetailsFetchStart({
         }}
       >
         <Input
+          className="px-4"
           inputMode="numeric"
           label={tWithoutTypeSafety(
             EpfFetchIdentifierToInputLabelMap[identifier]
@@ -152,6 +158,24 @@ export default function EpfDetailsFetchStart({
           maxLength={EpfFetchIdentifierInputMaxLengthMap[identifier]}
         />
       </form>
+
+      <EpfTrackerFetchFooter
+        formId={formId}
+        buttonDisabled={!isTypedIdentifierValueValid}
+      />
+
+      <div className="px-4¸">
+        <div className={styles.hello}>
+          <h4>{t("facing_issues")}</h4>
+          <h5 className="text-body text-regular clr-text-secondary mt-1">
+            {t("pf-faq-desc")}
+          </h5>
+          <button className="btn btn-text btn-compact" onClick={onFaqClick}>
+            {t("check_faqs")}
+            <CaretRight />
+          </button>
+        </div>
+      </div>
     </EpfTrackerLayout>
   );
 }
