@@ -122,6 +122,20 @@
           "includes": true,
           "values": ["EMR10000001", "EMR10001326"]
         }
+      },
+      {
+        "name": "fin_coaching_naval_free",
+        "heading": "Need help with finances?",
+        "url": "https://fincoachv2.typedream.app/financial-coach-free",
+        "description": "Get financial advice from SEBI certified industry experts.",
+        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
+        "backgroundColor": "#E5EEF8",
+        "ctaLabel": "Know More",
+        "releaseConfig": {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": ["EMR10000973"]
+        }
       }
     ]
   },
