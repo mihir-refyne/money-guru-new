@@ -29,7 +29,7 @@ async function main() {
     `Found ${filteredArticles.length} articles with an image bigger than ${minImageWidth} x ${minImageHeight} and content length bigger than ${minDescLength} characters from list of ${articles.length} articles`
   );
 
-  const limitedArticles = filterArticles.slice(0, limit);
+  const limitedArticles = filteredArticles.slice(0, limit);
 
   for (const article of limitedArticles) {
     const mdBody = json2md([{ h3: article.title }, { p: article.description }]);
@@ -86,7 +86,7 @@ async function filterArticles(articles, filter) {
     if (
       width >= filter.minWidth &&
       height >= filter.minHeight &&
-      a.description.length >= filter.minDescLength
+      a?.description?.length >= filter.minDescLength
     ) {
       a.include = true;
     }
