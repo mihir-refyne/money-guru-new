@@ -25,8 +25,3 @@ export default function useFetcher<T, E extends Error>(
 
   return { isLoading, data, error, refetch: fetchData };
 }
-
-// step 1 -> use this useFetcher function to make api call
-// step 2 -> it will return  { isLoading, data, error, refetch: fetchData }; these things
-// step 3 -> in a useEffecy check for error if error exists , getTheErrorcode from error
-//  step 4 -> create one more map of Error code to errormodal content and use it her set value for the modal
