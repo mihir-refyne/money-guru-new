@@ -121,7 +121,7 @@ export default function EpfTrackerStartPage() {
       AnalyticEvent.EPFO_UNAVAILABLE_SCREEN_NOTIFY_CTA_CLICKED,
       {
         userStatus,
-        appPlatformName: appPlatformName,
+        PlatformName: appPlatformName,
       }
     );
     if (!url) return handleErrorModalClose;

@@ -159,12 +159,14 @@ export default function EpfDetailsFetchStart({
         />
       </form>
 
-      <EpfTrackerFetchFooter
-        formId={formId}
-        buttonDisabled={!isTypedIdentifierValueValid}
-      />
+      <div className="px-4">
+        <EpfTrackerFetchFooter
+          formId={formId}
+          buttonDisabled={!isTypedIdentifierValueValid}
+        />
+      </div>
 
-      <div className="px-4¸">
+      <div className="px-4">
         <div className={styles.hello}>
           <h4>{t("facing_issues")}</h4>
           <h5 className="text-body text-regular clr-text-secondary mt-1">
