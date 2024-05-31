@@ -42,15 +42,13 @@ async function main() {
 
   const analyticsPath = join(tmpPath, "analytics");
   await mkdir(analyticsPath);
+  const analyticsFileName = new Date()
+    .toLocaleDateString("en-in", {
+      dateStyle: "long",
+    })
+    .replaceAll(" ", "-");
   await writeFile(
-    join(
-      analyticsPath,
-      `${new Date()
-        .toLocaleDateString("en-in", {
-          dateStyle: "long",
-        })
-        .replaceAll(" ", "-")}`
-    ),
+    join(analyticsPath, analyticsFileName),
     JSON.stringify(analyticsForTheDay)
   );
 
