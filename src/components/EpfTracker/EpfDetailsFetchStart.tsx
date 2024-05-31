@@ -11,16 +11,8 @@ import { isValueIsNumeric } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
-import useFetcher from "@/hooks/useFetcher";
-import { checkPfStatus } from "@/lib/credit-report";
-import EpfTrackerCommonFooter from "./EpfTrackerCommonFooter";
 import styles from "./styles.module.css";
 import { CaretRight } from "phosphor-react";
-import {
-  dispatchDataToNativePlatform,
-  isCurrentlyOnRefyneWebview,
-} from "@/lib/webview";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
   mobileNo: "enter_mobile_number_prompt",
@@ -168,12 +160,12 @@ export default function EpfDetailsFetchStart({
 
       <div className="px-4">
         <div className={styles.hello}>
-          <h4>{t("facing_issues")}</h4>
-          <h5 className="text-body text-regular clr-text-secondary mt-1">
-            {t("pf-faq-desc")}
+          <h4 className="text-body">{t("money_guru_facing_issues")}</h4>
+          <h5 className="text-body  clr-text-secondary mt-2">
+            {t("money_guru_pf_faq_desc")}
           </h5>
-          <button className="btn btn-text btn-compact" onClick={onFaqClick}>
-            {t("check_faqs")}
+          <button className="btn btn-text btn-compact " onClick={onFaqClick}>
+            {t("money_guru_check_faqs")}
             <CaretRight />
           </button>
         </div>

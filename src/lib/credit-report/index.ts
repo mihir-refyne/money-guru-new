@@ -198,7 +198,7 @@ async function fetchCreditReport(
   return creditReport.data;
 }
 
-export async function checkPfStatus(
+export async function fetchEPFTrackerServiceAvailability(
   idToken?: string
 ): Promise<"AVAILABLE" | "UNAVAILABLE" | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");

@@ -25,14 +25,43 @@
       "title": "pf_tracker_tool_title_coming_soon",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/pf-coming-soon"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/pf-coming-soon",
+      "releaseConfigs": [
+        {
+          "fieldName": "employerId",
+          "includes": false,
+          "values": [
+            "EMR10000001",
+            "EMR10000314",
+            "EMR10000976",
+            "EMR10000409",
+            "EMR10000688",
+            "EMR10001065",
+            "EMR10000771"
+          ]
+        }
+      ]
     },
     {
       "name": "pf",
       "title": "pf_tracker_tool_title",
       "iconUrl": "/assets/images/briefcase_icon.svg",
       "backgroundColor": "#DCF5EF",
-      "url": "/epf-tracker"
+      "url": "/epf-tracker",
+      "releaseConfigs": [
+        {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": [
+            "EMR10000001",
+            "EMR10000314",
+            "EMR10000976",
+            "EMR10000409",
+            "EMR10000688",
+            "EMR10000771"
+          ]
+        }
+      ]
     },
     {
       "name": "tax_calculator",

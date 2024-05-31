@@ -24,12 +24,11 @@ import {
 } from "@/components/EpfTracker/constants";
 import { isValueIsNumeric } from "@/lib/utils";
 import useFetcher from "@/hooks/useFetcher";
-import { checkPfStatus } from "@/lib/credit-report";
+import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import { eventNames } from "process";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -53,7 +52,9 @@ export default function EpfTrackerStartPage() {
   >(null);
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
-  const { data: serviceAvailability } = useFetcher(checkPfStatus);
+  const { data: serviceAvailability } = useFetcher(
+    fetchEPFTrackerServiceAvailability
+  );
   const { isLoading, data, error, mutate } = useMutation(
     triggerOtpForEpfDetailsFetch
   );
@@ -80,10 +81,10 @@ export default function EpfTrackerStartPage() {
 
   useEffect(() => {
     if (serviceAvailability === "UNAVAILABLE") {
-      logAnalyticsEvent(["mixpanel"], AnalyticEvent.EPFO_UNAVAILABLE_SCREEN, {
-        userStatus,
-        appPlatformName: appPlatformName,
-      });
+      logAnalyticsEvent(
+        ["mixpanel", "webengage"],
+        AnalyticEvent.EPFO_UNAVAILABLE_MODAL
+      );
       setErrorModal(SERVICE_UNAVAILABLE_COMMON_MODAL);
       return;
     }
@@ -117,12 +118,8 @@ export default function EpfTrackerStartPage() {
   }
   function handleErrorCtaClick(url?: string) {
     logAnalyticsEvent(
-      ["mixpanel"],
-      AnalyticEvent.EPFO_UNAVAILABLE_SCREEN_NOTIFY_CTA_CLICKED,
-      {
-        userStatus,
-        PlatformName: appPlatformName,
-      }
+      ["mixpanel", "webengage"],
+      AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED
     );
     if (!url) return handleErrorModalClose;
     return () => {
