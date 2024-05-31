@@ -1,5 +1,6 @@
 import { EpfFetchIdentifier } from "@/lib/epf";
 import { EpfFetchErrorModalContentProps } from "./EpfFetchErrorModalContent";
+import { logAnalyticsEvent } from "@/lib/analytics";
 
 const INFO_BLUE_ICON_URL = "/assets/images/info-blue-icon.svg";
 const WARNING_YELLOW_ICON_URL = "/assets/images/warn-circle-yellow-icon.svg";

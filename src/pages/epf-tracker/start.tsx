@@ -29,6 +29,7 @@ import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
+import { eventNames } from "process";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -44,6 +45,7 @@ export default function EpfTrackerStartPage() {
   const autoSubmit = autoSubmitUrlQuery === "true";
 
   const appPlatformName = getValueFromMetadata("appPlatformName");
+  const userStatus = getValueFromMetadata("status");
   const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
   const [lastFetchedIdentifierValue, setLastFetchedIdentifierValue] = useState<
@@ -78,6 +80,10 @@ export default function EpfTrackerStartPage() {
 
   useEffect(() => {
     if (serviceAvailability === "UNAVAILABLE") {
+      logAnalyticsEvent(["mixpanel"], AnalyticEvent.EPFO_UNAVAILABLE_SCREEN, {
+        userStatus,
+        appPlatformName: appPlatformName,
+      });
       setErrorModal(SERVICE_UNAVAILABLE_COMMON_MODAL);
       return;
     }
@@ -110,6 +116,14 @@ export default function EpfTrackerStartPage() {
     setErrorModal(null);
   }
   function handleErrorCtaClick(url?: string) {
+    logAnalyticsEvent(
+      ["mixpanel"],
+      AnalyticEvent.EPFO_UNAVAILABLE_SCREEN_NOTIFY_CTA_CLICKED,
+      {
+        userStatus,
+        appPlatformName: appPlatformName,
+      }
+    );
     if (!url) return handleErrorModalClose;
     return () => {
       handleErrorModalClose();
