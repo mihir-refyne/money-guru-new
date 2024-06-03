@@ -159,7 +159,7 @@ export default function EpfDetailsFetchStart({
       </div>
 
       <div className="px-4">
-        <div className={styles.hello}>
+        <div className={styles.Epf_faq_section}>
           <h4 className="text-body">{t("money_guru_facing_issues")}</h4>
           <h5 className="text-body  clr-text-secondary mt-2">
             {t("money_guru_pf_faq_desc")}
