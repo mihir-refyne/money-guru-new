@@ -18,17 +18,8 @@ import Modal from "@/components/Modal";
 import EpfFetchErrorModalContentWrapper, {
   EpfFetchErrorModalContentProps,
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
-import {
-  EpfTrackerServerErrorCodeToResponseModalMapPreOtp,
-  SERVICE_UNAVAILABLE_COMMON_MODAL,
-} from "@/components/EpfTracker/constants";
+import { EpfTrackerServerErrorCodeToResponseModalMapPreOtp } from "@/components/EpfTracker/constants";
 import { isValueIsNumeric } from "@/lib/utils";
-import useFetcher from "@/hooks/useFetcher";
-import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
-import {
-  dispatchDataToNativePlatform,
-  isCurrentlyOnRefyneWebview,
-} from "@/lib/webview";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -43,18 +34,11 @@ export default function EpfTrackerStartPage() {
     valueFromUrlQuery ?? (identifier === "mobileNo" ? userMobileNo : undefined);
   const autoSubmit = autoSubmitUrlQuery === "true";
 
-  const appPlatformName = getValueFromMetadata("appPlatformName");
-  const userStatus = getValueFromMetadata("status");
-  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
-
   const [lastFetchedIdentifierValue, setLastFetchedIdentifierValue] = useState<
     string | null
   >(null);
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
-  const { data: serviceAvailability } = useFetcher(
-    fetchEPFTrackerServiceAvailability
-  );
   const { isLoading, data, error, mutate } = useMutation(
     triggerOtpForEpfDetailsFetch
   );
@@ -80,14 +64,6 @@ export default function EpfTrackerStartPage() {
   }, [identifier]);
 
   useEffect(() => {
-    if (serviceAvailability === "UNAVAILABLE") {
-      logAnalyticsEvent(
-        ["mixpanel", "webengage"],
-        AnalyticEvent.EPFO_UNAVAILABLE_MODAL
-      );
-      setErrorModal(SERVICE_UNAVAILABLE_COMMON_MODAL);
-      return;
-    }
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
     if (errorCode) {
       logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
@@ -111,16 +87,12 @@ export default function EpfTrackerStartPage() {
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
     if (errorMessage)
       toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
-  }, [error, serviceAvailability]);
+  }, [error]);
 
   function handleErrorModalClose() {
     setErrorModal(null);
   }
   function handleErrorCtaClick(url?: string) {
-    logAnalyticsEvent(
-      ["mixpanel", "webengage"],
-      AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED
-    );
     if (!url) return handleErrorModalClose;
     return () => {
       handleErrorModalClose();
@@ -147,24 +119,6 @@ export default function EpfTrackerStartPage() {
       auth_method: type,
     });
     handleTriggerOtp(type, value);
-  }
-
-  function handleRouting(navigateTo: string, webviewRoute?: string) {
-    if (isRefyneWebview && webviewRoute) {
-      return dispatchDataToNativePlatform({
-        type: "ROUTE_TO_SCREEN",
-        body: {
-          screenName: webviewRoute,
-        },
-      });
-    }
-    router.push(navigateTo);
-  }
-
-  function handleFAQClick() {
-    const faqURL = "https://app.refyne.co.in/#/?next=%2Ffaq";
-    const faqRouteId = "FAQ_PAGE";
-    return handleRouting(faqURL, faqRouteId);
   }
 
   if (lastFetchedIdentifierValue && data?.requestId) {
@@ -196,11 +150,10 @@ export default function EpfTrackerStartPage() {
         onIdentifierChange={handleIndetifierChange}
         onSubmit={handleFormSubmit}
         loading={isLoading}
-        onFaqClick={handleFAQClick}
       />
       <Modal
         active={errorModal !== null}
-        onClose={errorModal?.closable ? handleErrorModalClose : undefined}
+        onClose={handleErrorModalClose}
         bottomSheetOnMobile
       >
         <EpfFetchErrorModalContentWrapper

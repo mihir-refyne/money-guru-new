@@ -4,8 +4,8 @@
   "skip": "Skip",
   "finlit_intro_short1_title": "Financial Literacy Made Easy",
   "finlit_intro_short2_title": "Track credit score, provident fund, and more",
-  "finlit_intro_short3_title": "Financial Calculators for your Money Needs",
-  "finlit_intro_short4_title": "Unlock Financial wellness.",
+  "finlit_intro_short3_title":"Financial Calculators for your Money Needs",
+  "finlit_intro_short4_title":"Unlock Financial wellness.",
   "tools": "Tools",
   "swipe_up_read_next_short": "Swipe up to read the next R-Short",
   "well_done": "Well Done!",
@@ -294,7 +294,7 @@
   "festive_page_visit_bottomsheet_header": "festive_page_visit_bottomsheet_header",
   "festive_page_visit_bottomsheet_desc": "festive_page_visit_bottomsheet_header",
   "festive_page_visit_cta": "festive_page_visit_cta",
-  "mongu_intro_story_cta_text": "mongu_intro_story_cta_text",
+  "mongu_intro_story_cta_text":"mongu_intro_story_cta_text",
   "rpay_ct_task_swiggy": "rpay_ct_task_swiggy",
   "rpro_ut_task": "rpro_ut_task",
   "rshort_ut_cat1": "rshort_ut_cat1",
@@ -312,8 +312,5 @@
   "withdrawal_ut_cat3_day4": "withdrawal_ut_cat3_day4",
   "rshort_cat1_day2": "rshort_cat1_day2",
   "rshort_cat2_day2": "rshort_cat2_day2",
-  "rshort_cat3_day2": "rshort_cat3_day2",
-  "money_guru_facing_issues": "Facing issues?",
-  "money_guru_pf_faq_desc": "Here are all the PF passbook frequently asked questions",
-  "money_guru_check_faqs": "View all FAQs?"
+  "rshort_cat3_day2": "rshort_cat3_day2"
 }

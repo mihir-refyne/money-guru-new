@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function useFetcher<T, E extends Error>(
-  fetcher: () => Promise<T> | null
-) {
+export default function useFetcher<T, E extends Error>(fetcher: () => Promise<T> | null) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<E | null>(null);
