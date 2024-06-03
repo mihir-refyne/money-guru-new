@@ -200,7 +200,7 @@ export default function EpfTrackerStartPage() {
       />
       <Modal
         active={errorModal !== null}
-        onClose={handleErrorModalClose}
+        onClose={errorModal?.closable ? handleErrorModalClose : undefined}
         bottomSheetOnMobile
       >
         <EpfFetchErrorModalContentWrapper

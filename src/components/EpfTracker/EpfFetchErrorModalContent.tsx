@@ -4,6 +4,7 @@ export interface EpfFetchErrorModalContentProps {
   illustrationUrl?: string;
   title: string;
   description: string;
+  closable: boolean;
   primaryCta?: {
     label: string;
     url?: string;
