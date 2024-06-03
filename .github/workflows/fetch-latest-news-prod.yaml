@@ -1,0 +1,49 @@
+name: Fetch News Article PROD (Cron)
+on:
+  schedule:
+    - cron: "30 4 * * *"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  fetch-articles:
+    runs-on: self-hosted
+    env:
+      S3_BUCKET: "refyne-prod"
+      NEWSSOURCE_Q: "mutual funds OR Stocks OR economics OR commodities OR mergers OR acquisition OR trading OR ipo"
+      NEWSSOURCE_API_KEY: ${{ secrets.NEWSSOURCE_API_KEY }}
+      TMP_DIR: shorts-tmp
+      MIN_IMAGE_WIDTH: 640
+      MIN_IMAGE_HEIGHT: 480
+      MIN_DESCRIPTION_LENGTH: 300
+      LIMIT: 5
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::761344434221:role/GithubActionsFetchNews
+          role-session-name: fetch-news
+          aws-region: ap-south-1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: "main"
+
+      - name: Install node dependencies
+        run: yarn install
+
+      - name: Run script
+        run: node ./scripts/get-shorts-from-source.js
+
+      - name: Upload Analytics to S3
+        run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/analytics s3://${{ env.S3_BUCKET }}/shorts-analytics/
+
+      - name: Remove analytics
+        run: rm -rf ./scripts/${{ env.TMP_DIR }}/analytics
+
+      - name: Upload to S3
+        run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/ s3://${{ env.S3_BUCKET }}/shorts/
