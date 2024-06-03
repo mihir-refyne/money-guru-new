@@ -11,6 +11,8 @@ import { isValueIsNumeric } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
+import styles from "./styles.module.css";
+import { CaretRight } from "phosphor-react";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
   mobileNo: "enter_mobile_number_prompt",
@@ -56,6 +58,7 @@ interface EpfDetailsFetchStartProps {
   onIdentifierChange?: (identifier: EpfFetchIdentifier) => void;
   onSubmit: (identifier: EpfFetchIdentifier, value: string) => void;
   loading?: boolean;
+  onFaqClick?: () => void;
 }
 
 export default function EpfDetailsFetchStart({
@@ -65,11 +68,11 @@ export default function EpfDetailsFetchStart({
   onIdentifierChange,
   onSubmit,
   loading = false,
+  onFaqClick,
 }: EpfDetailsFetchStartProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
   const [identifierValue, setIdentifierValue] = useState<string>(initialValue);
-
   const isTypedIdentifierValueValid = isValueValid(identifier, identifierValue);
   const nextIdentifier = getNextIdentifier(identifier);
 
@@ -89,13 +92,8 @@ export default function EpfDetailsFetchStart({
   return (
     <EpfTrackerLayout
       hasContentPadding={false}
+      hasFooter={false}
       dispatchPopEventOnBackClick={directlyAccessed}
-      footer={
-        <EpfTrackerFetchFooter
-          formId={formId}
-          buttonDisabled={!isTypedIdentifierValueValid}
-        />
-      }
     >
       <div
         className="px-4 pt-6"
@@ -124,6 +122,7 @@ export default function EpfDetailsFetchStart({
         }}
       >
         <Input
+          className="px-4"
           inputMode="numeric"
           label={tWithoutTypeSafety(
             EpfFetchIdentifierToInputLabelMap[identifier]
@@ -151,6 +150,26 @@ export default function EpfDetailsFetchStart({
           maxLength={EpfFetchIdentifierInputMaxLengthMap[identifier]}
         />
       </form>
+
+      <div className="px-4">
+        <EpfTrackerFetchFooter
+          formId={formId}
+          buttonDisabled={!isTypedIdentifierValueValid}
+        />
+      </div>
+
+      <div className="px-4">
+        <div className={styles.Epf_faq_section}>
+          <h4 className="text-body">{t("money_guru_facing_issues")}</h4>
+          <h5 className="text-body  clr-text-secondary mt-2">
+            {t("money_guru_pf_faq_desc")}
+          </h5>
+          <button className="btn btn-text btn-compact " onClick={onFaqClick}>
+            {t("money_guru_check_faqs")}
+            <CaretRight />
+          </button>
+        </div>
+      </div>
     </EpfTrackerLayout>
   );
 }

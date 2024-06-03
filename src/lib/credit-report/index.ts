@@ -198,6 +198,25 @@ async function fetchCreditReport(
   return creditReport.data;
 }
 
+export async function fetchEPFTrackerServiceAvailability(
+  idToken?: string
+): Promise<"AVAILABLE" | "UNAVAILABLE" | null> {
+  if (!idToken) idToken = getValueFromMetadata("idToken");
+  if (!idToken) return null;
+
+  const response = await fetcher<{ status: "AVAILABLE" | "UNAVAILABLE" }>(
+    `${CORE_SERVER_BASE_URL}/service-availability`,
+    {
+      query: {
+        service: "EPF_TRACKER",
+      },
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    }
+  );
+  return response.data.status;
+}
 async function fetchCreditReportMetadata(
   idToken?: string
 ): Promise<CreditReportMetadataResponse | null> {
@@ -314,7 +333,9 @@ export async function fetchCreditReportMetadataAndReportIfActive(
 }
 
 export function isCreditScoreIncrementEffectShown(): boolean {
-  return !!getFromSessionStorage(USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY);
+  return !!getFromSessionStorage(
+    USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY
+  );
 }
 
 export function setCreditScoreIncrementEffectShown() {
