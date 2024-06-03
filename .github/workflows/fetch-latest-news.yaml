@@ -42,5 +42,8 @@ jobs:
       - name: Upload Analytics to S3
         run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/analytics s3://${{ env.S3_BUCKET }}/shorts-analytics/
 
+      - name: Remove analytics
+        run: rm -rf ./scripts/${{ env.TMP_DIR }}/analytics
+
       - name: Upload to S3
         run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/ s3://${{ env.S3_BUCKET }}/shorts/
