@@ -1,0 +1,35 @@
+.TrackerTile__Wrapper__lg {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: space-between; 
+    padding: var(--spacing-4);
+    border-radius: 0.5rem;
+    /* TODO: Move color to var once added */
+    box-shadow: 0.1rem 0rem 0.10rem 0.1rem #1212120A;
+    width: 100%;
+    background-color: var(--clr-pure-white);
+}
+
+.TrackerTile__Wrapper__sm {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center; 
+    padding: var(--spacing-6) var(--spacing-2) var(--spacing-6) var(--spacing-2);
+    border-radius: var(--spacing-4);
+    box-shadow: 0.1rem 0rem 0.10rem 0.1rem #1212120A;
+    width: 100%;
+    background-color: var(--clr-pure-white);
+    text-align: center;
+}
+
+.TrackerTile__Floating__Tag {
+    position: absolute;
+    padding: var(--spacing-1) var(--spacing-2);
+    background-color: #00A181;
+    color: var(--clr-pure-white);
+    border-radius: 0.4rem;
+    top: -1.2rem;
+    right: 0.8rem;
+}

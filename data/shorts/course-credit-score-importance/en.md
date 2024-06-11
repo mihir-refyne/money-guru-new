@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/course-credit-score-importance.png
+thumbnailUrl: /assets/images/shorts/course-credit-score-importance-thumbnail.png
 tag: Loans
 ---
 

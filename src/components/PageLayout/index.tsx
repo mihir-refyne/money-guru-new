@@ -39,6 +39,7 @@ export interface PageLayoutProps {
   onShareClick?: () => void;
   footer?: ReactElement;
   preloads?: Array<Preload>;
+  pageBackground?: CSSProperties["background"];
 }
 
 export default function PageLayout({
@@ -60,6 +61,7 @@ export default function PageLayout({
   hasShare,
   onShareClick,
   preloads,
+  pageBackground,
 }: PageLayoutProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -136,6 +138,7 @@ export default function PageLayout({
           } ${hasContentPadding ? styles.ContentPadding : ""} ${
             alignContentCenter ? styles.ContentAlignCenter : ""
           }`}
+          style={{ background: pageBackground }}
         >
           {children}
         </div>

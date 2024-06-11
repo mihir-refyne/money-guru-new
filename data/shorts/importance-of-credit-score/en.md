@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/importance-of-credit-score.png
+thumbnailUrl: /assets/images/shorts/importance-of-credit-score-en.png
 tag: Banking
 ---
 

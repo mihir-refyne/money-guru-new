@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/what-are-personal-loans.png
+thumbnailUrl: /assets/images/shorts/what-are-personal-loans-thumbnail.png
 tag: Loans
 ---
 

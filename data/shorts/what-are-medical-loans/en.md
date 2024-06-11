@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/what-are-medical-loans.png
+thumbnailUrl: /assets/images/shorts/what-are-medical-loans-thumbnail.png
 tag: Loans
 ---
 

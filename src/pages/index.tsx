@@ -9,7 +9,6 @@ import Link from "next/link";
 import config from "../../data/landing_page.json";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { GetStaticProps } from "next";
-import { marked } from "marked";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -26,9 +25,10 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
 import { SurveyTriggerAction } from "@/lib/survey";
 import useTranslation from "@/hooks/useTranslation";
-import CreditScoreWidget from "@/components/CreditReport/CreditScoreWidget";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
+import TrackerTileWrapper from "@/components/TrackerTile/TrackerTileWrapper";
+import CalculatorTiles from "@/components/CalculatorTiles";
 
 interface HomePageProps {
   shorts: Array<{
@@ -53,10 +53,10 @@ export const getStaticProps: GetStaticProps<HomePageProps> = async (
 
 enum DashboardComponent {
   R_SHORT_CAROUSEL = "R_SHORT_CAROUSEL",
-  FIN_TOOLS = "FIN_TOOLS",
+  CALCULATORS = "CALCULATORS",
   STICKY_BANNERS = "STICKY_BANNERS",
   CAROUSEL_BANNERS = "CAROUSEL_BANNERS",
-  CREDIT_SCORE_WIDGET = "CREDIT_SCORE_WIDGET",
+  TRACKERS = "TRACKERS",
 
   // Temp
   IMAGE_BANNER = "IMAGE_BANNER",
@@ -65,7 +65,8 @@ enum DashboardComponent {
 const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.R_SHORT_CAROUSEL,
   DashboardComponent.STICKY_BANNERS,
-  DashboardComponent.FIN_TOOLS,
+  DashboardComponent.TRACKERS,
+  DashboardComponent.CALCULATORS,
   DashboardComponent.CAROUSEL_BANNERS,
 ];
 
@@ -227,9 +228,9 @@ export default function HomePage({ shorts }: HomePageProps) {
     });
   }
 
-  const finLiteracyTools = useMemo(
+  const finLiteracyTrackers = useMemo(
     () =>
-      config.finLiteracyTools.filter((tool: any) => {
+      config.trackers.filter((tool: any) => {
         const releaseConfigs = tool.releaseConfigs;
         if (!Array.isArray(releaseConfigs)) return true;
         return releaseConfigs.some((releaseConfig) =>
@@ -239,7 +240,7 @@ export default function HomePage({ shorts }: HomePageProps) {
           })
         );
       }),
-    [config.finLiteracyTools, employerId, workerId]
+    [config.trackers, employerId, workerId]
   );
 
   const stickyBanners = config.stickyBanners.filter((banner: any) =>
@@ -272,15 +273,6 @@ export default function HomePage({ shorts }: HomePageProps) {
     return applicableBanners[0] ?? null;
   }, []);
 
-  const isCreditScoreWidgetToBeShown = useMemo<boolean>(() => {
-    const releaseConfig = config.creditScoreWidgetConfig.releaseConfig;
-    return checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
-      employerId,
-      workerId,
-      userId,
-    });
-  }, []);
-
   const componentsOrder = useMemo<DashboardComponent[]>(() => {
     const componentsOrderConfig = config.componentsOrderConfig.find(
       (order: any) => {
@@ -301,32 +293,33 @@ export default function HomePage({ shorts }: HomePageProps) {
     ReactElement | null
   > = {
     R_SHORT_CAROUSEL: (
-      <Carousel
-        autoPlay={!!featuredShortCarouselAutoPlayDuration}
-        infiniteLoop
-        interval={featuredShortCarouselAutoPlayDuration}
-        showIndicators={shortsToBeFeatured.length > 1}
-      >
-        {shortsToBeFeatured.map((shortItem) => {
-          return (
-            <div key={shortItem.id} className="mb-8">
-              <FeaturedShort
-                mediaType={(shortItem.metadata?.mediaType ?? "") as string}
-                mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
-                tag={(shortItem.metadata?.tag ?? "") as string}
-                onClick={() => handleFeaturedShortClick(shortItem.id)}
-                ctaLabel={t("read_more")}
-              >
-                <article
-                  dangerouslySetInnerHTML={{
-                    __html: marked(shortItem.content),
-                  }}
+      <>
+        <h3 className="text-body text-semibold mb-4 pt-12">
+          {t("mongu_dashboard_featured_short_title")}
+        </h3>
+        <Carousel
+          autoPlay={!!featuredShortCarouselAutoPlayDuration}
+          infiniteLoop
+          interval={featuredShortCarouselAutoPlayDuration}
+          showIndicators={shortsToBeFeatured.length > 1}
+        >
+          {shortsToBeFeatured.map((shortItem) => {
+            return (
+              <div key={shortItem.id} className="mb-8">
+                <FeaturedShort
+                  mediaType={(shortItem.metadata?.mediaType ?? "") as string}
+                  mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
+                  thumbnailUrl={
+                    (shortItem.metadata?.thumbnailUrl as string) ?? null
+                  }
+                  onClick={() => handleFeaturedShortClick(shortItem.id)}
+                  content={shortItem.content}
                 />
-              </FeaturedShort>
-            </div>
-          );
-        })}
-      </Carousel>
+              </div>
+            );
+          })}
+        </Carousel>
+      </>
     ),
     STICKY_BANNERS: hasStickyBanners ? (
       <>
@@ -370,46 +363,26 @@ export default function HomePage({ shorts }: HomePageProps) {
         ))}
       </>
     ) : null,
-    FIN_TOOLS: (
+    TRACKERS: (
       <>
-        <h3 className="clr-text-secondary mb-3">{t("tools")}</h3>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            columnGap: "1.6rem",
-            rowGap: "1.6rem",
-          }}
-        >
-          {finLiteracyTools.map((tool, index) => (
-            <div
-              key={index}
-              id={constructElementId({
-                screenName: ScreenName.MONGU_DASHBOARD,
-                elementName: "FIN_TOOLS",
-                elementId: tool.name,
-              })}
-              style={{
-                backgroundColor: tool.backgroundColor,
-                borderRadius: "0.8rem",
-                padding: "0.8rem",
-                cursor: "pointer",
-              }}
-              role="button"
-              onClick={() => handleFinToolClick(tool.name, tool.url)}
-            >
-              <figure>
-                <img src={tool.iconUrl} alt={tool.title} />
-              </figure>
-              <p
-                className="text-caption mt-4"
-                dangerouslySetInnerHTML={{
-                  __html: tWithoutTypeSafety(tool.title),
-                }}
-              />
-            </div>
-          ))}
-        </div>
+        <h3 className="text-body text-semibold">
+          {t("mongu_dashboard_trackers_title")}
+        </h3>
+        <TrackerTileWrapper
+          onClick={handleFinToolClick}
+          trackers={finLiteracyTrackers}
+        />
+      </>
+    ),
+    CALCULATORS: (
+      <>
+        <h3 className="text-body text-semibold">
+          {t("mongu_dashboard_calculators_title")}
+        </h3>
+        <CalculatorTiles
+          calculators={config.calculators}
+          onCalculatorClick={handleFinToolClick}
+        />
       </>
     ),
     CAROUSEL_BANNERS: hasCarouselBanners ? (
@@ -457,17 +430,15 @@ export default function HomePage({ shorts }: HomePageProps) {
         </Link>
       </div>
     ) : null,
-    CREDIT_SCORE_WIDGET: isCreditScoreWidgetToBeShown ? (
-      <CreditScoreWidget screen="DASHBOARD" />
-    ) : null,
   };
 
   return (
     <PageLayout
       navbarText="Money Guru"
-      navbarBackground="radial-gradient(88.74% 79.73% at 7.22% 22.15%, #FFF 0%, #EBF5FF 100%)"
+      transparentNavbar
       hasContentPadding
       dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
+      pageBackground="#F7F7F7"
     >
       {componentsOrder.map((componentName, index) => {
         const Elem = COMPONENTS_NAME_TO_ELEMENT_MAP[componentName];

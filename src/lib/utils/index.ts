@@ -1,4 +1,5 @@
 import { ONE_DAY_IN_SEC, ONE_HOUR_IN_SEC, ONE_MIN_IN_SEC } from "@/constants";
+import { marked } from "marked";
 
 export function isStringAndNotEmpty(value: unknown): value is string {
   if (typeof value !== "string") return false;
@@ -160,4 +161,19 @@ export function isValueIsNumeric(value: string): boolean {
 
 export function isUserId(value: string): boolean {
   return value?.startsWith("USR");
+}
+
+export function getHeadingFromMarkupContent(markdown: string): {
+  level: number;
+  text: string;
+} {
+  const renderer = new marked.Renderer();
+  const headings: { level: number; text: string }[] = [];
+  renderer.heading = (text, level) => {
+    headings.push({ level, text });
+    return "";
+  };
+  marked(markdown, { renderer });
+  const heading = headings[0];
+  return heading;
 }

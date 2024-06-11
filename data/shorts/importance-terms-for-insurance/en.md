@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/importance-terms-for-insurance.png
+thumbnailUrl: /assets/images/shorts/importance-terms-for-insurance-thumbnail.png
 tag: Insurance
 ---
 
