@@ -29,6 +29,7 @@ import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
 import TrackerTileWrapper from "@/components/TrackerTile/TrackerTileWrapper";
 import CalculatorTiles from "@/components/CalculatorTiles";
+import DashboardLoader from "@/components/DashboardLoader";
 
 interface HomePageProps {
   shorts: Array<{
@@ -61,6 +62,12 @@ enum DashboardComponent {
   // Temp
   IMAGE_BANNER = "IMAGE_BANNER",
 }
+const LOADER_BACKGROUND_STYLE = `linear-gradient(
+  90deg,
+  #ffff 0px,
+  rgba(229, 229, 229, 0.7) 40px,
+  #ffff 80px
+)`;
 
 const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.R_SHORT_CAROUSEL,
@@ -286,8 +293,6 @@ export default function HomePage({ shorts }: HomePageProps) {
     return componentsOrderConfig.order as DashboardComponent[];
   }, [config.componentsOrderConfig]);
 
-  if (!isMounted || isLoading) return <LoadingPage />;
-
   const COMPONENTS_NAME_TO_ELEMENT_MAP: Record<
     DashboardComponent,
     ReactElement | null
@@ -431,6 +436,8 @@ export default function HomePage({ shorts }: HomePageProps) {
       </div>
     ) : null,
   };
+
+  if (isLoading || !isMounted) return <DashboardLoader />;
 
   return (
     <PageLayout

@@ -1,4 +1,3 @@
-import LoadingPage from "@/components/LoadingPage";
 import { getOrUpdatePreferredLocale } from "@/lib/locale";
 import "@/styles/globals.css";
 import { Work_Sans } from "@next/font/google";
@@ -36,6 +35,7 @@ import {
   setPlotlineGlobalProperties,
 } from "@/lib/analytics/plotline";
 import { flutterNativeDispatcherV2Init } from "@/lib/webview";
+import DashboardLoader from "@/components/DashboardLoader";
 
 const workSans = Work_Sans({
   weight: ["400", "500", "600"],
@@ -168,7 +168,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <WebengageScript />
       <PlotlineScript />
       <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
-      {isLoading && <LoadingPage />}
+      {isLoading && <DashboardLoader />}
       {!isLoading && <Component {...pageProps} />}
       <Toaster position="bottom-center" />
     </>
