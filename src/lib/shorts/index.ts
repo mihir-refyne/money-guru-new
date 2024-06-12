@@ -1,3 +1,6 @@
+import { InfiniteFetcher } from "@/hooks/useInfiniteFetcher";
+import { ShortsResponse } from "@/pages/api/shorts";
+import { fetcher } from "../fetcher";
 import {
   getFromLocalStorage,
   setInLocalStorage,
@@ -84,3 +87,18 @@ export function setShortReactionMap(object: ShortReactionMap): boolean {
     return false;
   }
 }
+
+export const shortsInfiniteFetcher: InfiniteFetcher<
+  ShortsResponse["data"]
+> = async (nextToken) => {
+  const { data } = await fetcher<ShortsResponse>("/api/shorts", {
+    query: {
+      ...(nextToken ? { ContinuationToken: nextToken } : {}),
+    },
+  });
+  return {
+    data: data.data,
+    nextToken: data.nextContinuationToken,
+    isDone: !data.isTruncated,
+  };
+};

@@ -1,19 +1,23 @@
+import LoadingPage from "@/components/LoadingPage";
 import PageLayout from "@/components/PageLayout";
 import Shorts from "@/components/Shorts";
-import { getShortsByLocale } from "@/lib/shorts/server";
-import { GetStaticProps } from "next";
-import { marked } from "marked";
-import { useEffect, useMemo } from "react";
-import { useRouter } from "next/router";
-import shortsConfig from "../../data/shorts_config.json";
-import { SurveyTriggerAction } from "@/lib/survey";
+import { ScreenName } from "@/constants/ScreenName";
+import useInfiniteFetcher from "@/hooks/useInfiniteFetcher";
+import useMutation from "@/hooks/useMutation";
 import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
+import { postUserAction } from "@/lib/core/user";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isQuizEitherCompletedOrSkipped } from "@/lib/quiz";
-import useMutation from "@/hooks/useMutation";
-import { postUserAction } from "@/lib/core/user";
+import { shortsInfiniteFetcher } from "@/lib/shorts";
+import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
-import { ScreenName } from "@/constants/ScreenName";
+import { marked } from "marked";
+import { useRouter } from "next/router";
+import { useEffect, useMemo, useRef } from "react";
+import shortsConfig from "../../data/shorts_config.json";
+import { sanitize } from "dompurify";
+
+const SCROLL_BUFFER_TO_FETCH = 3;
 
 export interface ShortsPageProps {
   shorts: Array<{
@@ -26,25 +30,22 @@ export interface ShortsPageProps {
   }>;
 }
 
-export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
-  context
-) => {
-  const { locale = "en" } = context;
-  const shorts = await getShortsByLocale(locale);
-
-  return {
-    props: {
-      shorts,
-    },
-  };
-};
-
-export default function ShortsPage({ shorts }: ShortsPageProps) {
+export default function ShortsPage() {
   const router = useRouter();
   const { mutate } = useMutation(postUserAction);
 
   const employerId = getValueFromMetadata("employerId");
   const workerId = getValueFromMetadata("workerId");
+
+  const scrollCountRef = useRef(0);
+
+  const { data, isLoading, next } = useInfiniteFetcher(shortsInfiniteFetcher);
+
+  const shorts = data ?? [];
+
+  const scrollTriggerIndex = useMemo(() => {
+    return (data?.length ?? 0) - SCROLL_BUFFER_TO_FETCH;
+  }, [data]);
 
   const quizToBeTriggeredOnShorts = useMemo<{
     quizId: string;
@@ -70,11 +71,15 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
   }, [shortsConfig.quizTriggerOnSwipeUpConfig]);
 
   useEffect(() => {
-    if (!router.isReady) return;
+    if (!router.isReady || isLoading) return;
     const hash = router.asPath.split("#")[1];
     if (hash) {
-      const path = router.asPath.replace(`#${hash}`, "");
-      router.replace(path, undefined, {
+      const currentScroll = data?.findIndex((d) => d.id === hash);
+      scrollCountRef.current = currentScroll ?? 0;
+      if (scrollCountRef.current >= scrollTriggerIndex) {
+        next();
+      }
+      router.replace(router.asPath, undefined, {
         shallow: true,
         scroll: false,
       });
@@ -83,9 +88,13 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
       actionType: "R_SHORT_VISITED",
       metadata: hash ? { rShortId: hash } : undefined,
     });
-  }, [router.isReady]);
+  }, [router.isReady, isLoading]);
 
   function handleSwipeUp(id: string) {
+    if (scrollCountRef.current === scrollTriggerIndex) {
+      next();
+    }
+    scrollCountRef.current += 1;
     if (quizToBeTriggeredOnShorts?.shortIds.includes(id)) {
       const isTheQuizAlreadySkippedOrSubmitted = isQuizEitherCompletedOrSkipped(
         quizToBeTriggeredOnShorts.quizId
@@ -103,6 +112,15 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
     }
   }
 
+  function handleSwipeDown() {
+    if (scrollCountRef.current > 0) {
+      scrollCountRef.current -= 1;
+    }
+  }
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <PageLayout hasContentPadding={false}>
       <Shorts
@@ -118,17 +136,20 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
             tag: short.metadata?.tag as any,
             content: (
               <article
-                dangerouslySetInnerHTML={{ __html: marked(short.content) }}
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(marked(short.content)),
+                }}
               />
             ),
             reaction: short.reaction,
             publishedAt: parseAndValidatePublishedDate(
-              short.metadata?.publishedAt, 
+              short.metadata?.publishedAt,
               short.metadata?.tag
             ),
           },
         }))}
         onSwipeUp={handleSwipeUp}
+        onSwipeDown={handleSwipeDown}
         hasEnd
         reactionElementId={constructElementId({
           screenName: ScreenName.MONGU_R_SHORTS,
@@ -139,13 +160,16 @@ export default function ShortsPage({ shorts }: ShortsPageProps) {
   );
 }
 
-function parseAndValidatePublishedDate(publishedAt: any, tag: unknown): Date | undefined {
+function parseAndValidatePublishedDate(
+  publishedAt: any,
+  tag: unknown
+): Date | undefined {
   if (!publishedAt) return;
   // TODO: Get the tag from Manthan
   if (tag !== "News") return;
-    try {
-      return new Date(publishedAt);
-    } catch (_) {
-      return;
-    }
+  try {
+    return new Date(publishedAt);
+  } catch (_) {
+    return;
+  }
 }

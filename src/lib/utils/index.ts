@@ -1,4 +1,11 @@
 import { ONE_DAY_IN_SEC, ONE_HOUR_IN_SEC, ONE_MIN_IN_SEC } from "@/constants";
+import {
+  GetObjectCommand,
+  ListObjectsV2Command,
+  ListObjectsV2CommandInput,
+  S3Client,
+} from "@aws-sdk/client-s3";
+import { NextApiRequest } from "next";
 import { marked } from "marked";
 
 export function isStringAndNotEmpty(value: unknown): value is string {
@@ -163,6 +170,48 @@ export function isUserId(value: string): boolean {
   return value?.startsWith("USR");
 }
 
+export async function getObjectFromS3(
+  client: S3Client,
+  bucket: string,
+  key: string
+) {
+  const command = new GetObjectCommand({
+    Bucket: bucket,
+    Key: key,
+  });
+
+  const response = await client.send(command);
+  return response.Body?.transformToString();
+}
+
+export function queryParamsParser(query: NextApiRequest["query"]) {
+  let parsedQuery = { ...query };
+
+  for (const key in parsedQuery) {
+    if (Array.isArray(parsedQuery[key])) {
+      parsedQuery[key] = query[key]?.[0];
+    }
+  }
+
+  return parsedQuery as Record<string, string>;
+}
+
+export async function listObjectsV2(
+  input: ListObjectsV2CommandInput,
+  client: S3Client
+) {
+  try {
+    const command = new ListObjectsV2Command(input);
+    return await client.send(command);
+  } catch (error) {
+    const errorMsg = "Failed to list objects in shorts folder";
+    console.error(errorMsg, error);
+    return {
+      error: errorMsg,
+    };
+  }
+}
+
 export function getHeadingFromMarkupContent(markdown: string): {
   level: number;
   text: string;
@@ -175,5 +224,7 @@ export function getHeadingFromMarkupContent(markdown: string): {
   };
   marked(markdown, { renderer });
   const heading = headings[0];
+  console.log(markdown);
+  console.log(heading);
   return heading;
 }

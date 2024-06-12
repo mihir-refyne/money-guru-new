@@ -3,6 +3,7 @@ import YoutubePlayer from "../YoutubePlayer";
 import useTranslation from "next-translate/useTranslation";
 import { PlayCircle } from "phosphor-react";
 import { getHeadingFromMarkupContent } from "@/lib/utils";
+import { sanitize } from "dompurify";
 
 interface FeaturedShortProps {
   mediaType?: string;
@@ -45,9 +46,12 @@ export default function FeaturedShort({
         <h3 className={styles.FeaturedShort__ShortMedia__Footer__Text}>
           {content && (
             <article className=" text-body text-semibold">
-              <h3 className={styles.FeaturedShort__ShortMedia__Footer__Text}>
-                {getHeadingFromMarkupContent(content).text}
-              </h3>
+              <h3
+                className={styles.FeaturedShort__ShortMedia__Footer__Text}
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(getHeadingFromMarkupContent(content).text),
+                }}
+              />
             </article>
           )}
         </h3>
