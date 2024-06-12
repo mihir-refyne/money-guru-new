@@ -134,8 +134,8 @@
   "upto_3_late_payments_last_4_years": "Upto 3 late payments in the last 4 years",
   "more_than_3_late_payments_last_4_years": "More than 3 late payments in the last 4 years",
   "late_payments_classification_disclaimer": "The broad-classification of the credit scores within different ranges (i.e. excellent, good, needs help etc.) is solely based on the credit report details (and not any other external parameters). These are based on Refyne’s own criteria to classify it in either of the above-mentioned categories. The classification is solely Refyne’s opinion for educational purposes and does not guarantee any credit approval from partner and non-partner banks.",
-  "credit_score_tool_title": "<b>Credit Score</b><br>By Equifax",
-  "pf_tracker_tool_title": "<b>PF</b><br>Tracker",
+  "credit_score_tool_title": "Credit Score",
+  "pf_tracker_tool_title": "PF Tracker",
   "pf_tracker_tool_title_coming_soon": "<b>PF</b><br>Coming soon",
   "tax_calculator_tool_title": "Income<br>Tax",
   "home_loan_emi_calculator_tool_title": "Home<br>loan",
@@ -317,5 +317,11 @@
   "withdrawal_ut_cat3_day4": "withdrawal_ut_cat3_day4",
   "rshort_cat1_day2": "rshort_cat1_day2",
   "rshort_cat2_day2": "rshort_cat2_day2",
-  "rshort_cat3_day2": "rshort_cat3_day2"
+  "rshort_cat3_day2": "rshort_cat3_day2",
+  "pf_tracker_tool_description":"pf_tracker_tool_description",
+  "new":"new",
+  "credit_score_tracker_tool_description":"credit_score_tracker_tool_description",
+  "pf_tracker_tool_description_highlight_text": "pf_tracker_tool_description_highlight_text",
+  "credit_score_tool_description_highlight_text": "credit_score_tool_description_highlight_text",
+  "fixed_deposit_calculator":"fixed_deposit_calculator"
 }
