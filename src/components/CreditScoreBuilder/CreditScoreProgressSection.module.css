@@ -1,0 +1,7 @@
+.CreditScoreProgressSection__CardContainer {
+  margin-top: 2.8rem;
+}
+
+.CreditScoreProgressSection__CardContainer > div:not(:first-child) {
+  margin-top: 1.6rem;
+}

@@ -1,0 +1,42 @@
+.Card {
+  padding: 1.6rem;
+  display: flex;
+  position: relative;
+}
+
+.Card:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  width: 0.1rem;
+  height: calc(100% - 1.2rem);
+  left: 2.7rem;
+  bottom: -3rem;
+  background: var(--clr-icon-disabled);
+  z-index: -1;
+}
+
+.Card[data-linegreen="true"]::after {
+  background: var(--clr-icon-accent-success);
+}
+
+.Card[data-lineblue="true"]::after {
+  background: var(--clr-icon-primary-light);
+}
+
+.Card[data-active="true"] {
+  background: var(--clr-bg-primary-lighter);
+  border-radius: 0.8rem;
+  cursor: pointer;
+}
+
+.Card__Heading {
+  color: var(--clr-text-secondary);
+}
+
+.Card__Heading[data-active="true"] {
+  color: var(--clr-text-primary);
+}
+
+.Card__SubText {
+  color: var(--clr-text-secondary);
+}

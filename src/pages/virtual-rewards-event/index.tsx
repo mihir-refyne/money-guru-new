@@ -44,7 +44,7 @@ import { Stamp } from "@/components/VirtualRewardsEvent/VirtualRewardsEventStamp
 import { StampCountPosition } from "@/components/StampWrapper";
 
 // TODO: Maybe move to a helper
-function addUserTokenInUrlIfRequired(
+export function addUserTokenInUrlIfRequired(
   url: string,
   addUserToken: boolean,
   userToken?: string
@@ -52,7 +52,7 @@ function addUserTokenInUrlIfRequired(
   if (!addUserToken || !userToken) return url;
   return addQueryInUrl(url, "userToken", userToken);
 }
-function addQueryInUrl(url: string, queryKey: string, value?: string) {
+export function addQueryInUrl(url: string, queryKey: string, value?: string) {
   if (!value) return url;
   const hasQuery = url.includes("?");
   const joinUsing = hasQuery ? "&" : "?";

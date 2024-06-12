@@ -2,6 +2,7 @@ export const CORE_SERVER_BASE_URL =
   process.env.NEXT_PUBLIC_CORE_SERVER_BASE_URL;
 export const APP_BASE_URL =
   process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in";
+export const CDN_BASE_URL = process.env.NEXT_PUBLIC_CDN_BASE_URL;
 
 export const ONE_MIN_IN_SEC = 60;
 export const ONE_HOUR_IN_SEC = 60 * ONE_MIN_IN_SEC;
