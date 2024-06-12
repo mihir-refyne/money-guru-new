@@ -1,0 +1,8 @@
+.Short__Container_Layout_Loader{
+    height: 100vh;
+    padding-top: 40px;
+    width: 100%;
+    position: absolute;
+    background-color: var(--clr-pure-white);
+    z-index: 999;
+}

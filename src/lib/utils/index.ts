@@ -6,6 +6,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { NextApiRequest } from "next";
+import { marked } from "marked";
 
 export function isStringAndNotEmpty(value: unknown): value is string {
   if (typeof value !== "string") return false;
@@ -209,4 +210,21 @@ export async function listObjectsV2(
       error: errorMsg,
     };
   }
+}
+
+export function getHeadingFromMarkupContent(markdown: string): {
+  level: number;
+  text: string;
+} {
+  const renderer = new marked.Renderer();
+  const headings: { level: number; text: string }[] = [];
+  renderer.heading = (text, level) => {
+    headings.push({ level, text });
+    return "";
+  };
+  marked(markdown, { renderer });
+  const heading = headings[0];
+  console.log(markdown);
+  console.log(heading);
+  return heading;
 }

@@ -1,4 +1,11 @@
-import { ChangeEvent, FormEvent, useId, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+} from "react";
 import EpfTrackerLayout from "./EpfTrackerLayout";
 import EpfTrackerLoading from "./EpfTrackerLoading";
 import { EpfFetchIdentifier } from "@/lib/epf";
@@ -11,6 +18,7 @@ import { isValueIsNumeric } from "@/lib/utils";
 import useTranslation from "@/hooks/useTranslation";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
+import useSyntheticLoader from "@/hooks/useSyntheticLoader";
 
 const EpfFetchIdentifierToInputLabelMap: Record<EpfFetchIdentifier, string> = {
   mobileNo: "enter_mobile_number_prompt",
@@ -58,6 +66,8 @@ interface EpfDetailsFetchStartProps {
   loading?: boolean;
 }
 
+const SYNTHETIC_LOADER_TIME_IN_MS = 2500;
+
 export default function EpfDetailsFetchStart({
   identifier,
   initialValue = "",
@@ -69,6 +79,11 @@ export default function EpfDetailsFetchStart({
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
   const [identifierValue, setIdentifierValue] = useState<string>(initialValue);
+  const timerRef = useRef<NodeJS.Timeout>();
+  const { isLoading: isSyntheticLoading, setIsLoading } = useSyntheticLoader(
+    true,
+    SYNTHETIC_LOADER_TIME_IN_MS
+  );
 
   const isTypedIdentifierValueValid = isValueValid(identifier, identifierValue);
   const nextIdentifier = getNextIdentifier(identifier);
@@ -84,7 +99,11 @@ export default function EpfDetailsFetchStart({
     onSubmit?.(identifier, identifierValue);
   }
 
-  if (loading) return <EpfTrackerLoading />;
+  useEffect(() => {
+    setIsLoading(true);
+  }, []);
+
+  if (loading || isSyntheticLoading) return <EpfTrackerLoading />;
 
   return (
     <EpfTrackerLayout

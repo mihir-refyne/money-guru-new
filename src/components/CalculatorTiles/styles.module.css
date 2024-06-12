@@ -1,0 +1,32 @@
+.Calculator__Tile {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    position: relative;
+    padding: var(--spacing-4) var(--spacing-3) var(--spacing-4) var(--spacing-3);
+    background-color: var(--clr-pure-white);
+    text-align: center;
+    box-shadow: 0 0.8rem 1.6rem -0.8rem #1212120A;
+    border: 0.1rem solid #F0F0F0;
+    margin-top: var(--spacing-4);
+    border-radius: 0.8rem;
+    gap: 1.8rem;
+}
+
+.Calculator__Tile__Tag {
+    position: absolute;
+    top: -1.2rem;
+    left: 2.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+}
+
+.Calculator__Tile__Image {
+    max-width: 6rem;
+    max-height: 6rem;
+}
+
+@media screen and (max-width: 300px) {
+    .Calculator__Tile{
+        grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));
+    }
+}

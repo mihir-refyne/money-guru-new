@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import ShortItem, { ShortData } from "./ShortItem";
 import ShortsContainer from "./ShortsContainer";
 import {
@@ -10,6 +10,7 @@ import {
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logAnalyticsEvent } from "@/lib/analytics";
+import ShortsContainerLayoutLoader from "./ShortsContainerLayoutLoader";
 
 export type ShortItem =
   | {
@@ -30,6 +31,8 @@ interface ShortsProps {
   reactionElementId?: string;
 }
 
+const SYNTHETIC_LOADER_TIME_IN_MS = 2000;
+
 export default function Shorts({
   items,
   onSwipeUp,
@@ -40,6 +43,20 @@ export default function Shorts({
 }: ShortsProps) {
   const [shortsLocalReactionMap, _setLocalShortsReactionMap] =
     useState<ShortReactionMap>(getShortReactionMap);
+  const [isSyntheticLoadingCompleted, setIsSyntheticLoadingCompleted] =
+    useState(false);
+
+  const timeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    timeoutRef.current = setTimeout(() => {
+      setIsSyntheticLoadingCompleted(true);
+    }, SYNTHETIC_LOADER_TIME_IN_MS);
+
+    return () => {
+      clearTimeout(timeoutRef.current);
+    };
+  }, []);
 
   function handleOnView(id?: string, isContentOverflowing?: boolean) {
     if (id) {
@@ -109,6 +126,7 @@ export default function Shorts({
 
   return (
     <ShortsContainer>
+      {!isSyntheticLoadingCompleted && <ShortsContainerLayoutLoader />}
       {items.map((short, index) => {
         if (short.type === "SHORT") {
           const _reactionElementId =

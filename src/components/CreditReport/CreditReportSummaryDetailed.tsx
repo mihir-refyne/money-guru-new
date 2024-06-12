@@ -67,7 +67,7 @@ export default function CreditReportSummaryDetailed({
   shortsToBeFeatured,
   onFeaturedShortClick,
 }: CreditReportSummaryDetailedProps) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
   const [
     isFactorChangeDisplayModalActive,
@@ -360,16 +360,9 @@ export default function CreditReportSummaryDetailed({
                   <FeaturedShort
                     mediaType={(shortItem.metadata?.mediaType ?? "") as string}
                     mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
-                    tag={(shortItem.metadata?.tag ?? "") as string}
                     onClick={() => onFeaturedShortClick?.(shortItem.id)}
-                    ctaLabel={t("read_more")}
-                  >
-                    <article
-                      dangerouslySetInnerHTML={{
-                        __html: marked(shortItem.content),
-                      }}
-                    />
-                  </FeaturedShort>
+                    content={marked(shortItem.content) ?? ""}
+                  />
                 </div>
               );
             })}

@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/what-is-debt-snowball.png
+thumbnailUrl: /assets/images/shorts/what-is-debt-snowball-thumbnail.png
 tag: Loans
 ---
 

@@ -17,7 +17,7 @@
 }
 
 .PageLayout__Content.ContentPadding {
-  padding: var(--spacing-4);
+  padding: var(--spacing-3);
 }
 
 .PageLayout__Content.NavbarOffset {

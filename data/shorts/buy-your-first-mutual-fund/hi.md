@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/buy-your-first-mutual-fund.png
+thumbnailUrl: /assets/images/shorts/buy-your-first-mutual-fund-hi.png
 tag: Investing
 ---
 

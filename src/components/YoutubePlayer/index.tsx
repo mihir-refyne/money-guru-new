@@ -15,6 +15,7 @@ interface YoutubePlayerProps {
   modestBranding?: boolean;
   showOnlyThumbnail?: boolean;
   hideIfNotInView?: boolean;
+  thumbnailImageUrl?: string | null;
 }
 
 export default function YoutubePlayer({
@@ -31,16 +32,18 @@ export default function YoutubePlayer({
   modestBranding = false,
   showOnlyThumbnail = false,
   hideIfNotInView = true,
+  thumbnailImageUrl,
 }: YoutubePlayerProps) {
   const { ref, isOnScreen } = useOnScreen<HTMLDivElement>({
     options: { threshold: 0.6 },
   });
 
-  const thumbnailImageUrl = getThumbnailImageUrlFromYoutubeUrl(url);
-  if (showOnlyThumbnail && thumbnailImageUrl) {
+  const _thumbnailImageUrl =
+    thumbnailImageUrl ?? getThumbnailImageUrlFromYoutubeUrl(url);
+  if (showOnlyThumbnail && _thumbnailImageUrl) {
     return (
       <img
-        src={thumbnailImageUrl}
+        src={_thumbnailImageUrl}
         alt={`Thumbnail of YouTube video ${url}`}
         loading="lazy"
         className={[styles.YoutubePlayer__Thumbnail, className].join(" ")}

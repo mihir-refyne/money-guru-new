@@ -12,113 +12,103 @@
     "autoPlayDurationInMs": 600000
   },
   "stickyBanners": [],
-  "finLiteracyTools": [
+  "trackers":[
     {
-      "name": "credit_score",
-      "title": "credit_score_tool_title",
-      "iconUrl": "/assets/images/speedometer_icon.svg",
-      "backgroundColor": "#DCF5EF",
-      "url": "/credit-report"
-    },
-    {
-      "name": "pf",
-      "title": "pf_tracker_tool_title_coming_soon",
-      "iconUrl": "/assets/images/briefcase_icon.svg",
-      "backgroundColor": "#DCF5EF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/pf-coming-soon",
+      "headingText": "pf_tracker_tool_title",
+      "name":"pf",
+      "descriptionText": "pf_tracker_tool_description",
+      "descriptionHighlightText":"pf_tracker_tool_description_highlight_text",
+      "imageUrl": "/assets/images/credit-score-meter-icon.svg",
+      "tag":{
+        "text": "new",
+        "textColor": "var(--clr-pure-white)",
+        "backgroundColor": "#00A181"
+      },
+      "url":"/epf-tracker",
       "releaseConfigs": [
         {
           "fieldName": "employerId",
-          "includes": false,
+          "includes": true,
           "values": [
             "EMR10000001",
             "EMR10000314",
             "EMR10000976",
             "EMR10000409",
             "EMR10000688",
-            "EMR10001065"
+            "EMR10000771"
           ]
         }
       ]
     },
     {
-      "name": "pf",
-      "title": "pf_tracker_tool_title",
-      "iconUrl": "/assets/images/briefcase_icon.svg",
-      "backgroundColor": "#DCF5EF",
-      "url": "/epf-tracker",
-      "releaseConfigs": [
-        {
-          "fieldName": "employerId",
-          "includes": true,
-          "values": [
-            "EMR10000001",
-            "EMR10000314",
-            "EMR10000976",
-            "EMR10000409",
-            "EMR10000688"
-          ]
-        }
-      ]
-    },
+      "headingText": "credit_score_tool_title",
+      "name":"credit_score",
+      "descriptionText": "check",
+      "descriptionHighlightText": "latest score",
+      "imageUrl": "/assets/images/passbook-icon.svg",
+      "url":"/credit-report"
+    }
+  ],
+  "calculators": [
     {
-      "name": "tax_calculator",
-      "title": "tax_calculator_tool_title",
-      "iconUrl": "/assets/images/tax_calculator_icon.svg",
-      "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
+      "name": "retirement_calculator",
+      "title":"retirement_calculator_tool_title",
+      "imageUrl": "/assets/images/retirement-plan.svg",
+      "url":"https://financialcoachingv0-1.bubbleapps.io/retirement-calculator",
+      "tag":{
+        "text": "new",
+        "textColor": "var(--clr-pure-white)",
+        "backgroundColor": "#00A181"
+      }
     },
     {
       "name": "homeloan_emi_calculator",
-      "title": "home_loan_emi_calculator_tool_title",
-      "iconUrl": "/assets/images/home_icon.svg",
-      "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
+      "title":"home_loan_emi_calculator_tool_title",
+      "imageUrl": "/assets/images/home-loan.svg",
+      "url":"https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
+    },
+    {
+      "name": "tax_calculator",
+      "title":"tax_calculator_tool_title",
+      "imageUrl": "/assets/images/income-tax.svg",
+      "url":"https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
     },
     {
       "name": "fixed_deposit_calculator",
-      "title": "fd_calculator_tool_title",
-      "iconUrl": "/assets/images/fund_icon.svg",
-      "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
-    },
-    {
-      "name": "retirement_calculator",
-      "title": "retirement_calculator_tool_title",
-      "iconUrl": "/assets/images/retirement_cal_icon.svg",
-      "backgroundColor": "#EBF5FF",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/retirement-calculator"
-    },
-    {
-      "name": "fin_quiz",
-      "title": "fin_quiz_tool_coming_soon",
-      "iconUrl": "/assets/images/question_bulb_icon.svg",
-      "backgroundColor": "#FCF2E3",
-      "url": "https://kahoot.it/",
-      "releaseConfigs": [
-        {
-          "fieldName": "employerId",
-          "includes": true,
-          "values": ["EMR10000001", "EMR10000669", "EMR10000968", "EMR10000976"]
-        }
-      ]
-    }
+      "title":"fd_calculator_tool_title",
+      "imageUrl": "/assets/images/fixed-deposit.svg",
+      "url":"https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
+          }
   ],
   "carouselBanner": {
     "autoPlayDurationInMs": 3000,
     "banners": [
       {
         "name": "fin_coaching_naval",
-        "heading": "Need help with finances?",
+        "heading": "coaching_banner_title",
         "url": "https://fincoachv2.typedream.app/",
         "description": "Get financial advice from SEBI certified industry experts.",
         "rightImageUrl": "/assets/images/banner_naval_painuly.png",
         "backgroundColor": "#E5EEF8",
-        "ctaLabel": "Know More",
+        "ctaLabel": "know_more",
         "releaseConfig": {
           "fieldName": "employerId",
           "includes": true,
           "values": ["EMR10000001", "EMR10001326"]
+        }
+      },
+      {
+        "name": "fin_coaching_naval_free",
+        "heading": "coaching_banner_title",
+        "url": "https://fincoachv2.typedream.app/financial-coach-free",
+        "description": "Get financial advice from SEBI certified industry experts.",
+        "rightImageUrl": "/assets/images/banner_naval_painuly.png",
+        "backgroundColor": "#E5EEF8",
+        "ctaLabel": "know_more",
+        "releaseConfig": {
+          "fieldName": "employerId",
+          "includes": true,
+          "values": ["EMR10000973"]
         }
       }
     ]
@@ -127,16 +117,13 @@
     {
       "order": [
         "R_SHORT_CAROUSEL",
-        "CREDIT_SCORE_WIDGET",
+        "TRACKERS",
         "IMAGE_BANNER",
-        "FIN_TOOLS",
+        "CALCULATORS",
         "CAROUSEL_BANNERS"
       ]
     }
   ],
-  "creditScoreWidgetConfig": {
-    "releaseConfig": {}
-  },
   "imagesBannerConfig": {
     "banners": []
   }

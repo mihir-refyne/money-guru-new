@@ -1,6 +1,7 @@
 ---
 mediaType: image
 mediaUrl: /assets/images/shorts/fixed-vs-recurring-deposit.png
+thumbnailUrl: /assets/images/shorts/fixed-vs-recurring-deposit-thumbnail.png
 tag: Investing
 ---
 

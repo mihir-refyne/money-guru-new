@@ -81,7 +81,11 @@ export default function Navbar({
             className={`${styles.NavbarContent__RightButton} btn-only-icon`}
             onClick={onLocaleChangeClick}
           >
-            <Image src={languageIconUrl} alt="Language Change" />
+            <Image
+              src={languageIconUrl}
+              alt="Language Change"
+              style={{ width: "var(--spacing-6)", height: "var(--spacing-6)" }}
+            />
           </button>
         )}
         {hasShare && (
