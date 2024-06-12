@@ -15,6 +15,7 @@ import { marked } from "marked";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef } from "react";
 import shortsConfig from "../../data/shorts_config.json";
+import { sanitize } from "dompurify";
 
 const SCROLL_BUFFER_TO_FETCH = 3;
 
@@ -135,7 +136,9 @@ export default function ShortsPage() {
             tag: short.metadata?.tag as any,
             content: (
               <article
-                dangerouslySetInnerHTML={{ __html: marked(short.content) }}
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(marked(short.content)),
+                }}
               />
             ),
             reaction: short.reaction,
