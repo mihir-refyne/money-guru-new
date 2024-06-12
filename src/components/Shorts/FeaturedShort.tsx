@@ -45,9 +45,12 @@ export default function FeaturedShort({
         <h3 className={styles.FeaturedShort__ShortMedia__Footer__Text}>
           {content && (
             <article className=" text-body text-semibold">
-              <h3 className={styles.FeaturedShort__ShortMedia__Footer__Text}>
-                {getHeadingFromMarkupContent(content).text}
-              </h3>
+              <h3
+                className={styles.FeaturedShort__ShortMedia__Footer__Text}
+                dangerouslySetInnerHTML={{
+                  __html: getHeadingFromMarkupContent(content).text,
+                }}
+              />
             </article>
           )}
         </h3>
