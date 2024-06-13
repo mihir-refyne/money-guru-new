@@ -38,7 +38,7 @@ export default function CalculatorTiles({
             style={{ color: firstToolTagProp.textColor }}
             className="text-caption"
           >
-            {firstToolTagProp.text}
+            {tWithoutTypeSafety(firstToolTagProp.text)}
           </h4>
         </div>
       )}

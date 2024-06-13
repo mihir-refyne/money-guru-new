@@ -63,10 +63,10 @@ export default function TrackerTile({
             {tWithoutTypeSafety(headingText)}
           </h2>
           {descriptionText && (
-            <h4 className="text-caption clr-text-secondary">
+            <h4 className="text-caption text-regular clr-text-secondary">
               {tWithoutTypeSafety(descriptionText)}
               {descriptionHighlightText && (
-                <span className="text-caption clr-text-primary">
+                <span className="text-caption text-regular clr-text-primary">
                   &nbsp; {tWithoutTypeSafety(descriptionHighlightText)}
                 </span>
               )}

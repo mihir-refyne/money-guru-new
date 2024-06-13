@@ -18,7 +18,7 @@
       "name":"pf",
       "descriptionText": "pf_tracker_tool_description",
       "descriptionHighlightText":"pf_tracker_tool_description_highlight_text",
-      "imageUrl": "/assets/images/credit-score-meter-icon.svg",
+      "imageUrl": "/assets/images/passbook-icon.svg ",
       "tag":{
         "text": "new",
         "textColor": "var(--clr-pure-white)",
@@ -45,7 +45,7 @@
       "name":"credit_score",
       "descriptionText": "check",
       "descriptionHighlightText": "latest score",
-      "imageUrl": "/assets/images/passbook-icon.svg",
+      "imageUrl": "/assets/images/credit-score-meter-icon.svg",
       "url":"/credit-report"
     }
   ],
