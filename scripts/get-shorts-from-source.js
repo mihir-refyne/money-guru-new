@@ -100,10 +100,12 @@ const promiseIdentify = promisify(identify);
 
 async function filterArticles(articles, filter) {
   const filterPromises = articles.map(async (a) => {
-    const [width, height] = await promiseIdentify(a.image_url).then((data) => [
-      data.width,
-      data.height,
-    ]);
+    const [width, height] = await promiseIdentify(a.image_url)
+      .then((data) => [data.width, data.height])
+      .catch((r) => {
+        console.log(a, r);
+        return [0, 0];
+      });
     if (
       width >= filter.minWidth &&
       height >= filter.minHeight &&
