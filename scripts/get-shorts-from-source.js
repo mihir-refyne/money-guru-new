@@ -120,7 +120,7 @@ async function filterArticles(articles, filter) {
 
 async function fetchNewsArticles() {
   const searchParams = new URLSearchParams({
-    apiKey: process.env.NEWSSOURCE_API_KEY,
+    apikey: process.env.NEWSSOURCE_API_KEY,
     q: process.env.NEWSSOURCE_Q,
     country: "in",
     language: "en",
