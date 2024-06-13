@@ -32,6 +32,10 @@ export default function FeaturedShort({
       <PlayCircle weight="fill" color="var(--clr-pure-white)" size={16} />
     ) : null;
 
+  const articleContent = content
+    ? getHeadingFromMarkupContent(content)
+    : undefined;
+
   return (
     <div role="button" onClick={onClick}>
       {mediaUrl && (
@@ -44,12 +48,12 @@ export default function FeaturedShort({
       )}
       <div className={styles.FeaturedShort__ShortMedia__Footer}>
         <h3 className={styles.FeaturedShort__ShortMedia__Footer__Text}>
-          {content && (
+          {articleContent && (
             <article className=" text-body text-semibold">
               <h3
                 className={styles.FeaturedShort__ShortMedia__Footer__Text}
                 dangerouslySetInnerHTML={{
-                  __html: sanitize(getHeadingFromMarkupContent(content).text),
+                  __html: sanitize(articleContent.text),
                 }}
               />
             </article>

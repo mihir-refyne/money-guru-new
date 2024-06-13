@@ -215,7 +215,7 @@ export async function listObjectsV2(
 export function getHeadingFromMarkupContent(markdown: string): {
   level: number;
   text: string;
-} {
+} | undefined {
   const renderer = new marked.Renderer();
   const headings: { level: number; text: string }[] = [];
   renderer.heading = (text, level) => {
@@ -224,7 +224,5 @@ export function getHeadingFromMarkupContent(markdown: string): {
   };
   marked(markdown, { renderer });
   const heading = headings[0];
-  console.log(markdown);
-  console.log(heading);
   return heading;
 }
