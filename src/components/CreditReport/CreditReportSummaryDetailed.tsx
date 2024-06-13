@@ -361,7 +361,7 @@ export default function CreditReportSummaryDetailed({
                     mediaType={(shortItem.metadata?.mediaType ?? "") as string}
                     mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
                     onClick={() => onFeaturedShortClick?.(shortItem.id)}
-                    content={marked(shortItem.content) ?? ""}
+                    content={shortItem.content ?? ""}
                   />
                 </div>
               );
