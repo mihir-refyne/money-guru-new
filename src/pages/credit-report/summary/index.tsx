@@ -79,6 +79,12 @@ export default function CreditReportSummaryPage() {
       {
         rating: context?.rating,
         is_expired: context?.hasExpired,
+        cache_preferred: cachePreferred.current,
+        has_data: data !== null,
+        error: error?.toString(),
+        error_name: error?.name,
+        error_message: error?.message,
+        error_status_code: (error as any)?.statusCode,
       }
     );
   }
