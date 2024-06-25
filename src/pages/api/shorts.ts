@@ -109,6 +109,9 @@ const handler: NextApiHandler<ShortsResponse | ShortsError> = async (
           return parseMarkdown(rawContent);
         })
         .then((parsedContent) => {
+          if (parsedContent.metadata?.tag === "business") {
+            parsedContent.metadata.tag = "news";
+          }
           response.data[i] = {
             id: trimmedSlug,
             reaction: {

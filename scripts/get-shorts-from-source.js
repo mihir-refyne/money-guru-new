@@ -9,6 +9,7 @@ const tmpPath = join(__dirname, process.env.TMP_DIR ?? "shorts-tmp");
 const minImageWidth = process.env.MIN_IMAGE_WIDTH ?? 640;
 const minImageHeight = process.env.MIN_IMAGE_HEIGHT ?? 480;
 const minDescLength = process.env.MIN_DESCRIPTION_LENGTH ?? 300;
+const tag = process.env.TAG ?? "news";
 const limit = process.env.LIMIT ?? 5;
 
 async function main() {
@@ -57,7 +58,7 @@ async function main() {
     const frontmatter = YAML.stringify({
       mediaType: "image",
       mediaUrl: article.image_url,
-      tag: "business",
+      tag: tag,
       link: article.link,
       source: article.source_id,
       pubDate: article.pubDate,
