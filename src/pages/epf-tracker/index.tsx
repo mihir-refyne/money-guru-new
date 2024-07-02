@@ -21,6 +21,8 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 export default function EpfTrackerSummaryPage() {
   const router = useRouter();
   const { isLoading, data, error } = useFetcher(getOrFetchEpfDetails);
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
   const directlyAccessed = !!router.query["direct"];
 
@@ -79,6 +81,24 @@ export default function EpfTrackerSummaryPage() {
     });
   }
 
+  function handleRouting(navigateTo: string, webviewRoute?: string) {
+    if (isRefyneWebview && webviewRoute) {
+      return dispatchDataToNativePlatform({
+        type: "ROUTE_TO_SCREEN",
+        body: {
+          screenName: webviewRoute,
+        },
+      });
+    }
+    router.push(navigateTo);
+  }
+
+  function handleFAQClick() {
+    const faqURL = "https://app.refyne.co.in/#/?next=%2Ffaq";
+    const faqRouteId = "FAQ_PAGE";
+    return handleRouting(faqURL, faqRouteId);
+  }
+
   if (isLoading) return <EpfTrackerLoading />;
 
   if (error) {
@@ -111,6 +131,7 @@ export default function EpfTrackerSummaryPage() {
       onMount={handleOnMount}
       onEstablishmentCardClick={handleEstablishmentCardClick}
       onRefetchClick={handleEpfRefetchClick}
+      onFaqClick={handleFAQClick}
     />
   );
 }

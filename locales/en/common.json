@@ -346,5 +346,9 @@
   "credit_score_tracker_tool_description": "credit_score_tracker_tool_description",
   "pf_tracker_tool_description_highlight_text": "pf_tracker_tool_description_highlight_text",
   "credit_score_tool_description_highlight_text": "credit_score_tool_description_highlight_text",
-  "fixed_deposit_calculator": "fixed_deposit_calculator"
+  "fixed_deposit_calculator": "fixed_deposit_calculator",
+  "learn_how_to_withdraw_pf": "learn_how_to_withdraw_pf",
+  "money_guru_facing_issues": "Facing issues?",
+  "money_guru_pf_faq_desc": "Here are all the PF passbook frequently asked questions",
+  "money_guru_check_faqs": "View all FAQs?"
 }

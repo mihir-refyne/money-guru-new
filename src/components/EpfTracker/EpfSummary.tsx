@@ -17,9 +17,16 @@ import { formatToInr } from "@/lib/utils";
 import { getEpfServicePeriodText } from "./helpers";
 import { useEffect, useState } from "react";
 import { useAutoIncrementNumber } from "@/hooks/useAutoIncrementNumber";
-import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
+// import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
 import useTranslation from "@/hooks/useTranslation";
-import { ArrowsClockwise, Buildings } from "phosphor-react";
+import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
+import {
+  ArrowRight,
+  ArrowsClockwise,
+  Buildings,
+  CaretRight,
+  Link,
+} from "phosphor-react";
 import toast from "react-hot-toast";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
@@ -33,6 +40,7 @@ interface EpfSummaryProps {
   onMount?: () => void;
   onEstablishmentCardClick: (memberId: string) => void;
   onRefetchClick?: (identifier: EpfFetchIdentifier, value?: string) => void;
+  onFaqClick?: () => void;
 }
 
 export default function EpfSummary({
@@ -41,6 +49,7 @@ export default function EpfSummary({
   onMount,
   onEstablishmentCardClick,
   onRefetchClick,
+  onFaqClick,
 }: EpfSummaryProps) {
   const { t } = useTranslation("common");
   const { summary, establishments, metadata = {} } = epfDetails;
@@ -97,24 +106,14 @@ export default function EpfSummary({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          color: "#0057B7",
+          border: "1px solid rgb(186, 215, 255)",
+          width: "100%",
+          padding: "0.7rem",
         }}
       >
-        <p className="clr-text-secondary text-caption">
-          {t("last_updated")} {format(new Date(lastFetchedAt), "dd MMM yy")}
-        </p>
-        <button
-          id={constructElementId({
-            screenName: ScreenName.MONGU_PF_TRACKER_SUMMARY,
-            elementName: "REFRESH_CTA",
-          })}
-          className={`${
-            refetchEnabled ? "clr-brand-default" : "clr-text-tertiary"
-          } text-medium flex-center`}
-          onClick={onRefetchClick}
-        >
-          <span className="mr-1">{t("epfo_refresh_cta")}</span>
-          <ArrowsClockwise />
-        </button>
+        <h2 className="text-body">{t("learn_how_to_withdraw_pf")}</h2>
+        <CaretRight />
       </div>
     );
   }
@@ -146,81 +145,164 @@ export default function EpfSummary({
 
   return (
     <EpfTrackerLayout dispatchPopEventOnBackClick={directlyAccessed} hasShare>
+      {/* 
+       TODOS: 
+      
+       - Refresh button logic
+       - Add border to card - Inform design team that footer is a seperate div and current styling wont work. TBD with Soumit
+       - Gradient color addition
+       - Footer styling
+       - Footer redirection
+       - Balance and latest deposit part - Latest deposit is first first entry of passbook and balance is sum of array
+       - Latest deposit part styling
+       - When to show view all
+
+      */}
+
       <Card
         // TODO: Ask why colors are not from design system
-        backgroundColor="#061D4C"
-        backgroundImageUrl={EpfSummaryCardBg.src}
-        footerBackgroundColor="#EBF5FF"
+        border="1px solid #BAD7FF"
+        backgroundImageUrl={PfPassbookBgUrl.src}
+        footerBackgroundColor="#FFFFFF"
         footer={getCardFooter(
           metadata.fetchedAt,
           isRefetchPossible,
           handleRefetchClick
         )}
       >
-        <div className="mb-4">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+          }}
+        >
           <LabelValue
-            type="light"
+            type="dark"
             label={t("pf_balance_label")}
-            labelTextVariant="body_regular"
+            labelTextVariant="heading_regular"
             value={totalBalanceWithAutoIncrement}
             formatter={formatToInr}
-            valueTextVariant="title_semibold"
+            valueTextVariant="title_medium"
+          />
+          <ArrowsClockwise
+            size={25}
+            style={{ color: "#0057B7", marginBottom: 10, marginLeft: 8 }}
           />
         </div>
-        <Separator separatorColor="var(--clr-pure-white)">
-          <LabelValue
-            type="light"
-            label={t("employee_share_label")}
-            value={totalEmployeeShareWithAutoIncrement}
-            formatter={formatToInr}
-          />
-          <LabelValue
-            type="light"
-            label={t("employer_share_label")}
-            value={totalEmployerShareWithAutoIncrement}
-            formatter={formatToInr}
-          />
-        </Separator>
+        <div
+          style={{
+            backgroundColor: "#F7F7F7",
+            width: "40%",
+            padding: " 0.7rem",
+
+            borderRadius: "0.5rem",
+          }}
+        >
+          <p className="clr-text-secondary text-caption">
+            {t("last_updated")}{" "}
+            {format(new Date(metadata.fetchedAt ?? ""), "dd MMM yy")}
+          </p>
+        </div>
+        {/* <div
+          className="mt-4"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            color: "#0057B7",
+          }}
+        ></div> */}
       </Card>
-      <h2 className="text-body text-semibold mt-6 mb-4">
+
+      <h2
+        className="text-body text-semibold mt-6 mb-4"
+        style={{ paddingLeft: "var(--spacing-2w)" }}
+      >
         {t("all_employers_label")} ({establishments.length})
       </h2>
       <div>
         {/* TODO: Check the Array order */}
-        {establishments.map((establishment) => {
+        {establishments.map((establishment, index) => {
+          const isLastElement = establishments.length === index + 1;
           const {
             memberId,
             establishmentName,
             dateOfJoiningInEPF,
             dateOfFirstTransaction,
             dateOfLastTransaction,
+            totalPensionBalance,
+            passbookEntries,
           } = establishment;
-          const servicePeriodText =
-            getEpfServicePeriodText({
-              dateOfJoiningInEPF: dateOfJoiningInEPF ?? dateOfFirstTransaction,
-              dateOfExitFromEPF: dateOfLastTransaction,
-            }) ?? "";
+          const { employeeShare = 0, employerShare = 0 } =
+            passbookEntries[0] ?? {};
+          const servicePeriodContainerWithLabel = (
+            <div>
+              {getEpfServicePeriodText({
+                dateOfJoiningInEPF:
+                  dateOfJoiningInEPF ?? dateOfFirstTransaction,
+                dateOfExitFromEPF: dateOfLastTransaction,
+              }) ?? ""}
+              <div>
+                <span
+                  style={{
+                    display: "inline-block",
+                    background: "#F0FFF2",
+                    color: "#01752F",
+                    padding: "4px 8px",
+                    marginTop: 4,
+                  }}
+                >
+                  Latest deposit: INR{" "}
+                  {formatToInr(employeeShare + employerShare)}
+                </span>
+              </div>
+            </div>
+          );
           return (
-            <ListCard
-              key={memberId}
-              className="mb-4"
-              items={[
-                {
-                  leftIcon: (
-                    <IconWrapper circular>
-                      <Buildings size={24} color="var(--clr-brand-default)" />
-                    </IconWrapper>
-                  ),
-                  contentLeftTitle: establishmentName,
-                  contentLeftDescription: servicePeriodText,
-                  onClick: () => onEstablishmentCardClick(memberId),
-                },
-              ]}
-            />
+            <>
+              <ListCard
+                key={memberId}
+                className="mb-4"
+                background="white"
+                items={[
+                  {
+                    contentRightTitle: formatToInr(totalPensionBalance),
+                    contentLeftTitle: establishmentName,
+                    contentLeftDescription: servicePeriodContainerWithLabel,
+                    onClick: () => onEstablishmentCardClick(memberId),
+                  },
+                ]}
+              />
+              {isLastElement ? null : <hr />}
+            </>
           );
         })}
       </div>
-      <InfoCard>{t("epf_info_disclaimer")}</InfoCard>
+      <div>
+        <div
+          style={{
+            marginTop: "var(--spacing-8)",
+            border: "1px solid var(--clr-grey-default)",
+            borderRadius: " var(--spacing-2)",
+            padding: "var(--spacing-3)",
+          }}
+        >
+          <h4 className="text-body text-semibold">
+            {t("money_guru_facing_issues")}
+          </h4>
+          <h5 className="text-regular text-caption clr-text-secondary mt-2">
+            {t("money_guru_pf_faq_desc")}
+          </h5>
+          <button
+            className="btn-text text-body text-semibold"
+            onClick={onFaqClick}
+          >
+            {t("money_guru_check_faqs")}
+            <CaretRight weight="bold" />
+          </button>
+        </div>
+      </div>
+      {/* <InfoCard>{t("epf_info_disclaimer")}</InfoCard> */}
     </EpfTrackerLayout>
   );
 }

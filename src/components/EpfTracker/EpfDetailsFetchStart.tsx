@@ -64,6 +64,7 @@ interface EpfDetailsFetchStartProps {
   onIdentifierChange?: (identifier: EpfFetchIdentifier) => void;
   onSubmit: (identifier: EpfFetchIdentifier, value: string) => void;
   loading?: boolean;
+  onFaqClick?: () => void;
 }
 
 const SYNTHETIC_LOADER_TIME_IN_MS = 2500;
@@ -75,6 +76,7 @@ export default function EpfDetailsFetchStart({
   onIdentifierChange,
   onSubmit,
   loading = false,
+  onFaqClick,
 }: EpfDetailsFetchStartProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
