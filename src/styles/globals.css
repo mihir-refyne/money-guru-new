@@ -528,3 +528,14 @@ b {
 .flex-grow-1 {
   flex-grow: 1;
 }
+
+/* INFO: This class is added for GOR Circular experiment */
+.gor-shorts-disclaimer {
+  color: var(--clr-text-secondary) !important;
+  font-size: 1.2rem !important;
+  line-height: 1.6rem !important;
+  padding: var(--spacing-2) !important;
+  background-color: var(--clr-grey-light) !important;
+  border: 1px solid var(--clr-border-enabled) !important;
+  border-radius: var(--spacing-2) !important;
+}
