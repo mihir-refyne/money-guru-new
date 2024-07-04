@@ -25,11 +25,11 @@ import {
   ArrowsClockwise,
   Buildings,
   CaretRight,
-  Link,
 } from "phosphor-react";
 import toast from "react-hot-toast";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
+import Link from "next/link";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
@@ -101,7 +101,8 @@ export default function EpfSummary({
   ) {
     if (!lastFetchedAt) return null;
     return (
-      <div
+      <Link
+        href={`/epf-tracker/epf-how-to-withdrawal-summary`}
         style={{
           display: "flex",
           alignItems: "center",
@@ -110,11 +111,12 @@ export default function EpfSummary({
           border: "1px solid rgb(186, 215, 255)",
           width: "100%",
           padding: "0.7rem",
+          textDecoration: "none",
         }}
       >
         <h2 className="text-body">{t("learn_how_to_withdraw_pf")}</h2>
         <CaretRight />
-      </div>
+      </Link>
     );
   }
 
@@ -145,20 +147,6 @@ export default function EpfSummary({
 
   return (
     <EpfTrackerLayout dispatchPopEventOnBackClick={directlyAccessed} hasShare>
-      {/* 
-       TODOS: 
-      
-       - Refresh button logic
-       - Add border to card - Inform design team that footer is a seperate div and current styling wont work. TBD with Soumit
-       - Gradient color addition
-       - Footer styling
-       - Footer redirection
-       - Balance and latest deposit part - Latest deposit is first first entry of passbook and balance is sum of array
-       - Latest deposit part styling
-       - When to show view all
-
-      */}
-
       <Card
         // TODO: Ask why colors are not from design system
         border="1px solid #BAD7FF"
