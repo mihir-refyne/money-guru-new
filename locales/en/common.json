@@ -84,6 +84,7 @@
   "pf_balance_label": "PF Balance",
   "employee_share_label": "Employee Share",
   "employer_share_label": "Employer Share",
+  "pension_share_label": "pension_share_label",
   "all_employers_label": "All Employers",
   "present_status_label": "Present",
   "epf_info_disclaimer": "The EPF data displayed here is for informational purposes only. Transaction amounts may vary from salary deductions. EPF contributions are subject to employer discretion. Verify information with official sources before making financial decisions.",
@@ -350,5 +351,7 @@
   "learn_how_to_withdraw_pf": "learn_how_to_withdraw_pf",
   "money_guru_facing_issues": "Facing issues?",
   "money_guru_pf_faq_desc": "Here are all the PF passbook frequently asked questions",
-  "money_guru_check_faqs": "View all FAQs?"
+  "money_guru_check_faqs": "View all FAQs?",
+  "pf_latest_deposit": "Latest deposit",
+  "pf_total_deposit": "Total deposit (Employee + Employer share)"
 }

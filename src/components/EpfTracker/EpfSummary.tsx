@@ -25,6 +25,7 @@ import {
   ArrowsClockwise,
   Buildings,
   CaretRight,
+  CurrencyInr,
 } from "phosphor-react";
 import toast from "react-hot-toast";
 import constructElementId from "@/lib/utils/constructElementId";
@@ -191,15 +192,6 @@ export default function EpfSummary({
             {format(new Date(metadata.fetchedAt ?? ""), "dd MMM yy")}
           </p>
         </div>
-        {/* <div
-          className="mt-4"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            color: "#0057B7",
-          }}
-        ></div> */}
       </Card>
 
       <h2
@@ -240,7 +232,8 @@ export default function EpfSummary({
                     marginTop: 4,
                   }}
                 >
-                  Latest deposit: INR{" "}
+                  {t("pf_latest_deposit") + " "}
+
                   {formatToInr(employeeShare + employerShare)}
                 </span>
               </div>
