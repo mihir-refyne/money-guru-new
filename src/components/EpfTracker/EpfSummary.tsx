@@ -31,6 +31,7 @@ import toast from "react-hot-toast";
 import constructElementId from "@/lib/utils/constructElementId";
 import { ScreenName } from "@/constants/ScreenName";
 import Link from "next/link";
+import CardV2 from "../CardV2";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
@@ -109,9 +110,7 @@ export default function EpfSummary({
           alignItems: "center",
           justifyContent: "space-between",
           color: "#0057B7",
-          border: "1px solid rgb(186, 215, 255)",
           width: "100%",
-          padding: "0.7rem",
           textDecoration: "none",
         }}
       >
@@ -148,9 +147,8 @@ export default function EpfSummary({
 
   return (
     <EpfTrackerLayout dispatchPopEventOnBackClick={directlyAccessed} hasShare>
-      <Card
-        // TODO: Ask why colors are not from design system
-        border="1px solid #BAD7FF"
+      <CardV2
+        border="0.5px solid var(--clr-icon-primary-light)"
         backgroundImageUrl={PfPassbookBgUrl.src}
         footerBackgroundColor="#FFFFFF"
         footer={getCardFooter(
@@ -182,7 +180,7 @@ export default function EpfSummary({
           style={{
             backgroundColor: "#F7F7F7",
             width: "40%",
-            padding: " 0.7rem",
+            padding: "0.7rem",
 
             borderRadius: "0.5rem",
           }}
@@ -192,7 +190,7 @@ export default function EpfSummary({
             {format(new Date(metadata.fetchedAt ?? ""), "dd MMM yy")}
           </p>
         </div>
-      </Card>
+      </CardV2>
 
       <h2
         className="text-body text-semibold mt-6 mb-4"

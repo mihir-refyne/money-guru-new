@@ -21,6 +21,7 @@ import Modal from "../Modal";
 import { useState } from "react";
 import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
 import Link from "next/link";
+import CardV2 from "../CardV2";
 interface EpfPassbookProps {
   establishmentDetails: EpfEstablishment;
 }
@@ -49,8 +50,7 @@ export default function EpfPassbook({
 
   return (
     <EpfTrackerLayout hasShare>
-      <Card
-        // Why these color?
+      <CardV2
         backgroundImageUrl={PfPassbookBgUrl.src}
         border="1px solid #BAD7FF"
         footerBackgroundColor="#FFFFFF"
@@ -80,7 +80,7 @@ export default function EpfPassbook({
         >
           {getCardFooter(establishmentDetails)}
         </div>
-      </Card>
+      </CardV2>
 
       <Card
         boxShadow="1px 0px 10px 1px rgba(18, 18, 18, 0.04)"
