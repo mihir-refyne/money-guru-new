@@ -6,6 +6,7 @@ interface ListCardProps {
   className?: string;
   background?: string;
   border?: string;
+  shadow?: string;
   items: Array<ListCardItemProps>;
 }
 
@@ -13,13 +14,14 @@ export default function ListCard({
   className = "",
   items,
   border,
+  shadow,
   background,
 }: ListCardProps) {
   return (
     <div
       className={`${styles.ListCard} ${className}`}
       role="listbox"
-      style={{ background, border }}
+      style={{ background, border, boxShadow: shadow }}
     >
       {items.map((item, index) => (
         <ListCardItem key={index} {...item} />
@@ -73,7 +75,7 @@ function ListCardItem({
   }
 
   const isClickable = !!onClick;
-  const _rightIcon = rightIcon ?? isClickable ? <CaretRight size={16} /> : null;
+  const _rightIcon = rightIcon ?? isClickable ? <CaretRight size={18} /> : null;
   const alignClassName = styles[`align-${alignItems}`];
   return (
     <div

@@ -150,6 +150,7 @@ export default function EpfSummary({
       <CardV2
         border="0.5px solid var(--clr-icon-primary-light)"
         backgroundImageUrl={PfPassbookBgUrl.src}
+        backgroundGradient="linear-gradient(262.79deg, #EFF6FF 12.35%, #FFFFFF 82.83%)"
         footerBackgroundColor="#FFFFFF"
         footer={getCardFooter(
           metadata.fetchedAt,
@@ -199,69 +200,63 @@ export default function EpfSummary({
         {t("all_employers_label")} ({establishments.length})
       </h2>
       <div>
-        {/* TODO: Check the Array order */}
-        {establishments.map((establishment, index) => {
-          const isLastElement = establishments.length === index + 1;
-          const {
-            memberId,
-            establishmentName,
-            dateOfJoiningInEPF,
-            dateOfFirstTransaction,
-            dateOfLastTransaction,
-            totalPensionBalance,
-            passbookEntries,
-          } = establishment;
-          const { employeeShare = 0, employerShare = 0 } =
-            passbookEntries[0] ?? {};
-          const servicePeriodContainerWithLabel = (
-            <div>
-              {getEpfServicePeriodText({
-                dateOfJoiningInEPF:
-                  dateOfJoiningInEPF ?? dateOfFirstTransaction,
-                dateOfExitFromEPF: dateOfLastTransaction,
-              }) ?? ""}
+        <ListCard
+          className="mb-4"
+          background="#fff"
+          border="1px solid var(--clr-border-enabled)"
+          shadow="1px 0px 10px 1px #1212120A"
+          items={establishments.map((establishment) => {
+            const {
+              memberId,
+              establishmentName,
+              dateOfJoiningInEPF,
+              dateOfFirstTransaction,
+              dateOfLastTransaction,
+              totalPensionBalance,
+              passbookEntries,
+            } = establishment;
+            const { employeeShare = 0, employerShare = 0 } =
+              passbookEntries[0] ?? {};
+            const servicePeriodContainerWithLabel = (
               <div>
-                <span
-                  style={{
-                    display: "inline-block",
-                    background: "#F0FFF2",
-                    color: "#01752F",
-                    padding: "4px 8px",
-                    marginTop: 4,
-                  }}
-                >
-                  {t("pf_latest_deposit") + " "}
+                {getEpfServicePeriodText({
+                  dateOfJoiningInEPF:
+                    dateOfJoiningInEPF ?? dateOfFirstTransaction,
+                  dateOfExitFromEPF: dateOfLastTransaction,
+                }) ?? ""}
+                <div>
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: "#F0FFF2",
+                      color: "#01752F",
+                      padding: "4px 8px",
+                      marginTop: 4,
+                    }}
+                  >
+                    {t("pf_latest_deposit") + " "}
 
-                  {formatToInr(employeeShare + employerShare)}
-                </span>
+                    {formatToInr(employeeShare + employerShare)}
+                  </span>
+                </div>
               </div>
-            </div>
-          );
-          return (
-            <>
-              <ListCard
-                key={memberId}
-                className="mb-4"
-                background="white"
-                items={[
-                  {
-                    contentRightTitle: formatToInr(totalPensionBalance),
-                    contentLeftTitle: establishmentName,
-                    contentLeftDescription: servicePeriodContainerWithLabel,
-                    onClick: () => onEstablishmentCardClick(memberId),
-                  },
-                ]}
-              />
-              {isLastElement ? null : <hr />}
-            </>
-          );
-        })}
+            );
+            return {
+              contentRightTitle: formatToInr(totalPensionBalance),
+              contentLeftTitle: establishmentName,
+              contentLeftDescription: servicePeriodContainerWithLabel,
+              onClick: () => onEstablishmentCardClick(memberId),
+              alignItems: "start",
+            };
+          })}
+        />
       </div>
       <div>
         <div
           style={{
             marginTop: "var(--spacing-8)",
-            border: "1px solid var(--clr-grey-default)",
+            border: "1px solid var(--clr-border-enabled)",
+            boxShadow: "1px 0px 10px 1px #1212120A",
             borderRadius: " var(--spacing-2)",
             padding: "var(--spacing-3)",
           }}

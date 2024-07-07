@@ -4,6 +4,7 @@ import styles from "./styles.module.css";
 interface CardV2Props {
   children: ReactNode;
   backgroundColor?: string;
+  backgroundGradient?: string;
   backgroundImageUrl?: string;
   backgroundSize?: string;
   boxShadow?: string;
@@ -15,6 +16,7 @@ interface CardV2Props {
 export default function CardV2({
   backgroundImageUrl,
   backgroundColor,
+  backgroundGradient,
   backgroundSize,
   boxShadow,
   border,
@@ -28,7 +30,11 @@ export default function CardV2({
   const backgroundColorProperty = backgroundColor
     ? `linear-gradient(to right, ${backgroundColor}, ${backgroundColor})`
     : undefined;
-  const backgroundProperty = [backgroundImageProperty, backgroundColorProperty]
+  const backgroundProperty = [
+    backgroundImageProperty,
+    backgroundGradient,
+    backgroundColorProperty,
+  ]
     .filter(Boolean)
     .join(", ");
   const hasFooter = !!footer;

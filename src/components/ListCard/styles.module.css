@@ -31,15 +31,20 @@
   gap: var(--spacing-2);
 }
 
+.ListCardItem.align-start,
+.ListCardItem__Content.align-center {
+  align-items: flex-start;
+}
+
 .ListCardItem.align-center,
 .ListCardItem__Content.align-center {
   align-items: center;
 }
 
 /* TODO: Refactor this */
-.ListCardItem__Content__Item>*:not(:last-child) {
+.ListCardItem__Content__Item > *:not(:last-child) {
   margin-bottom: var(--spacing-1);
 }
-.HasGap .ListCardItem__Content__Item>*:not(:last-child) {
+.HasGap .ListCardItem__Content__Item > *:not(:last-child) {
   margin-bottom: var(--spacing-2);
 }
