@@ -19,6 +19,8 @@ import Tag, { TagType } from "../Tag";
 import useTranslation from "@/hooks/useTranslation";
 import Modal from "../Modal";
 import { useState } from "react";
+import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
+import Link from "next/link";
 interface EpfPassbookProps {
   establishmentDetails: EpfEstablishment;
 }
@@ -49,36 +51,35 @@ export default function EpfPassbook({
     <EpfTrackerLayout hasShare>
       <Card
         // Why these color?
-        backgroundColor="#EBF5FF"
-        footerBackgroundColor="#F5F7FA"
-        footer={getCardFooter(establishmentDetails)}
+        backgroundImageUrl={PfPassbookBgUrl.src}
+        border="1px solid #BAD7FF"
+        footerBackgroundColor="#FFFFFF"
+        footer={getFooterWithBalance({
+          totalEmployeeShare,
+          totalEmployerShare,
+        })}
       >
         <ListCard
           className="bg-transparent p-0 mb-6"
           items={[
             {
-              leftIcon: (
-                <IconWrapper circular>
-                  <Buildings size={24} color="var(--clr-brand-default)" />
-                </IconWrapper>
-              ),
               contentLeftTitle: establishmentDetails.establishmentName,
               contentLeftDescription: `A/C: ${establishmentDetails.memberId}`,
             },
           ]}
-        ></ListCard>
-        <Separator separatorColor="#ADD4FF">
-          <LabelValue
-            label={t("employee_share_label")}
-            value={totalEmployeeShare}
-            formatter={formatToInr}
-          />
-          <LabelValue
-            label={t("employer_share_label")}
-            value={totalEmployerShare}
-            formatter={formatToInr}
-          />
-        </Separator>
+        />
+
+        <div
+          style={{
+            backgroundColor: "#F7F7F7",
+            width: "50%",
+            padding: " 0.7rem",
+
+            borderRadius: "0.5rem",
+          }}
+        >
+          {getCardFooter(establishmentDetails)}
+        </div>
       </Card>
 
       <Card
@@ -97,7 +98,6 @@ export default function EpfPassbook({
             formatter={formatToInr}
           />
           <LabelValue
-            // label={t("pension_share_label")}
             label="Pension share"
             value={totalPensionShare}
             formatter={formatToInr}
@@ -122,8 +122,12 @@ export default function EpfPassbook({
           </span>
         </div>
       </Card>
+
+      <h4 className="mt-4" style={{ color: "#696d70" }}>
+        Deposits
+      </h4>
       <div
-        className="mt-6"
+        className="mt-2"
         style={{
           boxShadow: "1px 0px 10px 1px rgba(18, 18, 18, 0.04)",
           border: "1px solid #F0F0F0",
@@ -182,11 +186,12 @@ export default function EpfPassbook({
             showHr
             button={{
               label: "Pension benefits",
-              onClick: () => alert("WTF"),
+              redirectTo: "/epf-tracker/epf-pension-contribution",
             }}
             heading="Pension Contribution"
             description="Provides pension benefits to employees after retirement or to their families in case of the employee’s death"
           />
+
           <LearnMoreSection
             icon=""
             heading="How It Works"
@@ -278,6 +283,21 @@ export default function EpfPassbook({
   );
 }
 
+function getFooterWithBalance(context: {
+  totalEmployeeShare: number;
+  totalEmployerShare: number;
+}) {
+  const { totalEmployeeShare, totalEmployerShare } = context;
+  const sum = totalEmployeeShare + totalEmployerShare;
+  if (!sum) return null;
+  return (
+    <div className="pt-3">
+      <p className="text-body"> Total Deposit (Employee + Employer Share)</p>
+      <p className="text-sub-title text-medium my-3">{formatToInr(sum)}</p>
+    </div>
+  );
+}
+
 function getCardFooter(context: {
   dateOfJoiningInEPF?: string;
   dateOfFirstTransaction?: string;
@@ -287,7 +307,7 @@ function getCardFooter(context: {
     dateOfJoiningInEPF:
       context.dateOfJoiningInEPF ?? context.dateOfFirstTransaction,
     dateOfExitFromEPF: context.dateOfLastTransaction,
-    prefix: "Duration: ",
+
     dateFormat: "dd MMM yy",
   });
   if (!servicePeriodText) return null;
@@ -390,7 +410,7 @@ function LearnMoreSection(props: {
   showHr?: boolean;
   button?: {
     label: string;
-    onClick?: () => void;
+    redirectTo: string;
   };
 }) {
   return (
@@ -405,16 +425,19 @@ function LearnMoreSection(props: {
           <WhatsappLogo />
         </span>
         <div>
-          <div style={{ fontWeight: "bold" }}>{props.heading}</div>
-          <div style={{ color: "#888", marginTop: 4 }}>{props.description}</div>
+          <div className="text-heading text-semibold">{props.heading}</div>
+          <div className="text-regular" style={{ color: "#888888" }}>
+            {props.description}
+          </div>
           {props.button ? (
-            <button
-              className="btn btn-secondary m-0 p-0 mt-2"
+            <Link
+              href={props.button.redirectTo}
+              className="btn btn-secondary  m-0 p-0 mt-2"
               style={{ color: "var(--clr-brand-default)" }}
-              onClick={props.button.onClick}
             >
-              {props.button.label}
-            </button>
+              {/* {props.button.label} */}
+              <p style={{ textDecoration: "none" }}>{props.button.label}</p>
+            </Link>
           ) : null}
         </div>
       </div>
