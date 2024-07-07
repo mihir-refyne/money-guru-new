@@ -1,4 +1,4 @@
-import { EpfFetchError, EpfFetchIdentifier } from "@/lib/epf";
+import { EpfFetchError, EpfFetchIdentifier, EpfPassbookEntry } from "@/lib/epf";
 import format from "date-fns/format";
 
 export function getEpfServicePeriodText(context: {
@@ -48,4 +48,29 @@ export function isEpfFetchError(errorName: string): errorName is EpfFetchError {
     return true;
   }
   return false;
+}
+
+export function getFinancialYearsFromPassbookEntries(
+  passbookEntries: Array<EpfPassbookEntry>
+): Array<{ from: Date; to: Date }> {
+  const financialYears = new Map<string, { from: Date; to: Date }>();
+
+  passbookEntries.forEach((entry) => {
+    const date = new Date(entry.transactionDate);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+
+    // Determine the financial year start
+    const financialYearStart = month >= 3 ? year : year - 1;
+    const financialYearKey = `${financialYearStart}-${financialYearStart + 1}`;
+
+    if (!financialYears.has(financialYearKey)) {
+      financialYears.set(financialYearKey, {
+        from: new Date(financialYearStart, 3, 1),
+        to: new Date(financialYearStart + 1, 2, 31),
+      });
+    }
+  });
+
+  return Array.from(financialYears.values());
 }

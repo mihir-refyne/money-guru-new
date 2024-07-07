@@ -13,12 +13,15 @@ import LabelValue from "../LabelValue";
 import format from "date-fns/format";
 import { Buildings, CaretRight, WhatsappLogo } from "phosphor-react";
 import { formatToInr } from "@/lib/utils";
-import { getEpfServicePeriodText } from "./helpers";
+import {
+  getEpfServicePeriodText,
+  getFinancialYearsFromPassbookEntries,
+} from "./helpers";
 import NoRecordFound from "../NoRecordFound";
 import Tag, { TagType } from "../Tag";
 import useTranslation from "@/hooks/useTranslation";
 import Modal from "../Modal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
 import Link from "next/link";
 import CardV2 from "../CardV2";
@@ -34,6 +37,31 @@ export default function EpfPassbook({
     useState(false);
   const [individualTxnDetails, setIndividualTxnDetails] =
     useState<EpfPassbookEntry | null>(null);
+  const [financialYearIndex, setFinancialYearIndex] = useState<number>(0);
+
+  const availableFinancialYears = useMemo(
+    () =>
+      getFinancialYearsFromPassbookEntries(
+        establishmentDetails.passbookEntries
+      ),
+    [establishmentDetails.passbookEntries]
+  );
+
+  const filteredPassbookEntries = useMemo(() => {
+    const dateFilter = availableFinancialYears[financialYearIndex];
+    if (!dateFilter) return establishmentDetails.passbookEntries;
+    return establishmentDetails.passbookEntries.filter((entry) => {
+      const transactionDate = new Date(entry.transactionDate);
+      return (
+        transactionDate >= dateFilter.from && transactionDate <= dateFilter.to
+      );
+    });
+  }, [
+    establishmentDetails.passbookEntries,
+    availableFinancialYears,
+    financialYearIndex,
+  ]);
+
   const totalEmployeeShare = Math.floor(
     establishmentDetails.totalEmployeeShare
   );
@@ -135,7 +163,35 @@ export default function EpfPassbook({
           padding: 12,
         }}
       >
-        {establishmentDetails.passbookEntries.map((entry, index) => {
+        <div
+          style={{
+            display: "flex",
+            borderBottom: "1px solid #F0F0F0",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: 72,
+          }}
+        >
+          <select
+            name="filters"
+            value={financialYearIndex.toString()}
+            onChange={(e) =>
+              setFinancialYearIndex(Number(e.currentTarget.value))
+            }
+          >
+            {availableFinancialYears.map((financialYear, index) => {
+              const fromDate = format(financialYear.from, "MMMM yyyy");
+              const toDate = format(financialYear.to, "MMMM yyyy");
+              return (
+                <option
+                  key={index}
+                  value={index}
+                >{`${fromDate} - ${toDate}`}</option>
+              );
+            })}
+          </select>
+        </div>
+        {filteredPassbookEntries.map((entry, index) => {
           return (
             <div
               style={{
