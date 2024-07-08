@@ -36,10 +36,14 @@
   background-color: var(--clr-info-error-light);
 }
 .Tag__error-light {
-  color: #F57B7B;
+  color: #f57b7b;
   background-color: var(--clr-info-error-light);
 }
 .Tag__info-light {
   color: var(--clr-text-primary);
   background-color: var(--clr-grey-light);
+}
+.Tag__general-light {
+  color: #0057b7;
+  background-color: #eff6ff;
 }

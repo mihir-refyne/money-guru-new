@@ -8,7 +8,9 @@ export type TagType =
   | "warning-light"
   | "error"
   | "error-light"
-  | "info-light";
+  | "info-light"
+  | "general"
+  | "general-light";
 
 const TAG_TYPE_TO_CSS_CLASS_MAP: Record<TagType, string> = {
   success: styles.Tag__success,
@@ -18,6 +20,8 @@ const TAG_TYPE_TO_CSS_CLASS_MAP: Record<TagType, string> = {
   error: styles.Tag__error,
   "error-light": styles["Tag__error-light"],
   "info-light": styles["Tag__info-light"],
+  general: styles.Tag_general,
+  "general-light": styles["Tag__general-light"],
 };
 
 interface TagProps {

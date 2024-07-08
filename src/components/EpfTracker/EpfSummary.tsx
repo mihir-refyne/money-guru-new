@@ -6,30 +6,18 @@ import {
   setEpfDetailsIncrementEffectShown,
 } from "@/lib/epf";
 import EpfTrackerLayout from "./EpfTrackerLayout";
-import Card from "../Card";
 import LabelValue from "../LabelValue";
-import Separator from "../Separator";
 import format from "date-fns/format";
 import ListCard from "../ListCard";
-import InfoCard from "../InfoCard";
-import IconWrapper from "../IconWrapper";
 import { formatToInr } from "@/lib/utils";
 import { getEpfServicePeriodText } from "./helpers";
 import { useEffect, useState } from "react";
 import { useAutoIncrementNumber } from "@/hooks/useAutoIncrementNumber";
-// import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
 import useTranslation from "@/hooks/useTranslation";
 import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
-import {
-  ArrowRight,
-  ArrowsClockwise,
-  Buildings,
-  CaretRight,
-  CurrencyInr,
-} from "phosphor-react";
+import { ArrowsClockwise, CaretRight } from "phosphor-react";
 import toast from "react-hot-toast";
-import constructElementId from "@/lib/utils/constructElementId";
-import { ScreenName } from "@/constants/ScreenName";
+
 import Link from "next/link";
 import CardV2 from "../CardV2";
 
@@ -96,11 +84,7 @@ export default function EpfSummary({
     onRefetchClick?.(identifier, value);
   }
 
-  function getCardFooter(
-    lastFetchedAt: string | undefined,
-    refetchEnabled: boolean,
-    onRefetchClick?: VoidFunction
-  ) {
+  function getCardFooter(lastFetchedAt: string | undefined) {
     if (!lastFetchedAt) return null;
     return (
       <Link
@@ -124,25 +108,11 @@ export default function EpfSummary({
   const totalBalance = Math.floor(
     summary.currentBalance + summary.currentPensionBalance
   );
-  const totalEmployeeShare = Math.floor(summary.currentEmployeeShareBalance);
-  const totalEmployerShare = Math.floor(
-    summary.currentEmployerShareBalance + summary.currentPensionBalance
-  );
 
   const totalBalanceWithAutoIncrement = useAutoIncrementNumber({
     active: !isEpfDetailsIncrementEffectAlreadyShown,
     durationInMs: AUTO_INCREMENT_DURATION_IN_MS,
     value: totalBalance,
-  });
-  const totalEmployeeShareWithAutoIncrement = useAutoIncrementNumber({
-    active: !isEpfDetailsIncrementEffectAlreadyShown,
-    durationInMs: AUTO_INCREMENT_DURATION_IN_MS,
-    value: totalEmployeeShare,
-  });
-  const totalEmployerShareWithAutoIncrement = useAutoIncrementNumber({
-    active: !isEpfDetailsIncrementEffectAlreadyShown,
-    durationInMs: AUTO_INCREMENT_DURATION_IN_MS,
-    value: totalEmployerShare,
   });
 
   return (
@@ -152,11 +122,7 @@ export default function EpfSummary({
         backgroundImageUrl={PfPassbookBgUrl.src}
         backgroundGradient="linear-gradient(262.79deg, #EFF6FF 12.35%, #FFFFFF 82.83%)"
         footerBackgroundColor="#FFFFFF"
-        footer={getCardFooter(
-          metadata.fetchedAt,
-          isRefetchPossible,
-          handleRefetchClick
-        )}
+        footer={getCardFooter(metadata.fetchedAt)}
       >
         <div
           style={{
@@ -172,10 +138,13 @@ export default function EpfSummary({
             formatter={formatToInr}
             valueTextVariant="title_medium"
           />
-          <ArrowsClockwise
-            size={25}
-            style={{ color: "#0057B7", marginBottom: 10, marginLeft: 8 }}
-          />
+          {isRefetchPossible && (
+            <ArrowsClockwise
+              onClick={handleRefetchClick}
+              size={25}
+              style={{ color: "#0057B7", marginBottom: 10, marginLeft: 8 }}
+            />
+          )}
         </div>
         <div
           style={{
@@ -188,7 +157,7 @@ export default function EpfSummary({
         >
           <p className="clr-text-secondary text-caption">
             {t("last_updated")}{" "}
-            {format(new Date(metadata.fetchedAt ?? ""), "dd MMM yy")}
+            {format(new Date(metadata.fetchedAt ?? ""), "dd MMM")}
           </p>
         </div>
       </CardV2>
@@ -276,7 +245,6 @@ export default function EpfSummary({
           </button>
         </div>
       </div>
-      {/* <InfoCard>{t("epf_info_disclaimer")}</InfoCard> */}
     </EpfTrackerLayout>
   );
 }

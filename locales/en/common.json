@@ -348,10 +348,13 @@
   "pf_tracker_tool_description_highlight_text": "pf_tracker_tool_description_highlight_text",
   "credit_score_tool_description_highlight_text": "credit_score_tool_description_highlight_text",
   "fixed_deposit_calculator": "fixed_deposit_calculator",
-  "learn_how_to_withdraw_pf": "learn_how_to_withdraw_pf",
+  "learn_how_to_withdraw_pf": "Learn how to withdraw PF",
   "money_guru_facing_issues": "Facing issues?",
   "money_guru_pf_faq_desc": "Here are all the PF passbook frequently asked questions",
   "money_guru_check_faqs": "View all FAQs?",
   "pf_latest_deposit": "Latest deposit",
-  "pf_total_deposit": "Total deposit (Employee + Employer share)"
+  "pf_total_deposit": "Total deposit (Employee + Employer share)",
+  "learn_more": "learn more",
+  "deposits": "deposits",
+  "employee_and_employer_share": "Employee and Employer Share"
 }

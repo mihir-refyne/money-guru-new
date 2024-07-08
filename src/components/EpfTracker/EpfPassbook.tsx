@@ -7,24 +7,31 @@ import {
 import EpfTrackerLayout from "./EpfTrackerLayout";
 import Card from "../Card";
 import ListCard from "../ListCard";
-import IconWrapper from "../IconWrapper";
 import Separator from "../Separator";
 import LabelValue from "../LabelValue";
 import format from "date-fns/format";
-import { Buildings, CaretRight, WhatsappLogo } from "phosphor-react";
+import {
+  CaretRight,
+  WhatsappLogo,
+  ArrowsClockwise,
+  Wallet,
+  Chats,
+  PictureInPicture,
+} from "phosphor-react";
 import { formatToInr } from "@/lib/utils";
 import {
   getEpfServicePeriodText,
   getFinancialYearsFromPassbookEntries,
 } from "./helpers";
-import NoRecordFound from "../NoRecordFound";
 import Tag, { TagType } from "../Tag";
 import useTranslation from "@/hooks/useTranslation";
 import Modal from "../Modal";
-import { useMemo, useState } from "react";
+import { ReactElement, useMemo, useState } from "react";
 import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
 import Link from "next/link";
 import CardV2 from "../CardV2";
+import EpfHowToWithdrawalSummary from "@/pages/epf-tracker/epf-how-to-withdrawal-summary";
+
 interface EpfPassbookProps {
   establishmentDetails: EpfEstablishment;
 }
@@ -79,8 +86,9 @@ export default function EpfPassbook({
   return (
     <EpfTrackerLayout hasShare>
       <CardV2
+        border="0.5px solid var(--clr-icon-primary-light)"
         backgroundImageUrl={PfPassbookBgUrl.src}
-        border="1px solid #BAD7FF"
+        backgroundGradient="linear-gradient(262.79deg, #EFF6FF 12.35%, #FFFFFF 82.83%)"
         footerBackgroundColor="#FFFFFF"
         footer={getFooterWithBalance({
           totalEmployeeShare,
@@ -144,7 +152,7 @@ export default function EpfPassbook({
           role="button"
           onClick={() => setLearnMoreBottomSheetOpen(true)}
         >
-          <span>Learn more</span>
+          <span>{t("learn_more")}</span>
           <span>
             <CaretRight />
           </span>
@@ -152,7 +160,7 @@ export default function EpfPassbook({
       </Card>
 
       <h4 className="mt-4" style={{ color: "#696d70" }}>
-        Deposits
+        {t("deposits")}
       </h4>
       <div
         className="mt-2"
@@ -178,6 +186,12 @@ export default function EpfPassbook({
             onChange={(e) =>
               setFinancialYearIndex(Number(e.currentTarget.value))
             }
+            style={{
+              height: "48px",
+              border: "1px solid black",
+              width: "100%",
+              padding: "1rem",
+            }}
           >
             {availableFinancialYears.map((financialYear, index) => {
               const fromDate = format(financialYear.from, "MMMM yyyy");
@@ -230,29 +244,114 @@ export default function EpfPassbook({
         bottomSheetOnMobile
         onClose={() => setLearnMoreBottomSheetOpen(false)}
       >
-        <div style={{ border: "1px solid #F0F0F0", borderRadius: 20 }}>
-          <LearnMoreSection
-            icon=""
-            heading="Employee and Employer Share"
-            description="Both the employee and employer contribute to build retirement corpus"
-            showHr
-          />
-          <LearnMoreSection
-            icon=""
-            showHr
-            button={{
-              label: "Pension benefits",
-              redirectTo: "/epf-tracker/epf-pension-contribution",
-            }}
-            heading="Pension Contribution"
-            description="Provides pension benefits to employees after retirement or to their families in case of the employee’s death"
-          />
+        <div
+          style={{
+            border: "1px solid #F0F0F0",
+            borderRadius: "0.75rem",
+            padding: "1.25rem",
+            backgroundColor: "#fff",
+            boxShadow: "0 0.25rem 0.75rem rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          {[
+            {
+              icon: <Wallet width={25} height={25} color="#0057B7" />,
+              heading: "Employee and Employer Share",
+              description:
+                "Both the employee and employer contribute to build retirement corpus",
+              showHr: true,
+            },
+            {
+              icon: <PictureInPicture width={25} height={25} color="#0057B7" />,
+              heading: "Pension Contribution",
+              description:
+                "Provides pension benefits to employees after retirement or to their families in case of the employee’s death",
+              showHr: true,
+              button: {
+                label: "Pension benefits",
+                redirectTo: "/epf-tracker/epf-pension-contribution",
+              },
+            },
+            {
+              icon: <Chats width={25} height={25} color="#0057B7" />,
+              heading: "How It Works",
+              description:
+                "Employee and the employer share grow your retirement savings, while a portion of the employer’s contribution ensures you receive pension benefits",
+              showHr: false,
+            },
+          ].map((section, index) => {
+            const { description, heading, icon, showHr, button } = section;
+            return (
+              <div key={index} style={{ marginBottom: "1.25rem" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginBottom: "0.625rem",
+                  }}
+                >
+                  {/* <img
+                  src={section.icon}
+                  style={{
+                    width: "1.5rem",
+                    height: "1.5rem",
+                    marginRight: "0.625rem",
+                  }}
+                /> */}
 
-          <LearnMoreSection
-            icon=""
-            heading="How It Works"
-            description="Employee and the employer share grow your retirement savings, while a portion of the employer’s contribution ensures you receive pension benefits"
-          />
+                  {/* <img
+                    src={icon}
+                    alt="Icon"
+                    style={{
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      marginRight: "0.625rem",
+                    }}
+                  /> */}
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderRadius: "50%",
+                      background: "#EFF6FF",
+                    }}
+                  >
+                    <span style={{ marginRight: "0.65rem" }}>{icon}</span>
+                  </div>
+
+                  <div>
+                    <div
+                      className="text-semibold"
+                      style={{
+                        color: "#000",
+                      }}
+                    >
+                      {heading}
+                    </div>
+                    <div style={{ color: "#666" }}>{description}</div>
+                    {section.button && (
+                      <a
+                        className="text-caption"
+                        href={button && button.redirectTo}
+                        style={{
+                          color: "#007BFF",
+                          textDecoration: "none",
+                        }}
+                      >
+                        {button && button.label} &gt;
+                      </a>
+                    )}
+                  </div>
+                </div>
+                {showHr && (
+                  <hr
+                    style={{ border: "none", borderTop: "1px solid #F0F0F0" }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
         <button
           className="btn btn-primary btn-block mt-4"
@@ -268,64 +367,65 @@ export default function EpfPassbook({
         onClose={() => setIndividualTxnDetails(null)}
       >
         {individualTxnDetails && (
-          <div style={{ border: "1px solid #F0F0F0", borderRadius: 20 }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span>Date</span>
-              <span>
-                {format(
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 12,
+              padding: "20px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            {[
+              {
+                label: "Date",
+                value: format(
                   new Date(individualTxnDetails.transactionDate),
                   "dd MMM yy"
-                )}
-              </span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span>Amount</span>
-              <span>
-                <TransactionValue
-                  type={individualTxnDetails.type}
-                  variant={individualTxnDetails.variant}
-                  value={
-                    individualTxnDetails.employerShare +
+                ),
+              },
+              {
+                label: "Total contribution",
+                value: formatToInr(
+                  individualTxnDetails.employerShare +
+                    individualTxnDetails.employeeShare +
                     individualTxnDetails.pensionBalance
-                  }
-                />
-              </span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span>Employee share</span>
-              <span>{formatToInr(individualTxnDetails.employeeShare)}</span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span>Employer share</span>
-              <span>{formatToInr(individualTxnDetails.employerShare)}</span>
-            </div>
+                ),
+              },
+              {
+                label: "Employee share",
+                value: formatToInr(individualTxnDetails.employeeShare),
+              },
+              {
+                label: "Employer share",
+                value: formatToInr(individualTxnDetails.employerShare),
+              },
+              {
+                label: "Pension contribution",
+                value: formatToInr(individualTxnDetails.pensionBalance),
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "10px 0",
+                  borderBottom: index < 4 ? "1px solid #f0f0f0" : "none", // Remove border for the last item
+                }}
+              >
+                <span style={{ fontSize: "14px", color: "#666" }}>
+                  {item.label}
+                </span>
+                <span
+                  style={{
+                    color: "#000",
+                  }}
+                >
+                  {item.value}
+                </span>
+              </div>
+            ))}
           </div>
         )}
         <button
@@ -425,6 +525,7 @@ function getTagTypeByTransactionTypeAndVariant(
   if (variant === EpfPassbookEntryVariant.INTEREST) return "success-light";
   if (variant === EpfPassbookEntryVariant.CLAIM) return "warning-light";
   if (variant === EpfPassbookEntryVariant.PENALTIES) return "error";
+  if (variant === EpfPassbookEntryVariant.CONTRIBUTION) return "general-light";
   if (
     variant === EpfPassbookEntryVariant.TRANSFER &&
     type === EpfPassbookEntryType.CREDIT
@@ -474,12 +575,10 @@ function LearnMoreSection(props: {
       <div
         style={{
           display: "flex",
-          padding: "16px 12px",
+          padding: "var(--spacing-4) (--var-spacing-3)",
         }}
       >
-        <span className="mr-2">
-          <WhatsappLogo />
-        </span>
+        <span className="mr-2">{/* <WhatsappLogo /> */}</span>
         <div>
           <div className="text-heading text-semibold">{props.heading}</div>
           <div className="text-regular" style={{ color: "#888888" }}>
@@ -491,7 +590,6 @@ function LearnMoreSection(props: {
               className="btn btn-secondary  m-0 p-0 mt-2"
               style={{ color: "var(--clr-brand-default)" }}
             >
-              {/* {props.button.label} */}
               <p style={{ textDecoration: "none" }}>{props.button.label}</p>
             </Link>
           ) : null}
