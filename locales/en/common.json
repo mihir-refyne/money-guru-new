@@ -356,5 +356,12 @@
   "pf_total_deposit": "Total deposit (Employee + Employer share)",
   "learn_more": "learn more",
   "deposits": "deposits",
-  "employee_and_employer_share": "Employee and Employer Share"
+  "employee_and_employer_share_heading": "Employee and Employer Share",
+  "employee_and_employer_share_desc": "Both the employee and employer contribute to build retirement corpus",
+  "pension_contribution_heading": "Pension Contribution",
+  "pension_contribution_desc": "Provides pension benefits to employees after retirement or to their families in case of the employee’s death",
+  "how_it_works": "How It Works",
+  "how_it_works_desc": "Employee and the employer share grow your retirement savings, while a portion of the employer’s contribution ensures you receive pension benefits",
+  "date": "date",
+  "total_contribution": "total contributions"
 }

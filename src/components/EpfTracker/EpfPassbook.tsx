@@ -10,14 +10,7 @@ import ListCard from "../ListCard";
 import Separator from "../Separator";
 import LabelValue from "../LabelValue";
 import format from "date-fns/format";
-import {
-  CaretRight,
-  WhatsappLogo,
-  ArrowsClockwise,
-  Wallet,
-  Chats,
-  PictureInPicture,
-} from "phosphor-react";
+import { CaretRight, Wallet, Chats, Money } from "phosphor-react";
 import { formatToInr } from "@/lib/utils";
 import {
   getEpfServicePeriodText,
@@ -26,11 +19,9 @@ import {
 import Tag, { TagType } from "../Tag";
 import useTranslation from "@/hooks/useTranslation";
 import Modal from "../Modal";
-import { ReactElement, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
-import Link from "next/link";
 import CardV2 from "../CardV2";
-import EpfHowToWithdrawalSummary from "@/pages/epf-tracker/epf-how-to-withdrawal-summary";
 
 interface EpfPassbookProps {
   establishmentDetails: EpfEstablishment;
@@ -148,8 +139,8 @@ export default function EpfPassbook({
             borderTop: "1px solid #F0F0F0",
             paddingTop: 12,
             marginTop: 16,
+            cursor: "pointer",
           }}
-          role="button"
           onClick={() => setLearnMoreBottomSheetOpen(true)}
         >
           <span>{t("learn_more")}</span>
@@ -188,9 +179,12 @@ export default function EpfPassbook({
             }
             style={{
               height: "48px",
-              border: "1px solid black",
+              border: "1px solid #C7C7C7",
               width: "100%",
               padding: "1rem",
+              borderRadius: "0.75rem",
+              color: "#888888",
+              cursor: "pointer",
             }}
           >
             {availableFinancialYears.map((financialYear, index) => {
@@ -214,6 +208,7 @@ export default function EpfPassbook({
                 alignItems: "center",
                 justifyContent: "space-between",
                 height: 72,
+                cursor: "pointer",
               }}
               role="button"
               onClick={() => setIndividualTxnDetails(entry)}
@@ -255,17 +250,15 @@ export default function EpfPassbook({
         >
           {[
             {
-              icon: <Wallet width={25} height={25} color="#0057B7" />,
-              heading: "Employee and Employer Share",
-              description:
-                "Both the employee and employer contribute to build retirement corpus",
+              icon: <Wallet width={20} height={20} color="#0057B7" />,
+              heading: t("employee_and_employer_share_heading"),
+              description: t("employee_and_employer_share_desc"),
               showHr: true,
             },
             {
-              icon: <PictureInPicture width={25} height={25} color="#0057B7" />,
-              heading: "Pension Contribution",
-              description:
-                "Provides pension benefits to employees after retirement or to their families in case of the employee’s death",
+              icon: <Money width={25} height={25} color="#0057B7" />,
+              heading: t("pension_contribution_heading"),
+              description: t("pension_contribution_desc"),
               showHr: true,
               button: {
                 label: "Pension benefits",
@@ -274,9 +267,8 @@ export default function EpfPassbook({
             },
             {
               icon: <Chats width={25} height={25} color="#0057B7" />,
-              heading: "How It Works",
-              description:
-                "Employee and the employer share grow your retirement savings, while a portion of the employer’s contribution ensures you receive pension benefits",
+              heading: t("how_it_works"),
+              description: t("how_it_works_desc"),
               showHr: false,
             },
           ].map((section, index) => {
@@ -287,34 +279,18 @@ export default function EpfPassbook({
                   style={{
                     display: "flex",
                     alignItems: "center",
+                    justifyContent: "center",
                     marginBottom: "0.625rem",
                   }}
                 >
-                  {/* <img
-                  src={section.icon}
-                  style={{
-                    width: "1.5rem",
-                    height: "1.5rem",
-                    marginRight: "0.625rem",
-                  }}
-                /> */}
-
-                  {/* <img
-                    src={icon}
-                    alt="Icon"
-                    style={{
-                      width: "1.5rem",
-                      height: "1.5rem",
-                      marginRight: "0.625rem",
-                    }}
-                  /> */}
                   <div
                     style={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      borderRadius: "50%",
+                      borderRadius: "75%",
                       background: "#EFF6FF",
+                      marginRight: "1rem",
                     }}
                   >
                     <span style={{ marginRight: "0.65rem" }}>{icon}</span>
@@ -377,14 +353,14 @@ export default function EpfPassbook({
           >
             {[
               {
-                label: "Date",
+                label: t("date"),
                 value: format(
                   new Date(individualTxnDetails.transactionDate),
                   "dd MMM yy"
                 ),
               },
               {
-                label: "Total contribution",
+                label: t("total_contribution"),
                 value: formatToInr(
                   individualTxnDetails.employerShare +
                     individualTxnDetails.employeeShare +
@@ -392,15 +368,15 @@ export default function EpfPassbook({
                 ),
               },
               {
-                label: "Employee share",
+                label: t("employee_share_label"),
                 value: formatToInr(individualTxnDetails.employeeShare),
               },
               {
-                label: "Employer share",
+                label: t("employer_share_label"),
                 value: formatToInr(individualTxnDetails.employerShare),
               },
               {
-                label: "Pension contribution",
+                label: t("pension_contribution_heading"),
                 value: formatToInr(individualTxnDetails.pensionBalance),
               },
             ].map((item, index) => (
@@ -411,7 +387,7 @@ export default function EpfPassbook({
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "10px 0",
-                  borderBottom: index < 4 ? "1px solid #f0f0f0" : "none", // Remove border for the last item
+                  borderBottom: index < 4 ? "1px solid #f0f0f0" : "none",
                 }}
               >
                 <span style={{ fontSize: "14px", color: "#666" }}>
@@ -432,7 +408,7 @@ export default function EpfPassbook({
           className="btn btn-primary btn-block mt-4"
           onClick={() => setIndividualTxnDetails(null)}
         >
-          Got it
+          {t("got_it_btn")}
         </button>
       </Modal>
     </EpfTrackerLayout>
@@ -448,7 +424,7 @@ function getFooterWithBalance(context: {
   if (!sum) return null;
   return (
     <div className="pt-3">
-      <p className="text-body"> Total Deposit (Employee + Employer Share)</p>
+      <p className="text-body">Total deposit (Employee + Employer share)</p>
       <p className="text-sub-title text-medium my-3">{formatToInr(sum)}</p>
     </div>
   );
@@ -557,45 +533,5 @@ function TransactionDateWithTag(props: {
         </Tag>
       )}
     </div>
-  );
-}
-
-function LearnMoreSection(props: {
-  icon: string;
-  heading: string;
-  description: string;
-  showHr?: boolean;
-  button?: {
-    label: string;
-    redirectTo: string;
-  };
-}) {
-  return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          padding: "var(--spacing-4) (--var-spacing-3)",
-        }}
-      >
-        <span className="mr-2">{/* <WhatsappLogo /> */}</span>
-        <div>
-          <div className="text-heading text-semibold">{props.heading}</div>
-          <div className="text-regular" style={{ color: "#888888" }}>
-            {props.description}
-          </div>
-          {props.button ? (
-            <Link
-              href={props.button.redirectTo}
-              className="btn btn-secondary  m-0 p-0 mt-2"
-              style={{ color: "var(--clr-brand-default)" }}
-            >
-              <p style={{ textDecoration: "none" }}>{props.button.label}</p>
-            </Link>
-          ) : null}
-        </div>
-      </div>
-      {props.showHr ? <hr style={{ border: "1px solid #F0F0F0" }} /> : null}
-    </>
   );
 }
