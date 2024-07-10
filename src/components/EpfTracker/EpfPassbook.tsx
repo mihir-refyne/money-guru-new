@@ -125,7 +125,7 @@ export default function EpfPassbook({
             formatter={formatToInr}
           />
           <LabelValue
-            label="Pension share"
+            label={t("pension_contribution_heading")}
             value={totalPensionShare}
             formatter={formatToInr}
           />
@@ -181,7 +181,7 @@ export default function EpfPassbook({
               height: "48px",
               border: "1px solid #C7C7C7",
               width: "100%",
-              padding: "1rem",
+              padding: "0.5rem 1rem",
               borderRadius: "0.75rem",
               color: "#888888",
               cursor: "pointer",
@@ -246,11 +246,14 @@ export default function EpfPassbook({
             padding: "1.25rem",
             backgroundColor: "#fff",
             boxShadow: "0 0.25rem 0.75rem rgba(0, 0, 0, 0.1)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           {[
             {
-              icon: <Wallet width={20} height={20} color="#0057B7" />,
+              icon: <Wallet color="#0057B7" width={25} height={25} />,
               heading: t("employee_and_employer_share_heading"),
               description: t("employee_and_employer_share_desc"),
               showHr: true,

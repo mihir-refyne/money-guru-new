@@ -11,6 +11,7 @@ type ServerErrorCodeToResponseModalMapType = Record<
 >;
 
 export interface SummaryStep {
+  imgURL?: string;
   icon?: ReactNode;
   iconBackgroundColor?: string;
   label?: string;

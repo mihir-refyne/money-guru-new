@@ -23,7 +23,7 @@ export default function CalculatorTiles({
   calculators,
   onCalculatorClick,
 }: CalulatorsTileProps) {
-  const { tWithoutTypeSafety } = useTranslation();
+  const { tWithoutTypeSafety, t } = useTranslation();
   const firstToolTagProp = calculators[0].tag;
   return (
     <div className={styles.Calculator__Tile}>

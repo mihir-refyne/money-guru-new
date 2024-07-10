@@ -6,6 +6,7 @@ import {
   SummaryStep,
 } from "./constants";
 import EpfTrackerLayout from "./EpfTrackerLayout";
+import useTranslation from "@/hooks/useTranslation";
 
 interface EpfHowToWithdrawalSummaryCardProps {
   summary?: HowToWithdrawPfSummaryType[];
@@ -32,13 +33,14 @@ export default function EpfHowToWithdrawalSummaryCard({
 }
 
 function EpfStep({ heading, summarySteps }: EpfStepProps) {
+  const { tWithoutTypeSafety } = useTranslation();
   return (
     <div key={heading} style={{ marginBottom: "24px" }}>
       <h4
         style={{ marginBottom: "12px" }}
         className="text-body clr-text-secondary"
       >
-        {heading}
+        {tWithoutTypeSafety(heading)}
       </h4>
       <Card
         backgroundColor="##FFFFFF"
@@ -48,6 +50,7 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
         {summarySteps.map((step, idx) => {
           const {
             icon,
+            imgURL,
             desc,
             hasDescFooter,
             descFooterIcon,
@@ -72,36 +75,46 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                       marginRight: "8px",
                     }}
                   >
-                    <p
-                      style={{
-                        fontWeight: "600",
-                        fontSize: "14px",
-                      }}
-                    >
-                      {icon ? icon : idx + 1}
-                    </p>
+                    {imgURL ? (
+                      <img src={imgURL} />
+                    ) : (
+                      <p
+                        style={{
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          margin: 0,
+                        }}
+                      >
+                        {icon ? icon : idx + 1}
+                      </p>
+                    )}
                   </div>
                 </div>
 
                 <div>
-                  <h4
-                    style={{
-                      fontWeight: "600",
-                      fontSize: "14px",
-                      marginBottom: "4px",
-                    }}
-                  >
-                    {label}
-                  </h4>
-                  <p
-                    style={{
-                      fontSize: "14px",
-                      fontWeight: "400",
-                    }}
-                    className="clr-text-secondary"
-                  >
-                    {desc}
-                  </p>
+                  {label && (
+                    <h4
+                      style={{
+                        fontWeight: "600",
+                        fontSize: "14px",
+                        marginBottom: "4px",
+                      }}
+                    >
+                      {tWithoutTypeSafety(label)}
+                    </h4>
+                  )}
+                  {desc && (
+                    <p
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "400",
+                      }}
+                      className="clr-text-secondary"
+                    >
+                      {tWithoutTypeSafety(desc)}
+                    </p>
+                  )}
+
                   {hasDescFooter && (
                     <Link
                       href="/epf-tracker/epf-permitted-claim-reason"
@@ -109,20 +122,33 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                     >
                       <div
                         style={{
-                          display: "flex",
+                          display: "inline-flex",
                           marginTop: "8px",
+                          alignItems: "center",
                         }}
                       >
-                        <p
+                        {descFooterText && (
+                          <p
+                            style={{
+                              color: "#0057B7",
+                              fontWeight: "600",
+                              margin: "0",
+                              lineHeight: "1",
+                            }}
+                          >
+                            {tWithoutTypeSafety(descFooterText)}
+                          </p>
+                        )}
+
+                        <span
                           style={{
-                            color: "#0057B7",
-                            fontWeight: "600",
-                            fontSize: "14px",
+                            marginLeft: "4px",
+                            display: "inline-flex",
+                            alignItems: "center",
                           }}
                         >
-                          {descFooterText}
-                        </p>
-                        <span>{descFooterIcon}</span>
+                          {descFooterIcon}
+                        </span>
                       </div>
                     </Link>
                   )}

@@ -3,55 +3,55 @@ import EpfHowToWithdrawalSummaryCard from "@/components/EpfTracker/EpfHowToWithd
 
 const PERMITTED_CLAIM_REASONS: PermittedClaimReasonType[] = [
   {
-    heading: "Full Withdrawal",
+    heading: "full_withdrawal_heading",
     summarySteps: [
       {
-        label: "Retirement",
-        desc: "You can fully withdraw your EPF balance after retirement.",
+        label: "retirement_label",
+        desc: "retirement_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Unemployment",
-        desc: "If you are unemployed for more than tow months, you can withdraw the EPF balance",
+        label: "unemployment_label",
+        desc: "unemployment_desc",
       },
     ],
   },
   {
-    heading: "Partial Withdrawal",
+    heading: "partial_withdrawal_heading",
     summarySteps: [
       {
-        label: "Unemployment",
-        desc: "If you are unemployed for more than tow months, you can withdraw the EPF balance",
+        label: "unemployment_label",
+        desc: "unemployment_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Medical Emergencies",
-        desc: "Up to 50% of your contribution to EPF can be withdrawn after seven years of service",
+        label: "medical_emergencies_label",
+        desc: "medical_emergencies_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Higher Education",
-        desc: "Up to 50% of your contribution to EPF can be withdrawn after seven years of service",
+        label: "higher_education_label",
+        desc: "higher_education_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Home Purchase/Construction",
-        desc: "Up to 50% of your contribution to EPF can be withdrawn after seven years of service",
+        label: "home_purchase_label",
+        desc: "home_purchase_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Home Loan Repayment",
-        desc: "Up to 50% of your contribution to EPF can be withdrawn after seven years of service",
+        label: "home_loan_label",
+        desc: "home_loan_desc",
         hasBottomBorder: true,
       },
       {
-        label: "House Renovation",
-        desc: "Up to 50% of your contribution to EPF can be withdrawn after seven years of service",
+        label: "house_renovation_label",
+        desc: "house_renovation_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Pre-retirement",
-        desc: "Up to 50% of your contribution to EPF can be withdrawn after seven years of service",
+        label: "preretirement_label",
+        desc: "preretirement_desc",
       },
     ],
   },

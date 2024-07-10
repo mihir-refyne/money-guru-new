@@ -1,54 +1,60 @@
-import { ArrowsClockwise, CaretRight } from "phosphor-react";
+import { CaretRight } from "phosphor-react";
 import EpfHowToWithdrawalSummaryCard from "@/components/EpfTracker/EpfHowToWithdrawalSummaryCard";
 import { HowToWithdrawPfSummaryType } from "@/components/EpfTracker/constants";
 
+const WALLET_URL = "/assets/images/wallet-warning.svg";
+const ARROW_DOWN_URL = "/assets/images/arrow-down.svg";
+const PAGE_ERROR_URL = "/assets/images/page-error.svg";
+
 const EPF_HOW_TO_WITHDRAWAL_SUMMARY: HowToWithdrawPfSummaryType[] = [
   {
-    heading: "How to raise a claim on EPFO portal",
+    heading: "how_to_claim_heading",
+
     summarySteps: [
       {
-        label: "Login & Verify",
-        desc: "Login to EPFO portal. Ensure your KYC details are verified",
+        label: "login_and_verify_label",
+        desc: "login_and_verify_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Raise a claim application",
-        desc: `Select 'Online Services', and select Claim (Form-31,19,10C&10D)`,
+        label: "raise_claim_label",
+        desc: "raise_claim_desc",
         hasBottomBorder: true,
       },
       {
-        label: "Specify claim reason",
-        desc: "PF withdrawals are permitted under certain conditions and for specific purposes",
-        descFooterText: "Permitted claim reasons",
+        label: "specify_claim_label",
+        desc: "specify_claim_desc",
+        descFooterText: "permitted_claim_reasons",
         descFooterIcon: <CaretRight color="#0057B7" />,
         hasBottomBorder: true,
         hasDescFooter: true,
       },
       {
-        label: "Submission",
-        desc: "Approval from the employer is required and the amount will be credited to your bank account within 15-20 days",
+        label: "submission",
+        desc: "submission_desc",
       },
     ],
   },
   {
-    heading: "Withdrawing early from EPF is not adivsed",
+    heading: "pf_withdrawal_not_advised",
     summarySteps: [
       {
-        icon: <ArrowsClockwise />,
+        imgURL: WALLET_URL,
+
         iconBackgroundColor: "#FFF3E8",
-        label: "Reduced Retirement Corpus",
-        desc: "Withdrawing funds lower your retirement savings, risking insufficient funds in retirement.",
+        label: "reduced_retirement_corpus_label",
+        desc: "reduced_retirement_corpus_desc",
         hasBottomBorder: true,
       },
       {
-        icon: <ArrowsClockwise />,
+        imgURL: ARROW_DOWN_URL,
         iconBackgroundColor: "#FFF3E8",
         label: "Loss of Compunding Benefits",
         desc: "Early withdrawal stops compounding interest, reducing potential earnings and growth.",
         hasBottomBorder: true,
       },
       {
-        icon: <ArrowsClockwise />,
+        imgURL: PAGE_ERROR_URL,
         iconBackgroundColor: "#FFF3E8",
         label: "Tax Implications for Early Withdrawal",
         desc: "Withdrawals before five years incur TDS, decreasing the amount received.",

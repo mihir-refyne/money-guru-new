@@ -81,7 +81,7 @@ export default function EpfDetailsFetchStart({
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const formId = useId();
   const [identifierValue, setIdentifierValue] = useState<string>(initialValue);
-  const timerRef = useRef<NodeJS.Timeout>();
+
   const { isLoading: isSyntheticLoading, setIsLoading } = useSyntheticLoader(
     true,
     SYNTHETIC_LOADER_TIME_IN_MS

@@ -174,7 +174,7 @@ export default function EpfSummary({
           background="#fff"
           border="1px solid var(--clr-border-enabled)"
           shadow="1px 0px 10px 1px #1212120A"
-          items={establishments.map((establishment) => {
+          items={establishments.map((establishment, index) => {
             const {
               memberId,
               establishmentName,
@@ -184,8 +184,12 @@ export default function EpfSummary({
               totalPensionBalance,
               passbookEntries,
             } = establishment;
+
             const { employeeShare = 0, employerShare = 0 } =
               passbookEntries[0] ?? {};
+
+            const isLatestEstablishment = index === 0;
+
             const servicePeriodContainerWithLabel = (
               <div>
                 {getEpfServicePeriodText({
@@ -193,23 +197,26 @@ export default function EpfSummary({
                     dateOfJoiningInEPF ?? dateOfFirstTransaction,
                   dateOfExitFromEPF: dateOfLastTransaction,
                 }) ?? ""}
-                <div>
-                  <span
-                    style={{
-                      display: "inline-block",
-                      background: "#F0FFF2",
-                      color: "#01752F",
-                      padding: "4px 8px",
-                      marginTop: 4,
-                    }}
-                  >
-                    {t("pf_latest_deposit") + " "}
+                {isLatestEstablishment && (
+                  <div>
+                    <span
+                      style={{
+                        display: "inline-block",
+                        background: "#F0FFF2",
+                        color: "#01752F",
+                        padding: "4px 8px",
+                        marginTop: 4,
+                      }}
+                    >
+                      {t("pf_latest_deposit") + " "}
 
-                    {formatToInr(employeeShare + employerShare)}
-                  </span>
-                </div>
+                      {formatToInr(employeeShare + employerShare)}
+                    </span>
+                  </div>
+                )}
               </div>
             );
+
             return {
               contentRightTitle: formatToInr(totalPensionBalance),
               contentLeftTitle: establishmentName,
@@ -220,6 +227,7 @@ export default function EpfSummary({
           })}
         />
       </div>
+
       <div>
         <div
           style={{
