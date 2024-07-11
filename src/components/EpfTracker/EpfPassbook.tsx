@@ -109,46 +109,48 @@ export default function EpfPassbook({
         </div>
       </CardV2>
 
-      <Card
-        boxShadow="1px 0px 10px 1px rgba(18, 18, 18, 0.04)"
-        border="1px solid #F0F0F0"
-      >
-        <Separator separatorColor="#F0F0F0">
-          <LabelValue
-            label={t("employee_share_label")}
-            value={totalEmployeeShare}
-            formatter={formatToInr}
-          />
-          <LabelValue
-            label={t("employer_share_label")}
-            value={totalEmployerShare}
-            formatter={formatToInr}
-          />
-          <LabelValue
-            label={t("pension_contribution_heading")}
-            value={totalPensionShare}
-            formatter={formatToInr}
-          />
-        </Separator>
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderTop: "1px solid #F0F0F0",
-            paddingTop: 12,
-            marginTop: 16,
-            cursor: "pointer",
-          }}
-          onClick={() => setLearnMoreBottomSheetOpen(true)}
+      <div style={{ marginTop: "2.5rem" }}>
+        <Card
+          boxShadow="1px 0px 10px 1px rgba(18, 18, 18, 0.04)"
+          border="1px solid #F0F0F0"
         >
-          <span>{t("learn_more")}</span>
-          <span>
-            <CaretRight />
-          </span>
-        </div>
-      </Card>
+          <Separator separatorColor="#F0F0F0">
+            <LabelValue
+              label={t("employee_share_label")}
+              value={totalEmployeeShare}
+              formatter={formatToInr}
+            />
+            <LabelValue
+              label={t("employer_share_label")}
+              value={totalEmployerShare}
+              formatter={formatToInr}
+            />
+            <LabelValue
+              label={t("pension_contribution_heading")}
+              value={totalPensionShare}
+              formatter={formatToInr}
+            />
+          </Separator>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              borderTop: "1px solid #F0F0F0",
+              paddingTop: 12,
+
+              cursor: "pointer",
+            }}
+            onClick={() => setLearnMoreBottomSheetOpen(true)}
+          >
+            <span>{t("learn_more")}</span>
+            <span>
+              <CaretRight />
+            </span>
+          </div>
+        </Card>
+      </div>
 
       <h4 className="mt-4" style={{ color: "#696d70" }}>
         {t("deposits")}
@@ -168,7 +170,6 @@ export default function EpfPassbook({
             borderBottom: "1px solid #F0F0F0",
             alignItems: "center",
             justifyContent: "space-between",
-            height: 72,
           }}
         >
           <select
@@ -264,7 +265,7 @@ export default function EpfPassbook({
               description: t("pension_contribution_desc"),
               showHr: true,
               button: {
-                label: "Pension benefits",
+                label: t("pension_benefits_header"),
                 redirectTo: "/epf-tracker/epf-pension-contribution",
               },
             },

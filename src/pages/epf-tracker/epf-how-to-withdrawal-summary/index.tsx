@@ -14,19 +14,17 @@ const EPF_HOW_TO_WITHDRAWAL_SUMMARY: HowToWithdrawPfSummaryType[] = [
       {
         label: "login_and_verify_label",
         desc: "login_and_verify_desc",
-        hasBottomBorder: true,
       },
       {
         label: "raise_claim_label",
         desc: "raise_claim_desc",
-        hasBottomBorder: true,
       },
       {
         label: "specify_claim_label",
         desc: "specify_claim_desc",
         descFooterText: "permitted_claim_reasons",
         descFooterIcon: <CaretRight color="#0057B7" />,
-        hasBottomBorder: true,
+
         hasDescFooter: true,
       },
       {

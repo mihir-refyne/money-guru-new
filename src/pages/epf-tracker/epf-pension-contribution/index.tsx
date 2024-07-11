@@ -3,37 +3,37 @@ import { HowToWithdrawPfSummaryType } from "@/components/EpfTracker/constants";
 
 const EPF_PENSION_CONTRIBUTION: HowToWithdrawPfSummaryType[] = [
   {
-    heading: "Pension benefits",
+    heading: "pension_benefits_header",
     summarySteps: [
       {
-        label: "Pension Calculation",
-        desc: "At retirement (age 58), the pension is based on the average salary of the last 12 months and years of service",
+        label: "pension_calculation_label",
+        desc: "pension_calculation_desc",
       },
       {
-        label: "Monthly Pension",
-        desc: "The pension is then disbursed monthly to the pensioner for life",
+        label: "monthly_pension_label",
+        desc: "monthly_pension_desc",
       },
     ],
   },
   {
-    heading: "Family Support Benefits",
+    heading: "family_support_header",
     summarySteps: [
       {
-        label: "Family Pension",
-        desc: "On the pensioner’s death, the spouse and eligible children receive a percentage of the pension",
+        label: "family_pension_label",
+        desc: "family_pension_desc",
       },
       {
-        label: "Lump Sum",
-        desc: "If the employee dies before 10 years of service, the corpus is paid as a lump sum to the nominee",
+        label: "lump_sum_label",
+        desc: "lump_sum_desc",
       },
     ],
   },
   {
-    heading: "Withdrawal Benefits",
+    heading: "withdrawal_benefits_header",
     summarySteps: [
       {
-        label: "Early Exit",
-        desc: "Leaving the job before age 58 and without 10 years of service allows withdrawal of the pension contribution, calculated based on years of service",
+        label: "early_exit_label",
+        desc: "early_exit_desc",
       },
     ],
   },

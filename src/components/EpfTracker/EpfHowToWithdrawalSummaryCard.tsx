@@ -59,6 +59,7 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
             hasBottomBorder,
             iconBackgroundColor,
           } = step;
+          const isLastItem = idx === summarySteps.length - 1;
           return (
             <div key={label}>
               <div style={{ display: "flex" }}>
@@ -97,19 +98,21 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                       style={{
                         fontWeight: "600",
                         fontSize: "14px",
-                        marginBottom: "4px",
+                        marginBottom: "8px",
                       }}
                     >
                       {tWithoutTypeSafety(label)}
                     </h4>
                   )}
+
                   {desc && (
                     <p
                       style={{
                         fontSize: "14px",
                         fontWeight: "400",
+                        marginBottom: "16px",
                       }}
-                      className="clr-text-secondary"
+                      className="clr-text-secondary "
                     >
                       {tWithoutTypeSafety(desc)}
                     </p>
@@ -154,11 +157,21 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                   )}
                 </div>
               </div>
+              {!isLastItem && (
+                <hr
+                  style={{
+                    border: "none",
+                    borderTop: "1px solid #F0F0F0",
+                    margin: "16px 0",
+                  }}
+                />
+              )}
               {hasBottomBorder && (
                 <hr
                   style={{
-                    border: "1px solid #F0F0F0",
-                    margin: "16px",
+                    border: "none",
+                    borderTop: "1px solid #F0F0F0",
+                    margin: "16px 0",
                   }}
                 />
               )}
