@@ -412,5 +412,9 @@
   "lump_sum_desc": "If the employee dies before 10 years of service, the corpus is paid as a lump sum to the nominee",
   "withdrawal_benefits_header": "Withdrawal Benefits",
   "early_exit_label": "Early Exit",
-  "early_exit_desc": "Leaving the job before age 58 and without 10 years of service allows withdrawal of the pension contribution, calculated based on years of service"
+  "early_exit_desc": "Leaving the job before age 58 and without 10 years of service allows withdrawal of the pension contribution, calculated based on years of service",
+  "compounding_benefits_loss_label": "Loss of Compunding Benefits",
+  "compounding_benefits_loss_desc": "Early withdrawal stops compounding interest, reducing potential earnings and growth.",
+  "tax_exemption_label": "Tax Implications for Early Withdrawal",
+  "tax_exemption_desc": "Withdrawals before five years incur TDS, decreasing the amount received."
 }

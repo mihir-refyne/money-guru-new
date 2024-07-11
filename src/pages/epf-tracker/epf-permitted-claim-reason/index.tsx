@@ -8,7 +8,7 @@ const PERMITTED_CLAIM_REASONS: PermittedClaimReasonType[] = [
       {
         label: "retirement_label",
         desc: "retirement_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "unemployment_label",
@@ -22,36 +22,37 @@ const PERMITTED_CLAIM_REASONS: PermittedClaimReasonType[] = [
       {
         label: "unemployment_label",
         desc: "unemployment_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "medical_emergencies_label",
         desc: "medical_emergencies_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "higher_education_label",
         desc: "higher_education_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "home_purchase_label",
         desc: "home_purchase_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "home_loan_label",
         desc: "home_loan_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "house_renovation_label",
         desc: "house_renovation_desc",
-        hasBottomBorder: true,
+        hasBottomBorder: false,
       },
       {
         label: "preretirement_label",
         desc: "preretirement_desc",
+        hasBottomBorder: false,
       },
     ],
   },
