@@ -27,7 +27,7 @@ const DEFERRED_ON_VIEW_TRIGGER_DELAY_MS = 500;
 
 const DEFAULT_R_SHORT_SHARE_PAYLOAD = {
   text: "Stay updated, stay sharp! Dive into today's R-short.",
-  url: "https://refyne.page.link/install",
+  url: "https://refyne.page.link/mg-share",
   imageUrl: "",
 };
 
@@ -139,11 +139,14 @@ export default function ShortItem({
   function handleOnViewWithDeferred() {
     const deferred = isContentOverflowingRef.current === null;
     if (deferred) {
-      deferredOnViewTimeoutRef.current = setTimeout(handleOnView, DEFERRED_ON_VIEW_TRIGGER_DELAY_MS);
+      deferredOnViewTimeoutRef.current = setTimeout(
+        handleOnView,
+        DEFERRED_ON_VIEW_TRIGGER_DELAY_MS
+      );
       return;
     }
     handleOnView();
-  };
+  }
 
   function handleOnView() {
     onView?.(data?.id, !!isContentOverflowingRef.current);
