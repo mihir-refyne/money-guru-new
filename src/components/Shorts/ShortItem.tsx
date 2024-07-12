@@ -40,6 +40,7 @@ export interface ShortData {
   };
   tag?: string;
   content?: ReactNode;
+  contentTitle?: string;
   publishedAt?: Date;
   share?: {
     imageUrl?: string;
@@ -202,8 +203,11 @@ export default function ShortItem({
       ...DEFAULT_R_SHORT_SHARE_PAYLOAD,
       imageUrl: dataUri,
     };
+    const updatedText = [data?.contentTitle, _sharePayload.text]
+      .filter(Boolean)
+      .join("\n\n");
     const sharePayload = {
-      text: _sharePayload.text,
+      text: updatedText,
       url: _sharePayload.url,
       imageUrls: _sharePayload.imageUrl ? [_sharePayload.imageUrl] : [],
     };

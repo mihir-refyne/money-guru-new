@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useRef } from "react";
 import shortsConfig from "../../data/shorts_config.json";
 import { sanitize } from "dompurify";
+import { getHeadingFromMarkupContent } from "@/lib/utils";
 
 const SCROLL_BUFFER_TO_FETCH = 3;
 
@@ -134,6 +135,7 @@ export default function ShortsPage() {
               fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
             },
             tag: short.metadata?.tag as any,
+            contentTitle: getHeadingFromMarkupContent(short.content)?.text,
             content: (
               <article
                 dangerouslySetInnerHTML={{
