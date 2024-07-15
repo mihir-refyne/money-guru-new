@@ -177,6 +177,8 @@ export default function EpfSummary({
           items={establishments.map((establishment, index) => {
             const {
               memberId,
+              totalEmployeeShare,
+              totalEmployerShare,
               establishmentName,
               dateOfJoiningInEPF,
               dateOfFirstTransaction,
@@ -218,7 +220,9 @@ export default function EpfSummary({
             );
 
             return {
-              contentRightTitle: formatToInr(totalPensionBalance),
+              contentRightTitle: formatToInr(
+                totalEmployeeShare + totalEmployerShare
+              ),
               contentLeftTitle: establishmentName,
               contentLeftDescription: servicePeriodContainerWithLabel,
               onClick: () => onEstablishmentCardClick(memberId),

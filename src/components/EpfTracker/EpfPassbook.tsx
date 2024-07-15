@@ -250,17 +250,18 @@ export default function EpfPassbook({
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
           }}
         >
           {[
             {
-              icon: <Wallet color="#0057B7" width={25} height={25} />,
+              icon: <Wallet color="#0057B7" width={32} height={32} />,
               heading: t("employee_and_employer_share_heading"),
               description: t("employee_and_employer_share_desc"),
               showHr: true,
             },
             {
-              icon: <Money width={25} height={25} color="#0057B7" />,
+              icon: <Money width={32} height={32} color="#0057B7" />,
               heading: t("pension_contribution_heading"),
               description: t("pension_contribution_desc"),
               showHr: true,
@@ -270,7 +271,7 @@ export default function EpfPassbook({
               },
             },
             {
-              icon: <Chats width={25} height={25} color="#0057B7" />,
+              icon: <Chats width={32} height={32} color="#0057B7" />,
               heading: t("how_it_works"),
               description: t("how_it_works_desc"),
               showHr: false,
@@ -295,9 +296,10 @@ export default function EpfPassbook({
                       borderRadius: "75%",
                       background: "#EFF6FF",
                       marginRight: "1rem",
+                      padding: "8px",
                     }}
                   >
-                    <span style={{ marginRight: "0.65rem" }}>{icon}</span>
+                    <span>{icon}</span>
                   </div>
 
                   <div>
