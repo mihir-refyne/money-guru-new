@@ -26,7 +26,7 @@ const TRUNCATE_RESET_DELAY_MS = 0.5 * 1000;
 const DEFERRED_ON_VIEW_TRIGGER_DELAY_MS = 500;
 
 const DEFAULT_R_SHORT_SHARE_PAYLOAD = {
-  text: "Stay updated, stay sharp! Dive into today's R-short.\n \n",
+  text: "⭐ Explore the latest in finance with on the Refyne App! \n \n Stay regularly updated with everything from latest financial news to in-depth analyses that simplify complex financial topics for you. \n\n Dive in now -",
   url: "https://refyne.page.link/mg-share",
   imageUrl: "",
 };
