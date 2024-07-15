@@ -10,7 +10,7 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 
 const DEFAULT_CREDIT_REPORT_SHARE_PAYLOAD = {
-  text: "🚀 Unlock your financial potential with our comprehensive Credit Score!  🌟 \n\n- Check your credit score for free 🆓 and understand the key factors that impact it.\n- Receive monthly updates 📅 and expert tips 📈 to improve your score and secure your financial future.  Start optimising your credit today\n",
+  text: "🚀 Unlock your financial potential with our comprehensive Credit Score!  🌟 \n\n- Check your credit score for free 🆓 and understand the key factors that impact it.\n- Receive monthly updates 📅 and expert tips 📈 to improve your score and secure your financial future.\n  Start optimising your credit today",
   url: "https://refyne.page.link/mg-share",
   imageUrls: [],
 };
