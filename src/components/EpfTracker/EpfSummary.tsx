@@ -93,7 +93,7 @@ export default function EpfSummary({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          color: "#0057B7",
+          color: "var(--clr-brand-default)",
           width: "100%",
           textDecoration: "none",
         }}
@@ -142,7 +142,11 @@ export default function EpfSummary({
             <ArrowsClockwise
               onClick={handleRefetchClick}
               size={25}
-              style={{ color: "#0057B7", marginBottom: 10, marginLeft: 8 }}
+              style={{
+                color: "var(--clr-brand-default)",
+                marginBottom: 10,
+                marginLeft: 8,
+              }}
             />
           )}
         </div>
@@ -205,7 +209,7 @@ export default function EpfSummary({
                       style={{
                         display: "inline-block",
                         background: "#F0FFF2",
-                        color: "#01752F",
+                        color: "var(--clr-icon-accent-success)",
                         padding: "4px 8px",
                         marginTop: 4,
                       }}

@@ -133,12 +133,12 @@ export default function EpfPassbook({
           </Separator>
 
           <div
+            className="pt-4"
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
               borderTop: "1px solid #F0F0F0",
-              paddingTop: 12,
 
               cursor: "pointer",
             }}
@@ -242,7 +242,7 @@ export default function EpfPassbook({
       >
         <div
           style={{
-            border: "1px solid #F0F0F0",
+            border: "1px solid var( --clr-border-enabled)",
             borderRadius: "0.75rem",
             padding: "1.25rem",
             backgroundColor: "#fff",
@@ -255,13 +255,25 @@ export default function EpfPassbook({
         >
           {[
             {
-              icon: <Wallet color="#0057B7" width={32} height={32} />,
+              icon: (
+                <Wallet
+                  color="var(--clr-brand-default)"
+                  width={32}
+                  height={32}
+                />
+              ),
               heading: t("employee_and_employer_share_heading"),
               description: t("employee_and_employer_share_desc"),
               showHr: true,
             },
             {
-              icon: <Money width={32} height={32} color="#0057B7" />,
+              icon: (
+                <Money
+                  width={32}
+                  height={32}
+                  color="var(--clr-brand-default)"
+                />
+              ),
               heading: t("pension_contribution_heading"),
               description: t("pension_contribution_desc"),
               showHr: true,
@@ -271,7 +283,13 @@ export default function EpfPassbook({
               },
             },
             {
-              icon: <Chats width={32} height={32} color="#0057B7" />,
+              icon: (
+                <Chats
+                  width={32}
+                  height={32}
+                  color="var(--clr-brand-default)"
+                />
+              ),
               heading: t("how_it_works"),
               description: t("how_it_works_desc"),
               showHr: false,
@@ -294,7 +312,7 @@ export default function EpfPassbook({
                       alignItems: "center",
                       justifyContent: "center",
                       borderRadius: "75%",
-                      background: "#EFF6FF",
+                      background: "var(--clr-bg-primary-lighter)",
                       marginRight: "1rem",
                       padding: "8px",
                     }}
@@ -328,7 +346,10 @@ export default function EpfPassbook({
                 </div>
                 {showHr && (
                   <hr
-                    style={{ border: "none", borderTop: "1px solid #F0F0F0" }}
+                    style={{
+                      border: "none",
+                      borderTop: "1px solid var(--clr-border-enabled)",
+                    }}
                   />
                 )}
               </div>
@@ -393,7 +414,8 @@ export default function EpfPassbook({
                   justifyContent: "space-between",
                   alignItems: "center",
                   padding: "10px 0",
-                  borderBottom: index < 4 ? "1px solid #f0f0f0" : "none",
+                  borderBottom:
+                    index < 4 ? "1px solid var(--clr-border-enabled)" : "none",
                 }}
               >
                 <span style={{ fontSize: "14px", color: "#666" }}>
