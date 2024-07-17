@@ -3,7 +3,11 @@ import { logEventInPlotline } from "./plotline";
 import { logEventInWebengage } from "./webengage";
 
 type AnalyticsService = "mixpanel" | "webengage" | "plotline";
-type LogEventHandler = (eventName: string, eventData?: object) => void;
+type LogEventHandler = (
+  eventName: string,
+  eventData?: object,
+  options?: { triggerEvenIfUserContextIsAbsent?: boolean }
+) => void;
 
 const AnalyticsServiceToLogEventHandlerMap: Record<
   AnalyticsService,

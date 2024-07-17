@@ -18,14 +18,22 @@ export function initializeMixpanel() {
   });
 }
 
-export function logEventInMixpanel(eventName: string, eventData?: object) {
+export function logEventInMixpanel(
+  eventName: string,
+  eventData?: object,
+  options?: { triggerEvenIfUserContextIsAbsent?: boolean }
+) {
+  const { triggerEvenIfUserContextIsAbsent = false } = options ?? {};
   // INFO: Drop Event log if user id is not set
-  if (!isUserId(mixpanel?.get_distinct_id())) return;
+  const isUserContextSet = isUserId(mixpanel?.get_distinct_id());
+  if (!triggerEvenIfUserContextIsAbsent && !isUserContextSet) return;
   const updatedProperties = { ...globalProperties, ...eventData };
   mixpanel?.track(eventName, updatedProperties);
 
   // INFO: TEMP to flow all mixpanel events to plotline
-  logEventInPlotline(eventName, updatedProperties);
+  if (isUserContextSet) {
+    logEventInPlotline(eventName, updatedProperties);
+  }
 }
 
 export async function logEventInMixpanelPromise(

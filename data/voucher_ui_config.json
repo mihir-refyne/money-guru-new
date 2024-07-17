@@ -1,0 +1,61 @@
+{
+  "SWIGGY_ONE": {
+    "pageTitle": "Swiggy One Offer",
+    "logoUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/swiggy_one_logo.png",
+    "cardBuyTitle": "Discount on Swiggy One",
+    "cardBuyDescription": "Get 3 months of Swiggy One subscription at just ₹19",
+    "cardBuyCtaText": "Buy at ₹19",
+    "cardBuySignupCtaText": "Sign-up to claim offer",
+    "cardRedeemTitle": "Discount on Swiggy One",
+    "cardRedeemDescription": "Congratulations! You have redeemed Swiggy One subscription at just ₹19",
+    "cardRedeemCtaText": "Redeem Now",
+    "payVia": "PG",
+    "returnDirectlyPostSignup": true,
+    "details": [
+      "Voucher expires on 21st Aug 2024",
+      "Membership Plan: 3 months",
+      "Swiggy one at just ₹19 can only bought through Refyne"
+    ],
+    "redeemSteps": [
+      "Update the app before redeeming the coupon",
+      "Open the updated Swiggy app and go to your Swiggy Accounts page",
+      "Select the \"One membership\" tab and click on \"Redeem Membership Coupon\"",
+      "Enter your coupon code and click on the activate button to start Swiggy One Lite membership."
+    ],
+    "termsAndConditions": [
+      "The voucher codes are issued by Swiggy to activate Swiggy One membership.",
+      "All transactions on the Platform will be subject to the other terms and conditions of provision of Services, as enumerated in https://www.swiggy.com/ terms-and-conditions.",
+      "Once the membership is activated, it cannot be cancelled or any refund will not be issued.",
+      "The distances from the restaurant location to the customer's location shall be captured as per Google",
+      "Map driving directions data at the time of placing the Order. Swiggy shall not be held responsible or liable for the accuracy or efficacy of such data.",
+      "Swiggy One benefits are available to orders above a certain amount as mentioned in the benefit section.",
+      "Additional discounts specific to the Swiggy One program will be applicable on the discounted values of the food items post application of any generally available coupons on the Platform."
+    ]
+  },
+  "UBER": {
+    "pageTitle": "Uber Voucher Offer",
+    "logoUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/uber_logo.webp",
+    "cardBuyTitle": "Discount on Uber Voucher",
+    "cardBuyDescription": "Save ₹100 on ₹500 Uber voucher, valid for 1 month",
+    "cardBuyCtaText": "Buy at ₹400",
+    "cardBuySignupCtaText": "Sign-up to claim offer",
+    "cardRedeemTitle": "Discount on Uber Voucher",
+    "cardRedeemDescription": "Congratulations! You have redeemed ₹500 Uber Voucher at just ₹400",
+    "cardRedeemCtaText": "Redeem Now",
+    "payVia": "EWA",
+    "returnDirectlyPostSignup": true,
+    "details": [
+      "Voucher redeemable within 1 month of purchase",
+      "The amount for purchase will be deducted from your salary",
+      "Uber Voucher at just ₹400, can only be bought through Refyne",
+      "Limited offer for the first 100 employees"
+    ],
+    "redeemSteps": [
+      "Update Uber app before redeeming the coupon",
+      "Open the updated Uber app and go to your Uber Accounts page. Select Wallet/Payment option.",
+      "Choose '+ Gift Card' and enter the gift code to add ₹500 to your Uber wallet."
+    ],
+    "termsAndConditions": [],
+    "termsAndConditionsExternalUrl": "/pdf-viewer?url=https%3A%2F%2Fdqkwfm5lwlsho.cloudfront.net%2Fassets%2Fdocuments%2Fmulti-brands-coupons-terms.pdf"
+  }
+}

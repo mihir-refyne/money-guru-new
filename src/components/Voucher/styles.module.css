@@ -1,0 +1,12 @@
+.BelowNavBarText {
+  position: sticky;
+  top: var(--spacing-12);
+  /* NO color var exists */
+  background-color: #00a181;
+  color: var(--clr-pure-white);
+  padding: var(--spacing-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
