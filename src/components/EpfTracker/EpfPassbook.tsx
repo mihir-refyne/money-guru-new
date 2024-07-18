@@ -258,8 +258,8 @@ export default function EpfPassbook({
               icon: (
                 <Wallet
                   color="var(--clr-brand-default)"
-                  width={32}
-                  height={32}
+                  width={30}
+                  height={30}
                 />
               ),
               heading: t("employee_and_employer_share_heading"),
@@ -269,8 +269,8 @@ export default function EpfPassbook({
             {
               icon: (
                 <Money
-                  width={32}
-                  height={32}
+                  width={30}
+                  height={30}
                   color="var(--clr-brand-default)"
                 />
               ),
@@ -285,8 +285,8 @@ export default function EpfPassbook({
             {
               icon: (
                 <Chats
-                  width={32}
-                  height={32}
+                  width={30}
+                  height={30}
                   color="var(--clr-brand-default)"
                 />
               ),
@@ -315,6 +315,8 @@ export default function EpfPassbook({
                       background: "var(--clr-bg-primary-lighter)",
                       marginRight: "1rem",
                       padding: "8px",
+                      width: "45px", // Set the width
+                      height: "45px",
                     }}
                   >
                     <span>{icon}</span>
