@@ -135,7 +135,7 @@ export default function ShortsPage() {
               fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
             },
             tag: short.metadata?.tag as any,
-            // contentTitle: getHeadingFromMarkupContent(short.content)?.text,
+
             contentTitle:
               "⏩ " + getHeadingFromMarkupContent(short.content)?.text,
             content: (
