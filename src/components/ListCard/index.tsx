@@ -100,7 +100,10 @@ function ListCardItem({
             </p>
           )}
         </div>
-        <div className={`${styles.ListCardItem__Content__Item} text-right`}>
+        <div
+          className={`${styles.ListCardItem__Content__Item} text-right`}
+          style={{ flexBasis: "20%" }}
+        >
           {contentRightTitle && (
             <h5 className={`text-medium ${contentRightTitleClassName ?? ""}`}>
               {contentRightTitle}

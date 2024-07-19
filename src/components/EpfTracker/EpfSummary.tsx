@@ -105,9 +105,7 @@ export default function EpfSummary({
   }
 
   // INFO: We want to show the total balance
-  const totalBalance = Math.floor(
-    summary.currentBalance + summary.currentPensionBalance
-  );
+  const totalBalance = Math.floor(summary.currentBalance);
 
   const totalBalanceWithAutoIncrement = useAutoIncrementNumber({
     active: !isEpfDetailsIncrementEffectAlreadyShown,
@@ -168,7 +166,7 @@ export default function EpfSummary({
 
       <h2
         className="text-body text-semibold mt-6 mb-4"
-        style={{ paddingLeft: "var(--spacing-2w)" }}
+        style={{ paddingLeft: "var(--spacing-2)" }}
       >
         {t("all_employers_label")} ({establishments.length})
       </h2>
@@ -187,7 +185,6 @@ export default function EpfSummary({
               dateOfJoiningInEPF,
               dateOfFirstTransaction,
               dateOfLastTransaction,
-              totalPensionBalance,
               passbookEntries,
             } = establishment;
 

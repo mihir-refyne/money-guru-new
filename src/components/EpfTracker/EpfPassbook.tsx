@@ -152,7 +152,10 @@ export default function EpfPassbook({
         </Card>
       </div>
 
-      <h4 className="mt-4" style={{ color: "#696d70" }}>
+      <h4
+        className="mt-4"
+        style={{ color: "#696d70", paddingLeft: "var(--spacing-2)" }}
+      >
         {t("deposits")}
       </h4>
       <div
@@ -242,7 +245,7 @@ export default function EpfPassbook({
       >
         <div
           style={{
-            border: "1px solid var( --clr-border-enabled)",
+            border: "1px solid var(--clr-border-enabled)",
             borderRadius: "0.75rem",
             padding: "1.25rem",
             backgroundColor: "#fff",
@@ -315,11 +318,11 @@ export default function EpfPassbook({
                       background: "var(--clr-bg-primary-lighter)",
                       marginRight: "1rem",
                       padding: "8px",
-                      width: "45px", // Set the width
+                      width: "45px",
                       height: "45px",
                     }}
                   >
-                    <span>{icon}</span>
+                    {icon}
                   </div>
 
                   <div>
