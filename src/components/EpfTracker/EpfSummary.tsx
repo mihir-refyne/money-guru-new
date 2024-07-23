@@ -9,8 +9,6 @@ import EpfTrackerLayout from "./EpfTrackerLayout";
 import LabelValue from "../LabelValue";
 import format from "date-fns/format";
 import ListCard from "../ListCard";
-import { formatToInr } from "@/lib/utils";
-import { getEpfServicePeriodText } from "./helpers";
 import { useEffect, useState } from "react";
 import { useAutoIncrementNumber } from "@/hooks/useAutoIncrementNumber";
 import useTranslation from "@/hooks/useTranslation";
@@ -20,6 +18,8 @@ import toast from "react-hot-toast";
 
 import Link from "next/link";
 import CardV2 from "../CardV2";
+import { getEpfServicePeriodText } from "./helpers";
+import { formatToInr } from "@/lib/utils";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
@@ -31,6 +31,27 @@ interface EpfSummaryProps {
   onEstablishmentCardClick: (memberId: string) => void;
   onRefetchClick?: (identifier: EpfFetchIdentifier, value?: string) => void;
   onFaqClick?: () => void;
+}
+
+// Utility function for formatting currency
+function formatCurrency(value: number, isEmployerCard = false): string {
+  if (value < 1000) {
+    return `₹${value}`;
+  } else if (value < 100000) {
+    // For thousands
+    return isEmployerCard
+      ? `₹${(value / 1000).toFixed(1)}K`
+      : `₹${(value / 1000).toFixed(1)}K`;
+  } else if (value < 10000000) {
+    // For lakh
+    return `₹${(value / 100000).toFixed(1)}L`;
+  } else if (value < 1000000000) {
+    // For crore
+    return `₹${(value / 10000000).toFixed(1)}CR`;
+  } else {
+    // For hundred crore and above
+    return `₹${(value / 10000000).toFixed(1)}CR`;
+  }
 }
 
 export default function EpfSummary({
@@ -133,7 +154,7 @@ export default function EpfSummary({
             label={t("pf_balance_label")}
             labelTextVariant="heading_regular"
             value={totalBalanceWithAutoIncrement}
-            formatter={formatToInr}
+            formatter={(value) => formatToInr(value)}
             valueTextVariant="title_medium"
           />
           {isRefetchPossible && (
@@ -153,7 +174,6 @@ export default function EpfSummary({
             backgroundColor: "#F7F7F7",
             width: "40%",
             padding: "0.7rem",
-
             borderRadius: "0.5rem",
           }}
         >
@@ -221,8 +241,9 @@ export default function EpfSummary({
             );
 
             return {
-              contentRightTitle: formatToInr(
-                totalEmployeeShare + totalEmployerShare
+              contentRightTitle: formatCurrency(
+                totalEmployeeShare + totalEmployerShare,
+                true
               ),
               contentLeftTitle: establishmentName,
               contentLeftDescription: servicePeriodContainerWithLabel,
@@ -239,7 +260,7 @@ export default function EpfSummary({
             marginTop: "var(--spacing-8)",
             border: "1px solid var(--clr-border-enabled)",
             boxShadow: "1px 0px 10px 1px #1212120A",
-            borderRadius: " var(--spacing-2)",
+            borderRadius: "var(--spacing-2)",
             padding: "var(--spacing-3)",
           }}
         >

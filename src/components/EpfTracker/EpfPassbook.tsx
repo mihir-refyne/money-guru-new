@@ -65,8 +65,7 @@ export default function EpfPassbook({
   );
   // INFO: We want to show the total balance
   const totalEmployerShare = Math.floor(
-    establishmentDetails.totalEmployerShare +
-      establishmentDetails.totalPensionBalance
+    establishmentDetails.totalEmployerShare
   );
 
   // INFO: We want to show the total balance
@@ -389,81 +388,6 @@ export default function EpfPassbook({
         </button>
       </Modal>
 
-      {/* <Modal
-        active={!!individualTxnDetails}
-        bottomSheetOnMobile
-        onClose={() => setIndividualTxnDetails(null)}
-      >
-        {individualTxnDetails && (
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 12,
-              padding: "20px",
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            {[
-              {
-                label: t("date"),
-                value: format(
-                  new Date(individualTxnDetails.transactionDate),
-                  "dd MMM yy"
-                ),
-              },
-              {
-                label: t("total_contribution"),
-                value: formatToInr(
-                  individualTxnDetails.employerShare +
-                    individualTxnDetails.employeeShare +
-                    individualTxnDetails.pensionBalance
-                ),
-              },
-              {
-                label: t("employee_share_label"),
-                value: formatToInr(individualTxnDetails.employeeShare),
-              },
-              {
-                label: t("employer_share_label"),
-                value: formatToInr(individualTxnDetails.employerShare),
-              },
-              {
-                label: t("pension_contribution_heading"),
-                value: formatToInr(individualTxnDetails.pensionBalance),
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  padding: "10px 0",
-                  borderBottom:
-                    index < 4 ? "1px solid var(--clr-border-enabled)" : "none",
-                }}
-              >
-                <span style={{ fontSize: "14px", color: "#666" }}>
-                  {item.label}
-                </span>
-                <span
-                  style={{
-                    color: "#000",
-                  }}
-                >
-                  {item.value}
-                </span>
-              </div>
-            ))}
-          </div>
-        )}
-        <button
-          className="btn btn-primary btn-block mt-4"
-          onClick={() => setIndividualTxnDetails(null)}
-        >
-          {t("got_it_btn")}
-        </button>
-      </Modal> */}
       <Modal
         active={!!individualTxnDetails}
         bottomSheetOnMobile
@@ -493,7 +417,7 @@ export default function EpfPassbook({
                     individualTxnDetails.employeeShare +
                     individualTxnDetails.pensionBalance
                 ),
-                isTotal: true, // Mark as total contribution
+                isTotal: true,
               },
               {
                 label: t("employee_share_label"),
