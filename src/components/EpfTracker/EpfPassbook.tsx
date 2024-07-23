@@ -99,8 +99,8 @@ export default function EpfPassbook({
         <div
           style={{
             backgroundColor: "#F7F7F7",
-            width: "50%",
-            padding: " 0.7rem",
+            width: "140px",
+            padding: " 0.5rem",
 
             borderRadius: "0.5rem",
           }}
@@ -189,6 +189,23 @@ export default function EpfPassbook({
               borderRadius: "0.75rem",
               color: "#888888",
               cursor: "pointer",
+              fontSize: "16px",
+              fontFamily: "Arial, sans-serif",
+              backgroundColor: "#FFFFFF",
+              // appearance: "none",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+
+              outline: "none",
+              transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = "#0057B7";
+              e.currentTarget.style.boxShadow =
+                "0 0 0 2px rgba(0, 87, 183, 0.2)";
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = "#C7C7C7";
+              e.currentTarget.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
             }}
           >
             {availableFinancialYears.map((financialYear, index) => {
@@ -203,12 +220,15 @@ export default function EpfPassbook({
             })}
           </select>
         </div>
+
         {filteredPassbookEntries.map((entry, index) => {
+          const isLastEntry = index === filteredPassbookEntries.length - 1;
+
           return (
             <div
               style={{
                 display: "flex",
-                borderBottom: "1px solid #F0F0F0",
+                borderBottom: isLastEntry ? "none" : "1px solid #F0F0F0",
                 alignItems: "center",
                 justifyContent: "space-between",
                 height: 72,
@@ -369,7 +389,7 @@ export default function EpfPassbook({
         </button>
       </Modal>
 
-      <Modal
+      {/* <Modal
         active={!!individualTxnDetails}
         bottomSheetOnMobile
         onClose={() => setIndividualTxnDetails(null)}
@@ -427,6 +447,83 @@ export default function EpfPassbook({
                   {item.label}
                 </span>
                 <span
+                  style={{
+                    color: "#000",
+                  }}
+                >
+                  {item.value}
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+        <button
+          className="btn btn-primary btn-block mt-4"
+          onClick={() => setIndividualTxnDetails(null)}
+        >
+          {t("got_it_btn")}
+        </button>
+      </Modal> */}
+      <Modal
+        active={!!individualTxnDetails}
+        bottomSheetOnMobile
+        onClose={() => setIndividualTxnDetails(null)}
+      >
+        {individualTxnDetails && (
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: 12,
+              padding: "20px",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            {[
+              {
+                label: t("date"),
+                value: format(
+                  new Date(individualTxnDetails.transactionDate),
+                  "dd MMM yy"
+                ),
+              },
+              {
+                label: t("total_contribution"),
+                value: formatToInr(
+                  individualTxnDetails.employerShare +
+                    individualTxnDetails.employeeShare +
+                    individualTxnDetails.pensionBalance
+                ),
+                isTotal: true, // Mark as total contribution
+              },
+              {
+                label: t("employee_share_label"),
+                value: formatToInr(individualTxnDetails.employeeShare),
+              },
+              {
+                label: t("employer_share_label"),
+                value: formatToInr(individualTxnDetails.employerShare),
+              },
+              {
+                label: t("pension_contribution_heading"),
+                value: formatToInr(individualTxnDetails.pensionBalance),
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: "10px 0",
+                  borderBottom:
+                    index < 4 ? "1px solid var(--clr-border-enabled)" : "none",
+                }}
+              >
+                <span style={{ fontSize: "14px", color: "#666" }}>
+                  {item.label}
+                </span>
+                <span
+                  className="text-semibold"
                   style={{
                     color: "#000",
                   }}

@@ -166,7 +166,7 @@ export default function EpfSummary({
 
       <h2
         className="text-body text-semibold mt-6 mb-4"
-        style={{ paddingLeft: "var(--spacing-2)" }}
+        style={{ paddingLeft: "var(--spacing-2)", color: "#888888" }}
       >
         {t("all_employers_label")} ({establishments.length})
       </h2>

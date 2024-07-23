@@ -43,7 +43,7 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
         {tWithoutTypeSafety(heading)}
       </h4>
       <Card
-        backgroundColor="##FFFFFF"
+        backgroundColor="#FFFFFF"
         border="1px solid #F0F0F0"
         boxShadow="1px 0px 10px 1px #1212120A"
       >
@@ -58,38 +58,41 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
             label,
             hasBottomBorder,
             iconBackgroundColor,
+            hideIcon,
           } = step;
           const isLastItem = idx === summarySteps.length - 1;
           return (
             <div key={label}>
               <div style={{ display: "flex" }}>
                 <div>
-                  <div
-                    style={{
-                      background: iconBackgroundColor ?? "#EFF6FF",
-                      borderRadius: "50%",
-                      width: "32px",
-                      height: "32px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginRight: "8px",
-                    }}
-                  >
-                    {imgURL ? (
-                      <img src={imgURL} />
-                    ) : (
-                      <p
-                        style={{
-                          fontWeight: "600",
-                          fontSize: "14px",
-                          margin: 0,
-                        }}
-                      >
-                        {icon ? icon : idx + 1}
-                      </p>
-                    )}
-                  </div>
+                  {!hideIcon && (
+                    <div
+                      style={{
+                        background: iconBackgroundColor ?? "#EFF6FF",
+                        borderRadius: "50%",
+                        width: "32px",
+                        height: "32px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginRight: "8px",
+                      }}
+                    >
+                      {imgURL ? (
+                        <img src={imgURL} />
+                      ) : (
+                        <p
+                          style={{
+                            fontWeight: "600",
+                            fontSize: "14px",
+                            margin: 0,
+                          }}
+                        >
+                          {icon ? icon : idx + 1}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
 
                 <div>
@@ -98,7 +101,7 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                       style={{
                         fontWeight: "600",
                         fontSize: "14px",
-                        marginBottom: "8px",
+                        marginBottom: "3px",
                       }}
                     >
                       {tWithoutTypeSafety(label)}
@@ -110,7 +113,6 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                       style={{
                         fontSize: "14px",
                         fontWeight: "400",
-                        marginBottom: "16px",
                       }}
                       className="clr-text-secondary "
                     >
@@ -135,7 +137,7 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                             style={{
                               color: "#0057B7",
                               fontWeight: "600",
-                              margin: "0",
+
                               lineHeight: "1",
                             }}
                           >

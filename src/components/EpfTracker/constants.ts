@@ -20,6 +20,7 @@ export interface SummaryStep {
   descFooterIcon?: ReactNode;
   hasDescFooter?: boolean;
   hasBottomBorder?: boolean;
+  hideIcon?: boolean;
 }
 
 export interface HowToWithdrawPfSummaryType {

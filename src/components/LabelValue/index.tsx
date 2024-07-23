@@ -7,6 +7,7 @@ type FontWeightVariant = "regular" | "medium" | "semibold";
 
 type TextVariant = `${FontSizeVariant}_${FontWeightVariant}`;
 type Type = "dark" | "light";
+type Alignment = "left" | "center" | "right";
 
 interface LabelValueProps<T> {
   type?: Type;
@@ -16,6 +17,7 @@ interface LabelValueProps<T> {
   value: T;
   valueTextVariant?: TextVariant;
   formatter?: (value: T) => string | number;
+  align?: Alignment;
 }
 
 // TODO: Find a better name
@@ -27,6 +29,7 @@ export default function LabelValue<T extends string | number>({
   value,
   valueTextVariant = "heading_medium",
   formatter,
+  align = "center",
 }: LabelValueProps<T>) {
   const id = useId();
 
