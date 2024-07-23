@@ -55,6 +55,7 @@ export default function EpfTrackerLayout({
 
   return (
     <PageLayout
+      pageBackground="#F7F7F7"
       navbarText={navbarText ?? defaultNavbarText}
       alignContentCenter={alignContentCenter}
       hasLocaleChange={false}
