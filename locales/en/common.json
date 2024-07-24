@@ -417,5 +417,6 @@
   "compounding_benefits_loss_desc": "Early withdrawal stops compounding interest, reducing potential earnings and growth.",
   "tax_exemption_label": "Tax Implications for Early Withdrawal",
   "tax_exemption_desc": "Withdrawals before five years incur TDS, decreasing the amount received.",
-  "reduced_retirement_corpus_desc": "Withdrawing funds lowers your retirement savings, risking insufficient funds in retirement."
+  "reduced_retirement_corpus_desc": "Withdrawing funds lowers your retirement savings, risking insufficient funds in retirement.",
+  "home_purchase_label": "Home Purchase/Construction"
 }
