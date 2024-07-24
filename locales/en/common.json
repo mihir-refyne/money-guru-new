@@ -418,5 +418,6 @@
   "tax_exemption_label": "Tax Implications for Early Withdrawal",
   "tax_exemption_desc": "Withdrawals before five years incur TDS, decreasing the amount received.",
   "reduced_retirement_corpus_desc": "Withdrawing funds lowers your retirement savings, risking insufficient funds in retirement.",
-  "home_purchase_label": "Home Purchase/Construction"
+  "home_purchase_label": "Home Purchase/Construction",
+  "financial_year": "Financial Year"
 }

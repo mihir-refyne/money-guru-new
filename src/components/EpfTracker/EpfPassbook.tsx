@@ -159,6 +159,7 @@ export default function EpfPassbook({
       >
         {t("deposits")}
       </h4>
+
       <div
         className="mt-2"
         style={{
@@ -169,6 +170,9 @@ export default function EpfPassbook({
           backgroundColor: "white",
         }}
       >
+        <h4 style={{ color: "#121212" }} className="text-regular mb-2">
+          {t("financial_year")}
+        </h4>
         <div
           style={{
             display: "flex",
