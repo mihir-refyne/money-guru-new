@@ -78,7 +78,10 @@ export default function EpfPassbook({
       <CardV2
         border="0.5px solid var(--clr-icon-primary-light)"
         backgroundImageUrl={PfPassbookBgUrl.src}
-        backgroundGradient="linear-gradient(262.79deg, #EFF6FF 12.35%, #FFFFFF 82.83%)"
+        backgroundGradient="linear-gradient(263deg, #EFF6FF85 30%, #FFFFFF 60%)"
+        backgroundPositionX="100%"
+        backgroundRepeat="no-repeat"
+        backgroundSize="contain"
         footerBackgroundColor="#FFFFFF"
         footer={getFooterWithBalance({
           totalEmployeeShare,
@@ -108,7 +111,7 @@ export default function EpfPassbook({
         </div>
       </CardV2>
 
-      <div style={{ marginTop: "2.5rem" }}>
+      <div style={{ marginTop: "2.5rem", backgroundColor: "white" }}>
         <Card
           boxShadow="1px 0px 10px 1px rgba(18, 18, 18, 0.04)"
           border="1px solid #F0F0F0"
@@ -138,7 +141,6 @@ export default function EpfPassbook({
               justifyContent: "space-between",
               alignItems: "center",
               borderTop: "1px solid #F0F0F0",
-
               cursor: "pointer",
             }}
             onClick={() => setLearnMoreBottomSheetOpen(true)}
@@ -164,6 +166,7 @@ export default function EpfPassbook({
           border: "1px solid #F0F0F0",
           borderRadius: 20,
           padding: 12,
+          backgroundColor: "white",
         }}
       >
         <div
@@ -477,7 +480,7 @@ function getFooterWithBalance(context: {
   const sum = totalEmployeeShare + totalEmployerShare;
   if (!sum) return null;
   return (
-    <div className="pt-3">
+    <div>
       <p className="text-body">Total deposit (Employee + Employer share)</p>
       <p className="text-sub-title text-medium my-3">{formatToInr(sum)}</p>
     </div>

@@ -139,9 +139,12 @@ export default function EpfSummary({
       <CardV2
         border="0.5px solid var(--clr-icon-primary-light)"
         backgroundImageUrl={PfPassbookBgUrl.src}
-        backgroundGradient="linear-gradient(262.79deg, #EFF6FF 12.35%, #FFFFFF 82.83%)"
-        footerBackgroundColor="#FFFFFF"
+        backgroundGradient="linear-gradient(263deg, #EFF6FF85 30%, #FFFFFF 60%)"
+        backgroundPositionX="100%"
+        backgroundRepeat="no-repeat"
+        backgroundSize="contain"
         footer={getCardFooter(metadata.fetchedAt)}
+        footerBackgroundColor="white"
       >
         <div
           style={{
@@ -257,6 +260,7 @@ export default function EpfSummary({
       <div>
         <div
           style={{
+            background: "white",
             marginTop: "var(--spacing-8)",
             border: "1px solid var(--clr-border-enabled)",
             boxShadow: "1px 0px 10px 1px #1212120A",
