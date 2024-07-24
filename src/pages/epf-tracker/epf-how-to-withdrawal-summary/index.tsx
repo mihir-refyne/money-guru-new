@@ -55,7 +55,7 @@ const EPF_HOW_TO_WITHDRAWAL_SUMMARY: HowToWithdrawPfSummaryType[] = [
         imgURL: PAGE_ERROR_URL,
         iconBackgroundColor: "#FFF3E8",
         label: "tax_exemption_label",
-        desc: "",
+        desc: "tax_exemption_desc",
       },
     ],
   },
