@@ -96,7 +96,6 @@ export async function getAndSetUserMetadataFromServer(
     getUser(idToken),
     getWorkerDetails(idToken),
   ]);
-  console.log(workerDetails);
   const metadata: UserMetadata = {
     id: user?._id,
     name: user?.name?.data,

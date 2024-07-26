@@ -7,16 +7,18 @@ function getTaxCalculator({
 }) {
   return (yearlyIncome: number) => {
     const taxableIncome = yearlyIncome - (standardDeduction ?? 0);
-    console.log(taxableIncome);
+
     let tax = 0;
+
     if (taxableIncome <= 700000) {
       return tax;
     }
+
     const slabRates = Object.entries(taxSlabs);
     slabRates.sort((a, b) => {
       return a[1] - b[1];
     });
-    console.log(slabRates);
+
     for (let i = 0; i < slabRates.slice(0, -1).length; i++) {
       const [slab, percent] = slabRates[i];
       tax +=
@@ -27,11 +29,14 @@ function getTaxCalculator({
           percent) /
         100;
     }
+
     tax +=
       (Math.max(0, taxableIncome - Number(slabRates[slabRates.length - 1][0])) *
         slabRates[slabRates.length - 1][1]) /
       100;
+    // Cess
     tax += (tax * 4) / 100;
+
     return tax;
   };
 }
