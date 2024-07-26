@@ -5,6 +5,7 @@ import { APP_BASE_URL } from "@/constants";
 import useFetcher from "@/hooks/useFetcher";
 import { getWorkerDetails } from "@/lib/core/user";
 import { useRouter } from "next/router";
+import TaxSavingsUIConfig from "../../../data/tax_budget_landing_config.json";
 
 export default function TaxSavingsPage() {
   const { data, isLoading, error } = useFetcher(() => getWorkerDetails());
@@ -49,7 +50,7 @@ export default function TaxSavingsPage() {
                 color: "var(--clr-text-accent-success)",
               }}
             >
-              ₹ Find your taxable salary
+              {TaxSavingsUIConfig.footer_info_text}
             </p>
           )}
           <button
@@ -58,7 +59,9 @@ export default function TaxSavingsPage() {
               isLoggedIn ? "btn-primary-outline" : "btn-primary"
             } btn-block`}
           >
-            {isLoggedIn ? "Back home" : "Continue"}
+            {isLoggedIn
+              ? TaxSavingsUIConfig.cta_text_authorized
+              : TaxSavingsUIConfig.cta_text_unauthorized}
           </button>
         </div>
       }

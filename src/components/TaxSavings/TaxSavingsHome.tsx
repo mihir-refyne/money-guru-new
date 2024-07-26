@@ -1,6 +1,7 @@
 import ChevronRight from "@/images/chevron_right.svg";
 import Banner from "@/images/tax-2024-banner.svg";
 import Image from "next/image";
+import TaxSavingsUIConfig from "../../../data/tax_budget_landing_config.json";
 import { getTaxFor2023, getTaxFor2024 } from "./helpers";
 
 export default function TaxSavingsHome({
@@ -11,7 +12,6 @@ export default function TaxSavingsHome({
   isLoggedIn?: boolean;
 }) {
   const yearlyIncome = monthlyIncome * 12;
-  console.log(yearlyIncome);
   const tax2023 = getTaxFor2023(yearlyIncome);
   const tax2024 = getTaxFor2024(yearlyIncome);
   const taxDiff = tax2023 - tax2024;
@@ -34,9 +34,16 @@ export default function TaxSavingsHome({
         }}
       >
         <h1 className="text-title-small text-center" style={{}}>
-          How financial budget impacts on your salary
+          {TaxSavingsUIConfig.main_title}
         </h1>
-        <p className="text-center clr-text-secondary">as per budget</p>
+        <p
+          className="text-center clr-text-secondary"
+          style={{
+            marginTop: "0.8rem",
+          }}
+        >
+          {TaxSavingsUIConfig.main_sub_text}
+        </p>
         <div
           className=""
           style={{
@@ -50,7 +57,7 @@ export default function TaxSavingsHome({
           }}
         >
           <p className="text-heading-small clr-text-secondary">
-            Your income per month
+            {TaxSavingsUIConfig.income_per_month_text}
           </p>
           <p
             className="text-heading-small"
@@ -78,7 +85,9 @@ export default function TaxSavingsHome({
               background: "var(--clr-background-accent-success)",
             }}
           >
-            <h2 className="text-heading-small">Savings</h2>
+            <h2 className="text-heading-small">
+              {TaxSavingsUIConfig.savings_card_title}
+            </h2>
             <p
               className="text-title-small"
               style={{
@@ -102,8 +111,10 @@ export default function TaxSavingsHome({
                 textAlign: "left",
               }}
             >
-              <p className="text-body">Old Payable tax</p>
-              <p className="text-caption clr-text-secondary">Budget 2023-24</p>
+              <p className="text-body">{TaxSavingsUIConfig.old_tax_heading}</p>
+              <p className="text-caption clr-text-secondary">
+                {TaxSavingsUIConfig.old_tax_description}
+              </p>
             </div>
             <p
               style={{
@@ -132,8 +143,10 @@ export default function TaxSavingsHome({
                 textAlign: "left",
               }}
             >
-              <p className="text-body">New Payable tax</p>
-              <p className="text-caption clr-text-secondary">Budget 2024-25</p>
+              <p className="text-body">{TaxSavingsUIConfig.new_tax_heading}</p>
+              <p className="text-caption clr-text-secondary">
+                {TaxSavingsUIConfig.new_tax_description}
+              </p>
             </div>
             <p
               style={{
@@ -161,7 +174,7 @@ export default function TaxSavingsHome({
                 margin: "1.2rem",
               }}
             >
-              Info
+              {TaxSavingsUIConfig.info_card_heading}
             </h2>
             <div
               style={{
@@ -174,17 +187,20 @@ export default function TaxSavingsHome({
                 padding: "1.6rem 1.2rem",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                }}
-              >
-                <Image src={ChevronRight} alt="" />
-                <p className="text-body">
-                  ₹75,000 standard deduction on your taxable salary as per
-                  budget 2024-25
-                </p>
-              </div>
+              {TaxSavingsUIConfig.info_card_items.map((item, i) => {
+                return (
+                  <div
+                    key={item}
+                    style={{
+                      display: "flex",
+                      marginTop: i > 0 ? "1.2rem" : undefined,
+                    }}
+                  >
+                    <Image src={ChevronRight} alt="" />
+                    <p className="text-body">{item}</p>
+                  </div>
+                );
+              })}
             </div>
           </div>
         )}
