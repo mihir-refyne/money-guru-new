@@ -255,7 +255,11 @@ export default function EpfPassbook({
                 <TransactionValue
                   type={entry.type}
                   variant={entry.variant}
-                  value={entry.employerShare + entry.pensionBalance}
+                  value={
+                    entry.employerShare +
+                    entry.employeeShare +
+                    entry.pensionBalance
+                  }
                 />
                 <CaretRight />
               </div>
