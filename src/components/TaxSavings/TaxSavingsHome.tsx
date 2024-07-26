@@ -6,7 +6,7 @@ import { getTaxFor2023, getTaxFor2024 } from "./helpers";
 
 export default function TaxSavingsHome({
   monthlyIncome = 70000,
-  isLoggedIn = true,
+  isLoggedIn = false,
 }: {
   monthlyIncome?: number;
   isLoggedIn?: boolean;
