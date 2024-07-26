@@ -32,6 +32,7 @@ export default function TaxSavingsHome({
         style={{
           marginTop: "2.4rem",
           padding: "0 1.2rem",
+          marginBottom: "3rem",
         }}
       >
         <style jsx global>{`
@@ -213,11 +214,6 @@ export default function TaxSavingsHome({
           </div>
         )}
       </div>
-      <div
-        style={{
-          marginTop: "3rem",
-        }}
-      ></div>
     </>
   );
 }
