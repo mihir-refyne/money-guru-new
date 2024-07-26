@@ -12,9 +12,11 @@ function getTaxCalculator({
     if (taxableIncome <= 700000) {
       return tax;
     }
-    const slabRates = Object.entries(taxSlabs).toSorted((a, b) => {
+    const slabRates = Object.entries(taxSlabs);
+    slabRates.sort((a, b) => {
       return a[1] - b[1];
     });
+    console.log(slabRates);
     for (let i = 0; i < slabRates.slice(0, -1).length; i++) {
       const [slab, percent] = slabRates[i];
       tax +=
