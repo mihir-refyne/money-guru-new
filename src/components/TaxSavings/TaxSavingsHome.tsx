@@ -1,5 +1,6 @@
 import ChevronRight from "@/images/chevron_right.svg";
-import Banner from "@/images/tax-2024-banner.svg";
+import Banner from "@/images/tax-2024-banner.webp";
+import { formatToInr } from "@/lib/utils";
 import Image from "next/image";
 import TaxSavingsUIConfig from "../../../data/tax_budget_landing_config.json";
 import { getTaxFor2023, getTaxFor2024 } from "./helpers";
@@ -33,11 +34,16 @@ export default function TaxSavingsHome({
           padding: "0 1.2rem",
         }}
       >
-        <h1 className="text-title-small text-center" style={{}}>
+        <style jsx global>{`
+          * {
+            font-family: var(--font-inter);
+          }
+        `}</style>
+        <h1 className="text-title-small text-center text-semibold" style={{}}>
           {TaxSavingsUIConfig.main_title}
         </h1>
         <p
-          className="text-center clr-text-secondary"
+          className="text-center clr-text-secondary text-body"
           style={{
             marginTop: "0.8rem",
           }}
@@ -56,16 +62,16 @@ export default function TaxSavingsHome({
             border: "1px solid var(--clr-border-enabled)",
           }}
         >
-          <p className="text-heading-small clr-text-secondary">
+          <p className="text-heading-small clr-text-secondary text-semibold">
             {TaxSavingsUIConfig.income_per_month_text}
           </p>
           <p
-            className="text-heading-small"
+            className="text-heading-small text-semibold"
             style={{
               filter: !isLoggedIn ? "blur(0.6rem)" : "",
             }}
           >
-            ₹{monthlyIncome}
+            {formatToInr(monthlyIncome)}
           </p>
         </div>
         <div
@@ -85,17 +91,17 @@ export default function TaxSavingsHome({
               background: "var(--clr-background-accent-success)",
             }}
           >
-            <h2 className="text-heading-small">
+            <h2 className="text-heading-small text-semibold">
               {TaxSavingsUIConfig.savings_card_title}
             </h2>
             <p
-              className="text-title-small"
+              className="text-title-small text-semibold"
               style={{
                 color: "var(--clr-text-accent-success)",
                 filter: !isLoggedIn ? "blur(0.6rem)" : "",
               }}
             >
-              ₹{taxDiff.toFixed(0)}
+              {formatToInr(taxDiff)}
             </p>
           </div>
           <div
@@ -120,8 +126,9 @@ export default function TaxSavingsHome({
               style={{
                 filter: !isLoggedIn ? "blur(0.6rem)" : "",
               }}
+              className="text-heading-small text-semibold clr-text-secondary"
             >
-              ₹{tax2023.toFixed(0)}
+              {formatToInr(tax2023)}
             </p>
           </div>
           <div
@@ -152,8 +159,9 @@ export default function TaxSavingsHome({
               style={{
                 filter: !isLoggedIn ? "blur(0.6rem)" : "",
               }}
+              className="text-heading-small text-semibold clr-text-secondary"
             >
-              ₹{tax2024.toFixed(0)}
+              {formatToInr(tax2024)}
             </p>
           </div>
         </div>

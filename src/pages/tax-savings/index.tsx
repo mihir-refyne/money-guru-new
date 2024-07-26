@@ -13,16 +13,13 @@ export default function TaxSavingsPage() {
   const router = useRouter();
 
   function redirectToLogin() {
-    const returnDirectlyPostSignup = true;
     const queryParams = new URLSearchParams({
       utm_source: "tax_savings_budget_experiments_page",
       utm_medium: "web_link",
     });
-    if (returnDirectlyPostSignup) {
-      const returnURL = location.href;
-      queryParams.set("preventAlternateSignUp", "true");
-      queryParams.set("afterAuthRedirectBackToUrl", returnURL);
-    }
+    const returnURL = location.href;
+    queryParams.set("preventAlternateSignUp", "true");
+    queryParams.set("afterAuthRedirectBackToUrl", returnURL);
     const url = `${APP_BASE_URL}/#/loginRegister?${queryParams.toString()}`;
     router.push(url);
   }
