@@ -9,6 +9,7 @@
   --clr-text-secondary: #696d70;
   --clr-text-tertiary: #999ea3;
   --clr-text-disabled: #b3b3b3;
+  --clr-text-accent-success: #01752f;
 
   --clr-grey-default: #c9cdd1;
   --clr-grey-light: #f5f7fa;
@@ -40,6 +41,10 @@
   --clr-icon-accent-success: #01752f;
   --clr-icon-primary-light: #bad7ff;
   --clr-icon-disabled: #b3b3b3;
+
+  --clr-background-surface: #f7f7f7;
+  --clr-background-enabled: #ffffff;
+  --clr-background-accent-success: #f0fff2;
 
   /* Spacings */
   --spacing-1: 0.4rem;
@@ -133,6 +138,11 @@ b {
   font-size: 2.4rem;
   line-height: 2.8rem;
   letter-spacing: 0;
+}
+
+.text-title-small {
+  font-size: 2.4rem;
+  line-height: 3.2rem;
 }
 
 .text-heading {

@@ -1,0 +1,18 @@
+{
+  "main_title": "How financial budget impacts on your salary",
+  "main_sub_text": "as per Budget 2024-25 new regime",
+  "income_per_month_text": "Your income per month",
+  "savings_card_title": "Savings with new budget",
+  "old_tax_heading": "Old Payable tax",
+  "new_tax_heading": "New Payable tax",
+  "old_tax_description": "Budget 2023-24",
+  "new_tax_description": "Budget 2024-25",
+  "info_card_heading": "Info",
+  "info_card_items": [
+    "₹75,000 standard deduction on your taxable salary as per budget 2024-25",
+    "Payable tax will be ₹0 when yearly income is less than ₹7.5 Lakh"
+  ],
+  "cta_text_unauthorized": "Continue",
+  "cta_text_authorized": "Back home",
+  "footer_info_text": "₹ Find your taxable salary"
+}
