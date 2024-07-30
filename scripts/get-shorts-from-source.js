@@ -1,9 +1,10 @@
 const json2md = require("json2md");
 const { requestGet, toJSON } = require("./utils.js");
 const YAML = require("yamljs");
-const { mkdir, writeFile } = require("fs/promises");
+const { mkdir, writeFile, readFile } = require("fs/promises");
 const { join } = require("path");
 const { identify } = require("imagemagick");
+const { existsSync } = require("fs");
 
 const tmpPath = join(__dirname, process.env.TMP_DIR ?? "shorts-tmp");
 const minImageWidth = process.env.MIN_IMAGE_WIDTH ?? 640;
@@ -15,15 +16,20 @@ const limit = process.env.LIMIT ?? 5;
 async function main() {
   const articles = await fetchNewsArticles();
 
-  await mkdir(tmpPath);
+  if (!existsSync(tmpPath)) {
+    await mkdir(tmpPath);
+  }
 
   // INFO: This prefix makes sure that new articles are added to the top of the bucket (for S3 ascending alphabetical sort-order)
   const epochInverse = 9999999999 - Math.floor(new Date().getTime() / 1000);
+
+  const archiveData = await getShortsArchive(tmpPath);
 
   const filteredArticles = await filterArticles(articles, {
     minWidth: minImageWidth,
     minHeight: minImageHeight,
     minDescLength: minDescLength,
+    archive: archiveData,
   });
 
   console.log(
@@ -52,6 +58,8 @@ async function main() {
     join(analyticsPath, analyticsFileName),
     JSON.stringify(analyticsForTheDay)
   );
+
+  await saveShortsArchive(tmpPath, archiveData);
 
   for (const article of limitedArticles) {
     const mdBody = json2md([{ h3: article.title }, { p: article.description }]);
@@ -110,8 +118,10 @@ async function filterArticles(articles, filter) {
     if (
       width >= filter.minWidth &&
       height >= filter.minHeight &&
-      a?.description?.length >= filter.minDescLength
+      a?.description?.length >= filter.minDescLength &&
+      !filter.archive.has(a?.article_id)
     ) {
+      filter.archive.add(a?.article_id);
       a.include = true;
     }
     return a;
@@ -158,3 +168,14 @@ async function fetchNewsArticles() {
 }
 
 main().catch(console.error);
+
+async function getShortsArchive(tmpDir) {
+  const shortsArchivePath = join(tmpDir, "shorts-archive.json");
+  const archiveData = JSON.parse(await readFile(shortsArchivePath));
+  return new Set(archiveData);
+}
+
+async function saveShortsArchive(tmpDir, archiveData) {
+  const shortsArchivePath = join(tmpDir, "shorts-archive.json");
+  return writeFile(shortsArchivePath, JSON.stringify(Array.from(archiveData)));
+}
