@@ -260,12 +260,12 @@ export default function EpfSummary({
       <div>
         <div
           style={{
-            background: "white",
-            marginTop: "var(--spacing-8)",
-            border: "1px solid var(--clr-border-enabled)",
-            boxShadow: "1px 0px 10px 1px #1212120A",
+            border: "1px solid var(--clr-grey-default)",
             borderRadius: "var(--spacing-2)",
+            marginTop: "var(--spacing-8)",
             padding: "var(--spacing-3)",
+            position: "relative",
+            backgroundColor: "var(--clr-pure-white)",
           }}
         >
           <h4 className="text-body text-semibold">
@@ -274,12 +274,22 @@ export default function EpfSummary({
           <h5 className="text-regular text-caption clr-text-secondary mt-2">
             {t("money_guru_pf_faq_desc")}
           </h5>
+
           <button
             className="btn-text text-body text-semibold"
             onClick={onFaqClick}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+            }}
           >
             {t("money_guru_check_faqs")}
-            <CaretRight weight="bold" />
+            <CaretRight
+              weight="bold"
+              style={{
+                marginLeft: "1px",
+              }}
+            />
           </button>
         </div>
       </div>
