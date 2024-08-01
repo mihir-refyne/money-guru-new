@@ -37,21 +37,21 @@ interface EpfSummaryProps {
 function formatCurrency(value: number, isEmployerCard = false): string {
   if (value < 1000) {
     return `₹${value}`;
-  } else if (value < 100000) {
+  }
+  if (value < 100000) {
     // For thousands
-    return isEmployerCard
-      ? `₹${(value / 1000).toFixed(1)}K`
-      : `₹${(value / 1000).toFixed(1)}K`;
-  } else if (value < 10000000) {
+    return `₹${(value / 1000).toFixed(1)}K`;
+  }
+  if (value < 10000000) {
     // For lakh
     return `₹${(value / 100000).toFixed(1)}L`;
-  } else if (value < 1000000000) {
+  }
+  if (value < 1000000000) {
     // For crore
     return `₹${(value / 10000000).toFixed(1)}CR`;
-  } else {
-    // For hundred crore and above
-    return `₹${(value / 10000000).toFixed(1)}CR`;
   }
+  // For hundred crore and above
+  return `₹${(value / 10000000).toFixed(1)}CR`;
 }
 
 export default function EpfSummary({

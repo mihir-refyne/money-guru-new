@@ -61,13 +61,16 @@ export function getFinancialYearsFromPassbookEntries(
     const month = date.getMonth();
 
     // Determine the financial year start
-    const financialYearStart = month >= 3 ? year : year - 1;
+    const APRIL_INDEX = 3;
+    const MARCH_INDEX = 2;
+
+    const financialYearStart = month >= APRIL_INDEX ? year : year - 1;
     const financialYearKey = `${financialYearStart}-${financialYearStart + 1}`;
 
     if (!financialYears.has(financialYearKey)) {
       financialYears.set(financialYearKey, {
-        from: new Date(financialYearStart, 3, 1),
-        to: new Date(financialYearStart + 1, 2, 31),
+        from: new Date(financialYearStart, APRIL_INDEX, 1),
+        to: new Date(financialYearStart + 1, MARCH_INDEX, 31),
       });
     }
   });

@@ -204,15 +204,6 @@ export default function EpfPassbook({
               outline: "none",
               transition: "border-color 0.3s ease, box-shadow 0.3s ease",
             }}
-            onFocus={(e) => {
-              e.currentTarget.style.borderColor = "#0057B7";
-              e.currentTarget.style.boxShadow =
-                "0 0 0 2px rgba(0, 87, 183, 0.2)";
-            }}
-            onBlur={(e) => {
-              e.currentTarget.style.borderColor = "#C7C7C7";
-              e.currentTarget.style.boxShadow = "0 2px 4px rgba(0, 0, 0, 0.1)";
-            }}
           >
             {availableFinancialYears.map((financialYear, index) => {
               const fromDate = format(financialYear.from, "MMMM yyyy");
@@ -242,7 +233,6 @@ export default function EpfPassbook({
               }}
               role="button"
               onClick={() => setIndividualTxnDetails(entry)}
-              key={index}
             >
               <div>
                 <TransactionDateWithTag

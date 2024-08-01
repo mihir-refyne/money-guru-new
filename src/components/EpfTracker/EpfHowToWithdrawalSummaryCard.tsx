@@ -35,7 +35,7 @@ export default function EpfHowToWithdrawalSummaryCard({
 function EpfStep({ heading, summarySteps }: EpfStepProps) {
   const { tWithoutTypeSafety } = useTranslation();
   return (
-    <div key={heading} style={{ marginBottom: "24px" }}>
+    <div style={{ marginBottom: "24px" }}>
       <h4
         style={{ marginBottom: "12px" }}
         className="text-body clr-text-secondary"
@@ -43,8 +43,8 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
         {tWithoutTypeSafety(heading)}
       </h4>
       <Card
-        backgroundColor="#FFFFFF"
-        border="1px solid #F0F0F0"
+        backgroundColor="var(--clr-pure-white)"
+        border="1px solid var(--clr-border-enabled)"
         boxShadow="1px 0px 10px 1px #1212120A"
       >
         {summarySteps.map((step, idx) => {
@@ -159,16 +159,7 @@ function EpfStep({ heading, summarySteps }: EpfStepProps) {
                   )}
                 </div>
               </div>
-              {!isLastItem && (
-                <hr
-                  style={{
-                    border: "none",
-                    borderTop: "1px solid #F0F0F0",
-                    margin: "16px 0",
-                  }}
-                />
-              )}
-              {hasBottomBorder && (
+              {(!isLastItem || hasBottomBorder) && (
                 <hr
                   style={{
                     border: "none",

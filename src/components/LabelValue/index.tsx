@@ -29,7 +29,6 @@ export default function LabelValue<T extends string | number>({
   value,
   valueTextVariant = "heading_medium",
   formatter,
-  align = "center",
 }: LabelValueProps<T>) {
   const id = useId();
 
