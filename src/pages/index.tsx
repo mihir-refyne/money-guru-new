@@ -2,7 +2,6 @@ import Banner, { BannerProps } from "@/components/Banner";
 import CalculatorTiles from "@/components/CalculatorTiles";
 import Carousel from "@/components/Carousel";
 import DashboardLoader from "@/components/DashboardLoader";
-import LoadingPage from "@/components/LoadingPage";
 import PageLayout from "@/components/PageLayout";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import TrackerTileWrapper from "@/components/TrackerTile/TrackerTileWrapper";
@@ -24,14 +23,14 @@ import { fetcher } from "@/lib/fetcher";
 import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import config from "../../data/landing_page.json";
-import { ShortsResponse } from "./api/shorts";
-import { GetStaticProps } from "next";
 import { getShortsByLocale } from "../lib/shorts/server";
+import { ShortsResponse } from "./api/shorts";
 
 enum DashboardComponent {
   R_SHORT_CAROUSEL = "R_SHORT_CAROUSEL",
@@ -138,7 +137,7 @@ export default function HomePage({ rajGovtShorts }: HomePageProps) {
       );
 
       router.push({
-        pathname: "/shorts",
+        pathname: "/shorts-old",
         hash: navigateToShortId.toString(),
       });
       return;
@@ -204,7 +203,7 @@ export default function HomePage({ rajGovtShorts }: HomePageProps) {
     };
   }
 
-  function handleFeaturedShortClick(id: string, path: string = "/shorts") {
+  function handleFeaturedShortClick(id: string, path: string = "/shorts-old") {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.R_SHORTS_OPENED,
@@ -310,7 +309,9 @@ export default function HomePage({ rajGovtShorts }: HomePageProps) {
                   thumbnailUrl={
                     (shortItem.metadata?.thumbnailUrl as string) ?? null
                   }
-                  onClick={() => handleFeaturedShortClick(shortItem.id, shortItem.routePath)}
+                  onClick={() =>
+                    handleFeaturedShortClick(shortItem.id, shortItem.routePath)
+                  }
                   content={shortItem.content}
                 />
               </div>

@@ -1,7 +1,6 @@
-import { useEffect, useMemo } from "react";
-import { GetStaticProps } from "next";
-import { useRouter } from "next/router";
 import CreditReportLoading from "@/components/CreditReport/CreditReportLoading";
+import CreditReportSummaryDetailed from "@/components/CreditReport/CreditReportSummaryDetailed";
+import { getCreditReportAnalysisPeriod } from "@/components/CreditReport/helpers";
 import useFetcher from "@/hooks/useFetcher";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -11,14 +10,15 @@ import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
 } from "@/lib/credit-report";
+import { getShortsByLocale } from "@/lib/shorts/server";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import CreditReportSummaryDetailed from "@/components/CreditReport/CreditReportSummaryDetailed";
+import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
 import config from "../../../../data/credit_report_config.json";
-import { getShortsByLocale } from "@/lib/shorts/server";
-import { getCreditReportAnalysisPeriod } from "@/components/CreditReport/helpers";
 
 interface CreditReportSummaryDetailedPage {
   shorts: Array<{
@@ -143,7 +143,7 @@ export default function CreditReportSummaryDetailedPage({
       }
     );
     router.push({
-      pathname: "/shorts",
+      pathname: "/shorts-old",
       hash: id,
     });
   }
