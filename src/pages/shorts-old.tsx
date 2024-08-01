@@ -117,7 +117,13 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
               fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
             },
             tag: short.metadata?.tag as any,
-            content: sanitize(marked(short.content)),
+            content: (
+              <article
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(marked(short.content)),
+                }}
+              />
+            ),
             reaction: short.reaction,
             publishedAt: parseAndValidatePublishedDate(
               short.metadata?.publishedAt,
