@@ -203,7 +203,7 @@ export default function HomePage({ rajGovtShorts }: HomePageProps) {
     };
   }
 
-  function handleFeaturedShortClick(id: string, path: string = "/shorts-old") {
+  function handleFeaturedShortClick(id: string, path: string = "/shorts") {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.R_SHORTS_OPENED,
