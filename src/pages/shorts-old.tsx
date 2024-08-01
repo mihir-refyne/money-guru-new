@@ -9,6 +9,7 @@ import { isQuizEitherCompletedOrSkipped } from "@/lib/quiz";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
+import { sanitize } from "dompurify";
 import { marked } from "marked";
 import { GetStaticProps } from "next";
 import { useRouter } from "next/router";
@@ -116,11 +117,7 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
               fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
             },
             tag: short.metadata?.tag as any,
-            content: (
-              <article
-                dangerouslySetInnerHTML={{ __html: marked(short.content) }}
-              />
-            ),
+            content: sanitize(marked(short.content)),
             reaction: short.reaction,
             publishedAt: parseAndValidatePublishedDate(
               short.metadata?.publishedAt,
