@@ -211,8 +211,11 @@ export default function EpfSummary({
               passbookEntries,
             } = establishment;
 
-            const { employeeShare = 0, employerShare = 0 } =
-              passbookEntries[0] ?? {};
+            const {
+              employeeShare = 0,
+              employerShare = 0,
+              pensionBalance = 0,
+            } = passbookEntries[0] ?? {};
 
             const isLatestEstablishment = index === 0;
 
@@ -236,7 +239,9 @@ export default function EpfSummary({
                     >
                       {t("pf_latest_deposit") + " "}
 
-                      {formatToInr(employeeShare + employerShare)}
+                      {formatToInr(
+                        employeeShare + employerShare + pensionBalance
+                      )}
                     </span>
                   </div>
                 )}
