@@ -28,8 +28,6 @@ export interface HowToWithdrawPfSummaryType {
   summarySteps: Array<SummaryStep>;
 }
 
-export interface PermittedClaimReasonType extends HowToWithdrawPfSummaryType {}
-
 const SERVICE_UNAVAILABLE_COMMAN_MODAL: EpfFetchErrorModalContentProps = {
   illustrationUrl: WARNING_YELLOW_ICON_URL,
   title: "epfo_portal_down_title",

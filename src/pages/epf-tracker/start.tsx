@@ -175,7 +175,6 @@ export default function EpfTrackerStartPage() {
         onIdentifierChange={handleIndetifierChange}
         onSubmit={handleFormSubmit}
         loading={isLoading}
-        onFaqClick={handleFAQClick}
       />
       <Modal
         active={errorModal !== null}

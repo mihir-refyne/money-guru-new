@@ -73,6 +73,64 @@ export default function EpfPassbook({
     establishmentDetails.totalPensionBalance
   );
 
+  const txnData = individualTxnDetails
+    ? [
+        {
+          label: t("date"),
+          value: format(
+            new Date(individualTxnDetails.transactionDate),
+            "dd MMM yy"
+          ),
+        },
+        {
+          label: t("total_contribution"),
+          value: formatToInr(
+            individualTxnDetails.employerShare +
+              individualTxnDetails.employeeShare +
+              individualTxnDetails.pensionBalance
+          ),
+          isTotal: true,
+        },
+        {
+          label: t("employee_share_label"),
+          value: formatToInr(individualTxnDetails.employeeShare),
+        },
+        {
+          label: t("employer_share_label"),
+          value: formatToInr(individualTxnDetails.employerShare),
+        },
+        {
+          label: t("pension_contribution_heading"),
+          value: formatToInr(individualTxnDetails.pensionBalance),
+        },
+      ]
+    : [];
+
+  const cardData = [
+    {
+      icon: <Wallet color="var(--clr-brand-default)" width={30} height={30} />,
+      heading: t("employee_and_employer_share_heading"),
+      description: t("employee_and_employer_share_desc"),
+      showHr: true,
+    },
+    {
+      icon: <Money width={30} height={30} color="var(--clr-brand-default)" />,
+      heading: t("pension_contribution_heading"),
+      description: t("pension_contribution_desc"),
+      showHr: true,
+      button: {
+        label: t("pension_benefits_header"),
+        redirectTo: "/epf-tracker/epf-pension-contribution",
+      },
+    },
+    {
+      icon: <Chats width={30} height={30} color="var(--clr-brand-default)" />,
+      heading: t("how_it_works"),
+      description: t("how_it_works_desc"),
+      showHr: false,
+    },
+  ];
+
   return (
     <EpfTrackerLayout hasShare>
       <CardV2
@@ -276,48 +334,7 @@ export default function EpfPassbook({
             justifyContent: "center",
           }}
         >
-          {[
-            {
-              icon: (
-                <Wallet
-                  color="var(--clr-brand-default)"
-                  width={30}
-                  height={30}
-                />
-              ),
-              heading: t("employee_and_employer_share_heading"),
-              description: t("employee_and_employer_share_desc"),
-              showHr: true,
-            },
-            {
-              icon: (
-                <Money
-                  width={30}
-                  height={30}
-                  color="var(--clr-brand-default)"
-                />
-              ),
-              heading: t("pension_contribution_heading"),
-              description: t("pension_contribution_desc"),
-              showHr: true,
-              button: {
-                label: t("pension_benefits_header"),
-                redirectTo: "/epf-tracker/epf-pension-contribution",
-              },
-            },
-            {
-              icon: (
-                <Chats
-                  width={30}
-                  height={30}
-                  color="var(--clr-brand-default)"
-                />
-              ),
-              heading: t("how_it_works"),
-              description: t("how_it_works_desc"),
-              showHr: false,
-            },
-          ].map((section, index) => {
+          {cardData.map((section, index) => {
             const { description, heading, icon, showHr, button } = section;
             return (
               <div key={index} style={{ marginBottom: "1.25rem" }}>
@@ -403,36 +420,7 @@ export default function EpfPassbook({
               boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
             }}
           >
-            {[
-              {
-                label: t("date"),
-                value: format(
-                  new Date(individualTxnDetails.transactionDate),
-                  "dd MMM yy"
-                ),
-              },
-              {
-                label: t("total_contribution"),
-                value: formatToInr(
-                  individualTxnDetails.employerShare +
-                    individualTxnDetails.employeeShare +
-                    individualTxnDetails.pensionBalance
-                ),
-                isTotal: true,
-              },
-              {
-                label: t("employee_share_label"),
-                value: formatToInr(individualTxnDetails.employeeShare),
-              },
-              {
-                label: t("employer_share_label"),
-                value: formatToInr(individualTxnDetails.employerShare),
-              },
-              {
-                label: t("pension_contribution_heading"),
-                value: formatToInr(individualTxnDetails.pensionBalance),
-              },
-            ].map((item, index) => (
+            {txnData.map((item, index) => (
               <div
                 key={index}
                 style={{
