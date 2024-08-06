@@ -291,6 +291,7 @@ export default function EpfPassbook({
               }}
               role="button"
               onClick={() => setIndividualTxnDetails(entry)}
+              key={index}
             >
               <div>
                 <TransactionDateWithTag
