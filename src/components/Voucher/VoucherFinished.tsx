@@ -1,14 +1,21 @@
+import { useEffect } from "react";
 import PageLayout from "../PageLayout";
 
 interface VoucherFinishedProps {
   pageTitle?: string;
+  onMount?: () => void;
   onBackToHomeClick: () => void;
 }
 
 export default function VoucherFinished({
   pageTitle,
+  onMount,
   onBackToHomeClick,
 }: VoucherFinishedProps) {
+  useEffect(() => {
+    onMount?.();
+  }, []);
+
   return (
     <PageLayout
       title={pageTitle}

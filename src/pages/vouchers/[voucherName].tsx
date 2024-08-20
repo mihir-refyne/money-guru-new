@@ -200,6 +200,7 @@ export default function VoucherPage({
   ) {
     return (
       <VoucherFinished
+        onMount={handleOnMount}
         pageTitle={uiConfig?.pageTitle}
         onBackToHomeClick={handleBackToHome}
       />
