@@ -21,6 +21,7 @@ import { dispatchDataToNativePlatform } from "@/lib/webview";
 interface VoucherUIConfig {
   pageTitle: string;
   logoUrl: string;
+  heroImageFullWidth?: boolean;
   cardBuyTitle: string;
   cardBuyDescription: string;
   cardBuyCtaText: string;
@@ -28,9 +29,12 @@ interface VoucherUIConfig {
   cardRedeemTitle: string;
   cardRedeemDescription: string;
   cardRedeemCtaText: string;
+  cardVoucherCodeVisible?: boolean;
+  canRedeemPostPurchase: boolean;
   payVia: "EWA" | "PG";
   returnDirectlyPostSignup: boolean;
   details: Array<string>;
+  redeemStepsTitleText?: string;
   redeemSteps: Array<string>;
   termsAndConditionsExternalUrl?: string;
   termsAndConditions: Array<string>;
@@ -143,7 +147,7 @@ export default function VoucherPage({
         voucher_name: voucherName,
         voucher_state: voucherState?.status,
         routed_from_pg_callback: routedFromPGCallback,
-        pay_via: uiConfig?.payVia
+        pay_via: uiConfig?.payVia,
       },
       { triggerEvenIfUserContextIsAbsent: true }
     );
@@ -162,7 +166,7 @@ export default function VoucherPage({
       { triggerEvenIfUserContextIsAbsent: true }
     );
     if (voucherState.status === "UNAUTHENTICATED") {
-      const returnDirectlyPostSignup = !!uiConfig?.returnDirectlyPostSignup
+      const returnDirectlyPostSignup = !!uiConfig?.returnDirectlyPostSignup;
       const queryParams = new URLSearchParams({
         utm_source: "voucher_marketplace_landing_page",
         utm_campaign: voucherName.toLowerCase(),
@@ -232,6 +236,7 @@ export default function VoucherPage({
       heroCardTitle={heroCardTitle}
       heroCardDescription={heroCardDescription}
       heroCardCtaText={heroCardCtaText}
+      heroCardImageFullWidth={uiConfig.heroImageFullWidth ?? false}
       heroCardCtaLoading={isLoading || purchaseInitiateLoading}
       voucherCode={
         voucherState.status === "VOUCHER_ALLOCATED"
@@ -241,8 +246,10 @@ export default function VoucherPage({
       onHeroCtaClick={handleCtaClick}
       onBackToHomeClick={handleBackToHome}
       voucherDetails={uiConfig.details}
+      redeemStepsTitleText={uiConfig.redeemStepsTitleText}
       redeemSteps={uiConfig.redeemSteps}
-      canRedeem={voucherState.status === "VOUCHER_ALLOCATED"}
+      voucherAllocated={voucherState.status === "VOUCHER_ALLOCATED"}
+      canRedeemPostPurchase={uiConfig.canRedeemPostPurchase}
       termsAndConditions={uiConfig.termsAndConditions}
       termsAndConditionsExternalUrl={uiConfig.termsAndConditionsExternalUrl}
       onMount={handleOnMount}

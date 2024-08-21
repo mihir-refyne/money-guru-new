@@ -9,6 +9,7 @@
     "cardRedeemTitle": "Discount on Swiggy One",
     "cardRedeemDescription": "Congratulations! You have redeemed Swiggy One subscription at just ₹19",
     "cardRedeemCtaText": "Redeem Now",
+    "canRedeemPostPurchase": true,
     "payVia": "PG",
     "returnDirectlyPostSignup": true,
     "details": [
@@ -42,6 +43,7 @@
     "cardRedeemTitle": "Discount on Uber Voucher",
     "cardRedeemDescription": "Congratulations! You have redeemed ₹500 Uber Voucher at just ₹400",
     "cardRedeemCtaText": "Redeem Now",
+    "canRedeemPostPurchase": true,
     "payVia": "EWA",
     "returnDirectlyPostSignup": true,
     "details": [
@@ -57,5 +59,38 @@
     ],
     "termsAndConditions": [],
     "termsAndConditionsExternalUrl": "/pdf-viewer?url=https%3A%2F%2Fdqkwfm5lwlsho.cloudfront.net%2Fassets%2Fdocuments%2Fmulti-brands-coupons-terms.pdf"
+  },
+  "SHARAN_MASTERCLASS": {
+    "pageTitle": "Finance Masterclass",
+    "logoUrl": "https://dqkwfm5lwlsho.cloudfront.net/assets/images/finance_with_sharan_masterclass.jpg",
+    "heroImageFullWidth": true,
+    "cardBuyTitle": "Finance with Sharan Masterclass",
+    "cardBuyDescription": "60% off on Finance Masterclass, Avail at only ₹199",
+    "cardBuyCtaText": "Book at ₹199",
+    "cardBuySignupCtaText": "Sign-up to claim offer",
+    "cardRedeemTitle": "Finance with Sharan Masterclass",
+    "cardRedeemDescription": "Congratulations! You have redeemed Finance with Sharan Masterclass at just ₹199",
+    "cardVoucherCodeVisible": false,
+    "cardRedeemCtaText": "Redeem Now",
+    "canRedeemPostPurchase": false,
+    "payVia": "PG",
+    "returnDirectlyPostSignup": true,
+    "details": [
+      "Date: 25th of August",
+      "Duration: 2 hours",
+      "Session link will be shared on WhatsApp"
+    ],
+    "redeemStepsTitleText": "How to join Finance Masterclass?",
+    "redeemSteps": [
+      "Book Finance with Sharan Master Class through Refyne",
+      "The session link will be shared on WhatsApp on August 25th",
+      "Join the link through “Zoom” app and start learning about personal finance"
+    ],
+    "termsAndConditions": [
+      "All services offered by the 1% club through the Refyne Platform, shall be subject to the terms and conditions of the 1% club governing these services as contained in https://www.onepercentclub.io/terms-and-condition.",
+      "The 1% Club will be fully responsible for all content covered during the session. You shall not hold Refyne liable for any content disseminated by the 1% Club or any reliance on the same.",
+      "By registering for this service, You explicitly consent to Refyne sharing Your name and contact details (add any other personal data, if being collected), with 1% Club, for the sole purpose of availing the services as offered by the 1% Club.",
+      "Any changes to the session date and timing will be at the discretion of 1% club and Refyne shall not be liable for any changes thereto."
+    ]
   }
 }

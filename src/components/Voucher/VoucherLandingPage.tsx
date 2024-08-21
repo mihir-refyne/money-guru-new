@@ -7,12 +7,14 @@ import Image from "next/image";
 import Input from "../Input";
 import Modal from "../Modal";
 import styles from "./styles.module.css";
+import { CheckCircle } from "phosphor-react";
 
 interface VoucherLandingPageProps {
   pageTitle: string;
   belowNavbarText?: string;
   showBelowNavbarText?: boolean;
   heroCardImageUrl: string;
+  heroCardImageFullWidth?: boolean;
   heroCardTitle: string;
   heroCardDescription: string;
   heroCardCtaText: string;
@@ -21,8 +23,10 @@ interface VoucherLandingPageProps {
   onBackToHomeClick: () => void;
   voucherCode?: string;
   voucherDetails: Array<string>;
+  redeemStepsTitleText?: string;
   redeemSteps: Array<string>;
-  canRedeem: boolean;
+  voucherAllocated: boolean;
+  canRedeemPostPurchase: boolean;
   termsAndConditions: Array<string>;
   termsAndConditionsExternalUrl?: string;
   onMount: () => void;
@@ -33,6 +37,7 @@ export default function VoucherLandingPage({
   belowNavbarText,
   showBelowNavbarText = false,
   heroCardImageUrl,
+  heroCardImageFullWidth = false,
   heroCardTitle,
   heroCardDescription,
   heroCardCtaText,
@@ -41,8 +46,10 @@ export default function VoucherLandingPage({
   onHeroCtaClick,
   onBackToHomeClick,
   voucherDetails,
+  redeemStepsTitleText,
   redeemSteps,
-  canRedeem,
+  voucherAllocated,
+  canRedeemPostPurchase,
   termsAndConditions,
   termsAndConditionsExternalUrl,
   onMount,
@@ -80,7 +87,7 @@ export default function VoucherLandingPage({
     onMount();
   }, []);
 
-  const PageFooterElem = canRedeem ? (
+  const PageFooterElem = voucherAllocated ? (
     <div className="p-4">
       <button
         className="btn btn-primary-outline btn-block"
@@ -90,6 +97,8 @@ export default function VoucherLandingPage({
       </button>
     </div>
   ) : undefined;
+
+  const cardFooterHidden = voucherAllocated && !canRedeemPostPurchase;
 
   return (
     <PageLayout
@@ -109,26 +118,44 @@ export default function VoucherLandingPage({
         <VoucherCard
           bodyCentered
           footer={
-            <VoucherCardFooter
-              canRedeem={canRedeem}
-              heroCardCtaText={heroCardCtaText}
-              voucherCode={voucherCode}
-              ctaLoading={heroCardCtaLoading}
-              onHeroCtaClick={onHeroCtaClick}
-              onRedeemClick={handleRedeemClick}
-            />
+            !cardFooterHidden && (
+              <VoucherCardFooter
+                voucherAllocated={voucherAllocated}
+                canRedeem={canRedeemPostPurchase}
+                heroCardCtaText={heroCardCtaText}
+                voucherCode={voucherCode}
+                ctaLoading={heroCardCtaLoading}
+                onHeroCtaClick={onHeroCtaClick}
+                onRedeemClick={handleRedeemClick}
+              />
+            )
           }
         >
-          <Image
-            src={heroCardImageUrl}
-            height={96}
-            width={96}
-            alt={heroCardTitle}
-          />
+          {heroCardImageFullWidth ? (
+            <img
+              src={heroCardImageUrl}
+              alt={heroCardTitle}
+              style={{ width: "100%" }}
+            />
+          ) : (
+            <Image
+              src={heroCardImageUrl}
+              height={96}
+              width={96}
+              alt={heroCardTitle}
+            />
+          )}
+
           <h4 className="text-heading mt-4 mb-1">{heroCardTitle}</h4>
           <p className="text-center clr-text-secondary">
             {heroCardDescription}
           </p>
+          {voucherAllocated && (
+            <p className={styles.PostPurchaseStrip}>
+              <CheckCircle weight="fill" size={16} />
+              <span className="ml-2">Thank you for your purchase!</span>
+            </p>
+          )}
         </VoucherCard>
         <VoucherCard>
           <h5 className="text-heading-small">Details</h5>
@@ -146,7 +173,7 @@ export default function VoucherLandingPage({
             background="none"
             items={[
               {
-                contentLeftTitle: "How to redeem",
+                contentLeftTitle: redeemStepsTitleText ?? "How to redeem",
                 onClick: handleRedeemModalOpen,
               },
               {
@@ -182,6 +209,7 @@ export default function VoucherLandingPage({
 }
 
 function VoucherCardFooter(props: {
+  voucherAllocated: boolean;
   canRedeem: boolean;
   voucherCode?: string;
   heroCardCtaText: string;
@@ -190,6 +218,7 @@ function VoucherCardFooter(props: {
   onRedeemClick: () => void;
 }) {
   const {
+    voucherAllocated,
     canRedeem,
     voucherCode,
     heroCardCtaText,
@@ -197,7 +226,8 @@ function VoucherCardFooter(props: {
     onHeroCtaClick,
     onRedeemClick,
   } = props;
-  if (canRedeem && voucherCode) {
+  if (voucherAllocated && !canRedeem) return null;
+  if (canRedeem && voucherAllocated && voucherCode) {
     return (
       <>
         <Input
