@@ -24,3 +24,7 @@
 .LabelValue__align_right {
   text-align: right;
 }
+
+.text_center {
+  align-self: center;
+}

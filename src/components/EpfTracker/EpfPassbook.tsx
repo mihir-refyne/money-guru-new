@@ -179,16 +179,19 @@ export default function EpfPassbook({
               label={t("employee_share_label")}
               value={totalEmployeeShare}
               formatter={formatToInr}
+              align="center"
             />
             <LabelValue
               label={t("employer_share_label")}
               value={totalEmployerShare}
               formatter={formatToInr}
+              align="center"
             />
             <LabelValue
               label={t("pension_contribution_heading")}
               value={totalPensionShare}
               formatter={formatToInr}
+              align="center"
             />
           </Separator>
 
@@ -234,7 +237,6 @@ export default function EpfPassbook({
         <div
           style={{
             display: "flex",
-            borderBottom: "1px solid #F0F0F0",
             alignItems: "center",
             justifyContent: "space-between",
           }}
@@ -256,9 +258,6 @@ export default function EpfPassbook({
               fontSize: "16px",
               fontFamily: "Arial, sans-serif",
               backgroundColor: "#FFFFFF",
-              // appearance: "none",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-
               outline: "none",
               transition: "border-color 0.3s ease, box-shadow 0.3s ease",
             }}
@@ -378,8 +377,9 @@ export default function EpfPassbook({
                         className="text-caption"
                         href={button && button.redirectTo}
                         style={{
-                          color: "#007BFF",
+                          color: "#0057B7",
                           textDecoration: "none",
+                          fontWeight: "bold"
                         }}
                       >
                         {button && button.label} &gt;
@@ -568,7 +568,7 @@ function TransactionDateWithTag(props: {
   const tagType = getTagTypeByTransactionTypeAndVariant(type, variant);
   return (
     <div className="text-regular">
-      <div className="text-medium clr-text-secondary">
+      <div className="text-medium clr-text-secondary mb-1">
         {format(new Date(transactionDate), "MMM yyyy")}
       </div>
       {tagType && (
