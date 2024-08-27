@@ -1,6 +1,6 @@
 import { getOrUpdatePreferredLocale } from "@/lib/locale";
 import "@/styles/globals.css";
-import { Work_Sans } from "@next/font/google";
+import { Inter } from "@next/font/google";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -37,10 +37,10 @@ import {
 import { flutterNativeDispatcherV2Init } from "@/lib/webview";
 import DashboardLoader from "@/components/DashboardLoader";
 
-const workSans = Work_Sans({
+const inter = Inter({
   weight: ["400", "500", "600"],
   subsets: ["latin"],
-});
+})
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <style jsx global>{`
         * {
-          font-family: ${workSans.style.fontFamily};
+          font-family: ${inter.style.fontFamily};
         }
       `}</style>
       <ResetFontBoostingScript />
