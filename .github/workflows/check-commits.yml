@@ -1,0 +1,76 @@
+name: Check Commits in UAT or DEV
+
+on:
+  pull_request:
+    branches:
+      - prod
+      - uat
+
+jobs:
+  check_commits:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Fetch all history so we can see all commits
+
+      - name: Fetch all branches
+        run: git fetch --all
+
+      - name: Determine base branch and check commits
+        id: check_commits
+        run: |
+          PR_BRANCH="${GITHUB_HEAD_REF}"
+          BASE_BRANCH="${GITHUB_BASE_REF}"
+
+          if [ "$BASE_BRANCH" == "prod" ]; then
+            TARGET_BRANCH="uat"
+          elif [ "$BASE_BRANCH" == "uat" ]; then
+            TARGET_BRANCH="dev"
+          else
+            echo "This action only runs for PRs targeting 'prod' or 'uat'."
+            exit 0
+          fi
+
+          # Ensure both branches are up to date
+          git fetch origin $TARGET_BRANCH
+          git fetch origin $PR_BRANCH
+
+          # Get the list of commits in the PR branch not in the target branch
+          commits_not_in_target=$(git log origin/$TARGET_BRANCH..origin/$PR_BRANCH --oneline --no-merges)
+
+          if [ -z "$commits_not_in_target" ]; then
+              echo "All commits in $PR_BRANCH are already in $TARGET_BRANCH."
+              echo "no_commits=false" >> $GITHUB_ENV
+          else
+              echo "The following commits in $PR_BRANCH are not in $TARGET_BRANCH:"
+              echo "$commits_not_in_target"
+              echo "commits_not_in_target=$commits_not_in_target" >> $GITHUB_ENV
+              echo "no_commits=true" >> $GITHUB_ENV
+          fi
+
+      - name: Comment on PR if there are commits not in target
+        if: env.no_commits == 'true'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { context } = require('@actions/github');
+            const prNumber = context.issue.number;
+            const commitsList = process.env.commits_not_in_target;
+            const targetBranch = process.env.TARGET_BRANCH;
+
+            const commentBody = `The following commits in the PR branch are not in the target branch (${targetBranch}):\n\n${commitsList}`;
+
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: prNumber,
+              body: commentBody
+            });
+
+      - name: Fail if there are commits not in target
+        if: env.no_commits == 'true'
+        run: |
+          echo "There are commits in the PR branch that are not in the target branch."
+          exit 1
