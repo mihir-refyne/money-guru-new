@@ -39,7 +39,7 @@ jobs:
           git fetch origin $PR_BRANCH
 
           # Get the list of commits in the PR branch not in the target branch
-          commits_not_in_target=$(git log origin/$TARGET_BRANCH..origin/$PR_BRANCH --oneline)
+          commits_not_in_target=$(git log origin/$TARGET_BRANCH..origin/$PR_BRANCH --oneline --no-merges)
 
           if [ -z "$commits_not_in_target" ]; then
               echo "All commits in $PR_BRANCH are already in $TARGET_BRANCH."
