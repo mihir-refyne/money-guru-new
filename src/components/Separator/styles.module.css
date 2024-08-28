@@ -3,6 +3,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--separator-spacing);
+  padding: var(--spacing-4) var(--spacing-3);
 }
 
 .Separator__Spacing_3 {

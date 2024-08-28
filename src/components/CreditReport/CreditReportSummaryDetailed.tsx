@@ -35,7 +35,6 @@ import Separator from "../Separator";
 import Tag from "../Tag";
 import Carousel from "../Carousel";
 import FeaturedShort from "../Shorts/FeaturedShort";
-import { marked } from "marked";
 import { getLastItemOfArray } from "@/lib/utils";
 import CreditScoreDifferenceText from "./CreditScoreDifferenceText";
 import CreditReportFactorChangeView from "./CreditReportFactorChangeView";

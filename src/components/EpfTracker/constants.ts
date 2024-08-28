@@ -1,5 +1,6 @@
 import { EpfFetchIdentifier } from "@/lib/epf";
 import { EpfFetchErrorModalContentProps } from "./EpfFetchErrorModalContent";
+import { ReactNode } from "react";
 
 const INFO_BLUE_ICON_URL = "/assets/images/info-blue-icon.svg";
 const WARNING_YELLOW_ICON_URL = "/assets/images/warn-circle-yellow-icon.svg";
@@ -8,6 +9,24 @@ type ServerErrorCodeToResponseModalMapType = Record<
   EpfFetchIdentifier,
   Partial<Record<string, EpfFetchErrorModalContentProps>>
 >;
+
+export interface SummaryStep {
+  imgURL?: string;
+  icon?: ReactNode;
+  iconBackgroundColor?: string;
+  label?: string;
+  desc?: string;
+  descFooterText?: string;
+  descFooterIcon?: ReactNode;
+  hasDescFooter?: boolean;
+  hasBottomBorder?: boolean;
+  hideIcon?: boolean;
+}
+
+export interface HowToWithdrawPfSummaryType {
+  heading: string;
+  summarySteps: Array<SummaryStep>;
+}
 
 const SERVICE_UNAVAILABLE_COMMAN_MODAL: EpfFetchErrorModalContentProps = {
   illustrationUrl: WARNING_YELLOW_ICON_URL,
@@ -97,3 +116,5 @@ export const EpfTrackerServerErrorCodeToResponseModalMapPostOtp: ServerErrorCode
       E74005: SERVICE_UNAVAILABLE_COMMAN_MODAL,
     },
   };
+
+export interface PermittedClaimReasonType extends HowToWithdrawPfSummaryType {}

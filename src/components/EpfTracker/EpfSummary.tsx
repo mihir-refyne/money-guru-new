@@ -1,28 +1,29 @@
 import {
   EpfDetailsResponse,
   EpfFetchIdentifier,
+  EpfPassbookEntryType,
+  EpfPassbookEntryVariant,
   isEligibleForRefetchOfEpfDetails,
   isEpfDetailsIncrementEffectShown,
   setEpfDetailsIncrementEffectShown,
 } from "@/lib/epf";
 import EpfTrackerLayout from "./EpfTrackerLayout";
-import Card from "../Card";
 import LabelValue from "../LabelValue";
-import Separator from "../Separator";
 import format from "date-fns/format";
 import ListCard from "../ListCard";
-import InfoCard from "../InfoCard";
-import IconWrapper from "../IconWrapper";
-import { formatToInr } from "@/lib/utils";
-import { getEpfServicePeriodText } from "./helpers";
 import { useEffect, useState } from "react";
 import { useAutoIncrementNumber } from "@/hooks/useAutoIncrementNumber";
-import EpfSummaryCardBg from "@/images/epf_summary_card_bg.svg";
 import useTranslation from "@/hooks/useTranslation";
-import { ArrowsClockwise, Buildings } from "phosphor-react";
+import PfPassbookBgUrl from "@/images/pf_passbook_bg.svg";
+import { ArrowsClockwise, CaretRight } from "phosphor-react";
 import toast from "react-hot-toast";
-import constructElementId from "@/lib/utils/constructElementId";
-import { ScreenName } from "@/constants/ScreenName";
+
+import Link from "next/link";
+import CardV2 from "../CardV2";
+import { getEpfServicePeriodText } from "./helpers";
+import { formatToInr } from "@/lib/utils";
+import { getTagTypeByTransactionTypeAndVariant } from "@/lib/epf";
+import Tag from "../Tag";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
@@ -33,6 +34,28 @@ interface EpfSummaryProps {
   onMount?: () => void;
   onEstablishmentCardClick: (memberId: string) => void;
   onRefetchClick?: (identifier: EpfFetchIdentifier, value?: string) => void;
+  onFaqClick?: () => void;
+}
+
+// Utility function for formatting currency
+function formatCurrency(value: number, isEmployerCard = false): string {
+  if (value < 1000) {
+    return `₹${value}`;
+  }
+  if (value < 100000) {
+    // For thousands
+    return `₹${(value / 1000).toFixed(1)}K`;
+  }
+  if (value < 10000000) {
+    // For lakh
+    return `₹${(value / 100000).toFixed(1)}L`;
+  }
+  if (value < 1000000000) {
+    // For crore
+    return `₹${(value / 10000000).toFixed(1)}CR`;
+  }
+  // For hundred crore and above
+  return `₹${(value / 10000000).toFixed(1)}CR`;
 }
 
 export default function EpfSummary({
@@ -41,6 +64,7 @@ export default function EpfSummary({
   onMount,
   onEstablishmentCardClick,
   onRefetchClick,
+  onFaqClick,
 }: EpfSummaryProps) {
   const { t } = useTranslation("common");
   const { summary, establishments, metadata = {} } = epfDetails;
@@ -85,142 +109,201 @@ export default function EpfSummary({
     onRefetchClick?.(identifier, value);
   }
 
-  function getCardFooter(
-    lastFetchedAt: string | undefined,
-    refetchEnabled: boolean,
-    onRefetchClick?: VoidFunction
-  ) {
+  function getCardFooter(lastFetchedAt: string | undefined) {
     if (!lastFetchedAt) return null;
     return (
-      <div
+      <Link
+        href={`/epf-tracker/epf-how-to-withdrawal-summary`}
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          color: "var(--clr-brand-default)",
+          width: "100%",
+          textDecoration: "none",
         }}
       >
-        <p className="clr-text-secondary text-caption">
-          {t("last_updated")} {format(new Date(lastFetchedAt), "dd MMM yy")}
-        </p>
-        <button
-          id={constructElementId({
-            screenName: ScreenName.MONGU_PF_TRACKER_SUMMARY,
-            elementName: "REFRESH_CTA",
-          })}
-          className={`${
-            refetchEnabled ? "clr-brand-default" : "clr-text-tertiary"
-          } text-medium flex-center`}
-          onClick={onRefetchClick}
-        >
-          <span className="mr-1">{t("epfo_refresh_cta")}</span>
-          <ArrowsClockwise />
-        </button>
-      </div>
+        <h2 className="text-body">{t("learn_how_to_withdraw_pf")}</h2>
+        <CaretRight />
+      </Link>
     );
   }
 
   // INFO: We want to show the total balance
-  const totalBalance = Math.floor(
-    summary.currentBalance + summary.currentPensionBalance
-  );
-  const totalEmployeeShare = Math.floor(summary.currentEmployeeShareBalance);
-  const totalEmployerShare = Math.floor(
-    summary.currentEmployerShareBalance + summary.currentPensionBalance
-  );
+  const totalBalance = Math.floor(summary.currentBalance);
 
   const totalBalanceWithAutoIncrement = useAutoIncrementNumber({
     active: !isEpfDetailsIncrementEffectAlreadyShown,
     durationInMs: AUTO_INCREMENT_DURATION_IN_MS,
     value: totalBalance,
   });
-  const totalEmployeeShareWithAutoIncrement = useAutoIncrementNumber({
-    active: !isEpfDetailsIncrementEffectAlreadyShown,
-    durationInMs: AUTO_INCREMENT_DURATION_IN_MS,
-    value: totalEmployeeShare,
-  });
-  const totalEmployerShareWithAutoIncrement = useAutoIncrementNumber({
-    active: !isEpfDetailsIncrementEffectAlreadyShown,
-    durationInMs: AUTO_INCREMENT_DURATION_IN_MS,
-    value: totalEmployerShare,
-  });
 
   return (
     <EpfTrackerLayout dispatchPopEventOnBackClick={directlyAccessed} hasShare>
-      <Card
-        // TODO: Ask why colors are not from design system
-        backgroundColor="#061D4C"
-        backgroundImageUrl={EpfSummaryCardBg.src}
-        footerBackgroundColor="#EBF5FF"
-        footer={getCardFooter(
-          metadata.fetchedAt,
-          isRefetchPossible,
-          handleRefetchClick
-        )}
+      <CardV2
+        border="0.5px solid var(--clr-icon-primary-light)"
+        backgroundImageUrl={PfPassbookBgUrl.src}
+        backgroundGradient="linear-gradient(263deg, #EFF6FF85 30%, #FFFFFF 60%)"
+        backgroundPositionX="100%"
+        backgroundRepeat="no-repeat"
+        backgroundSize="contain"
+        footer={getCardFooter(metadata.fetchedAt)}
+        footerBackgroundColor="white"
       >
-        <div className="mb-4">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-end",
+          }}
+        >
           <LabelValue
-            type="light"
+            type="dark"
             label={t("pf_balance_label")}
-            labelTextVariant="body_regular"
+            labelTextVariant="heading_regular"
             value={totalBalanceWithAutoIncrement}
-            formatter={formatToInr}
-            valueTextVariant="title_semibold"
+            formatter={(value) => formatToInr(value)}
+            valueTextVariant="title_medium"
           />
+          {isRefetchPossible && (
+            <ArrowsClockwise
+              onClick={handleRefetchClick}
+              size={25}
+              style={{
+                color: "var(--clr-brand-default)",
+                marginBottom: 10,
+                marginLeft: 8,
+              }}
+            />
+          )}
         </div>
-        <Separator separatorColor="var(--clr-pure-white)">
-          <LabelValue
-            type="light"
-            label={t("employee_share_label")}
-            value={totalEmployeeShareWithAutoIncrement}
-            formatter={formatToInr}
-          />
-          <LabelValue
-            type="light"
-            label={t("employer_share_label")}
-            value={totalEmployerShareWithAutoIncrement}
-            formatter={formatToInr}
-          />
-        </Separator>
-      </Card>
-      <h2 className="text-body text-semibold mt-6 mb-4">
+        <div
+          style={{
+            backgroundColor: "#F7F7F7",
+            width: "140px",
+            padding: "8px",
+            borderRadius: "0.5rem",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <p className="clr-text-secondary text-caption">
+            {t("last_updated")}{" "}
+            {format(new Date(metadata.fetchedAt ?? ""), "dd MMM")}
+          </p>
+        </div>
+      </CardV2>
+
+      <h2
+        className="text-body text-semibold mt-6 mb-4"
+        style={{ paddingLeft: "var(--spacing-2)", color: "#888888" }}
+      >
         {t("all_employers_label")} ({establishments.length})
       </h2>
       <div>
-        {/* TODO: Check the Array order */}
-        {establishments.map((establishment) => {
-          const {
-            memberId,
-            establishmentName,
-            dateOfJoiningInEPF,
-            dateOfFirstTransaction,
-            dateOfLastTransaction,
-          } = establishment;
-          const servicePeriodText =
-            getEpfServicePeriodText({
-              dateOfJoiningInEPF: dateOfJoiningInEPF ?? dateOfFirstTransaction,
-              dateOfExitFromEPF: dateOfLastTransaction,
-            }) ?? "";
-          return (
-            <ListCard
-              key={memberId}
-              className="mb-4"
-              items={[
-                {
-                  leftIcon: (
-                    <IconWrapper circular>
-                      <Buildings size={24} color="var(--clr-brand-default)" />
-                    </IconWrapper>
-                  ),
-                  contentLeftTitle: establishmentName,
-                  contentLeftDescription: servicePeriodText,
-                  onClick: () => onEstablishmentCardClick(memberId),
-                },
-              ]}
-            />
-          );
-        })}
+        <ListCard
+          className="mb-4"
+          background="#fff"
+          border="1px solid var(--clr-border-enabled)"
+          shadow="1px 0px 10px 1px #1212120A"
+          items={establishments.map((establishment, index) => {
+            const {
+              memberId,
+              totalEmployeeShare,
+              totalEmployerShare,
+              establishmentName,
+              dateOfJoiningInEPF,
+              dateOfFirstTransaction,
+              dateOfLastTransaction,
+              passbookEntries,
+            } = establishment;
+
+            const {
+              employeeShare = 0,
+              employerShare = 0,
+              pensionBalance = 0,
+              variant,
+              type,
+            } = passbookEntries[0] ?? {};
+            const tagType = getTagTypeByTransactionTypeAndVariant(
+              type,
+              variant
+            );
+            const isLatestEstablishment = index === 0;
+
+            const servicePeriodContainerWithLabel = (
+              <div>
+                {getEpfServicePeriodText({
+                  dateOfJoiningInEPF:
+                    dateOfJoiningInEPF ?? dateOfFirstTransaction,
+                  dateOfExitFromEPF: dateOfLastTransaction,
+                }) ?? ""}
+                {isLatestEstablishment && (
+                  <div>
+                    {tagType && (
+                      <Tag type={tagType} className="px-1 py-2 mt-1">
+                        {`Latest 
+                          ${variant.toLocaleLowerCase()} 
+                          ${formatToInr(
+                            employeeShare + employerShare + pensionBalance
+                          )}
+                        `}
+                      </Tag>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+
+            return {
+              contentRightTitle: formatCurrency(
+                totalEmployeeShare + totalEmployerShare,
+                true
+              ),
+              contentLeftTitle: establishmentName,
+              contentLeftDescription: servicePeriodContainerWithLabel,
+              onClick: () => onEstablishmentCardClick(memberId),
+              alignItems: "start",
+            };
+          })}
+        />
       </div>
-      <InfoCard>{t("epf_info_disclaimer")}</InfoCard>
+
+      <div>
+        <div
+          style={{
+            border: "1px solid var(--clr-grey-default)",
+            borderRadius: "var(--spacing-2)",
+            marginTop: "var(--spacing-8)",
+            padding: "var(--spacing-3)",
+            position: "relative",
+            backgroundColor: "var(--clr-pure-white)",
+          }}
+        >
+          <h4 className="text-body text-semibold">
+            {t("money_guru_facing_issues")}
+          </h4>
+          <h5 className="text-regular text-caption clr-text-secondary mt-2">
+            {t("money_guru_pf_faq_desc")}
+          </h5>
+
+          <button
+            className="btn-text text-body text-semibold"
+            onClick={onFaqClick}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+            }}
+          >
+            {t("money_guru_check_faqs")}
+            <CaretRight
+              weight="bold"
+              style={{
+                marginLeft: "1px",
+              }}
+            />
+          </button>
+        </div>
+      </div>
     </EpfTrackerLayout>
   );
 }

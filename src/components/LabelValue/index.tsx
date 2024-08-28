@@ -7,6 +7,7 @@ type FontWeightVariant = "regular" | "medium" | "semibold";
 
 type TextVariant = `${FontSizeVariant}_${FontWeightVariant}`;
 type Type = "dark" | "light";
+type Alignment = "left" | "center" | "right";
 
 interface LabelValueProps<T> {
   type?: Type;
@@ -16,6 +17,7 @@ interface LabelValueProps<T> {
   value: T;
   valueTextVariant?: TextVariant;
   formatter?: (value: T) => string | number;
+  align?: Alignment;
 }
 
 // TODO: Find a better name
@@ -27,6 +29,7 @@ export default function LabelValue<T extends string | number>({
   value,
   valueTextVariant = "heading_medium",
   formatter,
+  align
 }: LabelValueProps<T>) {
   const id = useId();
 
@@ -40,18 +43,22 @@ export default function LabelValue<T extends string | number>({
 
   return (
     <div
-      className={`${styles.LabelValue} ${styles[`LabelValue__${orientation}`]}`}
+      className={
+        `${styles.LabelValue}
+        ${styles[`LabelValue__${orientation}`]}
+        ${styles[`LabelValue__align_${align}`]}`
+      }
     >
       {label && (
         <p
           id={id}
-          className={`text-${labelTextSize} text-${labelTextWeight} clr-${labelColor}`}
+          className={`text-${labelTextSize} text-${labelTextWeight} clr-${labelColor} ${styles[`text_${align}`]}`}
         >
           {label}
         </p>
       )}
       <h5
-        className={`text-${valueTextSize} text-${valueTextWeight} clr-${valueColor}`}
+        className={`text-${valueTextSize} text-${valueTextWeight} clr-${valueColor} ${styles[`text_${align}`]}`}
         aria-describedby={id}
       >
         {finalValue}

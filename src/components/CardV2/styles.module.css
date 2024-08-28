@@ -1,0 +1,18 @@
+.Card {
+  padding: var(--spacing-4);
+  border-radius: var(--spacing-4);
+  box-shadow: 1px 0px 10px 1px #1212120a;
+}
+
+.Card__WithFooter {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.Card__Footer {
+  padding: var(--spacing-3);
+  border: 0.05rem solid var(--clr-icon-primary-light);
+  border-top: none;
+  border-radius: 0rem 0rem var(--spacing-3) var(--spacing-3);
+  box-shadow: 1px 0px 10px 1px #1212120a;
+}

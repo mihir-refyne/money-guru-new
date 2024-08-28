@@ -55,12 +55,13 @@ export default function EpfTrackerLayout({
 
   return (
     <PageLayout
+      pageBackground="#FFFFFF"
       navbarText={navbarText ?? defaultNavbarText}
       alignContentCenter={alignContentCenter}
       hasLocaleChange={false}
       dispatchPopEventOnBackClick={dispatchPopEventOnBackClick}
       hasContentPadding={hasContentPadding}
-      footer={<div className="p-4">{footer ?? <EpfTrackerCommonFooter />}</div>}
+      footer={footer ? <div className="p-4">{footer}</div> : undefined}
       hasShare={hasShare}
       onShareClick={handleShareClick}
     >

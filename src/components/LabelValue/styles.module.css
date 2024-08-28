@@ -12,3 +12,19 @@
   flex-direction: row;
   align-items: center;
 }
+
+.LabelValue__align_left {
+  text-align: left;
+}
+
+.LabelValue__align_center {
+  text-align: center;
+}
+
+.LabelValue__align_right {
+  text-align: right;
+}
+
+.text_center {
+  align-self: center;
+}

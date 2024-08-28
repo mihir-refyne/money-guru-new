@@ -126,7 +126,7 @@ export function durationInSecondsToMinSec(durationInSec: number) {
 }
 
 export function formatToInr(amount: number, decimal?: number) {
-  if (amount === null || amount === undefined) return 0;
+  if (amount === null || amount === undefined) return "0";
   if (decimal) {
     return `₹ ${Number(amount.toFixed(decimal)).toLocaleString("en-IN")}`;
   }
@@ -212,10 +212,12 @@ export async function listObjectsV2(
   }
 }
 
-export function getHeadingFromMarkupContent(markdown: string): {
-  level: number;
-  text: string;
-} | undefined {
+export function getHeadingFromMarkupContent(markdown: string):
+  | {
+      level: number;
+      text: string;
+    }
+  | undefined {
   const renderer = new marked.Renderer();
   const headings: { level: number; text: string }[] = [];
   renderer.heading = (text, level) => {

@@ -20,6 +20,10 @@ import EpfFetchErrorModalContentWrapper, {
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
 import { EpfTrackerServerErrorCodeToResponseModalMapPreOtp } from "@/components/EpfTracker/constants";
 import { isValueIsNumeric } from "@/lib/utils";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -33,6 +37,9 @@ export default function EpfTrackerStartPage() {
   const formInitialValue =
     valueFromUrlQuery ?? (identifier === "mobileNo" ? userMobileNo : undefined);
   const autoSubmit = autoSubmitUrlQuery === "true";
+
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
   const [lastFetchedIdentifierValue, setLastFetchedIdentifierValue] = useState<
     string | null
@@ -119,6 +126,24 @@ export default function EpfTrackerStartPage() {
       auth_method: type,
     });
     handleTriggerOtp(type, value);
+  }
+
+  function handleRouting(navigateTo: string, webviewRoute?: string) {
+    if (isRefyneWebview && webviewRoute) {
+      return dispatchDataToNativePlatform({
+        type: "ROUTE_TO_SCREEN",
+        body: {
+          screenName: webviewRoute,
+        },
+      });
+    }
+    router.push(navigateTo);
+  }
+
+  function handleFAQClick() {
+    const faqURL = "https://app.refyne.co.in/#/?next=%2Ffaq";
+    const faqRouteId = "FAQ_PAGE";
+    return handleRouting(faqURL, faqRouteId);
   }
 
   if (lastFetchedIdentifierValue && data?.requestId) {

@@ -6,6 +6,7 @@ interface ListCardProps {
   className?: string;
   background?: string;
   border?: string;
+  shadow?: string;
   items: Array<ListCardItemProps>;
 }
 
@@ -13,13 +14,14 @@ export default function ListCard({
   className = "",
   items,
   border,
+  shadow,
   background,
 }: ListCardProps) {
   return (
     <div
       className={`${styles.ListCard} ${className}`}
       role="listbox"
-      style={{ background, border }}
+      style={{ background, border, boxShadow: shadow }}
     >
       {items.map((item, index) => (
         <ListCardItem key={index} {...item} />
@@ -73,7 +75,7 @@ function ListCardItem({
   }
 
   const isClickable = !!onClick;
-  const _rightIcon = rightIcon ?? isClickable ? <CaretRight size={16} /> : null;
+  const _rightIcon = rightIcon ?? isClickable ? <CaretRight size={18} /> : null;
   const alignClassName = styles[`align-${alignItems}`];
   return (
     <div
@@ -90,7 +92,9 @@ function ListCardItem({
       >
         <div className={styles.ListCardItem__Content__Item}>
           {contentLeftTitle && (
-            <h5 className="text-medium text-body">{contentLeftTitle}</h5>
+            <h5 className="text-medium text-body">
+              {contentLeftTitle.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}
+            </h5>
           )}
           {contentLeftDescription && (
             <p className="text-caption clr-text-secondary">
@@ -98,7 +102,10 @@ function ListCardItem({
             </p>
           )}
         </div>
-        <div className={`${styles.ListCardItem__Content__Item} text-right`}>
+        <div
+          className={`${styles.ListCardItem__Content__Item} text-right`}
+          style={{ flexBasis: "20%" }}
+        >
           {contentRightTitle && (
             <h5 className={`text-medium ${contentRightTitleClassName ?? ""}`}>
               {contentRightTitle}

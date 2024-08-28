@@ -31,16 +31,11 @@ import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
 import PlotlineScript from "@/scripts/plotline";
 import WebengageScript from "@/scripts/webengage";
 import "@/styles/globals.css";
-import { Inter, Work_Sans } from "@next/font/google";
+import { Inter } from "@next/font/google";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-
-const workSans = Work_Sans({
-  weight: ["400", "500", "600"],
-  subsets: ["latin"],
-});
 
 const inter = Inter({
   subsets: ["latin"],
@@ -166,7 +161,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <style jsx global>{`
         * {
-          font-family: ${workSans.style.fontFamily};
+          font-family: ${inter.style.fontFamily};
           --font-inter: ${inter.style.fontFamily};
         }
       `}</style>
