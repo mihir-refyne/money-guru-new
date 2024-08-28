@@ -1,0 +1,23 @@
+.VoucherCard {
+  border-radius: var(--spacing-3);
+  background-color: var(--clr-pure-white);
+  border: 0.1rem solid var(--clr-border-enabled);
+  box-shadow: 0.1rem 0px 1rem 0.1rem #1212120a;
+  margin-bottom: var(--spacing-6);
+}
+
+.VoucherCard_Body,
+.VoucherCard_Footer {
+  padding: var(--spacing-4) var(--spacing-3);
+}
+
+.VoucherCard_Body.Centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.VoucherCard_Footer {
+  border-top: 1px solid var(--clr-border-enabled);
+}

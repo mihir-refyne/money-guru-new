@@ -6,8 +6,10 @@ import { trimNumberFromStartOrEndOfSlug } from "../utils";
 const BASE_DIR = "data/shorts";
 const SHORTS_REACTION_MAP_FILE_PATH = "data/rshorts_like_count.json";
 
-export async function getAllShortsPath(): Promise<Array<{ slug: string }>> {
-  const dirNames = await fs.readdir(path.join(BASE_DIR));
+export async function getAllShortsPath(
+  baseDir: string = BASE_DIR
+): Promise<Array<{ slug: string }>> {
+  const dirNames = await fs.readdir(path.join(baseDir));
 
   return dirNames.map((dir) => ({ slug: dir }));
 }
@@ -42,9 +44,10 @@ export async function getAllShortsPathForAllLocales(locales: Array<string>) {
 
 export async function getShortBySlugAndLocale(
   slug: string,
-  locale: string
+  locale: string,
+  baseDir: string = BASE_DIR
 ): Promise<{ content: string; metadata: Record<string, unknown> }> {
-  const filePath = path.join(BASE_DIR, slug, `/${locale}.md`);
+  const filePath = path.join(baseDir, slug, `/${locale}.md`);
   try {
     const markdownWithMeta = await fs.readFile(filePath, "utf-8");
     // 1-2. Get metadata through Frontmatter and content
@@ -55,14 +58,14 @@ export async function getShortBySlugAndLocale(
     };
   } catch (error) {
     if (locale !== "en") {
-      return getShortBySlugAndLocale(slug, "en");
+      return getShortBySlugAndLocale(slug, "en", baseDir);
     }
     throw new Error(`Not able to find file at ${filePath}`);
   }
 }
 
-export async function getShortsByLocale(locale: string) {
-  const shortPaths = await getAllShortsPath();
+export async function getShortsByLocale(locale: string, baseDir?: string) {
+  const shortPaths = await getAllShortsPath(baseDir);
 
   let shorts: Array<{
     id: string;
@@ -76,7 +79,7 @@ export async function getShortsByLocale(locale: string) {
   const shortsReactionMap = await getReactionMapOfShorts();
 
   for (const shortPath of shortPaths) {
-    const short = await getShortBySlugAndLocale(shortPath.slug, locale);
+    const short = await getShortBySlugAndLocale(shortPath.slug, locale, baseDir);
     const id = trimNumberFromStartOrEndOfSlug(shortPath.slug);
     const likedCount = shortsReactionMap?.[shortPath.slug] ?? 0;
     shorts.push({ id, ...short, reaction: { liked: likedCount } });

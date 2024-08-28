@@ -26,8 +26,8 @@ const TRUNCATE_RESET_DELAY_MS = 0.5 * 1000;
 const DEFERRED_ON_VIEW_TRIGGER_DELAY_MS = 500;
 
 const DEFAULT_R_SHORT_SHARE_PAYLOAD = {
-  text: "Stay updated, stay sharp! Dive into today's R-short.",
-  url: "https://refyne.page.link/install",
+  text: "⭐ Explore the latest in finance with on the Refyne App! \n \nStay regularly updated with everything from latest financial news to in-depth analyses that simplify complex financial topics for you. \n\nDive in now -",
+  url: "https://refyne.page.link/mg-share",
   imageUrl: "",
 };
 
@@ -40,6 +40,7 @@ export interface ShortData {
   };
   tag?: string;
   content?: ReactNode;
+  contentTitle?: string;
   publishedAt?: Date;
   share?: {
     imageUrl?: string;
@@ -139,11 +140,14 @@ export default function ShortItem({
   function handleOnViewWithDeferred() {
     const deferred = isContentOverflowingRef.current === null;
     if (deferred) {
-      deferredOnViewTimeoutRef.current = setTimeout(handleOnView, DEFERRED_ON_VIEW_TRIGGER_DELAY_MS);
+      deferredOnViewTimeoutRef.current = setTimeout(
+        handleOnView,
+        DEFERRED_ON_VIEW_TRIGGER_DELAY_MS
+      );
       return;
     }
     handleOnView();
-  };
+  }
 
   function handleOnView() {
     onView?.(data?.id, !!isContentOverflowingRef.current);
@@ -199,8 +203,11 @@ export default function ShortItem({
       ...DEFAULT_R_SHORT_SHARE_PAYLOAD,
       imageUrl: dataUri,
     };
+    const updatedText = [data?.contentTitle, _sharePayload.text]
+      .filter(Boolean)
+      .join("\n\n");
     const sharePayload = {
-      text: _sharePayload.text,
+      text: updatedText,
       url: _sharePayload.url,
       imageUrls: _sharePayload.imageUrl ? [_sharePayload.imageUrl] : [],
     };

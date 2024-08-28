@@ -1,46 +1,46 @@
-import { getOrUpdatePreferredLocale } from "@/lib/locale";
-import "@/styles/globals.css";
-import { Inter } from "@next/font/google";
-import type { AppProps } from "next/app";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { getAndSetUserMetadataFromServer } from "@/lib/core/user";
-import {
-  getPlatformName,
-  isScreenHeightLessThan,
-  isStringAndNotEmpty,
-} from "@/lib/utils";
-import { getUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
+import DashboardLoader from "@/components/DashboardLoader";
+import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
+import useScreenOrientation from "@/hooks/useScreenOrientation";
 import {
   initializeMixpanel,
   logEventInMixpanel,
   setMixpanelGlobalProperties,
   setUserIdInMixpanel,
 } from "@/lib/analytics/mixpanel";
-import WebengageScript from "@/scripts/webengage";
-import {
-  initializeWebengage,
-  setUserIdInWebengage,
-  setWebengageGlobalProperties,
-} from "@/lib/analytics/webengage";
-import DeviceRotatePromptOverlay from "@/components/DeviceRotatePromptOverlay";
-import useScreenOrientation from "@/hooks/useScreenOrientation";
-import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
-import { Toaster } from "react-hot-toast";
-import PlotlineScript from "@/scripts/plotline";
 import {
   initializePlotline,
   setLocaleInPlotline,
   setPlotlineEventsHandler,
   setPlotlineGlobalProperties,
 } from "@/lib/analytics/plotline";
+import {
+  initializeWebengage,
+  setUserIdInWebengage,
+  setWebengageGlobalProperties,
+} from "@/lib/analytics/webengage";
+import { getAndSetUserMetadataFromServer } from "@/lib/core/user";
+import { getUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
+import { getOrUpdatePreferredLocale } from "@/lib/locale";
+import {
+  getPlatformName,
+  isScreenHeightLessThan,
+  isStringAndNotEmpty,
+} from "@/lib/utils";
 import { flutterNativeDispatcherV2Init } from "@/lib/webview";
-import DashboardLoader from "@/components/DashboardLoader";
+import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
+import PlotlineScript from "@/scripts/plotline";
+import WebengageScript from "@/scripts/webengage";
+import "@/styles/globals.css";
+import { Inter } from "@next/font/google";
+import type { AppProps } from "next/app";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({
-  weight: ["400", "500", "600"],
   subsets: ["latin"],
-})
+  variable: "--font-inter",
+});
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -162,6 +162,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <style jsx global>{`
         * {
           font-family: ${inter.style.fontFamily};
+          --font-inter: ${inter.style.fontFamily};
         }
       `}</style>
       <ResetFontBoostingScript />

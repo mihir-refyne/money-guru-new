@@ -1,0 +1,157 @@
+import PageLayout from "@/components/PageLayout";
+import Shorts from "@/components/Shorts";
+import { ScreenName } from "@/constants/ScreenName";
+import useMutation from "@/hooks/useMutation";
+import { checkIfFeatureEnabledByReleaseConfig } from "@/lib/core/release-config";
+import { postUserAction } from "@/lib/core/user";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { isQuizEitherCompletedOrSkipped } from "@/lib/quiz";
+import { getShortsByLocale } from "@/lib/shorts/server";
+import { SurveyTriggerAction } from "@/lib/survey";
+import constructElementId from "@/lib/utils/constructElementId";
+import { sanitize } from "dompurify";
+import { marked } from "marked";
+import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
+import { useEffect, useMemo } from "react";
+import shortsConfig from "../../data/shorts_config.json";
+
+export interface ShortsPageProps {
+  shorts: Array<{
+    id: string;
+    metadata: Record<string, unknown>;
+    content: string;
+    reaction: {
+      liked: number;
+    };
+  }>;
+}
+
+export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
+  context
+) => {
+  const { locale = "en" } = context;
+  const shorts = await getShortsByLocale(locale);
+
+  return {
+    props: {
+      shorts,
+    },
+  };
+};
+
+export default function ShortsPageOld({ shorts }: ShortsPageProps) {
+  const router = useRouter();
+  const { mutate } = useMutation(postUserAction);
+
+  const employerId = getValueFromMetadata("employerId");
+  const workerId = getValueFromMetadata("workerId");
+
+  const quizToBeTriggeredOnShorts = useMemo<{
+    quizId: string;
+    shortIds: string[];
+  } | null>(() => {
+    const quizTriggerOnSwipeUpConfigOne = (
+      shortsConfig.quizTriggerOnSwipeUpConfig as any[]
+    ).find((config: any) => {
+      const releaseConfigs = config?.releaseConfigs;
+      if (!Array.isArray(releaseConfigs)) return true;
+      return releaseConfigs.some((releaseConfig) =>
+        checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
+          employerId,
+          workerId,
+        })
+      );
+    });
+    if (!quizTriggerOnSwipeUpConfigOne) return null;
+    return {
+      quizId: quizTriggerOnSwipeUpConfigOne.quizId,
+      shortIds: quizTriggerOnSwipeUpConfigOne.shortIds ?? [],
+    };
+  }, [shortsConfig.quizTriggerOnSwipeUpConfig]);
+
+  useEffect(() => {
+    if (!router.isReady) return;
+    const hash = router.asPath.split("#")[1];
+    if (hash) {
+      const path = router.asPath.replace(`#${hash}`, "");
+      router.replace(path, undefined, {
+        shallow: true,
+        scroll: false,
+      });
+    }
+    mutate({
+      actionType: "R_SHORT_VISITED",
+      metadata: hash ? { rShortId: hash } : undefined,
+    });
+  }, [router.isReady]);
+
+  function handleSwipeUp(id: string) {
+    if (quizToBeTriggeredOnShorts?.shortIds.includes(id)) {
+      const isTheQuizAlreadySkippedOrSubmitted = isQuizEitherCompletedOrSkipped(
+        quizToBeTriggeredOnShorts.quizId
+      );
+      if (isTheQuizAlreadySkippedOrSubmitted) return;
+      const currentShortPath = encodeURIComponent(`/shorts-old#${id}`);
+      router.push({
+        pathname: "/quiz",
+        query: {
+          id: quizToBeTriggeredOnShorts.quizId,
+          trigger: SurveyTriggerAction.MONEY_GURU_R_SHORT_SWIPE_UP,
+          returnTo: currentShortPath,
+        },
+      });
+    }
+  }
+
+  return (
+    <PageLayout hasContentPadding={false}>
+      <Shorts
+        items={shorts.map((short) => ({
+          type: "SHORT",
+          data: {
+            id: short.id,
+            media: {
+              type: short.metadata?.mediaType ?? ("image" as any),
+              url: short.metadata?.mediaUrl ?? ("" as any),
+              fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
+            },
+            tag: short.metadata?.tag as any,
+            content: (
+              <article
+                dangerouslySetInnerHTML={{
+                  __html: sanitize(marked(short.content)),
+                }}
+              />
+            ),
+            reaction: short.reaction,
+            publishedAt: parseAndValidatePublishedDate(
+              short.metadata?.publishedAt,
+              short.metadata?.tag
+            ),
+          },
+        }))}
+        onSwipeUp={handleSwipeUp}
+        hasEnd
+        reactionElementId={constructElementId({
+          screenName: ScreenName.MONGU_R_SHORTS,
+          elementName: "REACTION",
+        })}
+      />
+    </PageLayout>
+  );
+}
+
+function parseAndValidatePublishedDate(
+  publishedAt: any,
+  tag: unknown
+): Date | undefined {
+  if (!publishedAt) return;
+  // TODO: Get the tag from Manthan
+  if (tag !== "News") return;
+  try {
+    return new Date(publishedAt);
+  } catch (_) {
+    return;
+  }
+}

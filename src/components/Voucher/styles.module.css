@@ -1,0 +1,23 @@
+.BelowNavBarText {
+  position: sticky;
+  top: var(--spacing-12);
+  /* NO color var exists */
+  background-color: #00a181;
+  color: var(--clr-pure-white);
+  padding: var(--spacing-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.PostPurchaseStrip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: var(--spacing-4);
+  padding: var(--spacing-2);
+  width: 100%;
+  color: var(--clr-text-accent-success);
+  background-color: var(--clr-background-accent-success);
+}

@@ -2,7 +2,6 @@ import Banner, { BannerProps } from "@/components/Banner";
 import CalculatorTiles from "@/components/CalculatorTiles";
 import Carousel from "@/components/Carousel";
 import DashboardLoader from "@/components/DashboardLoader";
-import LoadingPage from "@/components/LoadingPage";
 import PageLayout from "@/components/PageLayout";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import TrackerTileWrapper from "@/components/TrackerTile/TrackerTileWrapper";
@@ -24,11 +23,13 @@ import { fetcher } from "@/lib/fetcher";
 import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import config from "../../data/landing_page.json";
+import { getShortsByLocale } from "../lib/shorts/server";
 import { ShortsResponse } from "./api/shorts";
 
 enum DashboardComponent {
@@ -56,17 +57,52 @@ const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.CAROUSEL_BANNERS,
 ];
 
-export default function HomePage() {
+const RAJASTHAN_GOVT_EMPLOYER_ID = "EMR10001685";
+const RAJASTHAN_GOVT_SHORTS_PATH = "/raj-govt-circular";
+const RAJASTHAN_GOVT_NUMBER_OF_SHORTS_TO_BE_FEATURED = 5;
+
+interface HomePageProps {
+  rajGovtShorts: ShortsResponse["data"];
+}
+
+export const getStaticProps: GetStaticProps<HomePageProps> = async (
+  context
+) => {
+  const { locale = "en" } = context;
+  const shorts = await getShortsByLocale(
+    locale,
+    "data/raj-govt-circular-shorts"
+  );
+
+  const rajGovtShorts = shorts.map((el) => ({
+    ...el,
+    routePath: RAJASTHAN_GOVT_SHORTS_PATH,
+  }));
+
+  const itemsToBeFeatured = rajGovtShorts.splice(
+    0,
+    RAJASTHAN_GOVT_NUMBER_OF_SHORTS_TO_BE_FEATURED
+  );
+
+  return {
+    props: {
+      rajGovtShorts: itemsToBeFeatured,
+    },
+  };
+};
+
+export default function HomePage({ rajGovtShorts }: HomePageProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatchAction } = useSurveyTrigger();
 
-  const { data, isLoading: isLoadingShorts } = useFetcher(() => {
-    return fetcher<ShortsResponse>("/api/shorts");
-  });
-
-  const shorts = data?.data.data ?? [];
+  const { data: getShortsResponse, isLoading: isLoadingShorts } = useFetcher(
+    () => {
+      return fetcher<ShortsResponse>("/api/shorts");
+    }
+  );
+  const shortsFromServer = getShortsResponse?.data.data ?? [];
 
   const featuredShortCarouselAutoPlayDuration: number | undefined =
     config.featuredShort?.autoPlayDurationInMs;
@@ -101,7 +137,7 @@ export default function HomePage() {
       );
 
       router.push({
-        pathname: "/shorts",
+        pathname: "/shorts-old",
         hash: navigateToShortId.toString(),
       });
       return;
@@ -167,7 +203,7 @@ export default function HomePage() {
     };
   }
 
-  function handleFeaturedShortClick(id: string) {
+  function handleFeaturedShortClick(id: string, path: string = "/shorts") {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.R_SHORTS_OPENED,
@@ -176,10 +212,18 @@ export default function HomePage() {
       }
     );
     router.push({
-      pathname: "/shorts",
+      pathname: path,
       hash: id,
     });
   }
+
+  const shorts = useMemo(() => {
+    // NOTE: This is hacky way for an experiment
+    if (employerId === RAJASTHAN_GOVT_EMPLOYER_ID) {
+      return rajGovtShorts;
+    }
+    return shortsFromServer;
+  }, [shortsFromServer, rajGovtShorts, employerId]);
 
   const finLiteracyTrackers = useMemo(
     () =>
@@ -265,7 +309,9 @@ export default function HomePage() {
                   thumbnailUrl={
                     (shortItem.metadata?.thumbnailUrl as string) ?? null
                   }
-                  onClick={() => handleFeaturedShortClick(shortItem.id)}
+                  onClick={() =>
+                    handleFeaturedShortClick(shortItem.id, shortItem.routePath)
+                  }
                   content={shortItem.content}
                 />
               </div>

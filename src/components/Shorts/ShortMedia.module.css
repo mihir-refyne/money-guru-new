@@ -15,6 +15,7 @@
 .ShortMedia__Image__Wrapper {
   position: relative;
   width: 100%;
+  border: 1px solid #C7C7C7;
   border-radius: 0.8rem;
   background-color: var(--clr-grey-default);
 

@@ -36,8 +36,17 @@ jobs:
       - name: Install node dependencies
         run: yarn install
 
+      - name: Sync Archive
+        run: aws s3 cp s3://${{ env.S3_BUCKET }}/shorts-archive.json ./scripts/${{ env.TMP_DIR }}/
+
       - name: Run script
         run: node ./scripts/get-shorts-from-source.js
+
+      - name: Upload Archive to S3
+        run: aws s3 cp ./scripts/${{ env.TMP_DIR }}/shorts-archive.json s3://${{ env.S3_BUCKET }}/
+
+      - name: Remove analytics
+        run: rm ./scripts/${{ env.TMP_DIR }}/shorts-archive.json
 
       - name: Upload Analytics to S3
         run: aws s3 cp --recursive ./scripts/${{ env.TMP_DIR }}/analytics s3://${{ env.S3_BUCKET }}/shorts-analytics/

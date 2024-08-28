@@ -4,6 +4,11 @@ const nextTranslate = require("next-translate-plugin");
 const nextConfig = nextTranslate({
   basePath: process.env.BASE_PATH,
   reactStrictMode: false,
+  images: {
+    domains: [
+      "dqkwfm5lwlsho.cloudfront.net",
+    ],
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.wasm$/,

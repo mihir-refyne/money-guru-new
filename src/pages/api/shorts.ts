@@ -20,6 +20,7 @@ export type ShortsResponse = {
     reaction: {
       liked: number;
     };
+    routePath?: string;
   }>;
   nextContinuationToken?: string;
   isTruncated: boolean;

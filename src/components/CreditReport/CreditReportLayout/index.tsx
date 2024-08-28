@@ -10,8 +10,8 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 
 const DEFAULT_CREDIT_REPORT_SHARE_PAYLOAD = {
-  text: "Aiming for a loan or credit? Check your Credit Score now!",
-  url: "https://refyne.page.link/install",
+  text: "🚀 Unlock your financial potential with our comprehensive Credit Score!  🌟 \n\n- Check your credit score for free 🆓 and understand the key factors that impact it.\n- Receive monthly updates 📅 and expert tips 📈 to improve your score and secure your financial future.\n\nStart optimising your credit today -",
+  url: "https://refyne.page.link/mg-share",
   imageUrls: [],
 };
 
