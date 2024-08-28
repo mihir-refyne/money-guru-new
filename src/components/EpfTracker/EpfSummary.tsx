@@ -1,6 +1,8 @@
 import {
   EpfDetailsResponse,
   EpfFetchIdentifier,
+  EpfPassbookEntryType,
+  EpfPassbookEntryVariant,
   isEligibleForRefetchOfEpfDetails,
   isEpfDetailsIncrementEffectShown,
   setEpfDetailsIncrementEffectShown,
@@ -20,6 +22,8 @@ import Link from "next/link";
 import CardV2 from "../CardV2";
 import { getEpfServicePeriodText } from "./helpers";
 import { formatToInr } from "@/lib/utils";
+import { getTagTypeByTransactionTypeAndVariant } from "@/lib/epf";
+import Tag from "../Tag";
 
 const AUTO_INCREMENT_DURATION_IN_MS = 2 * 1000;
 const MIN_REFETCH_DISABLED_CLICK_COUNT_TO_SHOW_INFO = 3;
@@ -215,8 +219,10 @@ export default function EpfSummary({
               employeeShare = 0,
               employerShare = 0,
               pensionBalance = 0,
+              variant,
+              type,
             } = passbookEntries[0] ?? {};
-
+            const tagType = getTagTypeByTransactionTypeAndVariant(type, variant);
             const isLatestEstablishment = index === 0;
 
             const servicePeriodContainerWithLabel = (
@@ -228,21 +234,14 @@ export default function EpfSummary({
                 }) ?? ""}
                 {isLatestEstablishment && (
                   <div>
-                    <span
-                      style={{
-                        display: "inline-block",
-                        background: "#F0FFF2",
-                        color: "var(--clr-icon-accent-success)",
-                        padding: "4px 8px",
-                        marginTop: 4,
-                      }}
-                    >
-                      {t("pf_latest_deposit") + " "}
-
-                      {formatToInr(
-                        employeeShare + employerShare + pensionBalance
-                      )}
-                    </span>
+                    { tagType && (
+                      <Tag type={tagType} className="px-1 py-2 mt-1">
+                        {`Latest 
+                          ${variant.toLocaleLowerCase()} 
+                          ${formatToInr(employeeShare + employerShare + pensionBalance)}
+                        `}
+                      </Tag>
+                    )}
                   </div>
                 )}
               </div>

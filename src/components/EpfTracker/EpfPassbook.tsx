@@ -3,6 +3,7 @@ import {
   EpfPassbookEntry,
   EpfPassbookEntryType,
   EpfPassbookEntryVariant,
+  getTagTypeByTransactionTypeAndVariant,
 } from "@/lib/epf";
 import EpfTrackerLayout from "./EpfTrackerLayout";
 import Card from "../Card";
@@ -536,27 +537,6 @@ function TransactionValue(props: {
       {formatToInr(Number(props.value))}
     </span>
   );
-}
-
-function getTagTypeByTransactionTypeAndVariant(
-  type: EpfPassbookEntryType,
-  variant: EpfPassbookEntryVariant
-): TagType | null {
-  if (variant === EpfPassbookEntryVariant.INTEREST) return "success-light";
-  if (variant === EpfPassbookEntryVariant.CLAIM) return "warning-light";
-  if (variant === EpfPassbookEntryVariant.PENALTIES) return "error";
-  if (variant === EpfPassbookEntryVariant.CONTRIBUTION) return "general-light";
-  if (
-    variant === EpfPassbookEntryVariant.TRANSFER &&
-    type === EpfPassbookEntryType.CREDIT
-  )
-    return "success-light";
-  if (
-    variant === EpfPassbookEntryVariant.TRANSFER &&
-    type === EpfPassbookEntryType.DEBIT
-  )
-    return "warning-light";
-  return null;
 }
 
 function TransactionDateWithTag(props: {

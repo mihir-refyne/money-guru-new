@@ -12,6 +12,7 @@ import sub from "date-fns/sub";
 import setDate from "date-fns/setDate";
 import add from "date-fns/add";
 import isWithinInterval from "date-fns/isWithinInterval";
+import { TagType } from "@/components/Tag";
 
 export interface EpfDetailsSummary {
   currentBalance: number;
@@ -239,4 +240,25 @@ export function isEligibleForRefetchOfEpfDetails(
     end: toDate,
   });
   return !hasAlreadyFetchedInThePeriod;
+}
+
+export function getTagTypeByTransactionTypeAndVariant(
+  type: EpfPassbookEntryType,
+  variant: EpfPassbookEntryVariant
+): TagType | null {
+  if (variant === EpfPassbookEntryVariant.INTEREST) return "success-light";
+  if (variant === EpfPassbookEntryVariant.CLAIM) return "warning-light";
+  if (variant === EpfPassbookEntryVariant.PENALTIES) return "error";
+  if (variant === EpfPassbookEntryVariant.CONTRIBUTION) return "general-light";
+  if (
+    variant === EpfPassbookEntryVariant.TRANSFER &&
+    type === EpfPassbookEntryType.CREDIT
+  )
+    return "success-light";
+  if (
+    variant === EpfPassbookEntryVariant.TRANSFER &&
+    type === EpfPassbookEntryType.DEBIT
+  )
+    return "warning-light";
+  return null;
 }
