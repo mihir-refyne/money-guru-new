@@ -116,3 +116,5 @@ export const EpfTrackerServerErrorCodeToResponseModalMapPostOtp: ServerErrorCode
       E74005: SERVICE_UNAVAILABLE_COMMAN_MODAL,
     },
   };
+
+export interface PermittedClaimReasonType extends HowToWithdrawPfSummaryType {}
