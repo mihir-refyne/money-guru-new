@@ -160,7 +160,7 @@ export default function EpfPassbook({
         <div
           style={{
             backgroundColor: "#F7F7F7",
-            width: "140px",
+            width: "150px",
             padding: " 0.5rem",
 
             borderRadius: "0.5rem",
@@ -380,7 +380,7 @@ export default function EpfPassbook({
                         style={{
                           color: "#0057B7",
                           textDecoration: "none",
-                          fontWeight: "bold"
+                          fontWeight: "bold",
                         }}
                       >
                         {button && button.label} &gt;

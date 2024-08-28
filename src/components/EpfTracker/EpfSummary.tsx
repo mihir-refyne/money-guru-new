@@ -179,9 +179,11 @@ export default function EpfSummary({
         <div
           style={{
             backgroundColor: "#F7F7F7",
-            width: "40%",
-            padding: "0.7rem",
+            width: "140px",
+            padding: "8px",
             borderRadius: "0.5rem",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
           <p className="clr-text-secondary text-caption">
@@ -222,7 +224,10 @@ export default function EpfSummary({
               variant,
               type,
             } = passbookEntries[0] ?? {};
-            const tagType = getTagTypeByTransactionTypeAndVariant(type, variant);
+            const tagType = getTagTypeByTransactionTypeAndVariant(
+              type,
+              variant
+            );
             const isLatestEstablishment = index === 0;
 
             const servicePeriodContainerWithLabel = (
@@ -234,11 +239,13 @@ export default function EpfSummary({
                 }) ?? ""}
                 {isLatestEstablishment && (
                   <div>
-                    { tagType && (
+                    {tagType && (
                       <Tag type={tagType} className="px-1 py-2 mt-1">
                         {`Latest 
                           ${variant.toLocaleLowerCase()} 
-                          ${formatToInr(employeeShare + employerShare + pensionBalance)}
+                          ${formatToInr(
+                            employeeShare + employerShare + pensionBalance
+                          )}
                         `}
                       </Tag>
                     )}
