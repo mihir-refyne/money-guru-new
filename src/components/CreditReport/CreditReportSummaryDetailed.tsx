@@ -222,7 +222,7 @@ export default function CreditReportSummaryDetailed({
           rightIcon={<Info size={16} />}
           onClick={handleExplainerOpen}
         >
-          {scoreDetails?.rating}
+          {scoreDetails?.rating.replaceAll("_", " ")}
         </Tag>
       </div>
       <div>
