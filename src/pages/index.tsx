@@ -23,13 +23,11 @@ import { fetcher } from "@/lib/fetcher";
 import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
-import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ReactElement, useEffect, useMemo, useState } from "react";
 import config from "../../data/landing_page.json";
-import { getShortsByLocale } from "../lib/shorts/server";
 import { ShortsResponse } from "./api/shorts";
 
 enum DashboardComponent {
@@ -42,12 +40,6 @@ enum DashboardComponent {
   // Temp
   IMAGE_BANNER = "IMAGE_BANNER",
 }
-const LOADER_BACKGROUND_STYLE = `linear-gradient(
-  90deg,
-  #ffff 0px,
-  rgba(229, 229, 229, 0.7) 40px,
-  #ffff 80px
-)`;
 
 const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.R_SHORT_CAROUSEL,
@@ -57,52 +49,18 @@ const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.CAROUSEL_BANNERS,
 ];
 
-const RAJASTHAN_GOVT_EMPLOYER_ID = "EMR10001685";
-const RAJASTHAN_GOVT_SHORTS_PATH = "/raj-govt-circular";
-const RAJASTHAN_GOVT_NUMBER_OF_SHORTS_TO_BE_FEATURED = 5;
 
-interface HomePageProps {
-  rajGovtShorts: ShortsResponse["data"];
-}
-
-export const getStaticProps: GetStaticProps<HomePageProps> = async (
-  context
-) => {
-  const { locale = "en" } = context;
-  const shorts = await getShortsByLocale(
-    locale,
-    "data/raj-govt-circular-shorts"
-  );
-
-  const rajGovtShorts = shorts.map((el) => ({
-    ...el,
-    routePath: RAJASTHAN_GOVT_SHORTS_PATH,
-  }));
-
-  const itemsToBeFeatured = rajGovtShorts.splice(
-    0,
-    RAJASTHAN_GOVT_NUMBER_OF_SHORTS_TO_BE_FEATURED
-  );
-
-  return {
-    props: {
-      rajGovtShorts: itemsToBeFeatured,
-    },
-  };
-};
-
-export default function HomePage({ rajGovtShorts }: HomePageProps) {
+export default function HomePage() {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { dispatchAction } = useSurveyTrigger();
 
-  const { data: getShortsResponse, isLoading: isLoadingShorts } = useFetcher(
-    () => {
-      return fetcher<ShortsResponse>("/api/shorts");
-    }
-  );
-  const shortsFromServer = getShortsResponse?.data.data ?? [];
+  const { data, isLoading: isLoadingShorts } = useFetcher(() => {
+    return fetcher<ShortsResponse>("/api/shorts");
+  });
+
+  const shorts = data?.data.data ?? [];
 
   const featuredShortCarouselAutoPlayDuration: number | undefined =
     config.featuredShort?.autoPlayDurationInMs;
@@ -216,14 +174,6 @@ export default function HomePage({ rajGovtShorts }: HomePageProps) {
       hash: id,
     });
   }
-
-  const shorts = useMemo(() => {
-    // NOTE: This is hacky way for an experiment
-    if (employerId === RAJASTHAN_GOVT_EMPLOYER_ID) {
-      return rajGovtShorts;
-    }
-    return shortsFromServer;
-  }, [shortsFromServer, rajGovtShorts, employerId]);
 
   const finLiteracyTrackers = useMemo(
     () =>
