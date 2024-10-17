@@ -12,19 +12,19 @@
     "autoPlayDurationInMs": 600000
   },
   "stickyBanners": [],
-  "trackers":[
+  "trackers": [
     {
       "headingText": "pf_tracker_tool_title",
-      "name":"pf",
+      "name": "pf",
       "descriptionText": "pf_tracker_tool_description",
-      "descriptionHighlightText":"pf_tracker_tool_description_highlight_text",
+      "descriptionHighlightText": "pf_tracker_tool_description_highlight_text",
       "imageUrl": "/assets/images/passbook-icon.svg ",
-      "tag":{
+      "tag": {
         "text": "new",
         "textColor": "var(--clr-pure-white)",
         "backgroundColor": "#00A181"
       },
-      "url":"/epf-tracker",
+      "url": "/epf-tracker",
       "releaseConfigs": [
         {
           "fieldName": "employerId",
@@ -36,27 +36,28 @@
             "EMR10000409",
             "EMR10000688",
             "EMR10000771",
-            "EMR10001506"
+            "EMR10001506",
+            "EMR10001733"
           ]
         }
       ]
     },
     {
       "headingText": "credit_score_tool_title",
-      "name":"credit_score",
+      "name": "credit_score",
       "descriptionText": "check",
       "descriptionHighlightText": "latest score",
       "imageUrl": "/assets/images/credit-score-meter-icon.svg",
-      "url":"/credit-report"
+      "url": "/credit-report"
     }
   ],
   "calculators": [
     {
       "name": "retirement_calculator",
-      "title":"retirement_calculator_tool_title",
+      "title": "retirement_calculator_tool_title",
       "imageUrl": "/assets/images/retirement-plan.svg",
-      "url":"https://financialcoachingv0-1.bubbleapps.io/retirement-calculator",
-      "tag":{
+      "url": "https://financialcoachingv0-1.bubbleapps.io/retirement-calculator",
+      "tag": {
         "text": "new",
         "textColor": "var(--clr-pure-white)",
         "backgroundColor": "#00A181"
@@ -64,22 +65,22 @@
     },
     {
       "name": "homeloan_emi_calculator",
-      "title":"home_loan_emi_calculator_tool_title",
+      "title": "home_loan_emi_calculator_tool_title",
       "imageUrl": "/assets/images/home-loan.svg",
-      "url":"https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
     },
     {
       "name": "tax_calculator",
-      "title":"tax_calculator_tool_title",
+      "title": "tax_calculator_tool_title",
       "imageUrl": "/assets/images/income-tax.svg",
-      "url":"https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
+      "url": "https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
     },
     {
       "name": "fixed_deposit_calculator",
-      "title":"fd_calculator_tool_title",
+      "title": "fd_calculator_tool_title",
       "imageUrl": "/assets/images/fixed-deposit.svg",
-      "url":"https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
-          }
+      "url": "https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
+    }
   ],
   "carouselBanner": {
     "autoPlayDurationInMs": 3000,
@@ -95,7 +96,7 @@
         "releaseConfig": {
           "fieldName": "employerId",
           "includes": true,
-          "values": ["EMR10000001", "EMR10001326"]
+          "values": ["EMR10000001", "EMR10001326", "EMR10001733"]
         }
       },
       {
@@ -4314,6 +4315,5 @@
         }
       }
     ]
-
   }
 }
