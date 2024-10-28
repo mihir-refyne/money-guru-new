@@ -1,4 +1,11 @@
-import { CSSProperties, ReactElement, ReactNode, useState } from "react";
+import {
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { getPreferredLocale, setPreferredLocale } from "@/lib/locale";
@@ -13,6 +20,7 @@ import useTranslation from "@/hooks/useTranslation";
 
 const DEFAULT_PAGE_TITLE = "Money Guru - Refyne";
 const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
+const SYNTHETIC_TIMEOUT_TO_CHECK_IF_BACK_ACTION_HAPPENED_IN_MS = 5;
 
 interface Preload {
   as: "fetch";
@@ -70,6 +78,7 @@ export default function PageLayout({
   const [currentLocale, setCurrentLocale] = useState<string>(
     getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? ""
   );
+  const isBackTriggerAvailable = useRef<boolean>(false);
 
   function handleLocaleUpdateClick() {
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_LANGUAGE_CHANGE_CLICK);
@@ -90,13 +99,27 @@ export default function PageLayout({
     });
   }
 
-  function handleBack() {
-    router.back();
-    if (dispatchPopEventOnBackClick) {
-      dispatchDataToNativePlatform({
-        type: "POP",
-      });
+  useEffect(() => {
+    function handlePopState(this: Window, event: PopStateEvent) {
+      isBackTriggerAvailable.current = true;
     }
+    window.addEventListener("popstate", handlePopState);
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  function handleBack() {
+    isBackTriggerAvailable.current = false;
+    router.back();
+    setTimeout(() => {
+      if (!isBackTriggerAvailable.current) {
+        dispatchDataToNativePlatform({
+          type: "POP",
+        });
+        return;
+      }
+    }, SYNTHETIC_TIMEOUT_TO_CHECK_IF_BACK_ACTION_HAPPENED_IN_MS);
   }
 
   const _hasShare = !hasLocaleChange && hasShare && !!onShareClick;
