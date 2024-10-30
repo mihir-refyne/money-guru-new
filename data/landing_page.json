@@ -37,7 +37,8 @@
             "EMR10000688",
             "EMR10000771",
             "EMR10001506",
-            "EMR10001733"
+            "EMR10001733",
+            "EMR10001677"
           ]
         }
       ]
@@ -96,7 +97,7 @@
         "releaseConfig": {
           "fieldName": "employerId",
           "includes": true,
-          "values": ["EMR10000001", "EMR10001326", "EMR10001733"]
+          "values": ["EMR10000001", "EMR10001326", "EMR10001733", "EMR10001677"]
         }
       },
       {
