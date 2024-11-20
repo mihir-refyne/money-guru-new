@@ -4,6 +4,7 @@ export interface EpfFetchErrorModalContentProps {
   illustrationUrl?: string;
   title: string;
   description: string;
+  closable: boolean;
   primaryCta?: {
     label: string;
     url?: string;
@@ -25,14 +26,14 @@ function EpfFetchErrorModalContent({
 }: EpfFetchErrorModalContentProps) {
   const { tWithoutTypeSafety } = useTranslation("common");
   return (
-    <div className="text-center">
+    <div className="text-left">
       {illustrationUrl && (
         <img
           src={illustrationUrl}
           alt={title}
-          className="my-6"
+          className="my-4"
           width="100%"
-          style={{ maxHeight: "6rem" }}
+          style={{ height: "4rem", width: "4rem", maxHeight: "6rem" }}
         />
       )}
       <h4 className="text-heading text-semibold mb-3">

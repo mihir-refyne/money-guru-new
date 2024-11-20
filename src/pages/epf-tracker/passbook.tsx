@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import EpfPassbook from "@/components/EpfTracker/EpfPassbook";
 import LoadingPage from "@/components/LoadingPage";
@@ -9,16 +9,26 @@ import { EpfEstablishment, getOrFetchEpfDetails } from "@/lib/epf";
 import { useRouter } from "next/router";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import EpfFetchErrorModalContentWrapper, {
+  EpfFetchErrorModalContentProps,
+} from "@/components/EpfTracker/EpfFetchErrorModalContent";
+import Modal from "@/components/Modal";
 
 export default function EpfTrackerPassbook() {
   const router = useRouter();
   const memberId = router.query.memberId;
   const { isLoading, data, error } = useFetcher(getOrFetchEpfDetails);
+  const [errorModal, setErrorModal] =
+    useState<EpfFetchErrorModalContentProps | null>(null);
 
   const establishmentDetails = useMemo(
     () => getEstablishmentDetails(data?.establishments, memberId?.toString()),
     [data?.establishments, memberId]
   );
+
+  function handleErrorModalClose() {
+    setErrorModal(null);
+  }
 
   useEffect(() => {
     if (!establishmentDetails) return;
@@ -39,7 +49,21 @@ export default function EpfTrackerPassbook() {
     return <Redirect to="/epf-tracker/start" />;
   }
 
-  return <EpfPassbook establishmentDetails={establishmentDetails} />;
+  return (
+    <>
+      <EpfPassbook establishmentDetails={establishmentDetails} />
+      <Modal
+        active={errorModal !== null}
+        onClose={errorModal?.closable ? handleErrorModalClose : undefined}
+        bottomSheetOnMobile
+      >
+        <EpfFetchErrorModalContentWrapper
+          content={errorModal}
+          onCtaClickFallback={handleErrorModalClose}
+        />
+      </Modal>
+    </>
+  );
 }
 
 function getEstablishmentDetails(

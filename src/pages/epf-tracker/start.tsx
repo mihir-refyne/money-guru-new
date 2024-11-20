@@ -9,7 +9,10 @@ import {
   getCoreServerErrorMessageFromFetcherError,
 } from "@/lib/core-server";
 import { useEffect, useState } from "react";
-import { getEpfFetchIdentifierFromString } from "@/components/EpfTracker/helpers";
+import {
+  getEpfFetchIdentifierFromString,
+  redirectToFaq,
+} from "@/components/EpfTracker/helpers";
 import toast from "react-hot-toast";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -20,10 +23,13 @@ import EpfFetchErrorModalContentWrapper, {
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
 import { EpfTrackerServerErrorCodeToResponseModalMapPreOtp } from "@/components/EpfTracker/constants";
 import { isValueIsNumeric } from "@/lib/utils";
+import useFetcher from "@/hooks/useFetcher";
+import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
+import useTranslation from "@/hooks/useTranslation";
 
 export default function EpfTrackerStartPage() {
   const router = useRouter();
@@ -37,8 +43,9 @@ export default function EpfTrackerStartPage() {
   const formInitialValue =
     valueFromUrlQuery ?? (identifier === "mobileNo" ? userMobileNo : undefined);
   const autoSubmit = autoSubmitUrlQuery === "true";
-
+  const { t } = useTranslation("common");
   const appPlatformName = getValueFromMetadata("appPlatformName");
+  const userStatus = getValueFromMetadata("status");
   const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
   const [lastFetchedIdentifierValue, setLastFetchedIdentifierValue] = useState<
@@ -46,6 +53,10 @@ export default function EpfTrackerStartPage() {
   >(null);
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
+  const [isEpfPortalDown, setIsEpfPortalDown] = useState(false);
+  const { data: serviceAvailability } = useFetcher(
+    fetchEPFTrackerServiceAvailability
+  );
   const { isLoading, data, error, mutate } = useMutation(
     triggerOtpForEpfDetailsFetch
   );
@@ -71,6 +82,9 @@ export default function EpfTrackerStartPage() {
   }, [identifier]);
 
   useEffect(() => {
+    if (serviceAvailability === "UNAVAILABLE") {
+      setIsEpfPortalDown(true);
+    }
     const errorCode = getCoreServerErrorCodeFromFetcherError(error);
     if (errorCode) {
       logEventInMixpanel(AnalyticEvent.EPF_AUTH_FAILURE, {
@@ -87,19 +101,56 @@ export default function EpfTrackerStartPage() {
           errorModalContent.primaryCta?.url
         );
       }
-      setErrorModal(errorModalContent);
+      if (errorModalContent?.primaryCta?.onClick) {
+        const handlePrimaryOnclick = errorModalContent?.primaryCta?.onClick;
+        errorModalContent.primaryCta.onClick = () => {
+          handlePrimaryOnclick();
+          handleErrorModalClose();
+        };
+      }
+      setErrorModal({
+        ...errorModalContent,
+        ...(errorCode === "E74005"
+          ? {
+              primaryCta: errorModalContent?.primaryCta
+                ? {
+                    ...errorModalContent.primaryCta,
+                    onClick: () => {
+                      logAnalyticsEvent(
+                        ["mixpanel", "webengage"],
+                        AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED
+                      );
+                      handleErrorModalClose();
+                      toast(t("epfo_we_will_notify_you"), {
+                        style: {
+                          background: "var(--clr-text-primary)",
+                          color: "var(--clr-pure-white)",
+                          width: "100%",
+                        },
+                        duration: 2000,
+                      });
+                    },
+                  }
+                : undefined,
+            }
+          : undefined),
+      });
       return;
     }
 
     const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
     if (errorMessage)
       toast.error(errorMessage, { id: "EpfTrackerStartPage__error" });
-  }, [error]);
+  }, [error, serviceAvailability]);
 
   function handleErrorModalClose() {
     setErrorModal(null);
   }
   function handleErrorCtaClick(url?: string) {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED
+    );
     if (!url) return handleErrorModalClose;
     return () => {
       handleErrorModalClose();
@@ -175,10 +226,12 @@ export default function EpfTrackerStartPage() {
         onIdentifierChange={handleIndetifierChange}
         onSubmit={handleFormSubmit}
         loading={isLoading}
+        onFaqClick={redirectToFaq}
+        isEpfPortalDown={isEpfPortalDown}
       />
       <Modal
         active={errorModal !== null}
-        onClose={handleErrorModalClose}
+        onClose={errorModal?.closable ? handleErrorModalClose : undefined}
         bottomSheetOnMobile
       >
         <EpfFetchErrorModalContentWrapper

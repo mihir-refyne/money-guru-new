@@ -24,6 +24,7 @@ import EpfFetchErrorModalContentWrapper, {
 import Modal from "@/components/Modal";
 import { EpfTrackerServerErrorCodeToResponseModalMapPostOtp } from "@/components/EpfTracker/constants";
 import useTranslation from "@/hooks/useTranslation";
+import { logAnalyticsEvent } from "@/lib/analytics";
 
 const SHOW_SUCCESS_TOAST_AFTER_IN_MS = 500;
 
@@ -35,7 +36,7 @@ function getOtpHintText(identifier: string, value: string): string | undefined {
 
 export default function EpfTrackerVerifyPage() {
   const router = useRouter();
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const requestIdFromUrlQuery = router.query.requestId?.toString();
   const messageFromUrlQuery = router.query.message?.toString();
   const identifierFromUrlQuery = router.query.identifier?.toString();
@@ -86,7 +87,27 @@ export default function EpfTrackerVerifyPage() {
           errorModalContent.primaryCta?.url
         );
       }
-      setErrorModal(errorModalContent);
+      setErrorModal({
+        ...errorModalContent,
+        ...(errorCodeForEvent === "E74005"
+          ? {
+              onClick: () => {
+                logAnalyticsEvent(
+                  ["mixpanel", "webengage"],
+                  AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED
+                );
+                toast(t("epfo_we_will_notify_you"), {
+                  style: {
+                    background: "var(--clr-text-primary)",
+                    color: "var(--clr-pure-white)",
+                    width: "100%",
+                  },
+                  duration: 2000,
+                });
+              },
+            }
+          : {}),
+      });
       return;
     }
     const errorMessage = getCoreServerErrorMessageFromFetcherError(

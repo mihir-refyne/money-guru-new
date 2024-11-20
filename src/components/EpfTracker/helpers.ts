@@ -1,5 +1,11 @@
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
 import { EpfFetchError, EpfFetchIdentifier, EpfPassbookEntry } from "@/lib/epf";
 import format from "date-fns/format";
+import router from "next/router";
 
 export function getEpfServicePeriodText(context: {
   prefix?: string;
@@ -48,6 +54,29 @@ export function isEpfFetchError(errorName: string): errorName is EpfFetchError {
     return true;
   }
   return false;
+}
+
+function handleRouting(navigateTo: string, webviewRoute?: string) {
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+  if (isRefyneWebview && webviewRoute) {
+    return dispatchDataToNativePlatform({
+      type: "ROUTE_TO_SCREEN",
+      body: {
+        screenName: webviewRoute,
+      },
+    });
+  }
+  router.push(navigateTo);
+}
+
+export function redirectToFaq() {
+  const faqURL =
+    (process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in") +
+    "/#/?next=%2Ffaq";
+
+  const faqRouteId = "FAQ_PAGE";
+  return handleRouting(faqURL, faqRouteId);
 }
 
 export function getFinancialYearsFromPassbookEntries(
