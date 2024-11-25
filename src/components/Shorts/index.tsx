@@ -1,15 +1,15 @@
-import { ReactNode, useEffect, useRef, useState } from "react";
-import ShortItem, { ShortData } from "./ShortItem";
-import ShortsContainer from "./ShortsContainer";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import {
   ShortReactionMap,
   addShortView,
   getShortReactionMap,
   setShortReactionMap,
 } from "@/lib/shorts";
-import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { AnalyticEvent } from "@/lib/analytics/events";
-import { logAnalyticsEvent } from "@/lib/analytics";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import ShortItem, { ShortData } from "./ShortItem";
+import ShortsContainer from "./ShortsContainer";
 import ShortsContainerLayoutLoader from "./ShortsContainerLayoutLoader";
 
 export type ShortItem =
@@ -63,7 +63,7 @@ export default function Shorts({
       logAnalyticsEvent(
         ["mixpanel", "webengage"],
         AnalyticEvent.R_SHORTS_SCREEN,
-        { short_id: id, is_truncated: isContentOverflowing, ...eventMetadata }
+        { short_id: id, is_truncated: isContentOverflowing, ...eventMetadata },
       );
       addShortView(id);
     }
@@ -93,15 +93,8 @@ export default function Shorts({
       AnalyticEvent.R_SHORTS_END_CONTENT_CTA_CLICKED,
       {
         cta: "NOTIFY",
-      }
+      },
     );
-  }
-
-  function handleShareClickSideEffect(id?: string) {
-    logAnalyticsEvent(["mixpanel"], AnalyticEvent.MONEY_GURU_SHARE_CLICKED, {
-      tool_name: "SHORTS",
-      identifier: id,
-    });
   }
 
   function handleReactionClick(shortId: string, reaction: string) {
@@ -120,7 +113,7 @@ export default function Shorts({
       AnalyticEvent.R_SHORTS_READ_MORE_CTA_CLICKED,
       {
         short_id: shortId,
-      }
+      },
     );
   }
 
@@ -142,7 +135,6 @@ export default function Shorts({
               onReactionClick={(reaction) =>
                 handleReactionClick(short.data.id, reaction)
               }
-              onShareClick={handleShareClickSideEffect}
               onReadMoreClick={() =>
                 handleReadMoreClickSideEffect(short.data.id)
               }

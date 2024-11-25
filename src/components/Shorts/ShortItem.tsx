@@ -66,7 +66,6 @@ interface ShortItemProps {
   reactionElementId?: string;
   reaction?: string;
   onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
-  onShareClick?: (id?: string) => void;
   onReadMoreClick?: () => void;
 }
 
@@ -80,7 +79,6 @@ export default function ShortItem({
   reactionElementId,
   reaction,
   onReactionClick,
-  onShareClick,
   onReadMoreClick,
 }: ShortItemProps) {
   const { t } = useTranslation("common");
@@ -98,27 +96,7 @@ export default function ShortItem({
     isNativePlatformShareSupported:
       isCurrentlyOnRefyneWebview(appPlatformName) && !isIOS(),
   });
-  const [
-    screenshotCaptureState,
-    captureScreenshotAndTransformToDataUri,
-    shareElementRef,
-  ] = useToJpeg<HTMLDivElement>({
-    backgroundColor: "#ffffff",
-    quality: 0.7,
-    onSuccess: handleScreenshotCaptureAndShare,
-    onError: handleScreenshotCaptureError,
-    filter(domNode) {
-      if (domNode.tagName === "DIV") {
-        for (let i = 0; i <= domNode.children.length; i++) {
-          const item = domNode.children?.item(i);
-          if (item?.tagName === "DIV") {
-            if (item.children.item(0)?.tagName === "IFRAME") return false;
-          }
-        }
-      }
-      return true;
-    },
-  });
+
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
       rootMargin: "48px 0px 0px 0px",
@@ -142,7 +120,7 @@ export default function ShortItem({
     if (deferred) {
       deferredOnViewTimeoutRef.current = setTimeout(
         handleOnView,
-        DEFERRED_ON_VIEW_TRIGGER_DELAY_MS
+        DEFERRED_ON_VIEW_TRIGGER_DELAY_MS,
       );
       return;
     }
@@ -180,38 +158,8 @@ export default function ShortItem({
     }, TRUNCATE_RESET_DELAY_MS);
   }
 
-  function handleShareClick() {
-    onShareClick?.(data?.id);
-    if (isIOS()) {
-      return handleScreenshotCaptureError();
-    }
-    captureScreenshotAndTransformToDataUri();
-  }
-
-  function handleScreenshotCaptureError() {
-    const fallbackImageUrl =
-      data?.media?.type === "image" ? data.media.url : undefined;
-    handleScreenshotCaptureAndShare(fallbackImageUrl);
-  }
-
   function handleContentOverflowChange(overflowing: boolean) {
     isContentOverflowingRef.current = overflowing;
-  }
-
-  function handleScreenshotCaptureAndShare(dataUri?: string) {
-    const _sharePayload = {
-      ...DEFAULT_R_SHORT_SHARE_PAYLOAD,
-      imageUrl: dataUri,
-    };
-    const updatedText = [data?.contentTitle, _sharePayload.text]
-      .filter(Boolean)
-      .join("\n\n");
-    const sharePayload = {
-      text: updatedText,
-      url: _sharePayload.url,
-      imageUrls: _sharePayload.imageUrl ? [_sharePayload.imageUrl] : [],
-    };
-    shareOrClipboardCopy(sharePayload, { showToastOnClipboardCopy: true });
   }
 
   useEffect(() => {
@@ -239,14 +187,11 @@ export default function ShortItem({
     >
       {type === "SHORT" && data && (
         <ShortItemContent
-          ref={shareElementRef}
           data={data}
           reaction={reaction}
           reactionElementId={reactionElementId}
           isTruncated={isTruncated}
           onReactionClick={onReactionClick}
-          shareLoading={shareInProgress || screenshotCaptureState.isLoading}
-          onShareClick={handleShareClick}
           readMoreCtaLabel={t("read_more")}
           onReadMoreClick={handleReadMoreClick}
           onContentOverflowChange={handleContentOverflowChange}
@@ -291,8 +236,6 @@ const ShortItemContent = forwardRef<
     reaction?: string;
     reactionElementId?: string;
     onReactionClick?: (reaction: "LIKED" | "DISLIKED") => void;
-    shareLoading: boolean;
-    onShareClick?: () => void;
     isTruncated?: boolean;
     readMoreCtaLabel?: string;
     onReadMoreClick?: () => void;
@@ -304,8 +247,6 @@ const ShortItemContent = forwardRef<
     reaction,
     reactionElementId,
     onReactionClick,
-    shareLoading,
-    onShareClick,
     isTruncated,
     readMoreCtaLabel,
     onReadMoreClick,
@@ -379,14 +320,6 @@ const ShortItemContent = forwardRef<
             reactionCount={data.reaction}
             onReactionClick={onReactionClick}
           />
-          <button
-            className="btn flex-center"
-            disabled={shareLoading}
-            onClick={onShareClick}
-          >
-            <span className="text-body text-medium mr-1">Share</span>
-            <ShareNetwork size={24} />
-          </button>
         </div>
       </div>
     </>
