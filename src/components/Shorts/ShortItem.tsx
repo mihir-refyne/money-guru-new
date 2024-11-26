@@ -1,35 +1,23 @@
+import { useIsOverflowing } from "@/hooks/useIsOverflowing";
 import { useOnScreen } from "@/hooks/useOnScreen";
-import {
-  BellRinging,
-  ShareNetwork,
-  ThumbsDown,
-  ThumbsUp,
-} from "phosphor-react";
+import { useShare } from "@/hooks/useShare";
+import useTranslation from "@/hooks/useTranslation";
+import emptyBoxIllustrationUrl from "@/images/empty-box-illustration.svg";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { hasShortViewHistory } from "@/lib/shorts";
+import { isIOS } from "@/lib/utils";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import format from "date-fns/format";
+import Image from "next/image";
+import { BellRinging, ThumbsDown, ThumbsUp } from "phosphor-react";
 import { ReactNode, forwardRef, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
-import ShortMedia from "./ShortMedia";
 import styles from "./ShortItem.module.css";
-import emptyBoxIllustrationUrl from "@/images/empty-box-illustration.svg";
-import Image from "next/image";
-import { hasShortViewHistory } from "@/lib/shorts";
-import { useToJpeg } from "@hugocxl/react-to-image";
-import { useShare } from "@/hooks/useShare";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
-import useTranslation from "@/hooks/useTranslation";
-import { isIOS } from "@/lib/utils";
-import { useIsOverflowing } from "@/hooks/useIsOverflowing";
-import format from "date-fns/format";
+import ShortMedia from "./ShortMedia";
 
 const SWIPE_PROMPT_ANIMATION_DURATION_MS = 3 * 1000;
 const TRUNCATE_RESET_DELAY_MS = 0.5 * 1000;
 const DEFERRED_ON_VIEW_TRIGGER_DELAY_MS = 500;
-
-const DEFAULT_R_SHORT_SHARE_PAYLOAD = {
-  text: "⭐ Explore the latest in finance with on the Refyne App! \n \nStay regularly updated with everything from latest financial news to in-depth analyses that simplify complex financial topics for you. \n\nDive in now -",
-  url: "https://refyne.page.link/mg-share",
-  imageUrl: "",
-};
 
 export interface ShortData {
   id: string;
