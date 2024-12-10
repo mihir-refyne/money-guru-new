@@ -1,0 +1,262 @@
+import {
+  DeliveryDetails,
+  DigitalProductFulfillmentDetails,
+  GetOrderItemInfo,
+  OrderTimeline,
+  Vendor,
+} from "@/lib/order";
+import { formatToInr } from "@/lib/utils";
+import Image from "next/image";
+import { useMemo } from "react";
+import Accordions from "../Accordion";
+import Card from "../Card";
+import { OrderTimelineComp } from "../OrderTimeline";
+import VoucherCard from "../VoucherCard";
+import styles from "./styles.module.css";
+
+interface OrderDetailsProps {
+  orderDetail: GetOrderItemInfo | null;
+}
+
+interface ItemDetailsProps {
+  name: string;
+  vendor: Vendor;
+  imageUrl?: string;
+  price: number;
+  orderTimeline: OrderTimeline[];
+}
+
+interface DeliveryToProps {
+  deliveryDetails: DeliveryDetails;
+}
+
+interface VoucherDetailsProps {
+  voucherDetails?: DigitalProductFulfillmentDetails;
+}
+
+export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
+  const ACCORDIONS_ITEMS = useMemo(
+    () => [
+      {
+        id: "section1",
+        headerText: "How to redeem",
+        content: (
+          <div className={styles.commonContainerStyle}>
+            <ul className={styles.list}>
+              {[
+                orderDetail?.digitalProductFulfillmentDetails?.redeemInstruction
+                  ?.howToUse,
+              ].map((text, index) => (
+                <li key={index} className={styles.commonListItemStyle}>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ),
+      },
+      {
+        id: "section2",
+        headerText: "Terms & conditions",
+        content: (
+          <div className={styles.commonContainerStyle}>
+            <ul className={styles.list}>
+              {[
+                "Update the app before redeeming the coupon",
+                "Open the updated Swiggy app and go to your Swiggy Accounts page",
+                "Select the One membership tab and click on Redeem Membership Coupon",
+                "Enter your coupon code and click on the activate button to start Swiggy One Lite membership",
+              ].map((text, index) => (
+                <li key={index} className={styles.commonListItemStyle}>
+                  {text.includes("One membership") ||
+                  text.includes("Redeem Membership Coupon")
+                    ? text
+                        .split(/\b(One membership|Redeem Membership Coupon)\b/)
+                        .map((part, i) =>
+                          part === "One membership" ||
+                          part === "Redeem Membership Coupon" ? (
+                            <b key={i}>{part}</b>
+                          ) : (
+                            part
+                          )
+                        )
+                    : text}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ),
+      },
+    ],
+    [orderDetail]
+  );
+
+  if (!orderDetail) return null;
+
+  return (
+    <div className={styles.container}>
+      <Card backgroundColor="var(--clr-background-enabled)">
+        <ItemDetails
+          name={orderDetail.name}
+          vendor={orderDetail?.vendor ?? Vendor.FLEEK}
+          imageUrl={orderDetail.imageUrl}
+          price={orderDetail.price}
+          orderTimeline={orderDetail.orderTimeline}
+        />
+        <hr className={styles.divider} />
+        <OrderTimelineComp timeLine={orderDetail.orderTimeline} />
+      </Card>
+
+      <div className={styles.section}>
+        <h5 className={styles.sectionHeader}>Delivery to</h5>
+        <Card backgroundColor="var(--clr-background-enabled)">
+          <DeliveryTo deliveryDetails={orderDetail.deliveryDetails} />
+        </Card>
+      </div>
+
+      {/* Voucher Details Section */}
+      {orderDetail.digitalProductFulfillmentDetails && (
+        <div className={styles.section}>
+          <h5 className={styles.sectionHeader}>Voucher details</h5>
+          <VoucherDetails
+            voucherDetails={orderDetail.digitalProductFulfillmentDetails}
+          />
+        </div>
+      )}
+
+      {/* Voucher Details Accordions */}
+      {orderDetail.digitalProductFulfillmentDetails &&
+        orderDetail.digitalProductFulfillmentDetails.redeemInstruction && (
+          <div className={styles.accordion}>
+            <Accordions items={ACCORDIONS_ITEMS} />
+          </div>
+        )}
+
+      {/* Track Order Section */}
+      {orderDetail.trackingDetails && (
+        <div>
+          <h5
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              color: "var(--clr-text-primary)",
+              margin: "16px 0",
+            }}
+          >
+            Track Order
+          </h5>
+          <div
+            style={{
+              border: "1px solid #F0F0F0",
+              borderRadius: "8px",
+              padding: "16px",
+              borderBottom: "1px solid #F0F0F0",
+              backgroundColor: "var(--clr-background-enabled)",
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <h5
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  color: "var(--clr-text-secondary)",
+                }}
+              >
+                Your order will be delivered by <b>eKart</b>
+              </h5>
+              <button
+                style={{ width: "40%" }}
+                className="btn btn-block btn-primary"
+                onClick={() => orderDetail?.trackingDetails?.trackingLink}
+              >
+                Track Order
+              </button>
+            </div>
+          </div>
+          <div
+            style={{
+              border: "1px solid #F0F0F0",
+              borderRadius: "8px",
+              padding: "16px 8px",
+              backgroundColor: "var(--clr-background-enabled)",
+              borderTopRightRadius: 0,
+              borderTopLeftRadius: 0,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <h5
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  color: "var(--clr-text-secondary)",
+                }}
+              >
+                Your order will be delivered by{" "}
+                <b>{orderDetail.trackingDetails.shippingVendor}</b>
+              </h5>
+              <p>{orderDetail.trackingDetails.trackingId}</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
+  const DEFAULT_IMAGE_URL =
+    "https://assets.refyne.co.in/assets/images/cart.png";
+  const src = imageUrl ? imageUrl : DEFAULT_IMAGE_URL;
+
+  return (
+    <div className={styles.itemDetails}>
+      <div className={styles.imageWrapper}>
+        <Image src={src} width={90} height={80} alt="order-item-img" />
+      </div>
+      <div>
+        <h5 className={styles.itemName}>{name}</h5>
+        <div className={styles.vendorDetails}>
+          <p className={styles.vendorLabel}>Vendor</p>
+          <p className={styles.vendorValue}>{vendor}</p>
+        </div>
+        <h5 className={styles.itemPrice}>{formatToInr(price)}</h5>
+      </div>
+    </div>
+  );
+}
+
+function DeliveryTo({ deliveryDetails }: DeliveryToProps) {
+  const phoneNumberForVirtualAddress =
+    deliveryDetails.virtualAddress?.phoneNumber;
+  const physicalAddressDetails = deliveryDetails.physicalAddress;
+  const shippingAddress = `${physicalAddressDetails?.name}, ${physicalAddressDetails?.phone}, ${physicalAddressDetails?.address1}, ${physicalAddressDetails?.city}, ${physicalAddressDetails?.pinCode}`;
+
+  const deliveryAddress = deliveryDetails.physicalAddress
+    ? shippingAddress
+    : `Voucher details will be sent to your mobile number ${phoneNumberForVirtualAddress} via SMS and WhatsApp`;
+
+  return <p className={styles.deliveryDetails}>{deliveryAddress}</p>;
+}
+
+function VoucherDetails({ voucherDetails }: VoucherDetailsProps) {
+  if (!voucherDetails)
+    return (
+      <p className={styles.voucherPlaceholder}>
+        Voucher details will be available here shortly
+      </p>
+    );
+
+  return <VoucherCard details={voucherDetails} />;
+}

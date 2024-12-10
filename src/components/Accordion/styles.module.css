@@ -1,0 +1,40 @@
+.Rf_Accordion__Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--clr-background-enabled);
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+}
+
+.Rf_Accordion__Header.active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.Rf_Accordion__Body {
+  max-height: 0;
+  overflow: hidden;
+  background-color: var(--clr-background-enabled);
+  text-align: left;
+  border: none;
+  border-radius: 5px;
+  width: 100%;
+  padding: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+.Rf_Accordion__Body.active {
+  max-height: 1000px;
+  opacity: 1;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+  padding: 16px;
+  visibility: visible;
+}

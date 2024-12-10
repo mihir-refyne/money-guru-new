@@ -1,0 +1,91 @@
+.container {
+  padding: 8px;
+}
+
+.section {
+  margin-top: 24px;
+}
+
+.sectionHeader {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.divider {
+  width: calc(100% + 34px);
+  margin: 10px -17px;
+  border: 1px solid #f0f0f0;
+  height: 0;
+}
+
+.itemDetails {
+  display: flex;
+  gap: 14px;
+}
+
+.imageWrapper {
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+}
+
+.itemName {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.vendorDetails {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.vendorLabel {
+  color: var(--clr-text-secondary);
+}
+
+.vendorValue {
+  margin-left: 4px;
+  color: var(--clr-text-primary);
+}
+
+.itemPrice {
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.deliveryDetails {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--clr-text-primary);
+}
+
+.voucherPlaceholder {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--clr-text-secondary);
+}
+
+.accordion {
+  margin-top: 12px;
+}
+
+.commonContainerStyle {
+  padding: 0 8px 8px;
+}
+
+.list {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.commonListItemStyle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--clr-text-primary);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}

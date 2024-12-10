@@ -5,9 +5,7 @@ const nextConfig = nextTranslate({
   basePath: process.env.BASE_PATH,
   reactStrictMode: false,
   images: {
-    domains: [
-      "dqkwfm5lwlsho.cloudfront.net",
-    ],
+    domains: ["dqkwfm5lwlsho.cloudfront.net", "assets.refyne.co.in"],
   },
   webpack: (config) => {
     config.module.rules.push({

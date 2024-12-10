@@ -5,8 +5,8 @@ import {
   ListObjectsV2CommandInput,
   S3Client,
 } from "@aws-sdk/client-s3";
-import { NextApiRequest } from "next";
 import { marked } from "marked";
+import { NextApiRequest } from "next";
 
 export function isStringAndNotEmpty(value: unknown): value is string {
   if (typeof value !== "string") return false;
@@ -227,4 +227,23 @@ export function getHeadingFromMarkupContent(markdown: string):
   marked(markdown, { renderer });
   const heading = headings[0];
   return heading;
+}
+
+export function formatDate(inputDate: string): string {
+  const date = new Date(inputDate);
+
+  // Format hours and minutes for 12-hour clock with AM/PM
+  const options: Intl.DateTimeFormatOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+    day: "2-digit",
+    month: "short",
+  };
+
+  // Get the formatted date
+  const formattedDate = date.toLocaleString("en-US", options);
+
+  // Return formatted string
+  return formattedDate.replace(",", "").toUpperCase(); // Clean up commas and uppercase AM/PM
 }
