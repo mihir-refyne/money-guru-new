@@ -10,12 +10,7 @@ const LOADER_BACKGROUND_STYLE = `linear-gradient(
 
 export default function DashboardLoader() {
   return (
-    <PageLayout
-      navbarText="Money Guru"
-      transparentNavbar
-      hasContentPadding
-      pageBackground="#F7F7F7"
-    >
+    <PageLayout transparentNavbar hasContentPadding pageBackground="#F7F7F7">
       <div style={{ marginTop: "4.2rem" }}>
         <LoaderWrapper
           isLoading={true}
