@@ -67,7 +67,7 @@ export default function VoucherCard({ details }: VoucherCardProps) {
           <FieldRow
             showCopyBtn={false}
             label="Expiry"
-            value={details.expiryDate}
+            value={new Date(details.expiryDate)}
           />
         </div>
       )}

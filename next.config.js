@@ -5,7 +5,12 @@ const nextConfig = nextTranslate({
   basePath: process.env.BASE_PATH,
   reactStrictMode: false,
   images: {
-    domains: ["dqkwfm5lwlsho.cloudfront.net", "assets.refyne.co.in"],
+    domains: [
+      "dqkwfm5lwlsho.cloudfront.net",
+      "assets.refyne.co.in",
+      // INFO: This is for Shopify-hosted domain image
+      "cdn.shopify.com",
+    ],
   },
   webpack: (config) => {
     config.module.rules.push({

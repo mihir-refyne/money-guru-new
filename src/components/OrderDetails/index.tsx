@@ -43,46 +43,16 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
         content: (
           <div className={styles.commonContainerStyle}>
             <ul className={styles.list}>
-              {[
-                orderDetail?.digitalProductFulfillmentDetails?.redeemInstruction
-                  ?.howToUse,
-              ].map((text, index) => (
-                <li key={index} className={styles.commonListItemStyle}>
-                  {text}
-                </li>
-              ))}
-            </ul>
-          </div>
-        ),
-      },
-      {
-        id: "section2",
-        headerText: "Terms & conditions",
-        content: (
-          <div className={styles.commonContainerStyle}>
-            <ul className={styles.list}>
-              {[
-                "Update the app before redeeming the coupon",
-                "Open the updated Swiggy app and go to your Swiggy Accounts page",
-                "Select the One membership tab and click on Redeem Membership Coupon",
-                "Enter your coupon code and click on the activate button to start Swiggy One Lite membership",
-              ].map((text, index) => (
-                <li key={index} className={styles.commonListItemStyle}>
-                  {text.includes("One membership") ||
-                  text.includes("Redeem Membership Coupon")
-                    ? text
-                        .split(/\b(One membership|Redeem Membership Coupon)\b/)
-                        .map((part, i) =>
-                          part === "One membership" ||
-                          part === "Redeem Membership Coupon" ? (
-                            <b key={i}>{part}</b>
-                          ) : (
-                            part
-                          )
-                        )
-                    : text}
-                </li>
-              ))}
+              {
+                // Split the howToUse string by newline characters and render each line as a list item
+                orderDetail?.digitalProductFulfillmentDetails?.redeemInstruction?.howToUse
+                  ?.split("\n")
+                  .map((text, index) => (
+                    <li key={index} className={styles.commonListItemStyle}>
+                      {text.trim()}
+                    </li>
+                  ))
+              }
             </ul>
           </div>
         ),
@@ -223,7 +193,15 @@ function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
   return (
     <div className={styles.itemDetails}>
       <div className={styles.imageWrapper}>
-        <Image src={src} width={90} height={80} alt="order-item-img" />
+        <Image
+          src={src}
+          width={90}
+          height={80}
+          alt="order-item-img"
+          onError={(e) => {
+            e.currentTarget.src = DEFAULT_IMAGE_URL; // Fallback to default image
+          }}
+        />
       </div>
       <div>
         <h5 className={styles.itemName}>{name}</h5>
