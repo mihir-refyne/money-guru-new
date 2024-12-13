@@ -1,0 +1,9 @@
+{
+  "defaultLearningModulePlaceHolderImage": "/assets/images/learning_module_img_place_holder.svg",
+  "playIcon": "/assets/images/play_icon_button.svg",
+  "moduleSubPlaceHolder": "/assets/images/module_sub_place_holder.svg",
+  "captionText": {
+    "text": "Supporting Title",
+    "textColor": "var(--clr-pure-grey)"
+  }
+}
