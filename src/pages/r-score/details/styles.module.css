@@ -1,0 +1,81 @@
+.Heading__Small {
+  font-size: 14px;
+  font-weight: 600;
+  color: #121212;
+}
+
+.Caption {
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+
+.Body__Text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #121212;
+}
+
+.Refyne__Score__Container {
+  background: #f6faff;
+  padding: 24px 12px;
+}
+
+.R__Score__Container {
+  margin-top: 24px;
+}
+
+.R__Score__Improve__Steps__Container {
+  margin-top: 16px;
+  background: var(--clr-background-enabled);
+  border: 1px solid var(--clr-border-enabled);
+  padding: 16px 12px;
+  border-radius: 12px;
+}
+
+.R_Score__Steps {
+  display: flex;
+  justify-content: space-between;
+}
+
+.R_Score__Step__Number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #eff6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.R_Score__Steps__Desc {
+  width: 85%;
+}
+
+.R_Score__Benefits__Container {
+  margin-top: 24px;
+  padding: 12px;
+}
+
+.R_Score__Benefits__Label {
+  border: 1px solid var(--clr-border-enabled);
+  border-radius: 4px;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+}
+
+.R_Score__CreditScoreMeter__Container {
+  margin: 16px 0 24px 0;
+  background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.R_Score__Tag {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0c7057;
+}
