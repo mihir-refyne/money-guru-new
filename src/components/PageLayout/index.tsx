@@ -1,3 +1,10 @@
+import useTranslation from "@/hooks/useTranslation";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { getPreferredLocale, setPreferredLocale } from "@/lib/locale";
+import { dispatchDataToNativePlatform } from "@/lib/webview";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import {
   CSSProperties,
   ReactElement,
@@ -6,17 +13,10 @@ import {
   useRef,
   useState,
 } from "react";
-import { AnalyticEvent } from "@/lib/analytics/events";
-import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { getPreferredLocale, setPreferredLocale } from "@/lib/locale";
-import { dispatchDataToNativePlatform } from "@/lib/webview";
-import Head from "next/head";
-import { useRouter } from "next/router";
 import LocaleUpdateOptions from "../LocaleUpdateOptions";
 import Modal from "../Modal";
 import Navbar from "../Navbar";
 import styles from "./styles.module.css";
-import useTranslation from "@/hooks/useTranslation";
 
 const DEFAULT_PAGE_TITLE = "Money Guru - Refyne";
 const DEFAULT_PAGE_DESCRIPTION = "Financial Literacy module by Refyne";
@@ -39,6 +39,7 @@ export interface PageLayoutProps {
   navbarBackground?: CSSProperties["background"];
   navbarFontColor?: CSSProperties["color"];
   hasBackButton?: boolean;
+  hasLocalButton?: boolean;
   children: ReactNode;
   alignContentCenter?: boolean;
   hasContentPadding?: boolean;
@@ -61,6 +62,7 @@ export default function PageLayout({
   navbarBackground,
   navbarFontColor,
   hasBackButton = true,
+  hasLocalButton = true,
   footer,
   children,
   alignContentCenter = false,
@@ -144,6 +146,7 @@ export default function PageLayout({
           <Navbar
             title={navbarText}
             hasBackButton={hasBackButton}
+            hasLocalButton={hasLocalButton}
             transparentNavbar={transparentNavbar}
             floating={floatingNavbar}
             background={navbarBackground}

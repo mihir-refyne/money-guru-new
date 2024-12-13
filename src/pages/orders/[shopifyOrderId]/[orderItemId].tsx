@@ -24,7 +24,10 @@ export default function OrderDetailsPage({}: OrderDetailsProps) {
   if (isLoading) return <LoadingPage />;
 
   return (
-    <PageLayout pageBackground="var(--clr-background-surface)">
+    <PageLayout
+      hasLocalButton={false}
+      pageBackground="var(--clr-background-surface)"
+    >
       <OrderDetails orderDetail={data} />
     </PageLayout>
   );

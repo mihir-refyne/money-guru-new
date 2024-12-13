@@ -24,12 +24,14 @@ export function OrderTimelineComp({ timeLine }: OrderTimelineCompProps) {
 
           // Conditionally add the 'has-date' class if date is not empty
           const liClass = date ? styles.hasDate : "";
+          const labelDesc =
+            status === "FULFILLED" ? "Delivered on" : "Ordered on";
 
           return (
             <li key={index} className={liClass}>
               <p className={styles.description}>{label}</p>
               {date !== "" && (
-                <div className={styles.time}>{`Ordered on ${date}`}</div>
+                <div className={styles.time}>{`${labelDesc} ${date}`}</div>
               )}
             </li>
           );

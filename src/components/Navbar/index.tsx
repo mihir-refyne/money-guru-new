@@ -1,7 +1,7 @@
-import { CSSProperties, useEffect, useState } from "react";
+import languageIconUrl from "@/images/language-icon.svg";
 import Image from "next/image";
 import { CaretLeft, ShareNetwork } from "phosphor-react";
-import languageIconUrl from "@/images/language-icon.svg";
+import { CSSProperties, useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
 const FULL_OPACITY_AT = 64;
@@ -9,6 +9,7 @@ const MULTIPLYING_FACTOR = 1 / FULL_OPACITY_AT;
 
 interface NavbarProps {
   hasBackButton?: boolean;
+  hasLocalButton?: boolean;
   title?: string;
   transparentNavbar?: boolean;
   floating?: boolean;
@@ -23,6 +24,7 @@ interface NavbarProps {
 
 export default function Navbar({
   hasBackButton,
+  hasLocalButton,
   title,
   transparentNavbar,
   floating = true,
@@ -75,7 +77,7 @@ export default function Navbar({
           )}
           <span>{title}</span>
         </div>
-        {hasLocaleChange && (
+        {hasLocaleChange && hasLocalButton && (
           <button
             id="LOCALE_CHANGE"
             className={`${styles.NavbarContent__RightButton} btn-only-icon`}
