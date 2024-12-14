@@ -2,6 +2,7 @@
 mediaType: image
 mediaUrl: /assets/images/shorts/buy-dream-home.png
 tag: Loans
+learningModuleLink: /r-score
 ---
 
 ### Are you ready to buy your dream home?
