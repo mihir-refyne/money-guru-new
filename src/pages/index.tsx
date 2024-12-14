@@ -15,8 +15,8 @@ import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { hasWatchedIntroduction } from "@/lib/core";
 import {
-  ReleaseConfig,
-  checkIfFeatureEnabledByReleaseConfig,
+        ReleaseConfig,
+        checkIfFeatureEnabledByReleaseConfig,
 } from "@/lib/core/release-config";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { fetcher } from "@/lib/fetcher";
@@ -52,7 +52,6 @@ const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
 ];
 
 export default function HomePage({ shorts: oldShorts }: HomePageProps) {
-  console.log(oldShorts);
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
