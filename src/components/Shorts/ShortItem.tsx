@@ -10,7 +10,7 @@ import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import format from "date-fns/format";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { BellRinging, ThumbsDown, ThumbsUp } from "phosphor-react";
+import { ArrowRight, BellRinging, ThumbsDown, ThumbsUp } from "phosphor-react";
 import { ReactNode, forwardRef, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
 import styles from "./ShortItem.module.css";
@@ -328,8 +328,21 @@ const ShortItemContent = forwardRef<
             onReactionClick={onReactionClick}
           />
           {data.learningModuleLink && (
-            <button onClick={handleRedirectToLearningModule}>
-              Learn more{" "}
+            <button
+              className="btn btn-text"
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+              onClick={handleRedirectToLearningModule}
+            >
+              <span>Learn more </span>
+              <ArrowRight
+                style={{
+                  fontSize: "18px",
+                  marginLeft: "8px",
+                }}
+              />
             </button>
           )}
         </div>

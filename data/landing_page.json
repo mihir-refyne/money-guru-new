@@ -11,6 +11,11 @@
     ],
     "autoPlayDurationInMs": 600000
   },
+  "shouldShowOldShortsRelaseConfig": {
+    "fieldName": "employerId",
+    "includes": true,
+    "values": ["EMR10000001"]
+  },
   "stickyBanners": [],
   "trackers": [
     {
