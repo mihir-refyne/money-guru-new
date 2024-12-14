@@ -9,7 +9,8 @@ import { isIOS } from "@/lib/utils";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import format from "date-fns/format";
 import Image from "next/image";
-import { BellRinging, ThumbsDown, ThumbsUp } from "phosphor-react";
+import { useRouter } from "next/router";
+import { ArrowRight, BellRinging, ThumbsDown, ThumbsUp } from "phosphor-react";
 import { ReactNode, forwardRef, useEffect, useRef, useState } from "react";
 import SwipePrompt from "../SwipePrompt";
 import styles from "./ShortItem.module.css";
@@ -26,6 +27,7 @@ export interface ShortData {
     url: string;
     fullHeight?: boolean;
   };
+  learningModuleLink?: string;
   tag?: string;
   content?: ReactNode;
   contentTitle?: string;
@@ -84,6 +86,7 @@ export default function ShortItem({
     isNativePlatformShareSupported:
       isCurrentlyOnRefyneWebview(appPlatformName) && !isIOS(),
   });
+  const router = useRouter();
 
   const { ref } = useOnScreen<HTMLDivElement>({
     options: {
@@ -259,6 +262,22 @@ const ShortItemContent = forwardRef<
   }, [contentElemRef]);
 
   const isContentOverflowDetectionLoading = isContentOverflowing === null;
+  const router = useRouter();
+  function handleRedirectToLearningModule() {
+    if (!data?.learningModuleLink) return;
+    try {
+      router.replace(
+        "",
+        {
+          hash: data?.id,
+        },
+        {
+          shallow: true,
+        },
+      );
+    } catch {}
+    router.push(data?.learningModuleLink);
+  }
   /*
   - fullHeight media will take full height space
   - content and fotter will be floating above them with transparent backgrounf
@@ -308,6 +327,24 @@ const ShortItemContent = forwardRef<
             reactionCount={data.reaction}
             onReactionClick={onReactionClick}
           />
+          {data.learningModuleLink && (
+            <button
+              className="btn btn-text"
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+              onClick={handleRedirectToLearningModule}
+            >
+              <span>Learn more </span>
+              <ArrowRight
+                style={{
+                  fontSize: "18px",
+                  marginLeft: "8px",
+                }}
+              />
+            </button>
+          )}
         </div>
       </div>
     </>

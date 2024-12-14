@@ -20,9 +20,11 @@ import {
 } from "@/lib/core/release-config";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { fetcher } from "@/lib/fetcher";
+import { getShortsByLocale } from "@/lib/shorts/server";
 import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { GetStaticProps } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -49,7 +51,7 @@ const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.CAROUSEL_BANNERS,
 ];
 
-export default function HomePage() {
+export default function HomePage({ shorts: oldShorts }: HomePageProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +92,7 @@ export default function HomePage() {
         undefined,
         {
           shallow: true,
-        }
+        },
       );
 
       router.push({
@@ -102,7 +104,7 @@ export default function HomePage() {
 
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
-      AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN
+      AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN,
     );
     dispatchAction(SurveyTriggerAction.MONEY_GURU_DASHBOARD_OPEN);
 
@@ -117,7 +119,7 @@ export default function HomePage() {
   }
 
   const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
-    getValueFromMetadata("appPlatformName")
+    getValueFromMetadata("appPlatformName"),
   );
 
   const idToken = getValueFromMetadata("idToken");
@@ -132,7 +134,7 @@ export default function HomePage() {
       AnalyticEvent.FIN_LITERACY_TOOLS_CLICKED,
       {
         tool_name: name,
-      }
+      },
     );
 
     const _url = url
@@ -150,7 +152,7 @@ export default function HomePage() {
 
   function handleCarouselBannerClick(
     name: string,
-    bannerType: "carousel" | "experiment"
+    bannerType: "carousel" | "experiment",
   ) {
     return () => {
       logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
@@ -166,7 +168,7 @@ export default function HomePage() {
       AnalyticEvent.R_SHORTS_OPENED,
       {
         short_id: id,
-      }
+      },
     );
     router.push({
       pathname: path,
@@ -183,17 +185,17 @@ export default function HomePage() {
           checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
             employerId,
             workerId,
-          })
+          }),
         );
       }),
-    [config.trackers, employerId, workerId]
+    [config.trackers, employerId, workerId],
   );
 
   const stickyBanners = config.stickyBanners.filter((banner: any) =>
     checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
       employerId,
       workerId,
-    })
+    }),
   );
   const hasStickyBanners = stickyBanners.length > 0;
 
@@ -214,7 +216,7 @@ export default function HomePage() {
           employerId,
           userId,
         });
-      }
+      },
     );
     return applicableBanners[0] ?? null;
   }, []);
@@ -226,11 +228,18 @@ export default function HomePage() {
           employerId,
           workerId,
         });
-      }
+      },
     );
     if (!componentsOrderConfig) return DEFAULT_COMPONENTS_ORDER_FALLBACK;
     return componentsOrderConfig.order as DashboardComponent[];
   }, [config.componentsOrderConfig]);
+
+  const shouldShowOldShorts = checkIfFeatureEnabledByReleaseConfig(
+    config.shouldShowOldShortsRelaseConfig,
+    {
+      employerId,
+    },
+  );
 
   if (!isMounted || isLoading || isLoadingShorts) return <DashboardLoader />;
 
@@ -247,9 +256,9 @@ export default function HomePage() {
           autoPlay={!!featuredShortCarouselAutoPlayDuration}
           infiniteLoop
           interval={featuredShortCarouselAutoPlayDuration}
-          showIndicators={shorts.length > 1}
+          showIndicators={(shouldShowOldShorts ? oldShorts : shorts).length > 1}
         >
-          {shorts.map((shortItem) => {
+          {(shouldShowOldShorts ? oldShorts : shorts).map((shortItem) => {
             return (
               <div key={shortItem.id} className="mb-8">
                 <FeaturedShort
@@ -408,3 +417,35 @@ export default function HomePage() {
     </PageLayout>
   );
 }
+
+type HomePageProps = {
+  shorts: {
+    id: string;
+    metadata: Record<string, unknown>;
+    content: string;
+    reaction: {
+      liked: number;
+    };
+    routePath?: string;
+  }[];
+};
+
+export const getStaticProps: GetStaticProps<HomePageProps> = async (
+  context,
+) => {
+  const { locale = "en" } = context;
+  const shorts = (await getShortsByLocale(locale))
+    ?.slice(0, 5)
+    ?.map((short) => {
+      return {
+        ...short,
+        routePath: "/shorts-old",
+      };
+    });
+
+  return {
+    props: {
+      shorts,
+    },
+  };
+};

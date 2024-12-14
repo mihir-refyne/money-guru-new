@@ -28,7 +28,7 @@ export interface ShortsPageProps {
 }
 
 export const getStaticProps: GetStaticProps<ShortsPageProps> = async (
-  context
+  context,
 ) => {
   const { locale = "en" } = context;
   const shorts = await getShortsByLocale(locale);
@@ -60,7 +60,7 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
         checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
           employerId,
           workerId,
-        })
+        }),
       );
     });
     if (!quizTriggerOnSwipeUpConfigOne) return null;
@@ -89,7 +89,7 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
   function handleSwipeUp(id: string) {
     if (quizToBeTriggeredOnShorts?.shortIds.includes(id)) {
       const isTheQuizAlreadySkippedOrSubmitted = isQuizEitherCompletedOrSkipped(
-        quizToBeTriggeredOnShorts.quizId
+        quizToBeTriggeredOnShorts.quizId,
       );
       if (isTheQuizAlreadySkippedOrSubmitted) return;
       const currentShortPath = encodeURIComponent(`/shorts-old#${id}`);
@@ -116,6 +116,8 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
               url: short.metadata?.mediaUrl ?? ("" as any),
               fullHeight: short.metadata?.mediaFullHeight ?? (false as any),
             },
+            learningModuleLink:
+              (short.metadata?.learningModuleLink as string) ?? undefined,
             tag: short.metadata?.tag as any,
             content: (
               <article
@@ -127,7 +129,7 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
             reaction: short.reaction,
             publishedAt: parseAndValidatePublishedDate(
               short.metadata?.publishedAt,
-              short.metadata?.tag
+              short.metadata?.tag,
             ),
           },
         }))}
@@ -144,7 +146,7 @@ export default function ShortsPageOld({ shorts }: ShortsPageProps) {
 
 function parseAndValidatePublishedDate(
   publishedAt: any,
-  tag: unknown
+  tag: unknown,
 ): Date | undefined {
   if (!publishedAt) return;
   // TODO: Get the tag from Manthan

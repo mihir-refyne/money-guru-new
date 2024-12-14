@@ -2,6 +2,7 @@
 mediaType: image
 mediaUrl: /assets/images/shorts/aadhar-link-to-bank-account.png
 tag: Economics
+learningModuleLink: /epf-tracker
 ---
 
 ### Apna Aadhar link krke uthao ye benefits! 
