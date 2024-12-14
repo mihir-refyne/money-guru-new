@@ -15,8 +15,8 @@ import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { hasWatchedIntroduction } from "@/lib/core";
 import {
-        ReleaseConfig,
-        checkIfFeatureEnabledByReleaseConfig,
+  ReleaseConfig,
+  checkIfFeatureEnabledByReleaseConfig,
 } from "@/lib/core/release-config";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { fetcher } from "@/lib/fetcher";

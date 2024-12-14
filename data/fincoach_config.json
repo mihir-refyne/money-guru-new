@@ -1,0 +1,93 @@
+{
+  "fincoach": {
+    "pageTitle": "Get expert advice from Refyne's trusted ",
+    "pageTitleHiglightedText": "Financial Coaches!",
+    "pageDescription": "Are you struggling to manage money or need tips to save more? \n\n Our experts will help you manage expenses and guide you on planning savings and investments. Sign up for a free session with our certified financial consultants.",
+    "bookAppointmentCtaText": "Book Appointment →",
+    "imageUrl": "https://assets.refyne.co.in/assets/fincoach/Call_center-pana_2.webp",
+    "imageFooterHeading": "Powering Financial Literacy for 10,000,000+ employees across 200+ companies",
+    "imageFooterDescription": "Available 24*7 in your preferred language",
+    "footerImage": "https://assets.refyne.co.in/assets/fincoach/associated_companies.png",
+    "whyRefyneFincoach": {
+      "heading": "Why ",
+      "highlightedRefyneText": "Refyne ",
+      "highlightedFincoachText": "Fincoach?",
+      "benefits": [
+        {
+          "heading": "One Platform for all your financial queries.",
+          "subHeading": "Get all your financial questions answered in one place. From basic money management to complex investment decisions, we've got you covered.",
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/App_monetization-bro.avif"
+        },
+        {
+          "heading": "Expert advice from experienced financial consultants.",
+          "subHeading": "Receive personalized guidance from certified professionals who understand your needs and help you achieve your financial goals.",
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/Consultative_sales-bro.avif"
+        }
+      ]
+    },
+    "investments": {
+      "getAdviceHighlightedText": "Get advice ",
+      "heading": "on savings, investment & more...",
+      "benefits": [
+        {
+          "heading": "Savings",
+          "description": "Learn how to plan systematic savings based on your future goals. Discover government schemes that can benefit you and create an effective emergency fund strategy.",
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/Saving_money-rafiki.avif",
+          "ctaText": "Learn more →"
+        },
+        {
+          "heading": "Investment",
+          "description": "Understand mutual funds, get started with investments, and learn essential precautions for smart investing. Start your investment journey with confidence.",
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/Investing-rafiki.webp",
+          "ctaText": "Learn more →"
+        },
+        {
+          "heading": "Taxes",
+          "description": "Get guidance on IT returns, understand tax-saving schemes available to you, and choose the right tax regime based on your income. Optimize your tax planning effectively.",
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/Tax-pana.webp",
+          "ctaText": "Learn more →"
+        }
+      ]
+    },
+    "financialCoaches": {
+      "topFinancialCoachesHighlightedText": "Expert Coaches",
+      "heading": "Meet Our ",
+      "coaches": [
+        {
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/dinesh-phadtare.avif",
+          "name": "Dinesh Phadtare",
+          "rating": "⭐️⭐️⭐️⭐️⭐️",
+          "heading": "(600+ Reviews)",
+          "description": "SEBI-registered adviser with more than 6 years of experience. Former Axis Bank & Kotak Mahindra Bank employee. Specializes in Financial Equity Broking, Insurance, Mutual Funds & Wealth Management Training. Known for making complex financial concepts simple for beginners."
+        },
+
+        {
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/pandurang-p.avif",
+          "name": "Pandurang P",
+          "rating": "⭐️⭐️⭐️⭐️⭐️",
+          "heading": "(800+ Reviews)",
+          "description": "CFP-certified and NISM-certified professional with more than 27 years of experience, including 16 years of experience in Financial, Equity Broking, Insurance sector, Mutual Funds & Wealth Management Training."
+        },
+        {
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/naval-painuly.avif",
+          "name": "Naval Painuly",
+          "rating": "⭐️⭐️⭐️⭐️⭐️",
+          "heading": "(500+ Reviews)",
+          "description": "15+ years of experience in the Financial Services industry. Conducted over 450 seminars on financial wellness, reaching 100,000+ professionals. Specializes in personal financial planning & wealth management. Makes financial planning practical and achievable."
+        },
+        {
+          "imageUrl": "https://assets.refyne.co.in/assets/fincoach/transparent-user-man-icon.avif",
+          "name": "Ravindra Shevde",
+          "rating": "⭐️⭐️⭐️⭐️⭐️",
+          "heading": "(750+ Reviews)",
+          "description": "CA-certified adviser with more than 22 years of experience in business and financial industry. Expert in corporate financial training, personal finance, and tax planning. Helps professionals optimize their tax savings and create long-term wealth plans."
+        }
+      ]
+    },
+    "pageFooter": {
+      "footerHeading": "Ready to Transform Your Financial Future?",
+      "footerDescription": "Book your free consultation now",
+      "footerButtonText": "Book Appointment →"
+    }
+  }
+}
