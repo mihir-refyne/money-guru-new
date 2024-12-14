@@ -49,7 +49,6 @@ const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.CAROUSEL_BANNERS,
 ];
 
-
 export default function HomePage() {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isMounted, setIsMounted] = useState(false);
