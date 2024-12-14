@@ -14,7 +14,7 @@
   "shouldShowOldShortsRelaseConfig": {
     "fieldName": "employerId",
     "includes": true,
-    "values": ["EMR10000001"]
+    "values": []
   },
   "stickyBanners": [],
   "trackers": [
