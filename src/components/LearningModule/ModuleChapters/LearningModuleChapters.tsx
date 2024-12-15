@@ -5,7 +5,7 @@ import { LearningModuleLayout } from "../LearningModuleLayout/LearningModuleLayo
 import { useEffect, useState } from "react";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
-
+import styles from "./LearningModuleChapters.module.css";
 import {
   Chapter,
   LearningModuleType,
@@ -19,7 +19,6 @@ export const ModuleChapters = ({
   const router = useRouter();
   const { moduleId: id } = router.query;
 
-  // Get the id from URL
   const [moduleData, setModuleData] = useState<LearningModuleType | null>(null);
 
   useEffect(() => {
@@ -34,12 +33,11 @@ export const ModuleChapters = ({
   }, [id]);
 
   if (!moduleData) {
-    return <div>Loading...</div>; // Or any loading state you prefer
+    return <div>Loading...</div>;
   }
 
   return (
     <LearningModuleLayout hasContentPadding={false}>
-      {/* module chapters lists */}
       <>
         <ModuleDetailsTile
           title={moduleData.title}
@@ -52,7 +50,7 @@ export const ModuleChapters = ({
   );
 };
 
-const ModuleDetailsTile = ({
+export const ModuleDetailsTile = ({
   title,
   chapterCount,
 }: {
@@ -60,59 +58,12 @@ const ModuleDetailsTile = ({
   chapterCount: number;
 }) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        margin: "4px",
-        padding: "16px",
-        borderTop: "1px solid #F7F7F7",
-        borderBottom: "1px solid #F7F7F7",
-        borderRadius: "4px",
-        backgroundColor: "#F7F7F7",
-        boxSizing: "border-box",
-      }}
-    >
-      {/* Left Section: Title and Chapters */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        <p
-          style={{
-            fontSize: "12px",
-            fontWeight: "600",
-            margin: 0,
-          }}
-        >
-          {title} {/* Stock market basics Stock */}
-        </p>
-        <p
-          style={{
-            fontSize: "12px",
-            margin: 0,
-            color: "#888",
-          }}
-        >
+    <div className={styles.ModuleDetailsTile_container}>
+      <div className={styles.ModuleDetailsTile_content}>
+        <p className={styles.ModuleDetailsTile_title}>{title}</p>
+        <p className={styles.ModuleDetailsTile_chapter_count}>
           {chapterCount} Chapters
         </p>
-      </div>
-
-      {/* Right Section: Progress */}
-      <div
-        style={{
-          backgroundColor: "#01752F",
-          color: "white",
-          padding: "8px",
-          borderRadius: "4px",
-          fontSize: "14px",
-          fontWeight: "600",
-        }}
-      >
-        0/{chapterCount}
       </div>
     </div>
   );
@@ -174,7 +125,7 @@ interface ChapterTileProps {
   onClick: () => void;
 }
 
-const ChapterTile: React.FC<ChapterTileProps> = ({
+export const ChapterTile: React.FC<ChapterTileProps> = ({
   chapter,
   countBgColor,
   textColor,
@@ -184,59 +135,26 @@ const ChapterTile: React.FC<ChapterTileProps> = ({
   return (
     <div
       key={chapter.id}
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "16px",
-        marginBottom: "16px",
-        cursor: "pointer",
-        backgroundColor: "#FFFFFF",
-        borderRadius: "4px",
-        border: "1px solid #F0F0F0",
-      }}
+      className={styles.ChapterTile_container}
       onClick={onClick}
     >
       {/* Chapter Count with Color */}
       <div
-        style={{
-          backgroundColor: countBgColor,
-          borderRadius: "4px",
-          textAlign: "center",
-          marginRight: "8px",
-        }}
+        className={styles.ChapterTile_count_container}
+        style={{ backgroundColor: countBgColor }}
       >
         <p
-          style={{
-            padding: "10px",
-            color: textColor,
-            fontWeight: "600",
-            fontSize: "14px",
-          }}
+          className={styles.ChapterTile_count_text}
+          style={{ color: textColor }}
         >
-          {" "}
           {String(index + 1).padStart(2, "0")}
         </p>
       </div>
 
       {/* Chapter Details */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flexGrow: 1,
-        }}
-      >
-        <p style={{ margin: 0, fontWeight: "600" }}>{chapter.title}</p>
-        <p
-          style={{
-            margin: 0,
-            fontSize: "12px",
-            lineHeight: "16px",
-            fontWeight: "400",
-          }}
-        >
+      <div className={styles.ChapterTile_details}>
+        <p className={styles.ChapterTile_title}>{chapter.title}</p>
+        <p className={styles.ChapterTile_read_time}>
           Read time: {chapter.readTime}
         </p>
       </div>

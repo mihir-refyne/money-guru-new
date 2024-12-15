@@ -79,7 +79,7 @@ const LearningModuleGridItem = ({ module }: { module: LearningModuleType }) => {
       onClick={() => onClickModuleHandler({ id: module.id })}
     >
       <img
-        src={LearningModuleData.moduleSubPlaceHolder}
+        src={module.image ?? LearningModuleData.moduleSubPlaceHolder}
         alt="learning_module"
       />
       <p className={styles.moduleTitle}>{module.title}</p>
