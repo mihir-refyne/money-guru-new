@@ -11,6 +11,11 @@
     ],
     "autoPlayDurationInMs": 600000
   },
+  "shouldShowOldShortsRelaseConfig": {
+    "fieldName": "employerId",
+    "includes": true,
+    "values": []
+  },
   "stickyBanners": [],
   "trackers": [
     {
@@ -89,7 +94,7 @@
       {
         "name": "fin_coaching_naval",
         "heading": "coaching_banner_title",
-        "url": "https://fincoachv2.typedream.app/",
+        "url": "https://fin-literacy-web.refyne.co.in/fincoach",
         "description": "Get financial advice from SEBI certified industry experts.",
         "rightImageUrl": "/assets/images/banner_naval_painuly.png",
         "backgroundColor": "#E5EEF8",
@@ -97,13 +102,20 @@
         "releaseConfig": {
           "fieldName": "employerId",
           "includes": true,
-          "values": ["EMR10000001", "EMR10001326", "EMR10001733", "EMR10001677","EMR10000973" ,"EMR10001667"]
+          "values": [
+            "EMR10000001",
+            "EMR10001326",
+            "EMR10001733",
+            "EMR10001677",
+            "EMR10000973",
+            "EMR10001667"
+          ]
         }
       },
       {
         "name": "fin_coaching_naval_free",
         "heading": "coaching_banner_title",
-        "url": "https://fincoachv2.typedream.app/financial-coach-free",
+        "url": "https://fin-literacy-web.refyne.co.in/fincoach",
         "description": "Get financial advice from SEBI certified industry experts.",
         "rightImageUrl": "/assets/images/banner_naval_painuly.png",
         "backgroundColor": "#E5EEF8",
