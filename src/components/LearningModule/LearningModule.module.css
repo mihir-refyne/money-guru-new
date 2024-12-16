@@ -1,14 +1,13 @@
 .LearningModule {
   height: calc(var(--full-vh) - 5.6rem);
-  /* background-color: aqua; */
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 .LearningModule::-webkit-scrollbar {
-  display: none; /* Safari and Chrome */
+  display: none;
 }
 
 .LearningModule_Image_Container {
@@ -25,7 +24,7 @@
 }
 
 .learningModule {
-  max-width: 360px;
+  /* max-width: 360px; */
   display: flex;
 
   flex-direction: column;
@@ -65,7 +64,7 @@
   margin-top: 32px;
   display: grid;
   align-items: center;
-  grid-template-columns: repeat(2, 1fr); /* Default: Two columns */
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   width: 100%;
   box-sizing: border-box;
@@ -84,8 +83,9 @@
 }
 
 .gridItem img {
-  max-width: 150px;
+  max-width: 100%;
   max-height: 100px;
+  object-fit: cover;
 }
 
 .moduleTitle {
