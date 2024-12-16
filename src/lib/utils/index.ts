@@ -232,18 +232,15 @@ export function getHeadingFromMarkupContent(markdown: string):
 export function formatDate(inputDate: string): string {
   const date = new Date(inputDate);
 
-  // Format hours and minutes for 12-hour clock with AM/PM
-  const options: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-    day: "2-digit",
-    month: "short",
-  };
+  const month = date.toLocaleDateString("en-US", { month: "short" });
+  const day = date.getDay();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
 
-  // Get the formatted date
-  const formattedDate = date.toLocaleString("en-US", options);
-
-  // Return formatted string
-  return formattedDate.replace(",", "").toUpperCase(); // Clean up commas and uppercase AM/PM
+  const formattedHours = hours % 12 || 12;
+  const paddedMinutes = minutes.toString().padStart(2, "0");
+  const ampm = hours >= 12 ? "pm" : "am";
+  return `${
+    month.charAt(0).toUpperCase() + month.slice(1)
+  } ${day}, ${formattedHours}:${paddedMinutes}${ampm}`;
 }

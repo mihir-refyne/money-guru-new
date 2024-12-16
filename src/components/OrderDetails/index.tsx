@@ -74,7 +74,10 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
           orderTimeline={orderDetail.orderTimeline}
         />
         <hr className={styles.divider} />
-        <OrderTimelineComp timeLine={orderDetail.orderTimeline} />
+        <OrderTimelineComp
+          cancelledAt={orderDetail.cancelledAt}
+          timeLine={orderDetail.orderTimeline}
+        />
       </Card>
 
       <div className={styles.section}>
@@ -197,6 +200,7 @@ function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
           src={src}
           width={90}
           height={80}
+          style={{ objectFit: "contain" }}
           alt="order-item-img"
           onError={(e) => {
             e.currentTarget.src = DEFAULT_IMAGE_URL; // Fallback to default image
@@ -215,15 +219,32 @@ function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
   );
 }
 
+function getVoucherDetailsMessage(phoneNumber?: string, email?: string) {
+  if (phoneNumber && email) {
+    return `Voucher details will be sent to you via email ${email} and WhatsApp/SMS ${phoneNumber}`;
+  }
+  if (phoneNumber) {
+    return `Voucher details will be sent to you via WhatsApp/SMS ${phoneNumber}`;
+  }
+  if (email) {
+    return `Voucher details will be sent to you via email ${email}`;
+  }
+  return "No contact details available to send voucher details";
+}
+
 function DeliveryTo({ deliveryDetails }: DeliveryToProps) {
   const phoneNumberForVirtualAddress =
     deliveryDetails.virtualAddress?.phoneNumber;
+  const emailForVirtualAddress = deliveryDetails.virtualAddress?.email;
   const physicalAddressDetails = deliveryDetails.physicalAddress;
   const shippingAddress = `${physicalAddressDetails?.name}, ${physicalAddressDetails?.phone}, ${physicalAddressDetails?.address1}, ${physicalAddressDetails?.city}, ${physicalAddressDetails?.pinCode}`;
 
   const deliveryAddress = deliveryDetails.physicalAddress
     ? shippingAddress
-    : `Voucher details will be sent to your mobile number ${phoneNumberForVirtualAddress} via SMS and WhatsApp`;
+    : getVoucherDetailsMessage(
+        phoneNumberForVirtualAddress,
+        emailForVirtualAddress
+      );
 
   return <p className={styles.deliveryDetails}>{deliveryAddress}</p>;
 }

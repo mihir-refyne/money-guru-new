@@ -2,7 +2,7 @@ import { CORE_SERVER_BASE_URL } from "@/constants";
 import { getValueFromMetadata } from "../core/user-metadata";
 import { fetcher } from "../fetcher";
 
-export type OrderStatus = "PENDING" | "INITIATED" | "FULFILLED";
+export type OrderStatus = "PENDING" | "INITIATED" | "FULFILLED" | "CANCELLED";
 
 export interface GetOrderItemInfo {
   _id: string;
@@ -18,6 +18,7 @@ export interface GetOrderItemInfo {
   name: string;
   vendor?: Vendor;
   price: number;
+  cancelledAt?: Date;
   orderTimeline: OrderTimeline[];
   deliveryDetails: DeliveryDetails;
   trackingDetails?: {
@@ -47,6 +48,7 @@ export interface DeliveryDetails {
   physicalAddress?: ShippingAddress;
   virtualAddress?: {
     phoneNumber?: string;
+    email?: string;
   };
 }
 
