@@ -74,10 +74,10 @@
 .gridItem {
   border: 1px solid #c7c7c7;
   border-radius: 4px;
-  padding: 6px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   box-sizing: border-box;
   cursor: pointer;
@@ -89,6 +89,7 @@
 }
 
 .moduleTitle {
+  padding-top: 12px;
   font-weight: bold;
   font-size: 12px;
   line-height: 16px;
