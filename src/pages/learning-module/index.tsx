@@ -3,20 +3,20 @@ import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import {
   fetchLearningModules,
-  LearningModuleType,
+  LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
 import { useEffect } from "react";
 
 export default function LearningModulePage({
   initialData,
 }: {
-  initialData: LearningModuleType[];
+  initialData: LearningModuleTypeResponseProps;
 }) {
   useEffect(() => {}, [
     logEventInMixpanel(AnalyticEvent.MONEY_GURU_LEARNING_VIEWED),
   ]);
 
-  return <LearningModule learningModulesData={initialData} />;
+  return <LearningModule learningModulesResponse={initialData} />;
 }
 
 export async function getServerSideProps() {

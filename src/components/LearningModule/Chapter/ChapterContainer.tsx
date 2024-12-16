@@ -8,14 +8,14 @@ import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import {
   Chapter,
-  LearningModuleType,
+  LearningModuleTypeResponseProps,
   RShort,
 } from "@/lib/utils/learningModulesFetcher";
 
 export const ChapterContainer = ({
   learningModulesData,
 }: {
-  learningModulesData: LearningModuleType[] | undefined;
+  learningModulesData: LearningModuleTypeResponseProps | undefined;
 }) => {
   const router = useRouter();
   const { moduleId, chapterId } = router.query;
@@ -24,7 +24,7 @@ export const ChapterContainer = ({
 
   useEffect(() => {
     if (moduleId && chapterId) {
-      const fetchedLearningModuleData = learningModulesData?.find(
+      const fetchedLearningModuleData = learningModulesData?.modules?.find(
         (mod) => mod.id === parseInt(moduleId as string)
       );
 

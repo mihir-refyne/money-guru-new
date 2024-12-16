@@ -1,15 +1,15 @@
 import { ModuleChapters } from "@/components/LearningModule/ModuleChapters/LearningModuleChapters";
 import {
   fetchLearningModules,
-  LearningModuleType,
+  LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
 
 export default function LearningModuleChapters({
   initialData,
 }: {
-  initialData: LearningModuleType[];
+  initialData: LearningModuleTypeResponseProps;
 }) {
-  return <ModuleChapters learningModulesData={initialData} />;
+  return <ModuleChapters learningModulesDataResponse={initialData} />;
 }
 
 export async function getServerSideProps() {

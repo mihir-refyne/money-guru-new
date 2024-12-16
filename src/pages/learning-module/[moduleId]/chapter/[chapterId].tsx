@@ -1,13 +1,13 @@
 import { ChapterContainer } from "@/components/LearningModule/Chapter/ChapterContainer";
 import {
   fetchLearningModules,
-  LearningModuleType,
+  LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
 
 export default function ChapterPage({
   initialData,
 }: {
-  initialData: LearningModuleType[];
+  initialData: LearningModuleTypeResponseProps;
 }) {
   return <ChapterContainer learningModulesData={initialData} />;
 }

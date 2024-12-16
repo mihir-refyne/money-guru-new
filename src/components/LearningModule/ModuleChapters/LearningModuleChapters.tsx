@@ -9,12 +9,13 @@ import styles from "./LearningModuleChapters.module.css";
 import {
   Chapter,
   LearningModuleType,
+  LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
 
 export const ModuleChapters = ({
-  learningModulesData,
+  learningModulesDataResponse,
 }: {
-  learningModulesData: LearningModuleType[] | undefined;
+  learningModulesDataResponse: LearningModuleTypeResponseProps | undefined;
 }) => {
   const router = useRouter();
   const { moduleId: id } = router.query;
@@ -23,9 +24,10 @@ export const ModuleChapters = ({
 
   useEffect(() => {
     if (id) {
-      const fetchedLearningModuleData = learningModulesData?.find(
-        (mod) => mod.id === parseInt(id as string)
-      ) as LearningModuleType;
+      const fetchedLearningModuleData =
+        learningModulesDataResponse?.modules?.find(
+          (mod) => mod.id === parseInt(id as string)
+        ) as LearningModuleType;
       if (module) {
         setModuleData(fetchedLearningModuleData);
       }
