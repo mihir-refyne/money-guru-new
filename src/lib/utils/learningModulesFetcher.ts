@@ -38,7 +38,7 @@ export interface LearningModuleError {
   error: string;
 }
 
-const CDN_BASE_URL = process.env.NEXT_PUBLIC_CDN_BASE_URL;
+const CDN_BASE_URL = "https://assets.refyne.co.in";
 const LEARNING_MODULES_PATH = "learning-modules/learning_modules_data.json";
 
 export const fetchLearningModules = async (): Promise<
