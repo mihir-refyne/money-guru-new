@@ -7,26 +7,26 @@ import { LearningModuleLayout } from "./LearningModuleLayout/LearningModuleLayou
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import YoutubePlayer from "../YoutubePlayer";
-import { LearningModuleType } from "@/lib/utils/learningModulesFetcher";
+import {
+  LearningModuleType,
+  LearningModuleTypeResponseProps,
+} from "@/lib/utils/learningModulesFetcher";
 
 export default function LearningModule({
-  learningModulesData,
+  learningModulesResponse,
 }: {
-  learningModulesData: LearningModuleType[] | undefined;
+  learningModulesResponse: LearningModuleTypeResponseProps | undefined;
 }) {
   return (
     <LearningModuleLayout>
       <div className={styles.learningModule}>
         <div className={styles.imageContainer}>
-          {/* <img
-            src={LearningModuleData.defaultLearningModulePlaceHolderImage}
-            alt="learning_module"
-          /> */}
-
           <YoutubePlayer
             hideIfNotInView={false}
-            url={"https://www.youtube.com/watch?v=IpYJjVw6wjU"}
-            // className={styles.ShortMedia__Image}
+            url={
+              learningModulesResponse?.youtubeUrl ??
+              "https://www.youtube.com/watch?v=IpYJjVw6wjU"
+            }
             autoplay={true}
             fullscreen={false}
             modestBranding
@@ -35,11 +35,6 @@ export default function LearningModule({
             controls={false}
             showOnlyThumbnail={false}
           />
-          {/* <img
-            className={styles.centerIcon}
-            src={LearningModuleData.playIcon}
-            alt="play_icon"
-          /> */}
         </div>
 
         <div className={styles.titleContainer}>
@@ -54,7 +49,7 @@ export default function LearningModule({
         </div>
 
         <div className={styles.moduleGrid}>
-          {learningModulesData?.map((module, index) => (
+          {learningModulesResponse?.modules?.map((module, index) => (
             <LearningModuleGridItem key={index} module={module} />
           ))}
         </div>

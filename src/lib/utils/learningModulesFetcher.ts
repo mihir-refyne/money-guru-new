@@ -1,3 +1,8 @@
+export interface LearningModuleTypeResponseProps {
+  modules: LearningModuleType[];
+  youtubeUrl: string;
+}
+
 export interface LearningModuleType {
   id: number;
   youtubeUrl: string;
@@ -22,11 +27,11 @@ interface RShortMetadata {
 export interface RShort {
   id: string;
   metadata: RShortMetadata;
-  content: string; // HTML content
+  content: string;
 }
 
 export interface LearningModuleResponse {
-  data: LearningModuleType[];
+  data: LearningModuleTypeResponseProps;
 }
 
 export interface LearningModuleError {
@@ -36,10 +41,6 @@ export interface LearningModuleError {
 const CDN_BASE_URL = process.env.NEXT_PUBLIC_CDN_BASE_URL;
 const LEARNING_MODULES_PATH = "learning-modules/learning_modules_data.json";
 
-/**
- * Fetches learning modules data from the CDN.
- * @returns {Promise<LearningModuleResponse | LearningModuleError>}
- */
 export const fetchLearningModules = async (): Promise<
   LearningModuleResponse | LearningModuleError
 > => {
@@ -56,8 +57,7 @@ export const fetchLearningModules = async (): Promise<
     }
 
     const data = await response.json();
-
-    return { data: data.modules };
+    return { data: data };
   } catch (error) {
     console.error("Error fetching learning modules:", error);
     return { error: "Failed to fetch learning modules" };
