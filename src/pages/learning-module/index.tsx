@@ -5,6 +5,7 @@ import {
   fetchLearningModules,
   LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function LearningModulePage({
@@ -12,11 +13,19 @@ export default function LearningModulePage({
 }: {
   initialData: LearningModuleTypeResponseProps;
 }) {
+  const router = useRouter();
+  const directlyAccessed = !!router.query["direct"];
+
   useEffect(() => {}, [
     logEventInMixpanel(AnalyticEvent.MONEY_GURU_LEARNING_VIEWED),
   ]);
 
-  return <LearningModule learningModulesResponse={initialData} />;
+  return (
+    <LearningModule
+      dispatchPopEventOnBackClick={directlyAccessed}
+      learningModulesResponse={initialData}
+    />
+  );
 }
 
 export async function getServerSideProps() {

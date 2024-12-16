@@ -14,11 +14,15 @@ import {
 
 export default function LearningModule({
   learningModulesResponse,
+  dispatchPopEventOnBackClick,
 }: {
   learningModulesResponse: LearningModuleTypeResponseProps | undefined;
+  dispatchPopEventOnBackClick?: boolean;
 }) {
   return (
-    <LearningModuleLayout>
+    <LearningModuleLayout
+      dispatchPopEventOnBackClick={dispatchPopEventOnBackClick}
+    >
       <div className={styles.learningModule}>
         <div className={styles.imageContainer}>
           <YoutubePlayer
@@ -41,10 +45,10 @@ export default function LearningModule({
           <h3
             className={`${styles.heading} text-heading text-semi-bold text-left my-2`}
           >
-            Money Management
+            Learn about Finances
           </h3>
           <p className={`${styles.supportingTitle} text-regular`}>
-            Supporting Title
+            Explore modules
           </p>
         </div>
 
