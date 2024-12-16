@@ -16,7 +16,7 @@ export default function LearningModule({
   learningModulesResponse,
   dispatchPopEventOnBackClick,
 }: {
-  learningModulesResponse: LearningModuleTypeResponseProps | undefined;
+  learningModulesResponse?: LearningModuleTypeResponseProps;
   dispatchPopEventOnBackClick?: boolean;
 }) {
   return (

@@ -28,7 +28,7 @@ export const ModuleChapters = ({
         learningModulesDataResponse?.modules?.find(
           (mod) => mod.id === parseInt(id as string)
         ) as LearningModuleType;
-      if (module) {
+      if (fetchedLearningModuleData) {
         setModuleData(fetchedLearningModuleData);
       }
     }
@@ -45,8 +45,7 @@ export const ModuleChapters = ({
           title={moduleData.title}
           chapterCount={moduleData.chapters.length}
         />
-
-        <ChaptersList module={moduleData} chapters={moduleData.chapters} />
+        <ChaptersList moduleData={moduleData} chapters={moduleData.chapters} />
       </>
     </LearningModuleLayout>
   );
@@ -72,11 +71,14 @@ export const ModuleDetailsTile = ({
 };
 
 interface ChaptersListProps {
-  module: LearningModuleType;
+  moduleData: LearningModuleType;
   chapters: Chapter[];
 }
 
-const ChaptersList: React.FC<ChaptersListProps> = ({ chapters, module }) => {
+const ChaptersList: React.FC<ChaptersListProps> = ({
+  chapters,
+  moduleData,
+}) => {
   const colors = ["#FFF2F0", "#F0FFF2", "#EFF6FF"];
   const textColors = ["#D13B3B", "#01752F", "#003779"];
   const router = useRouter();
@@ -92,7 +94,7 @@ const ChaptersList: React.FC<ChaptersListProps> = ({ chapters, module }) => {
     logEventInMixpanel(
       AnalyticEvent.MONEY_GURU_LEARNING_MODULE_CHAPTER_VIEWED,
       {
-        moduleName: module.title,
+        moduleName: moduleData.title,
       }
     );
     const { moduleId } = router.query;
@@ -140,7 +142,6 @@ export const ChapterTile: React.FC<ChapterTileProps> = ({
       className={styles.ChapterTile_container}
       onClick={onClick}
     >
-      {/* Chapter Count with Color */}
       <div
         className={styles.ChapterTile_count_container}
         style={{ backgroundColor: countBgColor }}
@@ -153,7 +154,6 @@ export const ChapterTile: React.FC<ChapterTileProps> = ({
         </p>
       </div>
 
-      {/* Chapter Details */}
       <div className={styles.ChapterTile_details}>
         <p className={styles.ChapterTile_title}>{chapter.title}</p>
         <p className={styles.ChapterTile_read_time}>
@@ -161,7 +161,6 @@ export const ChapterTile: React.FC<ChapterTileProps> = ({
         </p>
       </div>
 
-      {/* Arrow Image */}
       <Image src={chevronRight} alt="Navigate to chapter" />
     </div>
   );
