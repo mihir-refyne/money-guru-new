@@ -6,11 +6,11 @@ import { LearningModuleLayout } from "./LearningModuleLayout/LearningModuleLayou
 
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
-import YoutubePlayer from "../YoutubePlayer";
 import {
   LearningModuleType,
   LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
+import VideoFillerBanner from "../VideoFillerBanner/VideoFillerBanner";
 
 export default function LearningModule({
   learningModulesResponse,
@@ -25,22 +25,14 @@ export default function LearningModule({
     >
       <div className={styles.learningModule}>
         <div className={styles.imageContainer}>
-          <YoutubePlayer
-            hideIfNotInView={false}
-            url={
+          <VideoFillerBanner
+            videoUrl={
               learningModulesResponse?.youtubeUrl ??
-              "https://www.youtube.com/watch?v=IpYJjVw6wjU"
+              "https://www.youtube.com/watch?v=rOCf--8EiIQ"
             }
-            autoplay={true}
-            fullscreen={false}
-            modestBranding
-            showRelatedVideos={false}
-            loop
-            controls={false}
-            showOnlyThumbnail={false}
+            autoPlayable={false}
           />
         </div>
-
         <div className={styles.titleContainer}>
           <h3
             className={`${styles.heading} text-heading text-semi-bold text-left my-2`}
@@ -51,7 +43,6 @@ export default function LearningModule({
             Explore modules
           </p>
         </div>
-
         <div className={styles.moduleGrid}>
           {learningModulesResponse?.modules?.map((module, index) => (
             <LearningModuleGridItem key={index} module={module} />

@@ -1,0 +1,22 @@
+.Video_Player_wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 0.8rem;
+  background-color: var(--clr-background-surface);
+  margin-bottom: 1rem;
+
+  /* INFO: For 16 / 9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  padding-top: 56.25%;
+  /* padding-top: calc(9 / 16 * 100%); */
+}
+
+.Video_Player {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.8rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
