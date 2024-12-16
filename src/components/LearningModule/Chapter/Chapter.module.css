@@ -1,0 +1,126 @@
+.PaginationBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f7f7f7;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.PaginationBar__Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  background-color: #f7f7f7;
+}
+
+.PaginationBar__Button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PaginationBar__Button--Previous {
+  transform: rotate(180deg);
+}
+
+.PaginationBar__Counter {
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 16px;
+  color: #888888;
+}
+
+.PaginationBar__CurrentPage {
+  color: #0057b7;
+}
+
+.RShortsContent {
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  max-height: 100%;
+}
+
+.RShortsContent__Media {
+  margin-bottom: 16px;
+}
+
+.RShortsContent__Image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1.2rem;
+}
+
+.RShortsContent__Text {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ChapterTile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.ChapterTile__Number {
+  border-radius: 4px;
+  text-align: center;
+  margin-right: 8px;
+}
+
+.ChapterTile__NumberText {
+  padding: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.ChapterTile__Content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.ChapterTile__Title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ChapterTile__ReadTime {
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
+}
+
+.ChapterTile__Number--Color0 {
+  background-color: #fff2f0;
+}
+
+.ChapterTile__Number--Color1 {
+  background-color: #f0fff2;
+}
+
+.ChapterTile__Number--Color2 {
+  background-color: #eff6ff;
+}
+
+.ChapterTile__NumberText--Color0 {
+  color: #d13b3b;
+}
+
+.ChapterTile__NumberText--Color1 {
+  color: #01752f;
+}
+
+.ChapterTile__NumberText--Color2 {
+  color: #003779;
+}
