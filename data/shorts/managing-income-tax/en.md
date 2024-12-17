@@ -2,6 +2,7 @@
 mediaType: video
 mediaUrl: https://www.youtube.com/watch?v=VYtdAuyGCAI
 tag: Tax
+learningModuleLink: /learning-module/4/chapter/1
 ---
 
 ### Save money on your Taxes
