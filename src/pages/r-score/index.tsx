@@ -42,15 +42,15 @@ const FINANCIAL_PILLARS: FinancialPillar[] = [
     improvements: [
       {
         action: "Schedule regular bill payments",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7/chapter/5",
       },
       {
         action: "Build a ₹10,000 emergency fund",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7/chapter/6",
       },
       {
         action: "Optimize your salary withdrawals",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7",
       },
     ],
   },
@@ -67,10 +67,16 @@ const FINANCIAL_PILLARS: FinancialPillar[] = [
     improvements: [
       {
         action: "Start small: ₹1000 monthly gold savings",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7/chapter/8",
       },
-      { action: "Automate your investments", redirectionPath: "/shorts-old" },
-      { action: "Grow your emergency fund", redirectionPath: "/shorts-old" },
+      {
+        action: "Automate your investments",
+        redirectionPath: "/learning-module/1",
+      },
+      {
+        action: "Grow your emergency fund",
+        redirectionPath: "/learning-module/7/chapter/6",
+      },
     ],
   },
   {
@@ -86,15 +92,15 @@ const FINANCIAL_PILLARS: FinancialPillar[] = [
     improvements: [
       {
         action: "Activate Salary Protect for income security",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7/chapter/7",
       },
       {
         action: "Get pocket insurance for daily peace of mind",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7/chapter/7",
       },
       {
         action: "Complete your emergency fund target",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/7/chapter/6",
       },
     ],
   },
@@ -111,15 +117,15 @@ const FINANCIAL_PILLARS: FinancialPillar[] = [
     improvements: [
       {
         action: "Complete Money Basics course",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/1",
       },
       {
         action: "Get personalized financial guidance",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/1",
       },
       {
         action: "Master financial planning tools",
-        redirectionPath: "/shorts-old",
+        redirectionPath: "/learning-module/1",
       },
     ],
   },
