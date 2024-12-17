@@ -59,17 +59,6 @@
   ],
   "calculators": [
     {
-      "name": "retirement_calculator",
-      "title": "retirement_calculator_tool_title",
-      "imageUrl": "/assets/images/retirement-plan.svg",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/retirement-calculator",
-      "tag": {
-        "text": "new",
-        "textColor": "var(--clr-pure-white)",
-        "backgroundColor": "#00A181"
-      }
-    },
-    {
       "name": "homeloan_emi_calculator",
       "title": "home_loan_emi_calculator_tool_title",
       "imageUrl": "/assets/images/home-loan.svg",
