@@ -133,6 +133,7 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
               style={{
                 display: "flex",
                 justifyContent: "space-between",
+                gap: "10px",
               }}
             >
               <h5
@@ -142,15 +143,24 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
                   color: "var(--clr-text-secondary)",
                 }}
               >
-                Your order will be delivered by <b>eKart</b>
+                Your order will be delivered by{" "}
+                <b>{orderDetail.trackingDetails.shippingVendor}</b>
               </h5>
-              <button
-                style={{ width: "40%" }}
-                className="btn btn-block btn-primary"
-                onClick={() => orderDetail?.trackingDetails?.trackingLink}
-              >
-                Track Order
-              </button>
+              {orderDetail.trackingDetails.trackingLink && (
+                <button
+                  style={{ width: "40%" }}
+                  className="btn btn-block btn-primary"
+                  onClick={() => {
+                    const trackingLink =
+                      orderDetail.trackingDetails?.trackingLink;
+                    if (trackingLink) {
+                      window.location.href = trackingLink;
+                    }
+                  }}
+                >
+                  Track Order
+                </button>
+              )}
             </div>
           </div>
           <div
@@ -176,8 +186,7 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
                   color: "var(--clr-text-secondary)",
                 }}
               >
-                Your order will be delivered by{" "}
-                <b>{orderDetail.trackingDetails.shippingVendor}</b>
+                Tracking ID
               </h5>
               <p>{orderDetail.trackingDetails.trackingId}</p>
             </div>
@@ -221,13 +230,13 @@ function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
 
 function getVoucherDetailsMessage(phoneNumber?: string, email?: string) {
   if (phoneNumber && email) {
-    return `Voucher details will be sent to you via email ${email} and WhatsApp/SMS ${phoneNumber}`;
+    return `Voucher details will be sent to you via email (${email}) and WhatsApp/SMS (${phoneNumber})`;
   }
   if (phoneNumber) {
-    return `Voucher details will be sent to you via WhatsApp/SMS ${phoneNumber}`;
+    return `Voucher details will be sent to you via WhatsApp/SMS (${phoneNumber})`;
   }
   if (email) {
-    return `Voucher details will be sent to you via email ${email}`;
+    return `Voucher details will be sent to you via email (${email})`;
   }
   return "No contact details available to send voucher details";
 }
