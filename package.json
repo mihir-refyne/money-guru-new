@@ -33,6 +33,7 @@
     "react-hot-toast": "^2.4.1",
     "react-insta-stories": "^2.5.9",
     "react-responsive-carousel": "^3.2.23",
+    "sharp": "^0.33.5",
     "typescript": "5"
   },
   "devDependencies": {

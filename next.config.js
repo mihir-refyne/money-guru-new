@@ -7,6 +7,7 @@ const nextConfig = nextTranslate({
   images: {
     domains: [
       "dqkwfm5lwlsho.cloudfront.net",
+      "s3.ap-south-1.amazonaws.com",
       "assets.refyne.co.in",
       // INFO: This is for Shopify-hosted domain image
       "cdn.shopify.com",
