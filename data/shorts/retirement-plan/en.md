@@ -2,6 +2,7 @@
 mediaType: image
 mediaUrl: /assets/images/shorts/retirement-plan.png
 tag: Financial Planning
+learningModuleLink: /learning-module/7/chapter/1
 ---
 
 ### How to save for a happy retirement?

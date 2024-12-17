@@ -2,6 +2,7 @@
 mediaType: image
 mediaUrl: /assets/images/shorts/saving-for-financial-freedom.png
 tag: Savings
+learningModuleLink: /learning-module/7/chapter/3
 ---
 
 ### Do you need help in saving more?

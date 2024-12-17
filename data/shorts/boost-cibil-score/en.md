@@ -2,6 +2,7 @@
 mediaType: image
 mediaUrl: /assets/images/shorts/boost-cibil-score.png
 tag: Credit Score
+learningModuleLink: /learning-module/7/chapter/4
 ---
 
 ### Get a Better Credit Score: Easy Tips to Improve Your Credit Score!

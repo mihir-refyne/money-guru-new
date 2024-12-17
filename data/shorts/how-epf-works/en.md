@@ -2,6 +2,7 @@
 mediaType: image
 mediaUrl: /assets/images/shorts/how-epf-works.jpg
 tag: Tax
+learningModuleLink: /learning-module/6/chapter/1
 ---
 
 ### How does EPF work?
