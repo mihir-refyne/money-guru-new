@@ -58,11 +58,9 @@
 }
 
 .R_Score__Benefits__Label {
-  border: 1px solid var(--clr-border-enabled);
-  border-radius: 4px;
-  padding: 8px 16px;
   display: flex;
   align-items: center;
+  margin-bottom: 8px;
 }
 
 .R_Score__CreditScoreMeter__Container {
@@ -78,4 +76,196 @@
   font-size: 12px;
   font-weight: 500;
   color: #0c7057;
+}
+
+.Financial__Pillars__Container {
+  padding: 16px;
+  background: var(--clr-background-enabled);
+}
+
+.section_title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1d2939;
+  margin-bottom: 16px;
+}
+
+.Pillar__Header_Content {
+  display: flex;
+}
+
+.priority_indicator {
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #0057b7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 12px;
+}
+
+.Pillar__Card {
+  background: #ffffff;
+  border: 1px solid #e5eeff;
+  border-radius: 16px;
+  margin: 12px 0;
+  padding: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  min-height: 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+.Pillar__Card.expanded {
+  border-color: #0057b7;
+  box-shadow: 0px 4px 12px rgba(0, 87, 183, 0.08);
+}
+
+.expand_icon {
+  color: #0057b7;
+  transition: transform 0.3s ease;
+}
+
+.expand_icon.expanded {
+  transform: rotate(180deg);
+}
+
+.Pillar__Card:hover {
+  box-shadow: 0px 4px 12px rgba(0, 87, 183, 0.08);
+  border-color: #85b1ff;
+  transform: translateY(-1px);
+}
+
+.pillar_description {
+  color: var(--clr-text-secondary);
+  margin-bottom: 2px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.Pillar__Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 16px;
+}
+
+.Pillar__Title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #121212;
+  margin-bottom: 4px;
+}
+
+.Pillar__Status {
+  font-size: 12px;
+}
+
+.Pillar__Score {
+  text-align: right;
+  background: var(--clr-background-enabled);
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.Pillar__Score:hover {
+  transform: scale(1.05);
+}
+
+.Score__Value {
+  font-size: 24px;
+  font-weight: 700;
+  /* color: var(--clr-text-brand); */
+  display: inline-block;
+}
+
+.Score__Max {
+  font-size: 16px;
+  color: var(--clr-text-secondary);
+  display: inline-block;
+  margin-left: 2px;
+}
+
+.Pillar__Content {
+  padding: 16px 0;
+}
+
+.Content__Title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #121212;
+  margin-bottom: 12px;
+}
+
+.Benefits__List {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+}
+
+.Benefit__Item {
+  font-size: 14px;
+  color: #696d70;
+  padding-left: 20px;
+  position: relative;
+}
+
+.Benefit__Item::before {
+  content: "•";
+  position: absolute;
+  left: 8px;
+  color: #888888;
+}
+
+.Improvements__List {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.action_button {
+  width: 100%;
+  padding: 8px 12px;
+  background: #eff6ff;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+}
+
+.action_content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.points_badge {
+  background: #e6f4ed;
+  color: #027a48;
+  padding: 4px 8px;
+  border-radius: 16px;
+  margin-left: auto;
+  font-weight: 500;
+}
+
+.Improvement__Action {
+  font-size: 14px;
+  color: var(--clr-text-primary);
+}
+
+.Improvement__Points {
+  font-size: 14px;
+  font-weight: 600;
 }

@@ -1,15 +1,15 @@
 import CreditScoreMeter from "@/components/CreditReport/CreditScoreMeter";
-import Tag from "@/components/Tag";
-import { useDelayedStepChangeState } from "@/hooks/useDelayedStepChangeState";
 import format from "date-fns/format";
-import { ArrowUpRight } from "phosphor-react";
-import { useEffect } from "react";
-import { ImproveRScoreSteps, RScoreBenefits } from "..";
+import Link from "next/link";
+import { CaretDown, CaretRight, Info, Lock } from "phosphor-react";
+import { useState } from "react";
+import { FinancialPillar, ImproveRScoreSteps, RScoreBenefits } from "..";
 import styles from "./styles.module.css";
 
 interface DetailsProps {
   improveRScoreSteps: ImproveRScoreSteps[];
   rScoreBenefits: RScoreBenefits[];
+  financialPillars: FinancialPillar[];
 }
 
 interface ImproveRScoreProps {
@@ -23,19 +23,17 @@ interface RScoreBenefitsCompProps {
 export default function Details({
   improveRScoreSteps,
   rScoreBenefits,
+  financialPillars,
 }: DetailsProps) {
-  const creditScore = 811;
-  const [scoreToBeDisplayed, setScore] = useDelayedStepChangeState(50, 5, 300);
-
-  useEffect(() => {
-    setScore(creditScore);
-  }, [creditScore]);
+  const [expandedPillarIndex, setExpandedPillarIndex] = useState<number | null>(
+    null
+  );
 
   return (
     <>
       <div className={styles.R_Score__CreditScoreMeter__Container}>
         <CreditScoreMeter
-          value={scoreToBeDisplayed}
+          value={811}
           min={300}
           max={900}
           width={300}
@@ -71,27 +69,12 @@ export default function Details({
             <p className="text-caption clr-text-secondary mb-2">
               {format(new Date(), "MMM yyyy")}
             </p>
-            <h2 className="text-title text-semibold mb-2">
-              {scoreToBeDisplayed}
-            </h2>
-            <Tag type="success" className={styles.R_Score__Tag}>
-              Excellent
-            </Tag>
+
+            <Lock size={49} weight="fill" />
           </div>
         </CreditScoreMeter>
 
-        <div style={{ marginTop: "-20px" }}>
-          <p
-            style={{
-              fontSize: "12px",
-              fontWeight: "400",
-              color: "#696D70",
-              margin: "16px 0",
-              textAlign: "center",
-            }}
-          >
-            Next update in 30 days
-          </p>
+        <div style={{ marginTop: "20px" }}>
           <div
             style={{
               display: "flex",
@@ -103,13 +86,13 @@ export default function Details({
             }}
           >
             <span style={{ marginTop: "4px" }}>
-              <ArrowUpRight size={14} color="#01752F" />
+              <Info size={16} />
             </span>
             <p
               style={{ color: "var(--clr-text-primary)", marginLeft: "4px" }}
               className={styles.Caption}
             >
-              Up 150 points since last month
+              Use the app for a month to track your score.
             </p>
           </div>
         </div>
@@ -120,17 +103,18 @@ export default function Details({
           style={{ width: "75%" }}
           className={`${styles.Heading__Small} text-left mb-2 `}
         >
-          Refyne Score: Your Gateway to Financial Freedom
+          Refyne Score <br /> Your Gateway to Financial Freedom
         </h4>
         <p className={`${styles.Caption} text-left mt-1`}>
-          Refyne Score is a simple way to build creditworthiness through your
-          career growth and use of Refyne products.
+          Your financial health score that opens doors to better credit limits,
+          lower interest rates, and exclusive financial products. The higher
+          your score, the better your benefits.
         </p>
 
         {/* How to Improve R-Score */}
         <div className={styles.R__Score__Container}>
           <h4 className={`${styles.Heading__Small} text-left`}>
-            How to Improve your R-Score
+            Simple Steps To Boost Your Score
           </h4>
           <div className={styles.R__Score__Improve__Steps__Container}>
             <ImproveRScore improveRScoreSteps={improveRScoreSteps} />
@@ -140,20 +124,122 @@ export default function Details({
 
       <div
         className={styles.R_Score__Benefits__Container}
-        style={{ marginBottom: "40px" }}
+        style={{ marginBottom: "20px" }}
       >
         <h4 className={`${styles.Heading__Small} text-left`}>
           Unlock Benefits
         </h4>
-        <p className={`${styles.Caption} text-left`}>
-          Unlock Benefits By Improving Your Score
-        </p>
 
-        <div style={{ marginTop: "16px" }}>
+        <div style={{ margin: "16px 0" }}>
           <RScoreBenefitsComp rScoreBenefits={rScoreBenefits} />
         </div>
       </div>
+
+      {/* Financial Pillars */}
+      <div id="components" className={styles.Financial__Pillars__Container}>
+        <h4 className={styles.section_title}>Your Financial Wellness Areas</h4>
+
+        {financialPillars.map((pillar, index) => (
+          <div
+            key={pillar.name}
+            className={`${styles.Pillar__Card} ${
+              expandedPillarIndex === index ? styles.expanded : ""
+            }`}
+            onClick={() => {
+              setExpandedPillarIndex(
+                expandedPillarIndex === index ? null : index
+              );
+            }}
+          >
+            <div className={styles.Pillar__Header}>
+              <div className={styles.Pillar__Header_Content}>
+                <div
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div className={styles.priority_indicator}>{index + 1}</div>
+                </div>
+                <div>
+                  <h5 className={styles.Pillar__Title}>{pillar.name}</h5>
+                  <p className={styles.pillar_description}>
+                    {pillar.description}
+                  </p>
+                </div>
+              </div>
+              <CaretDown
+                size={24}
+                className={`${styles.expand_icon} ${
+                  expandedPillarIndex === index ? styles.expanded : ""
+                }`}
+              />
+            </div>
+
+            {expandedPillarIndex === index && (
+              <div className={styles.Pillar__Content}>
+                <div className={styles.why_matters}>
+                  <h6 className={styles.Content__Title}>Why it matters</h6>
+                  <ul className={styles.Benefits__List}>
+                    {pillar.whyItMatters.map((benefit, idx) => (
+                      <li key={idx} className={styles.Benefit__Item}>
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className={styles.improvements}>
+                  <h6 className={styles.Content__Title}>Recommended Actions</h6>
+                  <div className={styles.Improvements__List}>
+                    {pillar.improvements.map((improvement, idx) => (
+                      <ActionLink
+                        key={idx}
+                        href={improvement.redirectionPath}
+                        action={improvement.action}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </>
+  );
+}
+
+function ActionLink({
+  href,
+  action,
+  idx,
+  className,
+}: {
+  href: string;
+  action: string;
+  idx?: number;
+  className?: string;
+}) {
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.stopPropagation();
+  }
+
+  return (
+    <Link
+      href={href}
+      key={idx}
+      className={`${styles.action_button} ${className || ""}`}
+      onClick={handleClick}
+    >
+      <div className={styles.action_content}>
+        <div className={styles.Improvement__Action}>{action}</div>
+        <CaretRight size={20} weight="bold" color="#121212" />
+      </div>
+    </Link>
   );
 }
 
@@ -161,21 +247,16 @@ function RScoreBenefitsComp({ rScoreBenefits }: RScoreBenefitsCompProps) {
   return (
     <div
       style={{
-        marginBottom: "12px",
-        display: "flex",
-        flexWrap: "wrap",
-        justifyContent: "space-between",
+        border: "1px solid var(--clr-border-enabled)",
+        borderRadius: "8px",
+        padding: "12px",
       }}
     >
       {rScoreBenefits.map(({ label, icon }) => {
         return (
-          <div style={{ marginBottom: "12px" }} key={label}>
-            <div className={styles.R_Score__Benefits__Label}>
-              <span style={{ marginRight: "8px", marginTop: "5px" }}>
-                {icon}
-              </span>
-              <p className={styles.Body__Text}>{label}</p>
-            </div>
+          <div key={label} className={styles.R_Score__Benefits__Label}>
+            <span style={{ marginRight: "8px", marginTop: "5px" }}>{icon}</span>
+            <p className={styles.Body__Text}>{label}</p>
           </div>
         );
       })}
