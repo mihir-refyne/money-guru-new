@@ -13,10 +13,13 @@ export default function BookAppointment() {
     <PageLayout hasLocalButton={false} navbarText="Schedule Appointment">
       {isIframeLoading && <LoadingPage />}
       <iframe
-        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ3vAgfClUjR6NJIpBjJRd1VAw9QZzT2SoBxDhR_tlNJ-ZHEofZsvgnry88D66GKaRfGDHvsoUEE?gv=true"
-        style={{ border: "0" }}
+        src="https://calendly.com/atul-rai-refyne/financial-coaching-refyne?hide_event_type_details=1&hide_gdpr_banner=1"
         width="100%"
-        height="600"
+        height="700"
+        style={{
+          minWidth: "320px",
+          border: "none",
+        }}
         onLoad={handleIFrameLoad}
       />
     </PageLayout>
