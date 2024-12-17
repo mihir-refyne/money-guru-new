@@ -11,6 +11,7 @@ import {
   LearningModuleTypeResponseProps,
 } from "@/lib/utils/learningModulesFetcher";
 import VideoFillerBanner from "../VideoFillerBanner/VideoFillerBanner";
+import Image from "next/image";
 
 export default function LearningModule({
   learningModulesResponse,
@@ -68,9 +69,13 @@ const LearningModuleGridItem = ({ module }: { module: LearningModuleType }) => {
       className={styles.gridItem}
       onClick={() => onClickModuleHandler({ id: module.id })}
     >
-      <img
+      <Image
+        width={200}
+        height={200}
         src={module.image ?? LearningModuleData.moduleSubPlaceHolder}
         alt="learning_module"
+        layout="responsive"
+        sizes="(max-width: 768px) 100vw, 50vw"
       />
       <p className={styles.moduleTitle}>{module.title}</p>
       <p className={styles.chapterCount}>{module.chapters.length} Chapters</p>
