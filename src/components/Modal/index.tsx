@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { X } from "phosphor-react";
+import { ReactNode, useEffect } from "react";
 import styles from "./styles.module.css";
 
 interface ModalProps {
@@ -7,6 +7,7 @@ interface ModalProps {
   bottomSheetOnMobile?: boolean;
   onClose?: () => void;
   children: ReactNode;
+  freezeBackgroundOnModalOpen?: boolean;
 }
 
 export default function Modal({
@@ -14,7 +15,21 @@ export default function Modal({
   bottomSheetOnMobile = false,
   onClose,
   children,
+  freezeBackgroundOnModalOpen = true,
 }: ModalProps) {
+  useEffect(() => {
+    // Prevent scrolling when modal is open
+    if (active && freezeBackgroundOnModalOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [active, freezeBackgroundOnModalOpen]);
+
   return (
     <div
       className={`${styles.Modal} ${active ? styles.active : ""} ${
