@@ -22,7 +22,7 @@ export default function HeroSection({ loanType }: HeroSectionProps) {
           priority
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRg..."
-          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{ width: '100%', height: '100%', objectFit: 'cover' } as const}
         />
       </div>
     </section>

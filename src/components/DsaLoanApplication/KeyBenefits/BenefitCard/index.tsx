@@ -15,6 +15,7 @@ export default function BenefitCard({ icon, title }: BenefitCardProps) {
         width={32}
         height={32}
         className={styles.icon}
+        style={{ objectFit: 'contain' } as const}
       />
       <h3 className={styles.title}>{title}</h3>
     </div>
