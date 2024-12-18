@@ -1,11 +1,12 @@
 .PageLayout__Wrapper {
+  width: 100%;
   max-width: 450px;
   margin: 0 auto;
   position: relative;
   min-height: var(--full-vh);
-  
   display: flex;
   flex-direction: column;
+  overflow-x: hidden;
 }
 
 .PageLayout__Content {

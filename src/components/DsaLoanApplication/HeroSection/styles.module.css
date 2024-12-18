@@ -1,0 +1,46 @@
+.heroSection {
+  padding: 0 12px;
+  margin: 16px 36px;
+  text-align: center;
+}
+
+.heading {
+  font-size: clamp(18px, 5vw, 20px);
+  font-weight: 600;
+  line-height: 1.21;
+  letter-spacing: 0.01em;
+  margin-bottom: 8px;
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0;
+}
+
+.subheading {
+  font-size: clamp(11px, 3vw, 12px);
+  font-weight: 500;
+  line-height: 1.21;
+  letter-spacing: 0.01em;
+  color: rgba(0, 0, 0, 0.8);
+  padding: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+.imageContainer {
+  margin: 16px 0;
+  padding: 0;
+  border: 1px solid #BAD7FF;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 299/186;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 0;
+}
