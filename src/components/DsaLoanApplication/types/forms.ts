@@ -1,4 +1,5 @@
 import { LoanType } from '../types';
+export type { LoanType };
 
 export interface FormErrors {
   [key: string]: string;
