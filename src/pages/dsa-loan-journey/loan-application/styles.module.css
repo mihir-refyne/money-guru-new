@@ -1,0 +1,13 @@
+.benefitsSeparator {
+  margin: 4px 0 24px;
+}
+
+.processSeparator {
+  margin: 32px 0 20px;
+}
+
+.pageContent {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
