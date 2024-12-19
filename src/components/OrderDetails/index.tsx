@@ -75,6 +75,7 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
         />
         <hr className={styles.divider} />
         <OrderTimelineComp
+          eta={orderDetail.eta}
           cancelledAt={orderDetail.cancelledAt}
           timeLine={orderDetail.orderTimeline}
         />
