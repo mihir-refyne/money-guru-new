@@ -2,7 +2,7 @@ import { useState, FormEvent, useCallback } from 'react';
 import { Spinner } from 'phosphor-react';
 import { useRouter } from 'next/router';
 import { validateBaseFormData } from '../utils/validation';
-import { HomeLoanFormData, FormErrors } from '../types/forms';
+import { HomeLoanFormData, FormErrors, FORM_CONFIG } from '../types/forms';
 import styles from './styles.module.css';
 
 export default function HomeLoanForm() {
@@ -48,7 +48,7 @@ export default function HomeLoanForm() {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        const response = await fetch('https://script.google.com/a/macros/refyne.co.in/s/AKfycbzO0tAuy2RYdsTNb1Q6ShnEZ-S31MF63x4gOmfrnXdghLUVvMHDlEoHYcWw0dCZHWx2/exec', {
+        const response = await fetch(FORM_CONFIG.home.apiEndpoint, {
           method: 'POST',
           mode: 'cors',
           redirect: 'follow',

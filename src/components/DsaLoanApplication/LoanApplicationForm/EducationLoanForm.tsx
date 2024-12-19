@@ -2,7 +2,7 @@ import { useState, FormEvent, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { Spinner } from 'phosphor-react';
 import { validateBaseFormData } from '../utils/validation';
-import { EducationLoanFormData, FormErrors } from '../types/forms';
+import { EducationLoanFormData, FormErrors, FORM_CONFIG } from '../types/forms';
 import styles from './styles.module.css';
 
 export default function EducationLoanForm() {
@@ -61,7 +61,7 @@ export default function EducationLoanForm() {
     if (validateForm()) {
       setIsSubmitting(true);
       try {
-        const response = await fetch('https://script.google.com/a/macros/refyne.co.in/s/AKfycbzQqCEZmG0DcOBL9p9Wd8T3WnqwjAS09Af2qCtj2YOuUQidwos7PMOWplfKROzRpX8a/exec', {
+        const response = await fetch(FORM_CONFIG.education.apiEndpoint, {
           method: 'POST',
           mode: 'cors',
           redirect: 'follow',
