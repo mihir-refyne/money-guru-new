@@ -92,9 +92,20 @@ export default function EducationLoanForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+       
+    if (name === 'mobileNumber') {
+      const numericValue = value.replace(/\D/g, '');
+  
+      setFormData(prev => ({ ...prev, [name]: numericValue }));
+  
+      if (errors[name]) {
+        setErrors(prev => ({ ...prev, [name]: '' }));
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+      if (errors[name]) {
+        setErrors(prev => ({ ...prev, [name]: '' }));
+      }
     }
   };
 
@@ -122,7 +133,7 @@ export default function EducationLoanForm() {
             type="date"
             id="dateOfBirth"
             name="dateOfBirth"
-            className={styles.input}
+            className={`${styles.input} ${styles.dateInput}`}
             value={formData.dateOfBirth}
             onChange={handleChange}
             max={new Date().toISOString().split('T')[0]}
@@ -141,6 +152,7 @@ export default function EducationLoanForm() {
             onChange={handleChange}
             maxLength={10}
             pattern="[0-9]{10}"
+            inputMode="numeric"
           />
           {errors.mobileNumber && <span className={styles.error}>{errors.mobileNumber}</span>}
         </div>
