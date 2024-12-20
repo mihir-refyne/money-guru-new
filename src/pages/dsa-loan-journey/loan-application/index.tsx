@@ -20,7 +20,7 @@ export default function LoanApplicationPage() {
       pageBackground="#F0F7FF"
     >
       <div className={styles.pageContent}>
-      <AppHeader />
+      <AppHeader dispatchPopEventOnBackClick={true}/>
       <HeroSection loanType={loanType} />
       
       <Separator 
