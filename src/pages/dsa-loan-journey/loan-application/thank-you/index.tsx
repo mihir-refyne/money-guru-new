@@ -1,11 +1,17 @@
-import { useRouter } from 'next/router';
-import Image from 'next/image';
-import PageLayout from '@/components/PageLayout';
-import AppHeader from '@/components/DsaLoanApplication/AppHeader';
-import styles from './styles.module.css';
+import { useRouter } from "next/router";
+import PageLayout from "@/components/PageLayout";
+import AppHeader from "@/components/DsaLoanApplication/AppHeader";
+import styles from "./styles.module.css";
 
 export default function ThankYouPage() {
   const router = useRouter();
+
+  function onClickBackToHomeHandler() {
+    const queryType = router.query.type;
+    router.push(
+      "/dsa-loan-journey/loan-application?type=" + (queryType ?? "home")
+    );
+  }
 
   return (
     <PageLayout
@@ -22,12 +28,10 @@ export default function ThankYouPage() {
           </p>
           <div className={styles.separator} />
           <p className={styles.message}>
-            Our executive will contact you within 24 hours to assist you with your application process.
+            Our executive will contact you within 24 hours to assist you with
+            your application process.
           </p>
-          <button 
-            className={styles.button}
-            onClick={() => router.push('/')}
-          >
+          <button className={styles.button} onClick={onClickBackToHomeHandler}>
             Back to Home
           </button>
         </div>
