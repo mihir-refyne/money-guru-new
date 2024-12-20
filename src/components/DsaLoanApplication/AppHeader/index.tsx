@@ -34,6 +34,7 @@ export default function AppHeader({
     const isThankYouPage = router.pathname.includes("thank-you");
 
     if (isThankYouPage) {
+      isBackTriggerAvailable.current = true;
       router.push(
         "/dsa-loan-journey/loan-application?type=" + router.query.type
       );
