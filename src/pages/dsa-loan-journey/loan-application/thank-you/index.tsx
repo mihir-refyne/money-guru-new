@@ -8,7 +8,7 @@ export default function ThankYouPage() {
 
   function onClickBackToHomeHandler() {
     const queryType = router.query.type;
-    router.push(
+    router.replace(
       "/dsa-loan-journey/loan-application?type=" + (queryType ?? "home")
     );
   }

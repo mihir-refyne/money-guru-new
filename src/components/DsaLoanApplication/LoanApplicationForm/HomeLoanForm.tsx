@@ -138,7 +138,6 @@ export default function HomeLoanForm() {
             value={formData.mobileNumber}
             onChange={handleChange}
             maxLength={10}
-            pattern="[0-9]{10}"
             inputMode="numeric"
           />
           {errors.mobileNumber && <span className={styles.error}>{errors.mobileNumber}</span>}
@@ -219,8 +218,7 @@ export default function HomeLoanForm() {
             name="loanAmount"
             className={styles.input}
             value={formData.loanAmount}
-            onChange={handleChange}
-            min="1000000"
+            onChange={handleChange} 
           />
           {errors.loanAmount && <span className={styles.error}>{errors.loanAmount}</span>}
         </div>
