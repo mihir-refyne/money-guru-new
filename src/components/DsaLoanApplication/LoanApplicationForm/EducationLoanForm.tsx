@@ -245,6 +245,7 @@ export default function EducationLoanForm() {
             className={styles.input}
             value={formData.loanAmount}
             onChange={handleChange}
+            inputMode="numeric"
           />
           {errors.loanAmount && <span className={styles.error}>{errors.loanAmount}</span>}
         </div>

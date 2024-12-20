@@ -218,7 +218,8 @@ export default function HomeLoanForm() {
             name="loanAmount"
             className={styles.input}
             value={formData.loanAmount}
-            onChange={handleChange} 
+            onChange={handleChange}
+            inputMode="numeric" 
           />
           {errors.loanAmount && <span className={styles.error}>{errors.loanAmount}</span>}
         </div>
