@@ -116,6 +116,7 @@ export default function CreditReportSummaryDetailed({
     onClick?: () => void
   ): ListCardItemProps {
     return {
+      alignItems: "center",
       leftIcon: <Image src={rupeeReloadIconUrl} alt="Payment History" />,
       contentLeftTitle: t("payment_history_label"),
       contentLeftDescription: t("high_impact_label"),
@@ -133,6 +134,7 @@ export default function CreditReportSummaryDetailed({
     onClick?: () => void
   ): ListCardItemProps {
     return {
+      alignItems: "center",
       leftIcon: <Image src={walletIconUrl} alt="Credit Utilisation" />,
       contentLeftTitle: t("credit_utilisation_label"),
       contentLeftDescription: t("high_impact_label"),
@@ -150,6 +152,7 @@ export default function CreditReportSummaryDetailed({
     onClick?: () => void
   ): ListCardItemProps {
     return {
+      alignItems: "center",
       leftIcon: <Image src={cardWaitingIconUrl} alt="Credit Mix" />,
       contentLeftTitle: t("credit_mix_label"),
       contentLeftDescription: t("medium_impact_label"),
@@ -167,6 +170,7 @@ export default function CreditReportSummaryDetailed({
     onClick?: () => void
   ): ListCardItemProps {
     return {
+      alignItems: "center",
       leftIcon: <Image src={cardSearchIconUrl} alt="Credit Enquiries" />,
       contentLeftTitle: t("credit_enquiries_label"),
       contentLeftDescription: t("low_impact_label"),
@@ -187,6 +191,7 @@ export default function CreditReportSummaryDetailed({
       creditMix &&
       creditMix.totalActiveCreditCards + creditMix.totalActiveLoans;
     return {
+      alignItems: "center",
       leftIcon: <Image src={moneyBagIconUrl} alt="Total Accounts" />,
       contentLeftTitle: t("total_accounts_label"),
       contentLeftDescription: t("low_impact_label"),
