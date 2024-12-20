@@ -35,7 +35,7 @@ export default function AppHeader({
 
     if (isThankYouPage) {
       isBackTriggerAvailable.current = true;
-      router.push(
+      router.replace(
         "/dsa-loan-journey/loan-application?type=" + router.query.type
       );
     } else {

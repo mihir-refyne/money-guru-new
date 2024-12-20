@@ -20,6 +20,7 @@ export default function EducationLoanForm() {
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const config = FORM_CONFIG['education'];
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -45,6 +46,8 @@ export default function EducationLoanForm() {
     if (!formData.courseDuration) newErrors.courseDuration = 'Course duration is required';
     if (!formData.loanAmount) {
       newErrors.loanAmount = 'Loan amount is required';
+    } else if (Number(formData.loanAmount) < config.minLoanAmount) {
+      newErrors.loanAmount = `Minimum loan amount is ₹${config.minLoanAmount.toLocaleString()}`;
     }
     if (!formData.loanTenure) newErrors.loanTenure = 'Loan tenure is required';
 
@@ -151,7 +154,6 @@ export default function EducationLoanForm() {
             value={formData.mobileNumber}
             onChange={handleChange}
             maxLength={10}
-            pattern="[0-9]{10}"
             inputMode="numeric"
           />
           {errors.mobileNumber && <span className={styles.error}>{errors.mobileNumber}</span>}
@@ -243,6 +245,7 @@ export default function EducationLoanForm() {
             className={styles.input}
             value={formData.loanAmount}
             onChange={handleChange}
+            inputMode="numeric"
           />
           {errors.loanAmount && <span className={styles.error}>{errors.loanAmount}</span>}
         </div>
