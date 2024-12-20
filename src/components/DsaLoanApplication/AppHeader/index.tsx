@@ -43,7 +43,7 @@ export default function AppHeader({
     }
 
     setTimeout(() => {
-      if (!isBackTriggerAvailable.current) {
+      if (!isBackTriggerAvailable.current && !dispatchPopEventOnBackClick) {
         dispatchDataToNativePlatform({
           type: "POP",
         });
