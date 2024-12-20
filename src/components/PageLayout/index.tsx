@@ -78,7 +78,7 @@ export default function PageLayout({
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
   const [currentLocale, setCurrentLocale] = useState<string>(
-    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? ""
+    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? "",
   );
   const isBackTriggerAvailable = useRef<boolean>(false);
 
@@ -131,7 +131,10 @@ export default function PageLayout({
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"
+        />
         <meta
           httpEquiv="ScreenOrientation"
           content="autoRotate:disabled"
