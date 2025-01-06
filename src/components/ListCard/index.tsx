@@ -93,7 +93,9 @@ function ListCardItem({
         <div className={styles.ListCardItem__Content__Item}>
           {contentLeftTitle && (
             <h5 className="text-medium text-body">
-              {contentLeftTitle.toLowerCase().replace(/\b\w/g, char => char.toUpperCase())}
+              {contentLeftTitle
+                .toLowerCase()
+                .replace(/\b\w/g, (char) => char.toUpperCase())}
             </h5>
           )}
           {contentLeftDescription && (
@@ -102,10 +104,7 @@ function ListCardItem({
             </p>
           )}
         </div>
-        <div
-          className={`${styles.ListCardItem__Content__Item} text-right`}
-          style={{ flexBasis: "20%" }}
-        >
+        <div className={`${styles.ListCardItem__Content__Item} text-right`}>
           {contentRightTitle && (
             <h5 className={`text-medium ${contentRightTitleClassName ?? ""}`}>
               {contentRightTitle}
