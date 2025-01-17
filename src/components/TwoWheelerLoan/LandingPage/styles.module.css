@@ -1,0 +1,164 @@
+.top_section_banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.top_section_banner__logo_container {
+  padding: 6px 8px;
+  border: 1px solid #f09d1a52;
+  border-radius: 4.09px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+}
+
+.top_section_banner__logo_container__small {
+  padding: 4.38px 8.76px;
+}
+
+.top_section_header {
+  text-align: center;
+}
+
+.top_section_header__subtitle {
+  font-size: 16px;
+  line-height: 28px;
+}
+
+.top_section_header__title {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  color: #4e2e00;
+}
+
+/* Main container for the section */
+.top_section_key_benefits {
+  margin-top: 24px;
+}
+
+/* Header text */
+.top_section_key_benefits__header {
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  color: #121212;
+}
+
+/* Grid container */
+.top_section_key_benefits__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+/* Individual grid item */
+.top_section_key_benefits__item {
+  gap: 8px;
+  border-radius: 8px;
+  padding: 12px;
+  background-color: white;
+  border: 0.5px solid #4e2e00;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 96px;
+  text-align: left;
+}
+
+/* Text for description inside grid items */
+.top_section_key_benefits__item__text {
+  padding-right: 10px;
+  font-size: 12px;
+  color: #121212;
+}
+
+/* Text for the value inside grid items */
+.top_section_key_benefits__item__value {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 14px;
+}
+
+.faq_accordion_item {
+  /* border: 1px solid #f7f7f7; */
+  border-radius: 8px;
+  /* margin: 12px; */
+  font-weight: 400;
+}
+
+.faq_accordion_outer_item {
+  border: 1px solid #f7f7f7;
+  border-radius: 8px;
+  margin: 8px;
+  padding: 8px;
+  background-color: white;
+}
+
+.faq_accordion_item_bottom_border {
+  border-bottom: 1px solid #f7f7f7;
+  border-radius: 0px;
+}
+
+.faq_accordion_item_header {
+  font-weight: 400;
+}
+
+/* Container for the entire section */
+.other_benefits_section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 12px;
+}
+
+/* Header text styling */
+.other_benefits_section__header {
+  padding-left: 12px;
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+  color: #121212;
+}
+
+/* Wrapper for the benefits box */
+.other_benefits_section__box {
+  width: 100%;
+  max-width: 100%;
+  background-color: white;
+  border: 1px solid var(--border-Enabled, #f0f0f0);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 8px;
+}
+
+/* Individual benefit item */
+.other_benefits_section__item {
+  gap: 8px;
+  display: flex;
+  width: 100%;
+  padding-bottom: 8px;
+  border-bottom: 0.5px solid var(--border-Enabled, #f0f0f0);
+}
+
+.other_benefits_section__item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+/* Styling for the benefit text */
+.other_benefits_section__item__text {
+  font-size: 14px;
+  line-height: 20px;
+  text-align: left;
+  color: #121212;
+}
