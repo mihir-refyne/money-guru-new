@@ -5,3 +5,5 @@ export const TwoWheelerRoutes = {
   APPLICATION_STATUS: "/application-status",
   TERMS_AND_CONDITIONS: "/terms-and-conditions",
 };
+
+export const TERMS_AND_CONDITIONS = "https://www.refyne.co.in/terms-content";
