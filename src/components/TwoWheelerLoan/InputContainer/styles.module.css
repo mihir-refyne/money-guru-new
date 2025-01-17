@@ -1,0 +1,67 @@
+/* Container Styles */
+.input_container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: white;
+  border: 1px solid var(--clr-border-enabled);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.input_container__border_none {
+  border: none;
+}
+
+/* Label Styles */
+.input_field_label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--clr-pure-grey);
+}
+
+/* Input Wrapper Styles */
+.input_field_wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Input Field Styles */
+.input_field {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--clr-border-enabled);
+  border-radius: 4px;
+  outline: none;
+}
+
+.input_field:focus {
+  border-color: #0057b7;
+}
+
+.input_field.error {
+  border-color: var(--clr-info-error-default);
+}
+
+/* Icon Styles */
+.input_field_icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* Response Text Styles */
+.input_field_response_text {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--clr-pure-grey);
+}
+
+/* Error Message Styles */
+.input_field_response_text.error {
+  color: var(--clr-info-error-default);
+}
