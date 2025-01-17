@@ -17,9 +17,6 @@ export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  const routerParam = router.query.status as unknown;
-  // const status = (routerParam as LoanStatus) || LoanStatus.INITIATED;
-
   const { isLoading, data: loansData, error } = useFetcher(fetchAllLoans);
 
   if (isLoading) {

@@ -15,7 +15,7 @@ import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 interface PincodeState {
   value: string;
   error?: string;
-  data: ServiceabilityResponse | null;
+  serviceabilityResponseData: ServiceabilityResponse | null;
   isLoading: boolean;
 }
 
@@ -23,76 +23,78 @@ export default function ConfirmPincodeDetails() {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  const [state, setState] = useState<PincodeState>({
+  const [pincodeState, setPincodeState] = useState<PincodeState>({
     value: "",
     error: undefined,
-    data: null,
+    serviceabilityResponseData: null,
     isLoading: false,
   });
 
-  const handlePincodeChange = (value: string) => {
-    setState({
+  function handlePincodeChange(value: string) {
+    setPincodeState({
       value,
       error: undefined,
-      data: null,
+      serviceabilityResponseData: null,
       isLoading: false,
     });
-  };
+  }
 
   const fetchServiceability = async (pincode: string) => {
-    setState((prev) => ({ ...prev, isLoading: true }));
+    setPincodeState((prev) => ({ ...prev, isLoading: true }));
     try {
       const response = await fetchPincodeServiceability({ pincode });
       if (!response?.serviceable) {
-        setState({
+        setPincodeState({
           value: pincode,
           error: "This pincode is not serviceable",
-          data: null,
+          serviceabilityResponseData: null,
           isLoading: false,
         });
       } else {
-        setState({
+        setPincodeState({
           value: pincode,
           error: undefined,
-          data: response,
+          serviceabilityResponseData: response,
           isLoading: false,
         });
       }
     } catch (error: any) {
-      setState({
+      setPincodeState({
         value: pincode,
         error: getCoreServerErrorMessageFromFetcherError(error),
-        data: null,
+        serviceabilityResponseData: null,
         isLoading: false,
       });
     }
   };
 
   useEffect(() => {
-    if (state.value.length === 6 && !state.isLoading) {
-      fetchServiceability(state.value);
+    if (pincodeState.value.length === 6 && !pincodeState.isLoading) {
+      fetchServiceability(pincodeState.value);
     }
-  }, [state.value]);
+  }, [pincodeState.value]);
 
   const getLocationText = () => {
-    const metadata = state.data?.pincodeMetadata;
+    const metadata = pincodeState.serviceabilityResponseData?.pincodeMetadata;
     return metadata ? `${metadata.city}, ${metadata.state}` : undefined;
   };
 
-  const handleContinue = () => {
-    if (state.value.length < 1) {
-      setState((prev) => ({
+  function handleContinueCTAOnClick() {
+    if (pincodeState.value.length < 1) {
+      setPincodeState((prev) => ({
         ...prev,
         error: "This field is mandatory",
       }));
       return;
     }
     router.push(
-      `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.VEHICLE_DETAILS}`
+      `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.VEHICLE_DETAILS}?pincode=${pincodeState.value}`
     );
-  };
+  }
 
-  const isPincodeValid = !!state.data?.serviceable && !state.error;
+  const isPincodeValid =
+    !!pincodeState.serviceabilityResponseData?.serviceable &&
+    !pincodeState.error;
 
   return (
     <PageLayout
@@ -106,7 +108,7 @@ export default function ConfirmPincodeDetails() {
         <FooterButton
           isButtonDisabled={!isPincodeValid}
           label={t("continue_footer_cta")}
-          onClick={handleContinue}
+          onClick={handleContinueCTAOnClick}
         />
       }
     >
@@ -121,11 +123,13 @@ export default function ConfirmPincodeDetails() {
         <InputContainer
           maxLength={6}
           inputFieldType="number"
-          value={state.value}
-          errorMessage={state.error}
+          value={pincodeState.value}
+          errorMessage={pincodeState.error}
           hasSuccess={isPincodeValid}
           successResponse={getLocationText()}
-          hasError={!!state.error && !state.data}
+          hasError={
+            !!pincodeState.error && !pincodeState.serviceabilityResponseData
+          }
           label={t("enter_pincode_input_label")}
           onChange={(e) => handlePincodeChange(e.target.value)}
         />

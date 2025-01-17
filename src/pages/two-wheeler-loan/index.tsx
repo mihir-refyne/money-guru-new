@@ -1,15 +1,15 @@
-import PageLayout from "@/components/PageLayout";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import PageLayout from "@/components/PageLayout";
 import useTranslation from "@/hooks/useTranslation";
 import BikeImage from "../../../public/assets/images/two-wheeler-loan/bike_image.svg";
 import GiftBoxIcon from "../../../public/assets/images/two-wheeler-loan/gift_box_icon.svg";
 import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { fetchAllLoans } from "@/lib/two-wheeler-loan";
 import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
-import toast from "react-hot-toast";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import {
   TopSectionHeaderBanner,
@@ -17,7 +17,7 @@ import {
   TopSectionKeyBenefitsGridContainer,
 } from "@/components/TwoWheelerLoan/LandingPage/TopSectionHeader";
 import { FAQSection } from "@/components/TwoWheelerLoan/LandingPage/FAQSection";
-import { OtherBenefitsSection } from "@/components/TwoWheelerLoan/LandingPage/OtherBenfitsSection";
+import { OtherBenefitsSection } from "@/components/TwoWheelerLoan/LandingPage/OtherBenefitsSection";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 
@@ -113,6 +113,10 @@ export const TwoWheelerPageFooter = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
 
+  function handleFooterCTAOnClick() {
+    router.push(`${router.pathname}${TwoWheelerRoutes.CONFIRM_DETAILS}`);
+  }
+
   return (
     <div
       style={{
@@ -147,9 +151,7 @@ export const TwoWheelerPageFooter = () => {
       <FooterButton
         isButtonDisabled={false}
         label={t("continue_footer_cta")}
-        onClick={() => {
-          router.push(`${router.pathname}${TwoWheelerRoutes.CONFIRM_DETAILS}`);
-        }}
+        onClick={handleFooterCTAOnClick}
       />
     </div>
   );

@@ -1,20 +1,18 @@
+import { useState } from "react";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 import PageLayout from "@/components/PageLayout";
 import { InputContainer } from "@/components/TwoWheelerLoan/InputContainer";
 import useTranslation from "@/hooks/useTranslation";
 import styles from "../../two-wheeler-loan/styles.module.css";
 import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
 import Modal from "@/components/Modal";
-import { useState } from "react";
 import { TypeOfVehicleRadioButtonGroup } from "@/components/TwoWheelerLoan/VehicleTypeRadioGroupWithLabel";
-
-import { useRouter } from "next/router";
 import { applyForLoan, EngineType } from "@/lib/two-wheeler-loan";
 import {
   ChooseTenureDropDownList,
   ChooseTenureDropDownMenu,
 } from "@/components/TwoWheelerLoan/VehicleDetailsForm/ChooseTenureDropDownMenu";
-
-import toast from "react-hot-toast";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 
@@ -35,7 +33,10 @@ interface VehicleLoanFormData {
 export default function VehicleDetails() {
   const { t } = useTranslation("common");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const routerParam = router.query.pincode as unknown;
+  const pincode = routerParam as string;
 
   const [formData, setFormData] = useState<VehicleLoanFormData>({
     vehicleType: "TWO_WHEELER",
@@ -43,7 +44,7 @@ export default function VehicleDetails() {
     applicationAmount: 0,
     onRoadPrice: 0,
     tenure: 24,
-    pincode: "",
+    pincode: pincode,
     isTermsConditionsChecked: false,
     errors: {},
   });
@@ -84,7 +85,7 @@ export default function VehicleDetails() {
     return undefined;
   };
 
-  const validateFields = (): void => {
+  const validateFields = (): boolean => {
     const applicationAmountError = validateApplicationAmount();
     const onRoadPriceError = validateOnRoadPrice();
 
@@ -95,12 +96,15 @@ export default function VehicleDetails() {
         onRoadPrice: onRoadPriceError,
       },
     }));
+
+    const hasErrors = !!applicationAmountError || !!onRoadPriceError;
+
+    return hasErrors;
   };
 
-  const [isLoading, setIsLoading] = useState(false);
-
   async function handleFormSubmit() {
-    validateFields();
+    if (validateFields()) return;
+
     try {
       setIsLoading(true);
       await applyForLoan({
