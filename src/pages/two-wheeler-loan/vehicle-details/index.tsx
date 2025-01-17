@@ -1,0 +1,240 @@
+import PageLayout from "@/components/PageLayout";
+import { InputContainer } from "@/components/TwoWheelerLoan/InputContainer";
+import useTranslation from "@/hooks/useTranslation";
+import styles from "../../two-wheeler-loan/styles.module.css";
+import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
+import Modal from "@/components/Modal";
+import { useState } from "react";
+import { TypeOfVehicleRadioButtonGroup } from "@/components/TwoWheelerLoan/VehicleTypeRadioGroupWithLabel";
+
+import { useRouter } from "next/router";
+import { applyForLoan, EngineType } from "@/lib/two-wheeler-loan";
+import {
+  ChooseTenureDropDownList,
+  ChooseTenureDropDownMenu,
+} from "@/components/TwoWheelerLoan/VehicleDetailsForm/ChooseTenureDropDownMenu";
+
+import toast from "react-hot-toast";
+import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
+
+interface VehicleLoanFormData {
+  vehicleType: string;
+  engineType: EngineType;
+  applicationAmount: number;
+  onRoadPrice: number;
+  tenure: number;
+  pincode: string;
+  isTermsConditionsChecked: boolean;
+  errors: {
+    applicationAmount?: string;
+    onRoadPrice?: string;
+  };
+}
+
+export default function VehicleDetails() {
+  const { t } = useTranslation("common");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const router = useRouter();
+
+  const [formData, setFormData] = useState<VehicleLoanFormData>({
+    vehicleType: "TWO_WHEELER",
+    engineType: EngineType.ICE,
+    applicationAmount: 0,
+    onRoadPrice: 0,
+    tenure: 24,
+    pincode: "",
+    isTermsConditionsChecked: false,
+    errors: {},
+  });
+
+  const handleInputChange = <K extends keyof VehicleLoanFormData>(
+    field: K,
+    value: VehicleLoanFormData[K]
+  ): void => {
+    setFormData((prev) => ({
+      ...prev,
+      [field]: value,
+      errors: {
+        ...prev.errors,
+        [field]: undefined,
+      },
+    }));
+  };
+
+  const validateApplicationAmount = (): string | undefined => {
+    const { applicationAmount, onRoadPrice } = formData;
+    if (applicationAmount === 0) {
+      return "This field is mandatory";
+    }
+    if (applicationAmount > onRoadPrice) {
+      return "Loan amount cannot be greater than On-road price of the vehicle!";
+    }
+    if (applicationAmount > 350000) {
+      return "Loan amount cannot be greater than Rs. 3,50,000.";
+    }
+    return undefined;
+  };
+
+  const validateOnRoadPrice = (): string | undefined => {
+    const { onRoadPrice } = formData;
+    if (onRoadPrice === 0) {
+      return "This field is mandatory";
+    }
+    return undefined;
+  };
+
+  const validateFields = (): void => {
+    const applicationAmountError = validateApplicationAmount();
+    const onRoadPriceError = validateOnRoadPrice();
+
+    setFormData((prev) => ({
+      ...prev,
+      errors: {
+        applicationAmount: applicationAmountError,
+        onRoadPrice: onRoadPriceError,
+      },
+    }));
+  };
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleFormSubmit() {
+    validateFields();
+    try {
+      setIsLoading(true);
+      await applyForLoan({
+        applicationAmount: formData.applicationAmount,
+        engineType: formData.engineType,
+        onRoadPrice: formData.onRoadPrice,
+        pincode: formData.pincode,
+        tenure: formData.tenure,
+        vehicleType: "TWO_WHEELER",
+      });
+      setIsLoading(false);
+      router.push("/two-wheeler-loan/application-status");
+    } catch (error: any) {
+      const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
+      if (!errorMessage) return;
+      toast.error(errorMessage);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return (
+    <PageLayout
+      pageBackground={"var(--clr-background-surface)"}
+      hasContentPadding={true}
+      hasLocalButton={false}
+      hasBackButton={true}
+      navbarBackground={"transparent"}
+      navbarText="Vehicle Details"
+      footer={
+        <>
+          <div
+            style={{
+              backgroundColor: "var(--clr-background-surface)",
+              marginTop: "auto",
+              padding: "16px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={formData.isTermsConditionsChecked}
+              onChange={() =>
+                handleInputChange(
+                  "isTermsConditionsChecked",
+                  !formData.isTermsConditionsChecked
+                )
+              }
+            />
+            <p
+              style={{
+                fontWeight: "400",
+                fontSize: "12px",
+                lineHeight: "16px",
+                color: "var(--clr-pure-grey)",
+              }}
+            >
+              {t("two_wheeler_terms_continue_text")}{" "}
+              <a
+                style={{
+                  cursor: "pointer",
+                  color: "var(--clr-brand-default)",
+                }}
+              >
+                {t("two_wheeler_terms_condition")}
+              </a>
+            </p>
+          </div>
+          <FooterButton
+            isButtonDisabled={!formData.isTermsConditionsChecked || isLoading}
+            label={t("vehicle_details_submit_application_cta_label")}
+            onClick={handleFormSubmit}
+          />
+        </>
+      }
+    >
+      <div className={styles.pincode_container}>
+        <div className={styles.pincode_header_wrapper}>
+          <h2 className={styles.pincode_title}>{t("add_details")}</h2>
+          <h4 className={styles.pincode_subtitle}>
+            {t("fill_details_input_label")}
+          </h4>
+        </div>
+
+        <TypeOfVehicleRadioButtonGroup
+          value={formData.engineType}
+          onChange={(value: EngineType) =>
+            handleInputChange("engineType", value)
+          }
+        />
+
+        <InputContainer
+          value={formData.onRoadPrice}
+          label={"On-road vehicle price"}
+          isBorderDisabled={true}
+          inputFieldType="number"
+          errorMessage={formData.errors.onRoadPrice}
+          hasError={!!formData.errors.onRoadPrice}
+          onChange={(e) => {
+            handleInputChange("onRoadPrice", Number(e.target.value));
+          }}
+        />
+        <InputContainer
+          value={formData.applicationAmount}
+          label={"Loan amount"}
+          isBorderDisabled={true}
+          inputFieldType="number"
+          errorMessage={formData.errors.applicationAmount}
+          hasError={!!formData.errors.applicationAmount}
+          onChange={(e) => {
+            handleInputChange("applicationAmount", Number(e.target.value));
+          }}
+        />
+        <ChooseTenureDropDownMenu
+          tenure={formData.tenure}
+          onClick={() => setIsModalOpen(true)}
+        />
+        <Modal
+          active={isModalOpen}
+          bottomSheetOnMobile
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+        >
+          <ChooseTenureDropDownList
+            value={formData.tenure}
+            onChange={(tenure) => handleInputChange("tenure", tenure)}
+            onClose={() => {
+              setIsModalOpen(false);
+            }}
+          />
+        </Modal>
+      </div>
+    </PageLayout>
+  );
+}
