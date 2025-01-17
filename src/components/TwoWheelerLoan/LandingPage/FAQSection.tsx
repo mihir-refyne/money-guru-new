@@ -112,7 +112,7 @@ export const FAQSection = () => {
             color: "var(--clr-brand-default)",
           }}
         >
-          {t("view_all_faqs")}
+          {t("two_wheeler_landing_page_view_all_faqs")}
         </p>
         <Image src={CaretRight} alt="Caret Right" />
       </div>

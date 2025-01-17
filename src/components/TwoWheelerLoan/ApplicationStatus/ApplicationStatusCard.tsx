@@ -25,7 +25,7 @@ export const ApplicationStatusCard = ({
         applicationStatusStyles.application_status_card__title_success,
       description: "",
     },
-    [LoanStatus.PENDING]: {
+    [LoanStatus.INITIATED]: {
       icon: pendingStatusIcon,
       title: "Application under review",
       titleClassStatusStyle:
@@ -68,7 +68,7 @@ export const ApplicationStatusCard = ({
           <p
             className={applicationStatusStyles.application_status_card__amount}
           >
-            ₹ {vehicleLoan?.approvalDetails?.approvedAmount}
+            ₹ {vehicleLoan?.applicationDetails?.amount}
           </p>
           <p className={applicationStatusStyles.application_status_card__date}>
             {formatDateWithYear(vehicleLoan?.createdAt ?? "")}

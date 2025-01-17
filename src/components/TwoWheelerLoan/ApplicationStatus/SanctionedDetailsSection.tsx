@@ -51,7 +51,7 @@ export const SanctionedDetailsSection = ({
               color: "#121212",
             }}
           >
-            ₹{vehicleLoan?.approvalDetails?.approvedAmount}
+            ₹{vehicleLoan?.approvalDetails?.amount}
           </p>
         </div>
         <div

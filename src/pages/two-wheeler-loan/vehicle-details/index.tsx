@@ -190,7 +190,9 @@ export default function VehicleDetails() {
     >
       <div className={styles.pincode_container}>
         <div className={styles.pincode_header_wrapper}>
-          <h2 className={styles.pincode_title}>{t("add_details")}</h2>
+          <h2 className={styles.pincode_title}>
+            {t("vehicle_details_add_details")}
+          </h2>
           <h4 className={styles.pincode_subtitle}>
             {t("fill_details_input_label")}
           </h4>

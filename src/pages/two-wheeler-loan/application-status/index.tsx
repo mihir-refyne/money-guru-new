@@ -35,10 +35,10 @@ export default function LoanApplicationStatus() {
       navbarText="Application Status"
       footer={
         <FooterButton
-          isButtonDisabled={true}
+          isButtonDisabled={false}
           label={t("two_wheeler_application_status_footer_cta_label")}
           onClick={() => {
-            router.push(TwoWheelerRoutes.TWO_WHEELER_LOAN);
+            router.push("/");
           }}
         />
       }
@@ -52,7 +52,7 @@ export default function LoanApplicationStatus() {
       >
         <ApplicationStatusCard vehicleLoan={loansData && loansData[0]} />
 
-        {status === LoanStatus.PENDING && <WhatNextSection />}
+        {status === LoanStatus.INITIATED && <WhatNextSection />}
         {status === LoanStatus.APPROVED && (
           <SanctionedDetailsSection vehicleLoan={loansData && loansData[0]} />
         )}

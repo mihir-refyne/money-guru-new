@@ -144,7 +144,7 @@ export const TwoWheelerPageFooter = () => {
             lineHeight: "16px",
           }}
         >
-          {t("loan_get_cash_back_text")}
+          {t("two_wheeler_landing_page_loan_get_cash_back_text")}
         </p>
       </div>
 

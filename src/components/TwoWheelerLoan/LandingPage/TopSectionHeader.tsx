@@ -12,10 +12,10 @@ export const TopSectionHeaderText = () => {
   return (
     <div className={styles.top_section_header}>
       <h2 className={`text-medium ${styles.top_section_header__subtitle}`}>
-        {t("bike_loan_label")}
+        {t("two_wheeler_label")}
       </h2>
       <h1 className={styles.top_section_header__title}>
-        {t("bike_loan_header")}
+        {t("two_wheeler_header")}
       </h1>
     </div>
   );
@@ -48,14 +48,26 @@ export const TopSectionKeyBenefitsGridContainer = () => {
   const { t } = useTranslation("common");
 
   const KeyBenefits = [
-    { icon: CheckIcon, text: t("key_benefit_text_1"), value: "8.99%" },
-    { icon: RupeeIcon, text: t("key_benefit_text_2"), value: "₹3,527" },
-    { icon: PercentIcon, text: t("key_benefit_text_3"), value: "95%" },
+    {
+      icon: CheckIcon,
+      text: t("two_wheeler_landing_page_key_benefit_text_1"),
+      value: "8.99%",
+    },
+    {
+      icon: RupeeIcon,
+      text: t("two_wheeler_landing_page_key_benefit_text_2"),
+      value: "₹3,527",
+    },
+    {
+      icon: PercentIcon,
+      text: t("two_wheeler_landing_page_key_benefit_text_3"),
+      value: "95%",
+    },
   ];
   return (
     <div className={styles.top_section_key_benefits}>
       <p className={`text-semibold ${styles.top_section_key_benefits__header}`}>
-        {t("key_benefit")}
+        {t("two_wheeler_landing_page_key_benefit")}
       </p>
 
       {/* Grid Container */}

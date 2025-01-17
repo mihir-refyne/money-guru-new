@@ -6,16 +6,16 @@ import CheckFilledIcon from "../../../../public/assets/images/two-wheeler-loan/c
 export const OtherBenefitsSection = () => {
   const { t } = useTranslation("common");
   const OtherBenefits = [
-    t("other_benefits_text_1"),
-    t("other_benefits_text_2"),
-    t("other_benefits_text_3"),
-    t("other_benefits_text_4"),
+    t("two_wheeler_landing_page_other_benefits_text_1"),
+    t("two_wheeler_landing_page_other_benefits_text_2"),
+    t("two_wheeler_landing_page_other_benefits_text_3"),
+    t("two_wheeler_landing_page_other_benefits_text_4"),
   ];
 
   return (
     <div className={styles.other_benefits_section}>
       <p className={`text-semibold ${styles.other_benefits_section__header}`}>
-        {t("other_benefits")}
+        {t("two_wheeler_landing_page_other_benefits")}
       </p>
 
       <div className={styles.other_benefits_section__box}>
