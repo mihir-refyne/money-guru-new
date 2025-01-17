@@ -13,7 +13,6 @@ export enum EngineType {
 
 export enum LoanStatus {
   INITIATED = "INITIATED",
-  PENDING = "PENDING",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
 }
@@ -33,7 +32,7 @@ interface Address {
 }
 
 export interface ApprovalDetails {
-  approvedAmount: number;
+  amount: number;
   approvedAt: string;
   interestRate: number;
 }
@@ -79,7 +78,7 @@ export async function fetchAllLoans(): Promise<VehicleLoan[] | null> {
     {
       method: "GET",
       query: {
-        filter: "1",
+        limit: "1",
       },
       headers: {
         Authorization: `Bearer ${idToken}`,
