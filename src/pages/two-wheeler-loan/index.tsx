@@ -19,6 +19,7 @@ import {
 import { FAQSection } from "@/components/TwoWheelerLoan/LandingPage/FAQSection";
 import { OtherBenefitsSection } from "@/components/TwoWheelerLoan/LandingPage/OtherBenfitsSection";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 
 export default function TwoWheelerLoan() {
   const router = useRouter();
@@ -31,7 +32,9 @@ export default function TwoWheelerLoan() {
         const loanData = loansData && loansData[0];
 
         if (loanData?.status) {
-          router.replace(`two-wheeler-loan/application-status`);
+          router.replace(
+            `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.APPLICATION_STATUS}`
+          );
         }
       } catch (error: any) {
         const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
@@ -145,7 +148,7 @@ export const TwoWheelerPageFooter = () => {
         isButtonDisabled={false}
         label={t("continue_footer_cta")}
         onClick={() => {
-          router.push(`${router.pathname}/confirm-details`);
+          router.push(`${router.pathname}${TwoWheelerRoutes.CONFIRM_DETAILS}`);
         }}
       />
     </div>

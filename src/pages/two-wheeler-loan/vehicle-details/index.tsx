@@ -16,6 +16,7 @@ import {
 
 import toast from "react-hot-toast";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
+import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 
 interface VehicleLoanFormData {
   vehicleType: string;
@@ -111,7 +112,9 @@ export default function VehicleDetails() {
         vehicleType: "TWO_WHEELER",
       });
       setIsLoading(false);
-      router.push("/two-wheeler-loan/application-status");
+      router.push(
+        `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.APPLICATION_STATUS}`
+      );
     } catch (error: any) {
       const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
       if (!errorMessage) return;
@@ -160,14 +163,17 @@ export default function VehicleDetails() {
               }}
             >
               {t("two_wheeler_terms_continue_text")}{" "}
-              <a
+              <button
                 style={{
                   cursor: "pointer",
                   color: "var(--clr-brand-default)",
                 }}
+                onClick={() => {
+                  router.push(TwoWheelerRoutes.TERMS_AND_CONDITIONS);
+                }}
               >
                 {t("two_wheeler_terms_condition")}
-              </a>
+              </button>
             </p>
           </div>
           <FooterButton

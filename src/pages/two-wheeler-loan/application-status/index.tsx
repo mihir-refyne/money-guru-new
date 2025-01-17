@@ -11,7 +11,7 @@ import { SanctionedDetailsSection } from "@/components/TwoWheelerLoan/Applicatio
 import { ApplicationStatusCard } from "@/components/TwoWheelerLoan/ApplicationStatus/ApplicationStatusCard";
 import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
@@ -41,7 +41,7 @@ export default function LoanApplicationStatus() {
           isButtonDisabled={true}
           label={t("two_wheeler_application_status_footer_cta_label")}
           onClick={() => {
-            router.push("/two-wheeler-loan");
+            router.push(TwoWheelerRoutes.TWO_WHEELER_LOAN);
           }}
         />
       }
