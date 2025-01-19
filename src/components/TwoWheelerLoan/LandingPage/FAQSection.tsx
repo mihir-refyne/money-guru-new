@@ -3,6 +3,10 @@ import styles from "./styles.module.css";
 import Accordions from "@/components/Accordion";
 import Image from "next/image";
 import CaretRight from "../../../../public/assets/images/two-wheeler-loan/caret_right_blue.svg";
+import { handleRouting } from "@/lib/two-wheeler-loan";
+import { TWO_WHEELER_FAQS } from "../constants";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 export const FAQSection = () => {
   const { t } = useTranslation("common");
@@ -96,24 +100,35 @@ export const FAQSection = () => {
       >
         {t("two_wheeler_faq_heading")}
       </p>{" "}
-      <Accordions
-        items={ACCORDION_FAQS_ITEMS}
-        style={styles.faq_accordion_item}
-        isLast={true}
-      />
+      <div
+        onClick={() => {
+          logAnalyticsEvent(
+            ["mixpanel", "webengage"],
+            AnalyticEvent.BIKE_LOAN_FAQS_CLICKED
+          );
+        }}
+      >
+        <Accordions
+          items={ACCORDION_FAQS_ITEMS}
+          style={styles.faq_accordion_item}
+          isLast={true}
+        />
+      </div>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <p
-          className="text-semibold"
-          style={{
-            paddingLeft: "12px",
-            fontSize: "14px",
-            lineHeight: "20px",
-            textAlign: "center",
-            color: "var(--clr-brand-default)",
-          }}
-        >
-          {t("two_wheeler_landing_page_view_all_faqs")}
-        </p>
+        <button onClick={() => handleRouting(TWO_WHEELER_FAQS)}>
+          <p
+            className="text-semibold"
+            style={{
+              paddingLeft: "12px",
+              fontSize: "14px",
+              lineHeight: "20px",
+              textAlign: "center",
+              color: "var(--clr-brand-default)",
+            }}
+          >
+            {t("two_wheeler_landing_page_view_all_faqs")}
+          </p>{" "}
+        </button>
         <Image src={CaretRight} alt="Caret Right" />
       </div>
     </div>
