@@ -20,11 +20,20 @@ import { FAQSection } from "@/components/TwoWheelerLoan/LandingPage/FAQSection";
 import { OtherBenefitsSection } from "@/components/TwoWheelerLoan/LandingPage/OtherBenefitsSection";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 export default function TwoWheelerLoan() {
   const router = useRouter();
   const { isLoading, data: loansData, error } = useFetcher(fetchAllLoans);
   const userToken = getValueFromMetadata("idToken");
+
+  useEffect(() => {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.BIKE_LOAN_LANDING_PAGE_SHOWN
+    );
+  }, []);
 
   useEffect(() => {
     const checkLoanStatus = async () => {
@@ -114,6 +123,10 @@ export const TwoWheelerPageFooter = () => {
   const router = useRouter();
 
   function handleFooterCTAOnClick() {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.BIKE_LOAN_LANDING_PAGE_CONTINUE_CLICKED
+    );
     router.push(`${router.pathname}${TwoWheelerRoutes.CONFIRM_DETAILS}`);
   }
 

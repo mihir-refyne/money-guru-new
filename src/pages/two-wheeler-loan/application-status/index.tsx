@@ -1,17 +1,24 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import useTranslation from "@/hooks/useTranslation";
 import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
 import PageLayout from "@/components/PageLayout";
 import chevronRight from "@/images/chevron_right.svg";
 import styles from "../../two-wheeler-loan/styles.module.css";
 import applicationStatusStyles from "./styles.module.css";
-import { fetchAllLoans, LoanStatus } from "@/lib/two-wheeler-loan";
+import {
+  fetchAllLoans,
+  handleRouting,
+  LoanStatus,
+} from "@/lib/two-wheeler-loan";
 import { SanctionedDetailsSection } from "@/components/TwoWheelerLoan/ApplicationStatus/SanctionedDetailsSection";
 import { ApplicationStatusCard } from "@/components/TwoWheelerLoan/ApplicationStatus/ApplicationStatusCard";
 import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
-import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
+import { TWO_WHEELER_FAQS } from "@/components/TwoWheelerLoan/constants";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
@@ -24,6 +31,21 @@ export default function LoanApplicationStatus() {
   }
 
   const status = (loansData && loansData[0].status) || LoanStatus.INITIATED;
+
+  useEffect(() => {
+    if (!isLoading && loansData) {
+      const { status, id: applicationId } = loansData[0];
+
+      logAnalyticsEvent(
+        ["mixpanel", "webengage"],
+        AnalyticEvent.BIKE_LOAN_APPLICATION_STATUS_SCREEN_SHOWN,
+        {
+          status,
+          applicationId,
+        }
+      );
+    }
+  }, [isLoading, loansData]);
 
   return (
     <PageLayout
@@ -65,6 +87,14 @@ export default function LoanApplicationStatus() {
 const NeedSupportSection = () => {
   const { t } = useTranslation("common");
 
+  function handleFaqClicked() {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.BIKE_LOAN_FAQS_CLICKED
+    );
+    handleRouting(TWO_WHEELER_FAQS);
+  }
+
   return (
     <div>
       <p className={applicationStatusStyles.need_support__title}>
@@ -77,9 +107,12 @@ const NeedSupportSection = () => {
         }}
       >
         {" "}
-        <p className={applicationStatusStyles.need_support__faq}>
-          {t("application_status_faqs")}
-        </p>
+        <button onClick={handleFaqClicked}>
+          {" "}
+          <p className={applicationStatusStyles.need_support__faq}>
+            {t("application_status_faqs")}
+          </p>
+        </button>
         <Image src={chevronRight} alt="right arrow" />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import PageLayout from "@/components/PageLayout";
@@ -15,6 +15,8 @@ import {
 } from "@/components/TwoWheelerLoan/VehicleDetailsForm/ChooseTenureDropDownMenu";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 interface VehicleLoanFormData {
   vehicleType: string;
@@ -48,6 +50,13 @@ export default function VehicleDetails() {
     isTermsConditionsChecked: false,
     errors: {},
   });
+
+  useEffect(() => {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.BIKE_LOAN_APPLICATION_FORM_SHOWN
+    );
+  }, []);
 
   const handleInputChange = <K extends keyof VehicleLoanFormData>(
     field: K,
@@ -116,6 +125,12 @@ export default function VehicleDetails() {
         vehicleType: "TWO_WHEELER",
       });
       setIsLoading(false);
+
+      logAnalyticsEvent(
+        ["mixpanel", "webengage"],
+        AnalyticEvent.BIKE_LOAN_APPLICATION_FORM_SUBMITTED
+      );
+
       router.push(
         `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.APPLICATION_STATUS}`
       );

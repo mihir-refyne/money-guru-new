@@ -11,6 +11,8 @@ import {
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import styles from "../../two-wheeler-loan/styles.module.css";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
 
 interface PincodeState {
   value: string;
@@ -43,6 +45,16 @@ export default function ConfirmPincodeDetails() {
     setPincodeState((prev) => ({ ...prev, isLoading: true }));
     try {
       const response = await fetchPincodeServiceability({ pincode });
+
+      logAnalyticsEvent(
+        ["mixpanel", "webengage"],
+        AnalyticEvent.BIKE_LOAN_SERVICE_AVAILABILITY_CHECKED,
+        {
+          pincode,
+          status: response?.serviceable,
+        }
+      );
+
       if (!response?.serviceable) {
         setPincodeState({
           value: pincode,
@@ -69,6 +81,13 @@ export default function ConfirmPincodeDetails() {
   };
 
   useEffect(() => {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.BIKE_LOAN_SERVICE_AVAILABILITY_SHOWN
+    );
+  }, []);
+
+  useEffect(() => {
     if (pincodeState.value.length === 6 && !pincodeState.isLoading) {
       fetchServiceability(pincodeState.value);
     }
@@ -80,6 +99,10 @@ export default function ConfirmPincodeDetails() {
   };
 
   function handleContinueCTAOnClick() {
+    logAnalyticsEvent(
+      ["mixpanel", "webengage"],
+      AnalyticEvent.BIKE_LOAN_SERVICE_AVAILABILITY_CONTINUE_CLICKED
+    );
     if (pincodeState.value.length < 1) {
       setPincodeState((prev) => ({
         ...prev,
