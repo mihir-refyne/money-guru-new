@@ -9,6 +9,9 @@ export interface AccordionItemProps {
   content: React.ReactNode;
   onClick?(id: string, active: boolean): void;
   disabled?: boolean;
+  accordionItemStyle?: string;
+  borderBottomStyle?: string;
+  headerFontWeight?: string;
 }
 
 function AccordionItem({
@@ -19,6 +22,9 @@ function AccordionItem({
   onClick,
   disabled,
   isLast,
+  accordionItemStyle,
+  borderBottomStyle,
+  headerFontWeight,
 }: AccordionItemProps & { isLast?: boolean }) {
   const accordionItemId = `accordion-${id}`;
   const [isActive, setIsActive] = useState(active);
@@ -30,21 +36,24 @@ function AccordionItem({
     setIsActive(active);
   }, [active]);
   return (
-    <>
+    <div className={`${accordionItemStyle ?? ""}`}>
       <dt id={id}>
         <button
           aria-controls={accordionItemId}
           aria-expanded={isActive}
-          className={`p-3 ${styles.Rf_Accordion__Header}${
-            isActive ? " active" : ""
-          }`}
+          className={`p-3 ${borderBottomStyle ?? ""} ${
+            styles.Rf_Accordion__Header
+          }${isActive ? " active" : ""}`}
           onClick={handleClick}
           disabled={disabled}
-          style={{ borderBottom: "1px solid #F0F0F0" }}
+          style={{
+            borderBottom:
+              borderBottomStyle && !isActive ? "none" : "1px solid #F0F0F0",
+          }}
         >
           <h5
             style={{
-              fontWeight: "600",
+              fontWeight: headerFontWeight ?? "600",
               fontSize: "14px",
             }}
           >
@@ -74,22 +83,25 @@ function AccordionItem({
           }}
         />
       )}
-    </>
+    </div>
   );
 }
 
 interface AccordionsProps {
   items: AccordionItemProps[];
+  style?: string;
+  accordionItemStyle?: string;
+  isLast?: boolean;
 }
 
-export default function Accordions({ items }: AccordionsProps) {
+export default function Accordions({ items, style, isLast }: AccordionsProps) {
   return (
-    <dl className={styles.Rf_Accordion}>
+    <dl className={`${style} ${styles.Rf_Accordion}`}>
       {items.map((item, index) => (
         <AccordionItem
           key={item.id}
           {...item}
-          isLast={index === items.length - 1}
+          isLast={isLast ? isLast : index === items.length - 1}
         />
       ))}
     </dl>
