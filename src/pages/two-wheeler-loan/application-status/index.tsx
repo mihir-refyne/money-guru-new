@@ -26,12 +26,6 @@ export default function LoanApplicationStatus() {
 
   const { isLoading, data: loansData, error } = useFetcher(fetchAllLoans);
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-
-  const status = (loansData && loansData[0].status) || LoanStatus.INITIATED;
-
   useEffect(() => {
     if (!isLoading && loansData) {
       const { status, id: applicationId } = loansData[0];
@@ -46,6 +40,12 @@ export default function LoanApplicationStatus() {
       );
     }
   }, [isLoading, loansData]);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  const status = (loansData && loansData[0].status) || LoanStatus.INITIATED;
 
   return (
     <PageLayout

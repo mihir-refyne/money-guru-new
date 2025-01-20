@@ -7,3 +7,5 @@ export const TwoWheelerRoutes = {
 };
 
 export const TERMS_AND_CONDITIONS = "https://www.refyne.co.in/terms-content";
+
+export const TWO_WHEELER_FAQS = "";
