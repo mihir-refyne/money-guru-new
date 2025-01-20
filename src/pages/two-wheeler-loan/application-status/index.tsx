@@ -7,11 +7,7 @@ import PageLayout from "@/components/PageLayout";
 import chevronRight from "@/images/chevron_right.svg";
 import styles from "../../two-wheeler-loan/styles.module.css";
 import applicationStatusStyles from "./styles.module.css";
-import {
-  fetchAllLoans,
-  handleRouting,
-  LoanStatus,
-} from "@/lib/two-wheeler-loan";
+import { fetchAllLoans, LoanStatus } from "@/lib/two-wheeler-loan";
 import { SanctionedDetailsSection } from "@/components/TwoWheelerLoan/ApplicationStatus/SanctionedDetailsSection";
 import { ApplicationStatusCard } from "@/components/TwoWheelerLoan/ApplicationStatus/ApplicationStatusCard";
 import useFetcher from "@/hooks/useFetcher";
@@ -19,6 +15,15 @@ import LoadingPage from "@/components/LoadingPage";
 import { TWO_WHEELER_FAQS } from "@/components/TwoWheelerLoan/constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import {
+  addQueryInUrl,
+  addUserTokenInUrlIfRequired,
+} from "@/pages/virtual-rewards-event";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
@@ -86,6 +91,38 @@ export default function LoanApplicationStatus() {
 
 const NeedSupportSection = () => {
   const { t } = useTranslation("common");
+  const router = useRouter();
+
+  function handleRouting(
+    navigateTo: string | undefined,
+    webviewRoute?: string
+  ) {
+    const appPlatformName = getValueFromMetadata("appPlatformName");
+    const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+    const idToken = getValueFromMetadata("idToken");
+
+    if (isRefyneWebview && webviewRoute) {
+      return dispatchDataToNativePlatform({
+        type: "ROUTE_TO_SCREEN",
+        body: {
+          screenName: webviewRoute,
+        },
+      });
+    }
+    if (navigateTo) {
+      const navigateToWithTokenIfRequired = addUserTokenInUrlIfRequired(
+        navigateTo,
+        isRefyneWebview,
+        idToken
+      );
+      const navigateToWithTokenIfRequiredWithLocale = addQueryInUrl(
+        navigateToWithTokenIfRequired,
+        "locale",
+        router.locale
+      );
+      router.push(navigateToWithTokenIfRequiredWithLocale);
+    }
+  }
 
   function handleFaqClicked() {
     logAnalyticsEvent(

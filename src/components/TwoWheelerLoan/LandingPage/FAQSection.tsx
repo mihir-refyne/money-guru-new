@@ -3,13 +3,55 @@ import styles from "./styles.module.css";
 import Accordions from "@/components/Accordion";
 import Image from "next/image";
 import CaretRight from "../../../../public/assets/images/two-wheeler-loan/caret_right_blue.svg";
-import { handleRouting } from "@/lib/two-wheeler-loan";
 import { TWO_WHEELER_FAQS } from "../constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import { useRouter } from "next/router";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
+import {
+  addQueryInUrl,
+  addUserTokenInUrlIfRequired,
+} from "@/pages/virtual-rewards-event";
 
 export const FAQSection = () => {
   const { t } = useTranslation("common");
+  const router = useRouter();
+
+  function handleRouting(
+    navigateTo: string | undefined,
+    webviewRoute?: string
+  ) {
+    const appPlatformName = getValueFromMetadata("appPlatformName");
+    const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+    const idToken = getValueFromMetadata("idToken");
+
+    if (isRefyneWebview && webviewRoute) {
+      return dispatchDataToNativePlatform({
+        type: "ROUTE_TO_SCREEN",
+        body: {
+          screenName: webviewRoute,
+        },
+      });
+    }
+    if (navigateTo) {
+      const navigateToWithTokenIfRequired = addUserTokenInUrlIfRequired(
+        navigateTo,
+        isRefyneWebview,
+        idToken
+      );
+      const navigateToWithTokenIfRequiredWithLocale = addQueryInUrl(
+        navigateToWithTokenIfRequired,
+        "locale",
+        router.locale
+      );
+      router.push(navigateToWithTokenIfRequiredWithLocale);
+    }
+  }
+
   const COMMON_ACCORDION_ITEM_STYLE = {
     headerFontWeight: "400",
     borderBottomStyle: styles.faq_accordion_item_bottom_border,
