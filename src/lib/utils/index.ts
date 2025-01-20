@@ -233,7 +233,7 @@ export function formatDate(inputDate: string): string {
   const date = new Date(inputDate);
 
   const month = date.toLocaleDateString("en-US", { month: "short" });
-  const day = date.getDay();
+  const day = date.getDate();
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
