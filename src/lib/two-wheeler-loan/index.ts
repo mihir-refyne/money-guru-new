@@ -1,6 +1,15 @@
+import { useRouter } from "next/router";
 import { getValueFromMetadata } from "../core/user-metadata";
 import { CORE_SERVER_BASE_URL } from "@/constants";
 import { fetcher } from "../fetcher";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "../webview";
+import {
+  addQueryInUrl,
+  addUserTokenInUrlIfRequired,
+} from "@/pages/virtual-rewards-event";
 
 export enum VehicleType {
   TWO_WHEELER = "TWO_WHEELER",
@@ -129,4 +138,36 @@ export async function applyForLoan(
       ...applicationDetail,
     },
   });
+}
+
+export function handleRouting(
+  navigateTo: string | undefined,
+  webviewRoute?: string
+) {
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+  const idToken = getValueFromMetadata("idToken");
+  const router = useRouter();
+
+  if (isRefyneWebview && webviewRoute) {
+    return dispatchDataToNativePlatform({
+      type: "ROUTE_TO_SCREEN",
+      body: {
+        screenName: webviewRoute,
+      },
+    });
+  }
+  if (navigateTo) {
+    const navigateToWithTokenIfRequired = addUserTokenInUrlIfRequired(
+      navigateTo,
+      isRefyneWebview,
+      idToken
+    );
+    const navigateToWithTokenIfRequiredWithLocale = addQueryInUrl(
+      navigateToWithTokenIfRequired,
+      "locale",
+      router.locale
+    );
+    router.push(navigateToWithTokenIfRequiredWithLocale);
+  }
 }
