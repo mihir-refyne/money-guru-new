@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import dropDownIcon from "../../../../public/assets/images/two-wheeler-loan/drop_down_icon.svg";
 import styles from "./styles.module.css";
+import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
 
 export const ChooseTenureDropDownMenu = ({
   tenure,
@@ -40,7 +41,8 @@ export const ChooseTenureDropDownList = ({
   onChange: (tenure: number) => void;
   onClose?: () => void;
 }) => {
-  const LoanTenureData = ["6", "12", "18", "24", "30", "36", "42", "48"];
+  const loanTenureData =
+    TwoWheelerLoanConfigData.applicationDetailsData.tenures;
   const { t } = useTranslation("common");
   const [selectedTenure, setSelectedTenure] = useState<string>(
     value.toString()
@@ -56,7 +58,7 @@ export const ChooseTenureDropDownList = ({
       <p className={styles.choose_tenure__header}>
         {t("bottom_sheet_choose_tenure_header")}
       </p>
-      {LoanTenureData.map((item, index) => {
+      {loanTenureData.map((item, index) => {
         const isSelected = selectedTenure === item;
         return (
           <div

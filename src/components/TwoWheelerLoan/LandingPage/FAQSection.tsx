@@ -3,7 +3,6 @@ import styles from "./styles.module.css";
 import Accordions from "@/components/Accordion";
 import Image from "next/image";
 import CaretRight from "../../../../public/assets/images/two-wheeler-loan/caret_right_blue.svg";
-import { TWO_WHEELER_FAQS } from "../constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { useRouter } from "next/router";
@@ -16,6 +15,7 @@ import {
   addQueryInUrl,
   addUserTokenInUrlIfRequired,
 } from "@/pages/virtual-rewards-event";
+import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
 
 export const FAQSection = () => {
   const { t } = useTranslation("common");
@@ -75,7 +75,7 @@ export const FAQSection = () => {
     },
     {
       ...COMMON_ACCORDION_ITEM_STYLE,
-      isLast: true,
+
       id: "faq2",
       headerText: t("two_wheeler_faq_question_2"),
       content: (
@@ -86,7 +86,7 @@ export const FAQSection = () => {
     },
     {
       ...COMMON_ACCORDION_ITEM_STYLE,
-      isLast: true,
+
       id: "faq3",
       headerText: t("two_wheeler_faq_question_3"),
       content: (
@@ -97,7 +97,7 @@ export const FAQSection = () => {
     },
     {
       ...COMMON_ACCORDION_ITEM_STYLE,
-      isLast: true,
+
       id: "faq4",
       headerText: t("two_wheeler_faq_question_4"),
       content: (
@@ -108,7 +108,7 @@ export const FAQSection = () => {
     },
     {
       ...COMMON_ACCORDION_ITEM_STYLE,
-      isLast: true,
+
       id: "faq5",
       headerText: t("two_wheeler_faq_question_5"),
       content: (
@@ -153,11 +153,13 @@ export const FAQSection = () => {
         <Accordions
           items={ACCORDION_FAQS_ITEMS}
           style={styles.faq_accordion_item}
-          isLast={true}
+          hideBottomBorder={true}
         />
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <button onClick={() => handleRouting(TWO_WHEELER_FAQS)}>
+        <button
+          onClick={() => handleRouting(TwoWheelerLoanConfigData.faqsRoute)}
+        >
           <p
             className="text-semibold"
             style={{

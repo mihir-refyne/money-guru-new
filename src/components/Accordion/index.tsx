@@ -21,11 +21,11 @@ function AccordionItem({
   content,
   onClick,
   disabled,
-  isLast,
+  isLastItem,
   accordionItemStyle,
   borderBottomStyle,
   headerFontWeight,
-}: AccordionItemProps & { isLast?: boolean }) {
+}: AccordionItemProps & { isLastItem?: boolean }) {
   const accordionItemId = `accordion-${id}`;
   const [isActive, setIsActive] = useState(active);
   function handleClick() {
@@ -49,6 +49,7 @@ function AccordionItem({
           style={{
             borderBottom:
               borderBottomStyle && !isActive ? "none" : "1px solid #F0F0F0",
+            borderRadius: borderBottomStyle && "0",
           }}
         >
           <h5
@@ -74,7 +75,7 @@ function AccordionItem({
           {content}
         </div>
       </dd>
-      {!isLast && (
+      {!isLastItem && (
         <hr
           style={{
             border: "none",
@@ -91,17 +92,21 @@ interface AccordionsProps {
   items: AccordionItemProps[];
   style?: string;
   accordionItemStyle?: string;
-  isLast?: boolean;
+  hideBottomBorder?: boolean;
 }
 
-export default function Accordions({ items, style, isLast }: AccordionsProps) {
+export default function Accordions({
+  items,
+  style,
+  hideBottomBorder,
+}: AccordionsProps) {
   return (
     <dl className={`${style} ${styles.Rf_Accordion}`}>
       {items.map((item, index) => (
         <AccordionItem
           key={item.id}
           {...item}
-          isLast={isLast ? isLast : index === items.length - 1}
+          isLastItem={hideBottomBorder ?? index === items.length - 1}
         />
       ))}
     </dl>

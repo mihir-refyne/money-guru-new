@@ -48,7 +48,6 @@ export const TypeOfVehicleRadioButtonGroup = ({
               type="radio"
               checked={value == item.value}
               onChange={() => onChange(item.value)}
-              className={radioGroupStyles.custom_radio}
               name="vehicleType"
               value={item.value}
             />
