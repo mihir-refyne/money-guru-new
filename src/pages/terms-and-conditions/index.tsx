@@ -8,6 +8,10 @@ import TwoWheelerLoanConfigData from "../../../data/two_wheeler_config.json";
 
 export default function TermsAndConditions() {
   const router = useRouter();
+
+  const routerParamTerms = router.query.terms as unknown;
+  const termsUrl = routerParamTerms as string;
+
   const { t } = useTranslation("common");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,7 +34,10 @@ export default function TermsAndConditions() {
       <div className="flex-1">
         {isLoading && <LoadingPage />}
         <iframe
-          src={TwoWheelerLoanConfigData.T_C}
+          src={
+            termsUrl ??
+            TwoWheelerLoanConfigData.applicationDetailsData.termsConditionsUrl
+          }
           style={{
             border: "none",
             height: "calc(100vh - 160px)",

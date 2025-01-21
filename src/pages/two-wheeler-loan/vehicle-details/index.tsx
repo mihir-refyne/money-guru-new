@@ -17,6 +17,7 @@ import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
 
 interface VehicleLoanFormData {
   vehicleType: string;
@@ -188,7 +189,9 @@ export default function VehicleDetails() {
                   color: "var(--clr-brand-default)",
                 }}
                 onClick={() => {
-                  router.push(TwoWheelerRoutes.TERMS_AND_CONDITIONS);
+                  router.push(
+                    `${TwoWheelerRoutes.TERMS_AND_CONDITIONS}?terms=${TwoWheelerLoanConfigData.termsConditions}`
+                  );
                 }}
               >
                 {t("two_wheeler_terms_condition")}
