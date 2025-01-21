@@ -12,7 +12,6 @@ import { SanctionedDetailsSection } from "@/components/TwoWheelerLoan/Applicatio
 import { ApplicationStatusCard } from "@/components/TwoWheelerLoan/ApplicationStatus/ApplicationStatusCard";
 import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
-import { TWO_WHEELER_FAQS } from "@/components/TwoWheelerLoan/constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import {
@@ -24,6 +23,7 @@ import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
+import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
@@ -129,7 +129,7 @@ const NeedSupportSection = () => {
       ["mixpanel", "webengage"],
       AnalyticEvent.BIKE_LOAN_FAQS_CLICKED
     );
-    handleRouting(TWO_WHEELER_FAQS);
+    handleRouting(TwoWheelerLoanConfigData.faqsRoute);
   }
 
   return (

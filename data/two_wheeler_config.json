@@ -1,0 +1,9 @@
+{
+  "T_C": "URL",
+  "faqsRoute": "",
+  "landingPageData": {},
+  "applicationDetailsData": {
+    "terms&Conditions": "https://www.refyne.co.in/terms-content",
+    "tenures": ["6", "12", "18", "24", "30", "36", "42", "48"]
+  }
+}

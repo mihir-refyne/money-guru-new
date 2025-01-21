@@ -1,12 +1,12 @@
-import LoadingPage from "@/components/LoadingPage";
-import PageLayout from "@/components/PageLayout";
-import { TERMS_AND_CONDITIONS } from "@/components/TwoWheelerLoan/constants";
-import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
-import useTranslation from "@/hooks/useTranslation";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import LoadingPage from "@/components/LoadingPage";
+import PageLayout from "@/components/PageLayout";
+import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
+import useTranslation from "@/hooks/useTranslation";
+import TwoWheelerLoanConfigData from "../../../data/two_wheeler_config.json";
 
-export default function TwoWheelerLoan() {
+export default function TermsAndConditions() {
   const router = useRouter();
   const { t } = useTranslation("common");
   const [isLoading, setIsLoading] = useState(true);
@@ -30,7 +30,7 @@ export default function TwoWheelerLoan() {
       <div className="flex-1">
         {isLoading && <LoadingPage />}
         <iframe
-          src={TERMS_AND_CONDITIONS}
+          src={TwoWheelerLoanConfigData.T_C}
           style={{
             border: "none",
             height: "calc(100vh - 160px)",
