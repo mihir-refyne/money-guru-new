@@ -253,3 +253,26 @@ export function formatDateWithYear(isoString: string): string {
 
   return `${day} ${month} ${year}`;
 }
+
+export function validateUrlDomain(
+  url: string | undefined | null,
+  domain: string
+): string | undefined {
+  if (!url) {
+    return undefined;
+  }
+
+  try {
+    const hostname = new URL(url).hostname;
+    return hostname === domain || hostname.endsWith(`.${domain}`)
+      ? url
+      : undefined;
+  } catch (error) {
+    console.error("Invalid URL:", error);
+    return undefined;
+  }
+}
+
+export function isRefyneUrl(url?: string | null): string | undefined {
+  return validateUrlDomain(url, "refyne.co.in");
+}

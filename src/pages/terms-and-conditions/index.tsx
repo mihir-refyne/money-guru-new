@@ -5,12 +5,13 @@ import PageLayout from "@/components/PageLayout";
 import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
 import useTranslation from "@/hooks/useTranslation";
 import TwoWheelerLoanConfigData from "../../../data/two_wheeler_config.json";
+import { isRefyneUrl } from "@/lib/utils";
 
 export default function TermsAndConditions() {
   const router = useRouter();
 
-  const routerParamTerms = router.query.terms as unknown;
-  const termsUrl = routerParamTerms as string;
+  const routerParamTnC = router.query.tnc as unknown;
+  const tncUrl = routerParamTnC as string;
 
   const { t } = useTranslation("common");
   const [isLoading, setIsLoading] = useState(true);
@@ -34,10 +35,7 @@ export default function TermsAndConditions() {
       <div className="flex-1">
         {isLoading && <LoadingPage />}
         <iframe
-          src={
-            termsUrl ??
-            TwoWheelerLoanConfigData.applicationDetailsData.termsConditionsUrl
-          }
+          src={isRefyneUrl(tncUrl) ?? TwoWheelerLoanConfigData.termsConditions}
           style={{
             border: "none",
             height: "calc(100vh - 160px)",

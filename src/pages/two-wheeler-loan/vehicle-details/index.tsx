@@ -190,7 +190,7 @@ export default function VehicleDetails() {
                 }}
                 onClick={() => {
                   router.push(
-                    `${TwoWheelerRoutes.TERMS_AND_CONDITIONS}?terms=${TwoWheelerLoanConfigData.termsConditions}`
+                    `${TwoWheelerRoutes.TERMS_AND_CONDITIONS}?tnc=${TwoWheelerLoanConfigData.applicationDetailsData.termsConditionsUrl}`
                   );
                 }}
               >
