@@ -7,50 +7,25 @@ import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { useRouter } from "next/router";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import {
-  dispatchDataToNativePlatform,
-  isCurrentlyOnRefyneWebview,
-} from "@/lib/webview";
-import {
-  addQueryInUrl,
-  addUserTokenInUrlIfRequired,
-} from "@/pages/virtual-rewards-event";
-import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { getRouteHandler } from "@/components/CreditScoreBuilder/helpers";
+import { APP_BASE_URL } from "@/constants";
 
 export const FAQSection = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  function handleRouting(
-    navigateTo: string | undefined,
-    webviewRoute?: string
-  ) {
-    const appPlatformName = getValueFromMetadata("appPlatformName");
-    const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
-    const idToken = getValueFromMetadata("idToken");
+  const idToken = getValueFromMetadata("idToken");
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
-    if (isRefyneWebview && webviewRoute) {
-      return dispatchDataToNativePlatform({
-        type: "ROUTE_TO_SCREEN",
-        body: {
-          screenName: webviewRoute,
-        },
-      });
-    }
-    if (navigateTo) {
-      const navigateToWithTokenIfRequired = addUserTokenInUrlIfRequired(
-        navigateTo,
-        isRefyneWebview,
-        idToken
-      );
-      const navigateToWithTokenIfRequiredWithLocale = addQueryInUrl(
-        navigateToWithTokenIfRequired,
-        "locale",
-        router.locale
-      );
-      router.push(navigateToWithTokenIfRequiredWithLocale);
-    }
-  }
+  const routeToFaqClick = getRouteHandler({
+    navigateTo: `${APP_BASE_URL}/#/?next=faq`,
+    isRefyneWebview,
+    router,
+    idToken,
+    nativeDispatchType: "ROUTE_TO_SCREEN_ONLY",
+  });
 
   const COMMON_ACCORDION_ITEM_STYLE = {
     headerFontWeight: "400",
@@ -157,9 +132,7 @@ export const FAQSection = () => {
         />
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-        <button
-          onClick={() => handleRouting(TwoWheelerLoanConfigData.faqsRoute)}
-        >
+        <button onClick={() => routeToFaqClick()}>
           <p
             className="text-semibold"
             style={{

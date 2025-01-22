@@ -14,16 +14,10 @@ import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
-import {
-  addQueryInUrl,
-  addUserTokenInUrlIfRequired,
-} from "@/pages/virtual-rewards-event";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import {
-  dispatchDataToNativePlatform,
-  isCurrentlyOnRefyneWebview,
-} from "@/lib/webview";
-import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
+import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import { getRouteHandler } from "@/components/CreditScoreBuilder/helpers";
+import { APP_BASE_URL } from "@/constants";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
@@ -93,43 +87,24 @@ const NeedSupportSection = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  function handleRouting(
-    navigateTo: string | undefined,
-    webviewRoute?: string
-  ) {
-    const appPlatformName = getValueFromMetadata("appPlatformName");
-    const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
-    const idToken = getValueFromMetadata("idToken");
+  const idToken = getValueFromMetadata("idToken");
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
-    if (isRefyneWebview && webviewRoute) {
-      return dispatchDataToNativePlatform({
-        type: "ROUTE_TO_SCREEN",
-        body: {
-          screenName: webviewRoute,
-        },
-      });
-    }
-    if (navigateTo) {
-      const navigateToWithTokenIfRequired = addUserTokenInUrlIfRequired(
-        navigateTo,
-        isRefyneWebview,
-        idToken
-      );
-      const navigateToWithTokenIfRequiredWithLocale = addQueryInUrl(
-        navigateToWithTokenIfRequired,
-        "locale",
-        router.locale
-      );
-      router.push(navigateToWithTokenIfRequiredWithLocale);
-    }
-  }
+  const routeToFaqClick = getRouteHandler({
+    navigateTo: `${APP_BASE_URL}/#/?next=faq`,
+    isRefyneWebview,
+    router,
+    idToken,
+    nativeDispatchType: "ROUTE_TO_SCREEN_ONLY",
+  });
 
   function handleFaqClicked() {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
       AnalyticEvent.BIKE_LOAN_FAQS_CLICKED
     );
-    handleRouting(TwoWheelerLoanConfigData.faqsRoute);
+    routeToFaqClick();
   }
 
   return (
@@ -142,14 +117,11 @@ const NeedSupportSection = () => {
         style={{
           justifyContent: "space-between",
         }}
+        onClick={handleFaqClicked}
       >
-        {" "}
-        <button onClick={handleFaqClicked}>
-          {" "}
-          <p className={applicationStatusStyles.need_support__faq}>
-            {t("application_status_faqs")}
-          </p>
-        </button>
+        <p className={applicationStatusStyles.need_support__faq}>
+          {t("application_status_faqs")}
+        </p>
         <Image src={chevronRight} alt="right arrow" />
       </div>
     </div>
