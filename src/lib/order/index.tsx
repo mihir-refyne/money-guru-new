@@ -2,7 +2,7 @@ import { CORE_SERVER_BASE_URL } from "@/constants";
 import { getValueFromMetadata } from "../core/user-metadata";
 import { fetcher } from "../fetcher";
 
-export type OrderStatus = "PENDING" | "INITIATED" | "FULFILLED" | "CANCELLED";
+export type OrderStatus = "PENDING" | "INITIATED" | "FULFILLED" | "SHIPPED" | "CANCELLED";
 
 export interface GetOrderItemInfo {
   _id: string;
@@ -40,7 +40,8 @@ export interface DigitalProductFulfillmentDetails {
 }
 
 export interface OrderTimeline {
-  occurredAt: Date | null;
+  occurredAt: string | null;
+  eta?: string;
   status: OrderStatus;
 }
 
