@@ -121,7 +121,10 @@ export const FAQSection = () => {
         onClick={() => {
           logAnalyticsEvent(
             ["mixpanel", "webengage"],
-            AnalyticEvent.BIKE_LOAN_FAQS_CLICKED
+            AnalyticEvent.BIKE_LOAN_FAQS_CLICKED,
+            {
+              source: "Landing Page",
+            }
           );
         }}
       >
