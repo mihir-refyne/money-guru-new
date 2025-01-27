@@ -1,6 +1,6 @@
 import useTranslation from "@/hooks/useTranslation";
 import styles from "../../../pages/two-wheeler-loan/styles.module.css";
-import { ApprovalDetails, VehicleLoan } from "@/lib/two-wheeler-loan";
+import { VehicleLoan } from "@/lib/two-wheeler-loan";
 
 export const SanctionedDetailsSection = ({
   vehicleLoan,
@@ -51,7 +51,7 @@ export const SanctionedDetailsSection = ({
               color: "#121212",
             }}
           >
-            ₹{vehicleLoan?.approvalDetails?.amount}
+            ₹{vehicleLoan?.applicationApprovalDetails?.amount}
           </p>
         </div>
         <div
@@ -108,7 +108,7 @@ export const SanctionedDetailsSection = ({
               color: "#121212",
             }}
           >
-            {vehicleLoan?.approvalDetails?.interestRate}%
+            {vehicleLoan?.applicationApprovalDetails?.interestRate}%
           </p>
         </div>
       </div>

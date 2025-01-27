@@ -1,8 +1,4 @@
-import {
-  ApprovalDetails,
-  LoanStatus,
-  VehicleLoan,
-} from "@/lib/two-wheeler-loan";
+import { LoanStatus, VehicleLoan } from "@/lib/two-wheeler-loan";
 import styles from "../../../pages/two-wheeler-loan/styles.module.css";
 import pendingStatusIcon from "../../../../public/assets/images/two-wheeler-loan/pending_status_icon.svg";
 import failedStatusIcon from "../../../../public/assets/images/two-wheeler-loan/close_circle_fill.svg";

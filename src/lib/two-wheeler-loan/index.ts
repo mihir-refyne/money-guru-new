@@ -44,7 +44,7 @@ export interface VehicleLoan {
   applicationDetails: ApplicationDetails;
   address: Address;
   status: LoanStatus;
-  approvalDetails?: ApprovalDetails;
+  applicationApprovalDetails?: ApprovalDetails;
   createdAt: string;
   updatedAt: string;
 }
