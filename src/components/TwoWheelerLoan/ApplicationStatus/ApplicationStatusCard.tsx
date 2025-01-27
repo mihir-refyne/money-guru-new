@@ -5,7 +5,7 @@ import failedStatusIcon from "../../../../public/assets/images/two-wheeler-loan/
 import successStatusIcon from "../../../../public/assets/images/two-wheeler-loan/success_status_icon.svg";
 import Image from "next/image";
 import applicationStatusStyles from "./styles.module.css";
-import { formatDateWithYear } from "@/lib/utils";
+import { formatDateWithYear, formatToInr } from "@/lib/utils";
 
 export const ApplicationStatusCard = ({
   vehicleLoan,
@@ -64,7 +64,7 @@ export const ApplicationStatusCard = ({
           <p
             className={applicationStatusStyles.application_status_card__amount}
           >
-            ₹ {vehicleLoan?.applicationDetails?.amount}
+            {formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0)}
           </p>
           <p className={applicationStatusStyles.application_status_card__date}>
             {formatDateWithYear(vehicleLoan?.createdAt ?? "")}
