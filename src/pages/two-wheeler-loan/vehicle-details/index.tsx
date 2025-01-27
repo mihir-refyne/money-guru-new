@@ -245,7 +245,7 @@ export default function VehicleDetails() {
           }
           label={"Loan amount"}
           isBorderDisabled={true}
-          inputFieldType="number"
+          inputFieldType="currency"
           errorMessage={formData.errors.applicationAmount}
           hasError={!!formData.errors.applicationAmount}
           onChange={(e) => {

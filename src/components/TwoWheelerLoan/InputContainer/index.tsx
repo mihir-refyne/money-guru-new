@@ -2,6 +2,7 @@ import Image from "next/image";
 import CheckIcon from "../../../../public/assets/images/two-wheeler-loan/checkbox_circle_fill.svg";
 import ErrorIcon from "../../../../public/assets/images/two-wheeler-loan/error_icon.svg";
 import styles from "./styles.module.css";
+import { formatToInr } from "@/lib/utils";
 
 interface InputContainerProps {
   value?: string | number;
@@ -34,7 +35,7 @@ export const InputContainer = ({
     const newValue = e.target.value;
 
     if (inputFieldType === "currency") {
-      const numericValue = newValue.replace(/[^0-9.]/g, "");
+      const numericValue = newValue.replace(/[^0-9]/g, "");
 
       const syntheticEvent = {
         ...e,
@@ -62,12 +63,7 @@ export const InputContainer = ({
   };
 
   const displayValue =
-    inputFieldType === "currency" && value
-      ? `₹${Number(value).toLocaleString("en-IN", {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        })}`
-      : value;
+    inputFieldType === "currency" && value ? formatToInr(Number(value)) : value;
 
   return (
     <div
