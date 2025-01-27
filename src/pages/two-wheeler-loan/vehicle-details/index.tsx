@@ -118,9 +118,9 @@ export default function VehicleDetails() {
     try {
       setIsLoading(true);
       await applyForLoan({
-        applicationAmount: formData.applicationAmount,
+        applicationAmount: formData?.applicationAmount ?? 0,
         engineType: formData.engineType,
-        onRoadPrice: formData.onRoadPrice,
+        onRoadPrice: formData?.onRoadPrice ?? 0,
         pincode: formData.pincode,
         tenure: formData.tenure,
         vehicleType: "TWO_WHEELER",
@@ -229,10 +229,10 @@ export default function VehicleDetails() {
         />
 
         <InputContainer
-          value={formData.onRoadPrice}
+          value={formData.onRoadPrice === 0 ? "" : formData.onRoadPrice}
           label={"On-road vehicle price"}
           isBorderDisabled={true}
-          inputFieldType="number"
+          inputFieldType="currency"
           errorMessage={formData.errors.onRoadPrice}
           hasError={!!formData.errors.onRoadPrice}
           onChange={(e) => {
@@ -240,7 +240,9 @@ export default function VehicleDetails() {
           }}
         />
         <InputContainer
-          value={formData.applicationAmount}
+          value={
+            formData.applicationAmount === 0 ? "" : formData.applicationAmount
+          }
           label={"Loan amount"}
           isBorderDisabled={true}
           inputFieldType="number"

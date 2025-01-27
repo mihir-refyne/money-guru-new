@@ -11,7 +11,7 @@ interface InputContainerProps {
   hasSuccess?: boolean;
   successResponse?: string;
   isBorderDisabled?: boolean;
-  inputFieldType?: "text" | "number";
+  inputFieldType?: "text" | "number" | "currency";
   maxLength?: number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -33,7 +33,19 @@ export const InputContainer = ({
 
     const newValue = e.target.value;
 
-    if (inputFieldType === "number") {
+    if (inputFieldType === "currency") {
+      const numericValue = newValue.replace(/[^0-9.]/g, "");
+
+      const syntheticEvent = {
+        ...e,
+        target: {
+          ...e.target,
+          value: numericValue,
+        },
+      };
+
+      onChange(syntheticEvent);
+    } else if (inputFieldType === "number") {
       if (newValue === "") {
         onChange(e);
         return;
@@ -49,6 +61,14 @@ export const InputContainer = ({
     }
   };
 
+  const displayValue =
+    inputFieldType === "currency" && value
+      ? `₹${Number(value).toLocaleString("en-IN", {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}`
+      : value;
+
   return (
     <div
       className={`${styles.input_container} ${
@@ -62,7 +82,7 @@ export const InputContainer = ({
           maxLength={maxLength}
           className={`${styles.input_field} ${hasError && styles.error}`}
           onChange={handleInputChange}
-          value={value}
+          value={displayValue}
         />
         {(hasError || hasSuccess) && (
           <Image
