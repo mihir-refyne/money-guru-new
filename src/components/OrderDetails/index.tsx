@@ -3,7 +3,6 @@ import {
   DigitalProductFulfillmentDetails,
   GetOrderItemInfo,
   OrderTimeline,
-  Vendor,
 } from "@/lib/order";
 import { formatToInr } from "@/lib/utils";
 import Image from "next/image";
@@ -20,7 +19,7 @@ interface OrderDetailsProps {
 
 interface ItemDetailsProps {
   name: string;
-  vendor: Vendor;
+  fulfillmentPartner: string;
   imageUrl?: string;
   price: number;
   orderTimeline: OrderTimeline[];
@@ -68,15 +67,13 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
       <Card backgroundColor="var(--clr-background-enabled)">
         <ItemDetails
           name={orderDetail.name}
-          vendor={orderDetail?.vendor ?? Vendor.FLEEK}
+          fulfillmentPartner={orderDetail.fulfillmentPartner}
           imageUrl={orderDetail.imageUrl}
           price={orderDetail.price}
           orderTimeline={orderDetail.orderTimeline}
         />
         <hr className={styles.divider} />
-        <OrderTimelineComp
-          timeLine={orderDetail.orderTimeline}
-        />
+        <OrderTimelineComp timeLine={orderDetail.orderTimeline} />
       </Card>
 
       <div className={styles.section}>
@@ -196,7 +193,12 @@ export default function OrderDetails({ orderDetail }: OrderDetailsProps) {
   );
 }
 
-function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
+function ItemDetails({
+  name,
+  price,
+  fulfillmentPartner,
+  imageUrl,
+}: ItemDetailsProps) {
   const DEFAULT_IMAGE_URL =
     "https://assets.refyne.co.in/assets/images/cart.png";
   const src = imageUrl ? imageUrl : DEFAULT_IMAGE_URL;
@@ -219,7 +221,7 @@ function ItemDetails({ name, price, vendor, imageUrl }: ItemDetailsProps) {
         <h5 className={styles.itemName}>{name}</h5>
         <div className={styles.vendorDetails}>
           <p className={styles.vendorLabel}>Vendor</p>
-          <p className={styles.vendorValue}>{vendor}</p>
+          <p className={styles.vendorValue}>{fulfillmentPartner}</p>
         </div>
         <h5 className={styles.itemPrice}>{formatToInr(price)}</h5>
       </div>

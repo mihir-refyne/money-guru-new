@@ -2,7 +2,12 @@ import { CORE_SERVER_BASE_URL } from "@/constants";
 import { getValueFromMetadata } from "../core/user-metadata";
 import { fetcher } from "../fetcher";
 
-export type OrderStatus = "PENDING" | "INITIATED" | "FULFILLED" | "SHIPPED" | "CANCELLED";
+export type OrderStatus =
+  | "PENDING"
+  | "INITIATED"
+  | "FULFILLED"
+  | "SHIPPED"
+  | "CANCELLED";
 
 export interface GetOrderItemInfo {
   _id: string;
@@ -16,7 +21,6 @@ export interface GetOrderItemInfo {
   deliveredAt?: Date;
   digitalProductFulfillmentDetails?: DigitalProductFulfillmentDetails;
   name: string;
-  vendor?: Vendor;
   price: number;
   cancelledAt?: Date;
   orderTimeline: OrderTimeline[];
@@ -66,10 +70,6 @@ export interface ShippingAddress {
   provinceCode: string;
   country: string;
   countryCode: string;
-}
-
-export enum Vendor {
-  FLEEK = "FLEEK",
 }
 
 export async function getOrderItemInfo(context: {
