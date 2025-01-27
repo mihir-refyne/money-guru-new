@@ -10,6 +10,7 @@ export const OtherBenefitsSection = () => {
     t("two_wheeler_landing_page_other_benefits_text_2"),
     t("two_wheeler_landing_page_other_benefits_text_3"),
     t("two_wheeler_landing_page_other_benefits_text_4"),
+    t("two_wheeler_landing_page_other_benefits_text_5"),
   ];
 
   return (

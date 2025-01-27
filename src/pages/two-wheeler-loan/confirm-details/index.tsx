@@ -58,7 +58,7 @@ export default function ConfirmPincodeDetails() {
       if (!response?.serviceable) {
         setPincodeState({
           value: pincode,
-          error: "This pincode is not serviceable",
+          error: "This area is not serviceable currently",
           serviceabilityResponseData: null,
           isLoading: false,
         });
