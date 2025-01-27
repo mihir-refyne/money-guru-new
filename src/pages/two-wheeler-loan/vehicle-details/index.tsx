@@ -18,6 +18,7 @@ import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
+import { useQueryState } from "nuqs";
 
 interface VehicleLoanFormData {
   vehicleType: string;
@@ -41,15 +42,20 @@ export default function VehicleDetails() {
   const routerParam = router.query.pincode as unknown;
   const pincode = routerParam as string;
 
-  const [formData, setFormData] = useState<VehicleLoanFormData>({
-    vehicleType: "TWO_WHEELER",
-    engineType: EngineType.ICE,
-    applicationAmount: 0,
-    onRoadPrice: 0,
-    tenure: 24,
-    pincode: pincode,
-    isTermsConditionsChecked: false,
-    errors: {},
+  const [formData, setFormData] = useQueryState("vehicleForm", {
+    defaultValue: {
+      vehicleType: "TWO_WHEELER",
+      engineType: EngineType.ICE,
+      applicationAmount: 0,
+      onRoadPrice: 0,
+      tenure: 24,
+      pincode: pincode,
+      isTermsConditionsChecked: false,
+      errors: {},
+    } as VehicleLoanFormData,
+    parse: (value: string) => JSON.parse(decodeURIComponent(value)),
+    serialize: (value: VehicleLoanFormData) =>
+      encodeURIComponent(JSON.stringify(value)),
   });
 
   useEffect(() => {
