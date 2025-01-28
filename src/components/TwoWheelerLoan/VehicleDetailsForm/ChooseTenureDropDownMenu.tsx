@@ -17,7 +17,7 @@ export const ChooseTenureDropDownMenu = ({
   return (
     <div className={`${styles.input_container}`}>
       <p className={styles.input_field_label}>
-        {t("bottom_sheet_choose_tenure_header")}
+        {`${t("bottom_sheet_choose_tenure_header")}*`}
       </p>
       <div
         className={`${styles.input_field} ${styles.choose_tenure__text}`}

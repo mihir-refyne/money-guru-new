@@ -19,7 +19,7 @@ export const TypeOfVehicleRadioButtonGroup = ({
 
   const vehicleTypes: VehicleTypeOption[] = [
     {
-      label: "Internal Combustion Engines (ICE)",
+      label: "Petrol/Diesel vehicle (IC)",
       value: EngineType.ICE,
     },
     {
@@ -33,7 +33,7 @@ export const TypeOfVehicleRadioButtonGroup = ({
       className={`${styles.input_container} ${styles.input_container__border_none}`}
     >
       <p className={styles.input_field_label}>
-        {t("add_details_vehicle_type")}
+        {`${t("add_details_vehicle_type")}*`}
       </p>
 
       {vehicleTypes.map((item) => {

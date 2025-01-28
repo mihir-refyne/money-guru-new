@@ -241,6 +241,7 @@ export default function VehicleDetails() {
           inputFieldType="currency"
           errorMessage={formData.errors.onRoadPrice}
           hasError={!!formData.errors.onRoadPrice}
+          isFieldMandatory={true}
           onChange={(e) => {
             handleInputChange("onRoadPrice", Number(e.target.value));
           }}
@@ -254,6 +255,7 @@ export default function VehicleDetails() {
           inputFieldType="currency"
           errorMessage={formData.errors.applicationAmount}
           hasError={!!formData.errors.applicationAmount}
+          isFieldMandatory={true}
           onChange={(e) => {
             handleInputChange("applicationAmount", Number(e.target.value));
           }}

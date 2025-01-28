@@ -14,6 +14,7 @@ interface InputContainerProps {
   isBorderDisabled?: boolean;
   inputFieldType?: "text" | "number" | "currency";
   maxLength?: number;
+  isFieldMandatory?: boolean;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -27,6 +28,7 @@ export const InputContainer = ({
   isBorderDisabled = false,
   inputFieldType = "text",
   maxLength,
+  isFieldMandatory,
   onChange,
 }: InputContainerProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,7 +73,10 @@ export const InputContainer = ({
         isBorderDisabled && styles.input_container__border_none
       }`}
     >
-      <p className={styles.input_field_label}>{label}</p>
+      <p className={styles.input_field_label}>
+        {label}
+        {isFieldMandatory && "*"}
+      </p>
 
       <div className={styles.input_field_wrapper}>
         <input
