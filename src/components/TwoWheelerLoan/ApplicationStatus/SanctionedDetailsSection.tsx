@@ -1,6 +1,7 @@
 import useTranslation from "@/hooks/useTranslation";
 import styles from "../../../pages/two-wheeler-loan/styles.module.css";
 import { VehicleLoan } from "@/lib/two-wheeler-loan";
+import { formatToInr } from "@/lib/utils";
 
 export const SanctionedDetailsSection = ({
   vehicleLoan,
@@ -51,7 +52,7 @@ export const SanctionedDetailsSection = ({
               color: "#121212",
             }}
           >
-            ₹{vehicleLoan?.applicationApprovalDetails?.amount}
+            {formatToInr(vehicleLoan?.applicationApprovalDetails?.amount ?? 0)}
           </p>
         </div>
         <div
