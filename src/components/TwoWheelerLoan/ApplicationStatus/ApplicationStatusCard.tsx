@@ -64,7 +64,11 @@ export const ApplicationStatusCard = ({
           <p
             className={applicationStatusStyles.application_status_card__amount}
           >
-            {formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0)}
+            {status === LoanStatus.APPROVED
+              ? formatToInr(
+                  vehicleLoan?.applicationApprovalDetails?.amount ?? 0
+                )
+              : formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0)}
           </p>
           <p className={applicationStatusStyles.application_status_card__date}>
             {formatDateWithYear(vehicleLoan?.createdAt ?? "")}
