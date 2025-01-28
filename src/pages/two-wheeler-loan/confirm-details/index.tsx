@@ -44,6 +44,16 @@ export default function ConfirmPincodeDetails() {
   const fetchServiceability = async (pincode: string) => {
     setPincodeState((prev) => ({ ...prev, isLoading: true }));
     try {
+      if (pincode.startsWith("0")) {
+        setPincodeState({
+          value: pincode,
+          error: "Invalid pincode",
+          serviceabilityResponseData: null,
+          isLoading: false,
+        });
+        return;
+      }
+
       const response = await fetchPincodeServiceability({ pincode });
 
       logAnalyticsEvent(
