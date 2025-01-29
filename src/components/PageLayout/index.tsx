@@ -49,6 +49,7 @@ export interface PageLayoutProps {
   footer?: ReactElement;
   preloads?: Array<Preload>;
   pageBackground?: CSSProperties["background"];
+  onNavbarBackClick?: () => void;
 }
 
 export default function PageLayout({
@@ -72,13 +73,14 @@ export default function PageLayout({
   onShareClick,
   preloads,
   pageBackground,
+  onNavbarBackClick,
 }: PageLayoutProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
   const [currentLocale, setCurrentLocale] = useState<string>(
-    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? "",
+    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? ""
   );
   const isBackTriggerAvailable = useRef<boolean>(false);
 
@@ -154,7 +156,7 @@ export default function PageLayout({
             floating={floatingNavbar}
             background={navbarBackground}
             fontColor={navbarFontColor}
-            onBackClick={handleBack}
+            onBackClick={onNavbarBackClick || handleBack}
             hasLocaleChange={hasLocaleChange}
             onLocaleChangeClick={handleLocaleUpdateClick}
             hasShare={_hasShare}
