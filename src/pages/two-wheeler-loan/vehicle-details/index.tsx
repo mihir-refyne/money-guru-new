@@ -58,6 +58,9 @@ export default function VehicleDetails() {
       encodeURIComponent(JSON.stringify(value)),
   });
 
+  const INITIAL_PLACEHOLDER_VALUE_ON_ROAD_VEHICLE = "1,00,000";
+  const INITIAL_PLACEHOLDER_VALUE_ON_LOAN_VALUE = "65,000";
+
   useEffect(() => {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
@@ -226,14 +229,12 @@ export default function VehicleDetails() {
             {t("fill_details_input_label")}
           </h4>
         </div>
-
         <TypeOfVehicleRadioButtonGroup
           value={formData.engineType}
           onChange={(value: EngineType) =>
             handleInputChange("engineType", value)
           }
         />
-
         <InputContainer
           value={formData.onRoadPrice === 0 ? "" : formData.onRoadPrice}
           label={"On-road vehicle price"}
@@ -242,6 +243,7 @@ export default function VehicleDetails() {
           errorMessage={formData.errors.onRoadPrice}
           hasError={!!formData.errors.onRoadPrice}
           isFieldMandatory={true}
+          placeHolderText={INITIAL_PLACEHOLDER_VALUE_ON_ROAD_VEHICLE}
           onChange={(e) => {
             handleInputChange("onRoadPrice", Number(e.target.value));
           }}
@@ -256,6 +258,7 @@ export default function VehicleDetails() {
           errorMessage={formData.errors.applicationAmount}
           hasError={!!formData.errors.applicationAmount}
           isFieldMandatory={true}
+          placeHolderText={INITIAL_PLACEHOLDER_VALUE_ON_LOAN_VALUE}
           onChange={(e) => {
             handleInputChange("applicationAmount", Number(e.target.value));
           }}
