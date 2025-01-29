@@ -15,7 +15,10 @@ import LoadingPage from "@/components/LoadingPage";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
 import { getRouteHandler } from "@/components/CreditScoreBuilder/helpers";
 import { APP_BASE_URL } from "@/constants";
 
@@ -46,6 +49,20 @@ export default function LoanApplicationStatus() {
 
   const status = (loansData && loansData[0].status) || LoanStatus.INITIATED;
 
+  function handleOnClickFooterCTA() {
+    const appPlatformName = getValueFromMetadata("appPlatformName");
+    const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+
+    if (isRefyneWebview) {
+      dispatchDataToNativePlatform({
+        type: "POP",
+      });
+
+      return;
+    }
+    router.replace(APP_BASE_URL);
+  }
+
   return (
     <PageLayout
       pageBackground={"var(--clr-background-surface)"}
@@ -54,13 +71,12 @@ export default function LoanApplicationStatus() {
       hasBackButton={true}
       navbarBackground={"transparent"}
       navbarText="Application Status"
+      dispatchPopEventOnBackClick={true}
       footer={
         <FooterButton
           isButtonDisabled={false}
           label={t("two_wheeler_application_status_footer_cta_label")}
-          onClick={() => {
-            router.push("/");
-          }}
+          onClick={handleOnClickFooterCTA}
         />
       }
     >
