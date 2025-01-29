@@ -33,8 +33,15 @@ interface Address {
 
 export interface ApprovalDetails {
   amount: number;
+  tenure: number;
   approvedAt: string;
   interestRate: number;
+}
+
+export interface StatusLog {
+  actorId: string;
+  status: LoanStatus;
+  comment?: string;
 }
 
 export interface VehicleLoan {
@@ -47,6 +54,7 @@ export interface VehicleLoan {
   applicationApprovalDetails?: ApprovalDetails;
   createdAt: string;
   updatedAt: string;
+  statusLog?: StatusLog[];
 }
 
 export interface ServiceabilityResponse {
