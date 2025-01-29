@@ -80,7 +80,7 @@ export const SanctionedDetailsSection = ({
               color: "#121212",
             }}
           >
-            {vehicleLoan?.applicationDetails.tenure}{" "}
+            {vehicleLoan?.applicationApprovalDetails?.tenure}{" "}
             {t("bottom_sheet_choose_tenure_item_month_text")}
           </p>
         </div>
