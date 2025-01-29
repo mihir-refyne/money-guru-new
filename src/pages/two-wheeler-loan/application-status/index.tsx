@@ -72,6 +72,7 @@ export default function LoanApplicationStatus() {
       navbarBackground={"transparent"}
       navbarText="Application Status"
       dispatchPopEventOnBackClick={true}
+      onNavbarBackClick={handleOnClickFooterCTA}
       footer={
         <FooterButton
           isButtonDisabled={false}
