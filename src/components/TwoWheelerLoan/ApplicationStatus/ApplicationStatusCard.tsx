@@ -42,24 +42,23 @@ export const ApplicationStatusCard = ({
   const { icon, titleClassStatusStyle, description, title } =
     statusMapping[status];
 
-  const vehicleLoanStatusLogComment =
+  const vehicleLoanStatusLog =
     vehicleLoan?.statusLog &&
-    vehicleLoan.statusLog[vehicleLoan.statusLog.length - 1].comment;
+    vehicleLoan.statusLog[vehicleLoan.statusLog.length - 1];
 
   const applicationStatusDescription =
-    status === LoanStatus.REJECTED ? vehicleLoanStatusLogComment : description;
+    status === LoanStatus.REJECTED
+      ? vehicleLoanStatusLog?.comment
+      : description;
 
   const applicationAmount =
     status === LoanStatus.APPROVED
       ? formatToInr(vehicleLoan?.applicationApprovalDetails?.amount ?? 0)
       : formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0);
 
-  const applicationStatusDateStamp =
-    status === LoanStatus.APPROVED
-      ? formatDateWithYear(
-          vehicleLoan?.applicationApprovalDetails?.approvedAt ?? ""
-        )
-      : formatDateWithYear(vehicleLoan?.createdAt ?? "");
+  const applicationStatusDateStamp = formatDateWithYear(
+    vehicleLoanStatusLog?.createdAt ?? ""
+  );
 
   return (
     <div className={styles.outer_wrapper}>

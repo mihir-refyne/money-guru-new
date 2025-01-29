@@ -42,6 +42,7 @@ export interface StatusLog {
   actorId: string;
   status: LoanStatus;
   comment?: string;
+  createdAt: string;
 }
 
 export interface VehicleLoan {
