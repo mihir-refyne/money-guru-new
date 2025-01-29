@@ -27,7 +27,7 @@ export const ApplicationStatusCard = ({
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_pending,
       description:
-        "Your application is under review. A representative from our loan partner JANA will reach out to you.",
+        "Your application is under review. A representative from our loan partner Jana Small Finance bank will reach out to you.",
     },
     [LoanStatus.REJECTED]: {
       icon: failedStatusIcon,
