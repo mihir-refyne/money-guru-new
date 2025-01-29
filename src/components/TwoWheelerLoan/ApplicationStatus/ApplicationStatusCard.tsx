@@ -34,8 +34,6 @@ export const ApplicationStatusCard = ({
       title: "Application Rejected",
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_error,
-      description:
-        "Your credit score is below the required minimum of 600. Please improve your score to apply again.",
     },
   };
 
@@ -43,6 +41,25 @@ export const ApplicationStatusCard = ({
 
   const { icon, titleClassStatusStyle, description, title } =
     statusMapping[status];
+
+  const vehicleLoanStatusLogComment =
+    vehicleLoan?.statusLog &&
+    vehicleLoan.statusLog[vehicleLoan.statusLog.length - 1].comment;
+
+  const applicationStatusDescription =
+    status === LoanStatus.REJECTED ? vehicleLoanStatusLogComment : description;
+
+  const applicationAmount =
+    status === LoanStatus.APPROVED
+      ? formatToInr(vehicleLoan?.applicationApprovalDetails?.amount ?? 0)
+      : formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0);
+
+  const applicationStatusDateStamp =
+    status === LoanStatus.APPROVED
+      ? formatDateWithYear(
+          vehicleLoan?.applicationApprovalDetails?.approvedAt ?? ""
+        )
+      : formatDateWithYear(vehicleLoan?.createdAt ?? "");
 
   return (
     <div className={styles.outer_wrapper}>
@@ -64,22 +81,18 @@ export const ApplicationStatusCard = ({
           <p
             className={applicationStatusStyles.application_status_card__amount}
           >
-            {status === LoanStatus.APPROVED
-              ? formatToInr(
-                  vehicleLoan?.applicationApprovalDetails?.amount ?? 0
-                )
-              : formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0)}
+            {applicationAmount}
           </p>
           <p className={applicationStatusStyles.application_status_card__date}>
-            {formatDateWithYear(vehicleLoan?.createdAt ?? "")}
+            {applicationStatusDateStamp}
           </p>
-        </div>{" "}
+        </div>
         <p
           className={
             applicationStatusStyles.application_status_card__description
           }
         >
-          {description}
+          {applicationStatusDescription}
         </p>
       </div>
     </div>
