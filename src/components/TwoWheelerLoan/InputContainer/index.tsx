@@ -2,7 +2,6 @@ import Image from "next/image";
 import CheckIcon from "../../../../public/assets/images/two-wheeler-loan/checkbox_circle_fill.svg";
 import ErrorIcon from "../../../../public/assets/images/two-wheeler-loan/error_icon.svg";
 import styles from "./styles.module.css";
-import { formatToInr } from "@/lib/utils";
 
 interface InputContainerProps {
   value?: string | number;
@@ -15,6 +14,7 @@ interface InputContainerProps {
   inputFieldType?: "text" | "number" | "currency";
   maxLength?: number;
   isFieldMandatory?: boolean;
+  placeHolderText?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -29,6 +29,7 @@ export const InputContainer = ({
   inputFieldType = "text",
   maxLength,
   isFieldMandatory,
+  placeHolderText,
   onChange,
 }: InputContainerProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +49,22 @@ export const InputContainer = ({
       };
 
       onChange(syntheticEvent);
+      const input = e.target;
+      const caretPosition = input.selectionStart;
+
+      requestAnimationFrame(() => {
+        const currentFormatted = formatWithCommas(numericValue);
+        const previousFormatted = formatWithCommas(value?.toString() ?? "");
+
+        const currentCommaShift =
+          currentFormatted.slice(0, caretPosition || 0).split(",").length - 1;
+        const previousCommaShift =
+          previousFormatted.slice(0, caretPosition || 0).split(",").length - 1;
+
+        const newCaretPosition =
+          (caretPosition || 0) + (currentCommaShift - previousCommaShift);
+        input.setSelectionRange(newCaretPosition, newCaretPosition);
+      });
     } else if (inputFieldType === "number") {
       if (newValue === "") {
         onChange(e);
@@ -64,8 +81,13 @@ export const InputContainer = ({
     }
   };
 
-  const displayValue =
-    inputFieldType === "currency" && value ? formatToInr(Number(value)) : value;
+  const formatWithCommas = (num: string) =>
+    num ? Number(num).toLocaleString("en-IN") : "";
+
+  const formattedValue =
+    inputFieldType === "currency" && value !== 0
+      ? formatWithCommas(value?.toString() ?? "")
+      : value;
 
   return (
     <div
@@ -79,12 +101,21 @@ export const InputContainer = ({
       </p>
 
       <div className={styles.input_field_wrapper}>
-        <input
-          maxLength={maxLength}
-          className={`${styles.input_field} ${hasError && styles.error}`}
-          onChange={handleInputChange}
-          value={displayValue}
-        />
+        <div className={styles.input_field_wrapper}>
+          {inputFieldType === "currency" && (
+            <span className={styles.currency_prefix}>₹</span>
+          )}
+          <input
+            style={{
+              paddingLeft: inputFieldType === "currency" ? "22px" : "none",
+            }}
+            placeholder={placeHolderText}
+            maxLength={maxLength}
+            className={`${styles.input_field} ${hasError && styles.error}`}
+            onChange={handleInputChange}
+            value={formattedValue}
+          />
+        </div>
         {(hasError || hasSuccess) && (
           <Image
             src={hasError ? ErrorIcon : CheckIcon}
