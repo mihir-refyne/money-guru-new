@@ -9,6 +9,7 @@ export interface AccordionItemProps {
   content: React.ReactNode;
   onClick?(id: string, active: boolean): void;
   disabled?: boolean;
+  hasContentPadding?: boolean;
   accordionItemStyle?: string;
   borderBottomStyle?: string;
   headerFontWeight?: string;
@@ -25,6 +26,7 @@ function AccordionItem({
   accordionItemStyle,
   borderBottomStyle,
   headerFontWeight,
+  hasContentPadding = true,
 }: AccordionItemProps & { isLastItem?: boolean }) {
   const accordionItemId = `accordion-${id}`;
   const [isActive, setIsActive] = useState(active);
@@ -43,7 +45,9 @@ function AccordionItem({
           aria-expanded={isActive}
           className={`p-3 ${borderBottomStyle ?? ""} ${
             styles.Rf_Accordion__Header
-          }${isActive ? " active" : ""}`}
+          }${isActive ? " active" : ""} ${
+            !hasContentPadding && styles.ContentPadding
+          }`}
           onClick={handleClick}
           disabled={disabled}
           style={{
