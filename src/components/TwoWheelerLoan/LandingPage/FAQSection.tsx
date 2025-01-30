@@ -39,8 +39,24 @@ export const FAQSection = () => {
     borderBottomStyle: styles.faq_accordion_item_bottom_border,
     accordionItemStyle: styles.faq_accordion_outer_item,
     accordionIcons: {
-      chevronUp: <Image src={ChevronUp} alt="Caret Up" />,
-      chevronDown: <Image src={ChevronDown} alt="Caret Down" />,
+      chevronUp: (
+        <Image
+          src={ChevronUp}
+          alt="Caret Up"
+          style={{
+            marginRight: "10px",
+          }}
+        />
+      ),
+      chevronDown: (
+        <Image
+          src={ChevronDown}
+          alt="Caret Down"
+          style={{
+            marginRight: "10px",
+          }}
+        />
+      ),
     },
   };
 

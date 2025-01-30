@@ -42,3 +42,6 @@
   padding: 16px;
   visibility: visible;
 }
+.Rf_Accordion__Body.active.ContentPaddingXY {
+  padding: 8px 4px;
+}

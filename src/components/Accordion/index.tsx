@@ -82,8 +82,8 @@ function AccordionItem({
         <div
           id={accordionItemId}
           className={`${styles.Rf_Accordion__Body} ${
-            isActive ? styles.active : ""
-          }`}
+            !hasContentPadding && styles.ContentPaddingXY
+          } ${isActive ? styles.active : ""} `}
         >
           {content}
         </div>
