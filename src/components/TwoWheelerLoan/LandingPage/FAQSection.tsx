@@ -36,6 +36,7 @@ export const FAQSection = () => {
   const COMMON_ACCORDION_ITEM_STYLE = {
     headerFontWeight: "400",
     hasContentPadding: false,
+    hasAlignItemStart: true,
     borderBottomStyle: styles.faq_accordion_item_bottom_border,
     accordionItemStyle: styles.faq_accordion_outer_item,
     accordionIcons: {

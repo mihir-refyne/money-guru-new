@@ -19,6 +19,7 @@ export interface AccordionItemProps {
   borderBottomStyle?: string;
   headerFontWeight?: string;
   accordionIcons?: AccordionIcons;
+  hasAlignItemStart?: boolean;
 }
 
 function AccordionItem({
@@ -34,6 +35,7 @@ function AccordionItem({
   headerFontWeight,
   hasContentPadding = true,
   accordionIcons,
+  hasAlignItemStart = false,
 }: AccordionItemProps & { isLastItem?: boolean }) {
   const accordionItemId = `accordion-${id}`;
   const [isActive, setIsActive] = useState(active);
@@ -54,7 +56,7 @@ function AccordionItem({
             styles.Rf_Accordion__Header
           }${isActive ? " active" : ""} ${
             !hasContentPadding && styles.ContentPadding
-          }`}
+          } ${hasAlignItemStart && styles.AlignItemsStart}`}
           onClick={handleClick}
           disabled={disabled}
           style={{
@@ -67,6 +69,7 @@ function AccordionItem({
             style={{
               fontWeight: headerFontWeight ?? "600",
               fontSize: "14px",
+              paddingRight: !hasContentPadding ? "20px" : "none",
             }}
           >
             {headerText}
