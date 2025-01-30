@@ -2,6 +2,11 @@ import { CaretDown, CaretUp } from "phosphor-react";
 import React, { useEffect, useState } from "react";
 import styles from "./styles.module.css";
 
+interface AccordionIcons {
+  chevronUp: React.ReactNode;
+  chevronDown: React.ReactNode;
+}
+
 export interface AccordionItemProps {
   id: string;
   active?: boolean;
@@ -13,6 +18,7 @@ export interface AccordionItemProps {
   accordionItemStyle?: string;
   borderBottomStyle?: string;
   headerFontWeight?: string;
+  accordionIcons?: AccordionIcons;
 }
 
 function AccordionItem({
@@ -27,6 +33,7 @@ function AccordionItem({
   borderBottomStyle,
   headerFontWeight,
   hasContentPadding = true,
+  accordionIcons,
 }: AccordionItemProps & { isLastItem?: boolean }) {
   const accordionItemId = `accordion-${id}`;
   const [isActive, setIsActive] = useState(active);
@@ -65,7 +72,9 @@ function AccordionItem({
             {headerText}
           </h5>
           <div>
-            {isActive ? <CaretUp size={24} /> : <CaretDown size={24} />}
+            {isActive
+              ? accordionIcons?.chevronUp || <CaretUp size={24} />
+              : accordionIcons?.chevronDown || <CaretDown size={24} />}
           </div>
         </button>
       </dt>

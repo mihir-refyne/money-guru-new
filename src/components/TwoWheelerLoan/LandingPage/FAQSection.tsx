@@ -11,6 +11,8 @@ import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import { getRouteHandler } from "@/components/CreditScoreBuilder/helpers";
 import { APP_BASE_URL } from "@/constants";
 import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
+import ChevronDown from "../../../../public/assets/images/two-wheeler-loan/chevron_down_icon.svg";
+import ChevronUp from "../../../../public/assets/images/two-wheeler-loan/chevron_up_icon.svg";
 
 export const FAQSection = () => {
   const { t } = useTranslation("common");
@@ -36,6 +38,10 @@ export const FAQSection = () => {
     hasContentPadding: false,
     borderBottomStyle: styles.faq_accordion_item_bottom_border,
     accordionItemStyle: styles.faq_accordion_outer_item,
+    accordionIcons: {
+      chevronUp: <Image src={ChevronUp} alt="Caret Up" />,
+      chevronDown: <Image src={ChevronDown} alt="Caret Down" />,
+    },
   };
 
   const ACCORDION_FAQS_ITEMS = [
