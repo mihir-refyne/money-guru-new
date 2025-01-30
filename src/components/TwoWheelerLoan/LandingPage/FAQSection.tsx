@@ -10,6 +10,7 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import { getRouteHandler } from "@/components/CreditScoreBuilder/helpers";
 import { APP_BASE_URL } from "@/constants";
+import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
 
 export const FAQSection = () => {
   const { t } = useTranslation("common");
@@ -18,9 +19,12 @@ export const FAQSection = () => {
   const idToken = getValueFromMetadata("idToken");
   const appPlatformName = getValueFromMetadata("appPlatformName");
   const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+  const FAQ_URL = `${APP_BASE_URL}/#/?next=faq/questions/${encodeURIComponent(
+    TwoWheelerLoanConfigData.twoWheelerLoanFaqId
+  )}`;
 
   const routeToFaqClick = getRouteHandler({
-    navigateTo: `${APP_BASE_URL}/#/?next=faq`,
+    navigateTo: FAQ_URL,
     isRefyneWebview,
     router,
     idToken,
