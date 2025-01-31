@@ -1,0 +1,65 @@
+/* WhatsNextSection.css */
+.whats-next {
+  width: 100%;
+}
+
+.whats_next__title {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--clr-pure-grey);
+}
+
+.whats_next__list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.whats_next__item {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 12px;
+}
+
+.whats_next__item__bordered {
+  border-bottom: 1px solid var(--clr-border-enabled);
+}
+
+.whats_next__number {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  border-radius: 100%;
+  background-color: var(--clr-bg-primary-lighter);
+}
+
+.whats_next__description {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: var(--clr-pure-grey);
+}
+
+.need_support__title {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.need_support__faq-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.need_support__faq-text {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}

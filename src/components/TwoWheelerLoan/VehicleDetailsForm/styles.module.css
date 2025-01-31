@@ -1,0 +1,82 @@
+/* Container Styles */
+.choose_tenure__container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header Styles */
+.choose_tenure__header {
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  padding-bottom: 16px;
+}
+
+/* Tenure Item Wrapper Styles */
+.choose_tenure__item_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px;
+}
+
+/* Tenure Item Styles */
+.choose_tenure__item {
+  padding: 8px 16px;
+  text-align: center;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+}
+
+.choose_tenure__item__selected {
+  border: 1px solid #0057b7;
+  background-color: #eff6ff;
+}
+
+/* Tenure Text Styles */
+.choose_tenure__text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+.choose_tenure__text__selected {
+  color: #0057b7;
+}
+
+/* Button Styles */
+.choose_tenure__continue_label {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.input_container {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: white;
+  border: 1px solid var(--clr-border-enabled);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.input_field_label {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--clr-pure-grey);
+}
+
+.input_field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--clr-border-enabled);
+  border-radius: 4px;
+  outline: none;
+}

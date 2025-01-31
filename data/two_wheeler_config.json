@@ -1,0 +1,8 @@
+{
+  "termsConditions": "https://www.refyne.co.in/terms-content",
+  "twoWheelerLoanFaqId": "Two Wheeler Loan",
+  "applicationDetailsData": {
+    "termsConditionsUrl": "https://www.refyne.co.in/two-wheeler-loans-terms-of-use",
+    "tenures": ["6", "12", "18", "24", "30", "36", "42", "48"]
+  }
+}

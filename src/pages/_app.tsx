@@ -34,6 +34,7 @@ import "@/styles/globals.css";
 import { Inter } from "@next/font/google";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import { NuqsAdapter } from "nuqs/adapters/next/pages";
 import { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 
@@ -159,19 +160,21 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <style jsx global>{`
-        * {
-          font-family: ${inter.style.fontFamily};
-          --font-inter: ${inter.style.fontFamily};
-        }
-      `}</style>
-      <ResetFontBoostingScript />
-      <WebengageScript />
-      <PlotlineScript />
-      <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
-      {isLoading && <DashboardLoader />}
-      {!isLoading && <Component {...pageProps} />}
-      <Toaster position="bottom-center" />
+      <NuqsAdapter>
+        <style jsx global>{`
+          * {
+            font-family: ${inter.style.fontFamily};
+            --font-inter: ${inter.style.fontFamily};
+          }
+        `}</style>
+        <ResetFontBoostingScript />
+        <WebengageScript />
+        <PlotlineScript />
+        <DeviceRotatePromptOverlay active={isMobileAndLandscape} />
+        {isLoading && <DashboardLoader />}
+        {!isLoading && <Component {...pageProps} />}
+        <Toaster position="bottom-center" />
+      </NuqsAdapter>
     </>
   );
 }

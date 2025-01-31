@@ -10,6 +10,14 @@
   text-align: left;
 }
 
+.Rf_Accordion__Header.AlignItemsStart {
+  align-items: start;
+}
+
+.Rf_Accordion__Header.ContentPadding {
+  padding: 4px;
+}
+
 .Rf_Accordion__Header.active {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -37,4 +45,7 @@
   border-top: none;
   padding: 16px;
   visibility: visible;
+}
+.Rf_Accordion__Body.active.ContentPaddingXY {
+  padding: 8px 4px;
 }

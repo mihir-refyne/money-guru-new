@@ -244,3 +244,35 @@ export function formatDate(inputDate: string): string {
     month.charAt(0).toUpperCase() + month.slice(1)
   } ${day}, ${formattedHours}:${paddedMinutes}${ampm}`;
 }
+
+export function formatDateWithYear(isoString: string): string {
+  const date = new Date(isoString);
+  const day = date.getDate().toString().padStart(2, "0");
+  const month = date.toLocaleString("default", { month: "long" });
+  const year = date.getFullYear();
+
+  return `${day} ${month} ${year}`;
+}
+
+export function validateUrlDomain(
+  url: string | undefined | null,
+  domain: string
+): string | undefined {
+  if (!url) {
+    return undefined;
+  }
+
+  try {
+    const hostname = new URL(url).hostname;
+    return hostname === domain || hostname.endsWith(`.${domain}`)
+      ? url
+      : undefined;
+  } catch (error) {
+    console.error("Invalid URL:", error);
+    return undefined;
+  }
+}
+
+export function isRefyneUrl(url?: string | null): string | undefined {
+  return validateUrlDomain(url, "refyne.co.in");
+}
