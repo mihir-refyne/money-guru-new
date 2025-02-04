@@ -68,9 +68,10 @@ export default function TwoWheelerLoan() {
       hasBackButton={true}
       navbarBackground={"transparent"}
       navbarText="Two-Wheeler Loan"
+      toUnsetOverflowX={true}
       footer={<TwoWheelerPageFooter />}
     >
-      <div>
+      <>
         <div
           style={{
             backgroundImage:
@@ -113,7 +114,7 @@ export default function TwoWheelerLoan() {
           <OtherBenefitsSection />
           <FAQSection />
         </div>
-      </div>
+      </>
     </PageLayout>
   );
 }
@@ -131,11 +132,7 @@ export const TwoWheelerPageFooter = () => {
   }
 
   return (
-    <div
-      style={{
-        paddingTop: "32px",
-      }}
-    >
+    <>
       <div
         style={{
           backgroundColor: "var(--clr-icon-accent-success)",
@@ -166,6 +163,6 @@ export const TwoWheelerPageFooter = () => {
         label={t("continue_footer_cta")}
         onClick={handleFooterCTAOnClick}
       />
-    </div>
+    </>
   );
 };
