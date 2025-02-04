@@ -125,7 +125,8 @@ export const FAQSection = () => {
   return (
     <div
       style={{
-        paddingTop: "24px",
+        marginTop: "28px",
+        marginBottom: "32px",
         display: "flex",
         flexDirection: "column",
         alignItems: "start",
