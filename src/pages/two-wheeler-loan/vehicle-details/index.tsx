@@ -159,13 +159,12 @@ export default function VehicleDetails() {
       hasContentPadding={true}
       hasLocalButton={false}
       hasBackButton={true}
-      navbarBackground={"transparent"}
       navbarText="Vehicle Details"
+      toUnsetOverflowX={true}
       footer={
         <>
           <div
             style={{
-              backgroundColor: "var(--clr-background-surface)",
               marginTop: "auto",
               padding: "16px",
               display: "flex",
@@ -267,21 +266,28 @@ export default function VehicleDetails() {
           tenure={formData.tenure}
           onClick={() => setIsModalOpen(true)}
         />
-        <Modal
-          active={isModalOpen}
-          bottomSheetOnMobile
-          onClose={() => {
-            setIsModalOpen(false);
+
+        <div
+          style={{
+            marginBottom: "32px",
           }}
         >
-          <ChooseTenureDropDownList
-            value={formData.tenure}
-            onChange={(tenure) => handleInputChange("tenure", tenure)}
+          <Modal
+            active={isModalOpen}
+            bottomSheetOnMobile
             onClose={() => {
               setIsModalOpen(false);
             }}
-          />
-        </Modal>
+          >
+            <ChooseTenureDropDownList
+              value={formData.tenure}
+              onChange={(tenure) => handleInputChange("tenure", tenure)}
+              onClose={() => {
+                setIsModalOpen(false);
+              }}
+            />
+          </Modal>
+        </div>
       </div>
     </PageLayout>
   );
