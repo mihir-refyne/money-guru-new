@@ -50,6 +50,7 @@ export interface PageLayoutProps {
   preloads?: Array<Preload>;
   pageBackground?: CSSProperties["background"];
   onNavbarBackClick?: () => void;
+  toUnsetOverflowX?: boolean;
 }
 
 export default function PageLayout({
@@ -74,6 +75,7 @@ export default function PageLayout({
   preloads,
   pageBackground,
   onNavbarBackClick,
+  toUnsetOverflowX = false,
 }: PageLayoutProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -146,7 +148,11 @@ export default function PageLayout({
           <link key={index} rel="preload" {...preload} />
         ))}
       </Head>
-      <main className={styles.PageLayout__Wrapper}>
+      <main
+        className={`${styles.PageLayout__Wrapper} ${
+          toUnsetOverflowX && styles.UnsetOverflowX
+        }`}
+      >
         {hasNavbar && (
           <Navbar
             title={navbarText}
