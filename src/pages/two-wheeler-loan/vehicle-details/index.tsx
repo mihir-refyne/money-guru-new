@@ -154,19 +154,6 @@ export default function VehicleDetails() {
     }
   }
 
-  function onFocusInputHandler(elementInputRef: RefObject<HTMLInputElement>) {
-    const element = elementInputRef.current;
-    const headerOffset = 100;
-    const elementPosition =
-      element?.getBoundingClientRect().top ?? 0 + window.scrollY;
-    const offsetPosition = elementPosition - headerOffset;
-
-    window.scrollTo({
-      behavior: "smooth",
-      top: offsetPosition,
-    });
-  }
-
   return (
     <PageLayout
       pageBackground={"var(--clr-background-surface)"}
