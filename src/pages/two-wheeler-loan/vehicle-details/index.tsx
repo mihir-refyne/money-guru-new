@@ -39,8 +39,6 @@ export default function VehicleDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const elementInputRefLoanAmountField = useRef<HTMLInputElement>(null);
-  const elementInputRefRoadPriceField = useRef<HTMLInputElement>(null);
 
   const routerParam = router.query.pincode as unknown;
   const pincode = routerParam as string;
@@ -176,7 +174,7 @@ export default function VehicleDetails() {
       hasLocalButton={false}
       hasBackButton={true}
       navbarText="Vehicle Details"
-      toUnsetOverflowX={true}
+      toUnsetOverflowX={false}
       footer={
         <>
           <div
@@ -251,7 +249,6 @@ export default function VehicleDetails() {
           }
         />
         <InputContainer
-          ref={elementInputRefRoadPriceField}
           value={formData.onRoadPrice === 0 ? "" : formData.onRoadPrice}
           label={"On-road vehicle price"}
           isBorderDisabled={true}
@@ -263,10 +260,8 @@ export default function VehicleDetails() {
           onChange={(e) => {
             handleInputChange("onRoadPrice", Number(e.target.value));
           }}
-          onFocus={() => onFocusInputHandler(elementInputRefRoadPriceField)}
         />
         <InputContainer
-          ref={elementInputRefLoanAmountField}
           value={
             formData.applicationAmount === 0 ? "" : formData.applicationAmount
           }
@@ -280,7 +275,6 @@ export default function VehicleDetails() {
           onChange={(e) => {
             handleInputChange("applicationAmount", Number(e.target.value));
           }}
-          onFocus={() => onFocusInputHandler(elementInputRefLoanAmountField)}
         />
         <ChooseTenureDropDownMenu
           tenure={formData.tenure}
