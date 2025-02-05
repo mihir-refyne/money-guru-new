@@ -135,7 +135,7 @@ export default function ConfirmPincodeDetails() {
       hasContentPadding={true}
       hasLocalButton={false}
       hasBackButton={true}
-      navbarBackground={"transparent"}
+      toUnsetOverflowX={true}
       navbarText="Confirm Pincode"
       footer={
         <FooterButton

@@ -9,6 +9,10 @@
   overflow-x: hidden;
 }
 
+.PageLayout__Wrapper.UnsetOverflowX {
+  overflow-x: unset;
+}
+
 .PageLayout__Content {
   flex-grow: 1;
   display: flex;

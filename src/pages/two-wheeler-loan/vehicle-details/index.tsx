@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import PageLayout from "@/components/PageLayout";
@@ -39,6 +39,7 @@ export default function VehicleDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
   const routerParam = router.query.pincode as unknown;
   const pincode = routerParam as string;
 
@@ -159,13 +160,12 @@ export default function VehicleDetails() {
       hasContentPadding={true}
       hasLocalButton={false}
       hasBackButton={true}
-      navbarBackground={"transparent"}
       navbarText="Vehicle Details"
+      toUnsetOverflowX={false}
       footer={
         <>
           <div
             style={{
-              backgroundColor: "var(--clr-background-surface)",
               marginTop: "auto",
               padding: "16px",
               display: "flex",
@@ -267,21 +267,28 @@ export default function VehicleDetails() {
           tenure={formData.tenure}
           onClick={() => setIsModalOpen(true)}
         />
-        <Modal
-          active={isModalOpen}
-          bottomSheetOnMobile
-          onClose={() => {
-            setIsModalOpen(false);
+
+        <div
+          style={{
+            marginBottom: "32px",
           }}
         >
-          <ChooseTenureDropDownList
-            value={formData.tenure}
-            onChange={(tenure) => handleInputChange("tenure", tenure)}
+          <Modal
+            active={isModalOpen}
+            bottomSheetOnMobile
             onClose={() => {
               setIsModalOpen(false);
             }}
-          />
-        </Modal>
+          >
+            <ChooseTenureDropDownList
+              value={formData.tenure}
+              onChange={(tenure) => handleInputChange("tenure", tenure)}
+              onClose={() => {
+                setIsModalOpen(false);
+              }}
+            />
+          </Modal>
+        </div>
       </div>
     </PageLayout>
   );
