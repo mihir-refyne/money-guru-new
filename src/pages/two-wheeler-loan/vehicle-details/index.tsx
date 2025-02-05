@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import toast from "react-hot-toast";
 import PageLayout from "@/components/PageLayout";
@@ -39,6 +39,9 @@ export default function VehicleDetails() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const elementInputRefLoanAmountField = useRef<HTMLInputElement>(null);
+  const elementInputRefRoadPriceField = useRef<HTMLInputElement>(null);
+
   const routerParam = router.query.pincode as unknown;
   const pincode = routerParam as string;
 
@@ -153,6 +156,19 @@ export default function VehicleDetails() {
     }
   }
 
+  function onFocusInputHandler(elementInputRef: RefObject<HTMLInputElement>) {
+    const element = elementInputRef.current;
+    const headerOffset = 100;
+    const elementPosition =
+      element?.getBoundingClientRect().top ?? 0 + window.scrollY;
+    const offsetPosition = elementPosition - headerOffset;
+
+    window.scrollTo({
+      behavior: "smooth",
+      top: offsetPosition,
+    });
+  }
+
   return (
     <PageLayout
       pageBackground={"var(--clr-background-surface)"}
@@ -235,6 +251,7 @@ export default function VehicleDetails() {
           }
         />
         <InputContainer
+          ref={elementInputRefRoadPriceField}
           value={formData.onRoadPrice === 0 ? "" : formData.onRoadPrice}
           label={"On-road vehicle price"}
           isBorderDisabled={true}
@@ -246,8 +263,10 @@ export default function VehicleDetails() {
           onChange={(e) => {
             handleInputChange("onRoadPrice", Number(e.target.value));
           }}
+          onFocus={() => onFocusInputHandler(elementInputRefRoadPriceField)}
         />
         <InputContainer
+          ref={elementInputRefLoanAmountField}
           value={
             formData.applicationAmount === 0 ? "" : formData.applicationAmount
           }
@@ -261,6 +280,7 @@ export default function VehicleDetails() {
           onChange={(e) => {
             handleInputChange("applicationAmount", Number(e.target.value));
           }}
+          onFocus={() => onFocusInputHandler(elementInputRefLoanAmountField)}
         />
         <ChooseTenureDropDownMenu
           tenure={formData.tenure}

@@ -2,6 +2,7 @@ import Image from "next/image";
 import CheckIcon from "../../../../public/assets/images/two-wheeler-loan/checkbox_circle_fill.svg";
 import ErrorIcon from "../../../../public/assets/images/two-wheeler-loan/error_icon.svg";
 import styles from "./styles.module.css";
+import { forwardRef, Ref } from "react";
 
 interface InputContainerProps {
   value?: string | number;
@@ -16,22 +17,27 @@ interface InputContainerProps {
   isFieldMandatory?: boolean;
   placeHolderText?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const InputContainer = ({
-  value,
-  label,
-  hasError,
-  errorMessage,
-  hasSuccess,
-  successResponse,
-  isBorderDisabled = false,
-  inputFieldType = "text",
-  maxLength,
-  isFieldMandatory,
-  placeHolderText,
-  onChange,
-}: InputContainerProps) => {
+const _InputContainer = (
+  {
+    value,
+    label,
+    hasError,
+    errorMessage,
+    hasSuccess,
+    successResponse,
+    isBorderDisabled = false,
+    inputFieldType = "text",
+    maxLength,
+    isFieldMandatory,
+    placeHolderText,
+    onChange,
+    onFocus,
+  }: InputContainerProps,
+  ref?: Ref<HTMLInputElement>
+) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!onChange) return;
 
@@ -106,6 +112,7 @@ export const InputContainer = ({
             <span className={styles.currency_prefix}>₹</span>
           )}
           <input
+            ref={ref}
             style={{
               paddingLeft: inputFieldType === "currency" ? "22px" : "none",
             }}
@@ -114,6 +121,7 @@ export const InputContainer = ({
             className={`${styles.input_field} ${hasError && styles.error}`}
             onChange={handleInputChange}
             value={formattedValue}
+            onFocus={onFocus}
           />
         </div>
         {(hasError || hasSuccess) && (
@@ -138,3 +146,7 @@ export const InputContainer = ({
     </div>
   );
 };
+
+export const InputContainer = forwardRef<HTMLInputElement, InputContainerProps>(
+  _InputContainer
+);
