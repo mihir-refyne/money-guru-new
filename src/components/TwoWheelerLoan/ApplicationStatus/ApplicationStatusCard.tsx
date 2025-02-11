@@ -35,6 +35,12 @@ export const ApplicationStatusCard = ({
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_error,
     },
+    [LoanStatus.DISBURSED]: {
+      icon: successStatusIcon,
+      title: "Loan Disbursed successfully",
+      titleClassStatusStyle:
+        applicationStatusStyles.application_status_card__title_success,
+    },
   };
 
   const status = vehicleLoan?.status ?? LoanStatus.INITIATED;
@@ -68,7 +74,7 @@ export const ApplicationStatusCard = ({
           className={`${
             applicationStatusStyles.application_status_card_header__wrapper
           } ${
-            status === LoanStatus.APPROVED &&
+            !applicationStatusDescription &&
             applicationStatusStyles.application_status_card_header__wrapper_border_none
           }`}
         >
@@ -86,13 +92,15 @@ export const ApplicationStatusCard = ({
             {applicationStatusDateStamp}
           </p>
         </div>
-        <p
-          className={
-            applicationStatusStyles.application_status_card__description
-          }
-        >
-          {applicationStatusDescription}
-        </p>
+        {applicationStatusDescription && (
+          <p
+            className={
+              applicationStatusStyles.application_status_card__description
+            }
+          >
+            {applicationStatusDescription}
+          </p>
+        )}
       </div>
     </div>
   );
