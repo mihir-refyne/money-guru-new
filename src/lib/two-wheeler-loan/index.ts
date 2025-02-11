@@ -15,6 +15,7 @@ export enum LoanStatus {
   INITIATED = "INITIATED",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
+  DISBURSED = "DISBURSED",
 }
 
 interface VehicleDetails {
