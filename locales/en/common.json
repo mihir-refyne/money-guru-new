@@ -477,10 +477,9 @@
   "application_sanctioned_tenure": "application_sanctioned_tenure",
   "application_sanctioned_interest_rate": "application_sanctioned_interest_rate",
   "terms_conditions_footer_label": "terms_conditions_footer_label",
-
-  "application_status_disbursed_details_title": "Disbursed Details",
-  "congratulations_title": "Congratulations!",
-  "application_status_reward_section_cashback": "You received {{rewardCashbackAmount}} as cash-back.",
-  "application_status_reward_click_to_see_reward": "Click here to see your rewards",
-  "application_disbursed_amount": "Disbursed Amount"
+  "application_status_disbursed_details_title": "application_status_disbursed_details_title",
+  "congratulations_title": "congratulations_title",
+  "application_status_reward_section_cashback": "application_status_reward_section_cashback",
+  "application_status_reward_click_to_see_reward": "application_status_reward_click_to_see_reward",
+  "application_disbursed_amount": "application_disbursed_amount"
 }
