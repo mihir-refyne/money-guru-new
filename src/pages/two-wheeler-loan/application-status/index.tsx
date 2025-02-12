@@ -132,11 +132,11 @@ const RewardDisbursedSection = ({
     nativeDispatchType: "ROUTE_TO_SCREEN_ONLY",
   });
 
-  const approvalDetailAmount =
-    ((loansData && loansData[0].applicationApprovalDetails?.amount) ?? 0) *
+  const disbursedAmountRewardCashback =
+    ((loansData && loansData[0].applicationDisbursalDetails?.amount) ?? 0) *
     0.01;
 
-  const rewardCashbackAmount = formatToInr(approvalDetailAmount);
+  const rewardCashbackAmount = formatToInr(disbursedAmountRewardCashback);
 
   return (
     <div
