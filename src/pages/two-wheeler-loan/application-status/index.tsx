@@ -144,6 +144,7 @@ const RewardDisbursedSection = ({
       style={{
         justifyContent: "space-between",
         alignItems: "start",
+        cursor: "pointer",
       }}
       onClick={routeToFaqClick}
     >
@@ -213,6 +214,7 @@ const NeedSupportSection = () => {
         className={styles.outer_wrapper}
         style={{
           justifyContent: "space-between",
+          cursor: "pointer",
         }}
         onClick={handleFaqClicked}
       >
