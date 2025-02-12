@@ -9,8 +9,8 @@ export const SanctionedDetailsSection = ({
   vehicleLoan: VehicleLoan | null;
 }) => {
   const { t } = useTranslation("common");
-  const tenure = vehicleLoan?.applicationApprovalDetails?.tenure;
   const approvalDetails = vehicleLoan?.applicationApprovalDetails;
+  const disbursedDetails = vehicleLoan?.applicationDisbursalDetails;
 
   const formatTenure = (tenure?: number) =>
     `${tenure} ${
@@ -22,7 +22,10 @@ export const SanctionedDetailsSection = ({
       title: t("application_sanctioned_amount"),
       data: formatToInr(approvalDetails?.amount ?? 0),
     },
-    { title: t("application_sanctioned_tenure"), data: formatTenure(tenure) },
+    {
+      title: t("application_sanctioned_tenure"),
+      data: formatTenure(approvalDetails?.tenure),
+    },
     {
       title: t("application_sanctioned_interest_rate"),
       data: `${approvalDetails?.interestRate}%`,
@@ -32,12 +35,15 @@ export const SanctionedDetailsSection = ({
   const ApplicationDisbursedDetails = [
     {
       title: t("application_disbursed_amount"),
-      data: formatToInr(approvalDetails?.amount ?? 0),
+      data: formatToInr(disbursedDetails?.amount ?? 0),
     },
-    { title: t("application_sanctioned_tenure"), data: formatTenure(tenure) },
+    {
+      title: t("application_sanctioned_tenure"),
+      data: formatTenure(disbursedDetails?.tenure),
+    },
     {
       title: t("application_sanctioned_interest_rate"),
-      data: `${approvalDetails?.interestRate}%`,
+      data: `${disbursedDetails?.interestRate}%`,
     },
   ];
 

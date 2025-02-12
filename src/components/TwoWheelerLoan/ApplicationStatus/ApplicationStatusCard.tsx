@@ -12,15 +12,11 @@ export const ApplicationStatusCard = ({
 }: {
   vehicleLoan?: VehicleLoan | null;
 }) => {
-  const statusMapping: Record<string, any> = {
-    [LoanStatus.APPROVED]: {
-      icon: successStatusIcon,
+  const vehicleLoanStatusLog =
+    vehicleLoan?.statusLog &&
+    vehicleLoan.statusLog[vehicleLoan.statusLog.length - 1];
 
-      title: "Application Processed",
-      titleClassStatusStyle:
-        applicationStatusStyles.application_status_card__title_success,
-      description: "",
-    },
+  const APPLICATION_STATUS_DATA: Record<string, any> = {
     [LoanStatus.INITIATED]: {
       icon: pendingStatusIcon,
       title: "Application under review",
@@ -28,39 +24,39 @@ export const ApplicationStatusCard = ({
         applicationStatusStyles.application_status_card__title_pending,
       description:
         "Your application is under review. A representative from our loan partner Jana Small Finance bank will reach out to you.",
+      amount: formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0),
+    },
+    [LoanStatus.APPROVED]: {
+      icon: successStatusIcon,
+      title: "Application Processed",
+      titleClassStatusStyle:
+        applicationStatusStyles.application_status_card__title_success,
+      description: "",
+      amount: formatToInr(vehicleLoan?.applicationApprovalDetails?.amount ?? 0),
     },
     [LoanStatus.REJECTED]: {
       icon: failedStatusIcon,
       title: "Application Rejected",
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_error,
+      amount: formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0),
+      description: vehicleLoanStatusLog?.comment,
     },
     [LoanStatus.DISBURSED]: {
       icon: successStatusIcon,
       title: "Loan Disbursed successfully",
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_success,
+      amount: formatToInr(
+        vehicleLoan?.applicationDisbursalDetails?.amount ?? 0
+      ),
+      description: "",
     },
   };
 
   const status = vehicleLoan?.status ?? LoanStatus.INITIATED;
-
-  const { icon, titleClassStatusStyle, description, title } =
-    statusMapping[status];
-
-  const vehicleLoanStatusLog =
-    vehicleLoan?.statusLog &&
-    vehicleLoan.statusLog[vehicleLoan.statusLog.length - 1];
-
-  const applicationStatusDescription =
-    status === LoanStatus.REJECTED
-      ? vehicleLoanStatusLog?.comment
-      : description;
-
-  const applicationAmount =
-    status === LoanStatus.APPROVED
-      ? formatToInr(vehicleLoan?.applicationApprovalDetails?.amount ?? 0)
-      : formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0);
+  const { icon, titleClassStatusStyle, description, title, amount } =
+    APPLICATION_STATUS_DATA[status];
 
   const applicationStatusDateStamp = formatDateWithYear(
     vehicleLoanStatusLog?.createdAt ?? ""
@@ -74,7 +70,7 @@ export const ApplicationStatusCard = ({
           className={`${
             applicationStatusStyles.application_status_card_header__wrapper
           } ${
-            !applicationStatusDescription &&
+            !description &&
             applicationStatusStyles.application_status_card_header__wrapper_border_none
           }`}
         >
@@ -86,19 +82,19 @@ export const ApplicationStatusCard = ({
           <p
             className={applicationStatusStyles.application_status_card__amount}
           >
-            {applicationAmount}
+            {amount}
           </p>
           <p className={applicationStatusStyles.application_status_card__date}>
             {applicationStatusDateStamp}
           </p>
         </div>
-        {applicationStatusDescription && (
+        {description && (
           <p
             className={
               applicationStatusStyles.application_status_card__description
             }
           >
-            {applicationStatusDescription}
+            {description}
           </p>
         )}
       </div>
