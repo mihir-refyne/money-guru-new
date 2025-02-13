@@ -122,10 +122,10 @@ const RewardDisbursedSection = ({
   const idToken = getValueFromMetadata("idToken");
   const appPlatformName = getValueFromMetadata("appPlatformName");
   const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
-  const FAQ_URL = `${APP_BASE_URL}/#/?next=referral/scratch-cards`;
+  const REWARD_PAGE_URL = `${APP_BASE_URL}/#/?next=referral/scratch-cards`;
 
   const routeToFaqClick = getRouteHandler({
-    navigateTo: FAQ_URL,
+    navigateTo: REWARD_PAGE_URL,
     isRefyneWebview,
     router,
     idToken,

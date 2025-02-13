@@ -481,5 +481,10 @@
   "congratulations_title": "congratulations_title",
   "application_status_reward_section_cashback": "application_status_reward_section_cashback",
   "application_status_reward_click_to_see_reward": "application_status_reward_click_to_see_reward",
-  "application_disbursed_amount": "application_disbursed_amount"
+  "application_disbursed_amount": "application_disbursed_amount",
+  "application_status_initiated_text": "application_status_initiated_text",
+  "application_status_initiated_description_text": "application_status_initiated_description_text",
+  "application_status_approved_text": "application_status_approved_text",
+  "application_status_rejected_text": "application_status_rejected_text",
+  "application_status_disbursed_text": "application_status_disbursed_texty"
 }

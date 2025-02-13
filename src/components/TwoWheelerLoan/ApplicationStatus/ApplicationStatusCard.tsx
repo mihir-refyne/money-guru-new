@@ -6,12 +6,15 @@ import successStatusIcon from "../../../../public/assets/images/two-wheeler-loan
 import Image from "next/image";
 import applicationStatusStyles from "./styles.module.css";
 import { formatDateWithYear, formatToInr } from "@/lib/utils";
+import useTranslation from "@/hooks/useTranslation";
 
 export const ApplicationStatusCard = ({
   vehicleLoan,
 }: {
   vehicleLoan?: VehicleLoan | null;
 }) => {
+  const { t } = useTranslation("common");
+
   const vehicleLoanStatusLog =
     vehicleLoan?.statusLog &&
     vehicleLoan.statusLog[vehicleLoan.statusLog.length - 1];
@@ -19,16 +22,15 @@ export const ApplicationStatusCard = ({
   const APPLICATION_STATUS_DATA: Record<string, any> = {
     [LoanStatus.INITIATED]: {
       icon: pendingStatusIcon,
-      title: "Application under review",
+      title: t("application_status_initiated_text"),
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_pending,
-      description:
-        "Your application is under review. A representative from our loan partner Jana Small Finance bank will reach out to you.",
+      description: t("application_status_initiated_description_text"),
       amount: formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0),
     },
     [LoanStatus.APPROVED]: {
       icon: successStatusIcon,
-      title: "Application Processed",
+      title: t("application_status_approved_text"),
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_success,
       description: "",
@@ -36,7 +38,7 @@ export const ApplicationStatusCard = ({
     },
     [LoanStatus.REJECTED]: {
       icon: failedStatusIcon,
-      title: "Application Rejected",
+      title: t("application_status_rejected_text"),
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_error,
       amount: formatToInr(vehicleLoan?.applicationDetails?.amount ?? 0),
@@ -44,7 +46,7 @@ export const ApplicationStatusCard = ({
     },
     [LoanStatus.DISBURSED]: {
       icon: successStatusIcon,
-      title: "Loan Disbursed successfully",
+      title: t("application_status_disbursed_text"),
       titleClassStatusStyle:
         applicationStatusStyles.application_status_card__title_success,
       amount: formatToInr(
