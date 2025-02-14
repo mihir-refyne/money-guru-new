@@ -486,5 +486,6 @@
   "application_status_initiated_description_text": "application_status_initiated_description_text",
   "application_status_approved_text": "application_status_approved_text",
   "application_status_rejected_text": "application_status_rejected_text",
-  "application_status_disbursed_text": "application_status_disbursed_texty"
+  "application_status_disbursed_text": "application_status_disbursed_text",
+  "two_wheeler_application_status_go_to_home_page": "two_wheeler_application_status_go_to_home_page"
 }

@@ -83,7 +83,11 @@ export default function LoanApplicationStatus() {
       footer={
         <FooterButton
           isButtonDisabled={false}
-          label={t("two_wheeler_application_status_footer_cta_label")}
+          label={
+            status === LoanStatus.INITIATED
+              ? t("two_wheeler_application_status_footer_cta_label")
+              : t("two_wheeler_application_status_go_to_home_page")
+          }
           onClick={handleOnClickFooterCTA}
         />
       }
