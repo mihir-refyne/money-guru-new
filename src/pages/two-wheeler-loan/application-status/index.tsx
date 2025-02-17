@@ -7,10 +7,9 @@ import PageLayout from "@/components/PageLayout";
 import chevronRight from "@/images/chevron_right.svg";
 import styles from "../../two-wheeler-loan/styles.module.css";
 import applicationStatusStyles from "./styles.module.css";
-import { fetchAllLoans, LoanStatus, VehicleLoan } from "@/lib/two-wheeler-loan";
+import { LoanStatus, VehicleLoan } from "@/lib/two-wheeler-loan";
 import { SanctionedDetailsSection } from "@/components/TwoWheelerLoan/ApplicationStatus/SanctionedDetailsSection";
 import { ApplicationStatusCard } from "@/components/TwoWheelerLoan/ApplicationStatus/ApplicationStatusCard";
-import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -25,33 +24,30 @@ import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
 import { STATUS_TO_SHOW_APPLICATION_DETAILS_SECTION } from "@/components/TwoWheelerLoan/constants";
 import rewardBoxIcon from "../../../../public/assets/images/two-wheeler-loan/green_reward_icon.svg";
 import { formatToInr } from "@/lib/utils";
+import { useLoanData } from "@/hooks/useLoanData";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  const { isLoading, data: loansData, error } = useFetcher(fetchAllLoans);
+  const { isLoading, loanData, error } = useLoanData();
 
   useEffect(() => {
-    if (!isLoading && loansData) {
-      const { status, id: applicationId } = loansData[0];
-
+    if (!isLoading && loanData) {
       logAnalyticsEvent(
         ["mixpanel", "webengage"],
         AnalyticEvent.BIKE_LOAN_APPLICATION_STATUS_SCREEN_SHOWN,
         {
-          status,
-          applicationId,
+          status: loanData.status,
+          applicationId: loanData.id,
         }
       );
     }
-  }, [isLoading, loansData]);
+  }, [isLoading, loanData]);
 
   if (isLoading) {
     return <LoadingPage />;
   }
-
-  const status = (loansData && loansData[0].status) || LoanStatus.INITIATED;
 
   function handleOnClickFooterCTA() {
     const appPlatformName = getValueFromMetadata("appPlatformName");
@@ -66,6 +62,8 @@ export default function LoanApplicationStatus() {
     }
     router.replace(APP_BASE_URL);
   }
+
+  const status = loanData?.status || LoanStatus.INITIATED;
 
   const toShowApplicationDetails =
     STATUS_TO_SHOW_APPLICATION_DETAILS_SECTION.includes(status);
@@ -100,14 +98,14 @@ export default function LoanApplicationStatus() {
         }}
       >
         <div>
-          <ApplicationStatusCard vehicleLoan={loansData && loansData[0]} />
+          <ApplicationStatusCard vehicleLoan={loanData} />
           {status === LoanStatus.DISBURSED && (
-            <RewardDisbursedSection loansData={loansData} />
+            <RewardDisbursedSection loansData={loanData} />
           )}
         </div>
         {status === LoanStatus.INITIATED && <WhatNextSection />}
         {toShowApplicationDetails && (
-          <SanctionedDetailsSection vehicleLoan={loansData && loansData[0]} />
+          <SanctionedDetailsSection vehicleLoan={loanData} />
         )}
         <NeedSupportSection />
       </div>
@@ -118,7 +116,7 @@ export default function LoanApplicationStatus() {
 const RewardDisbursedSection = ({
   loansData,
 }: {
-  loansData: VehicleLoan[] | null;
+  loansData: VehicleLoan | null;
 }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -137,8 +135,7 @@ const RewardDisbursedSection = ({
   });
 
   const disbursedAmountRewardCashback =
-    ((loansData && loansData[0].applicationDisbursalDetails?.amount) ?? 0) *
-    0.01;
+    ((loansData && loansData.applicationDisbursalDetails?.amount) ?? 0) * 0.01;
 
   const rewardCashbackAmount = formatToInr(disbursedAmountRewardCashback);
 
