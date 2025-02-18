@@ -15,7 +15,6 @@ export enum LoanStatus {
   INITIATED = "INITIATED",
   APPROVED = "APPROVED",
   REJECTED = "REJECTED",
-  DISBURSED = "DISBURSED",
 }
 
 interface VehicleDetails {
@@ -39,13 +38,6 @@ export interface ApprovalDetails {
   interestRate: number;
 }
 
-export interface DisbursalDetails {
-  amount: number;
-  disbursedAt: string;
-  interestRate: number;
-  tenure: number;
-}
-
 export interface StatusLog {
   actorId: string;
   status: LoanStatus;
@@ -61,7 +53,6 @@ export interface VehicleLoan {
   address: Address;
   status: LoanStatus;
   applicationApprovalDetails?: ApprovalDetails;
-  applicationDisbursalDetails?: DisbursalDetails;
   createdAt: string;
   updatedAt: string;
   statusLog?: StatusLog[];
