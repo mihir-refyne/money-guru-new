@@ -1,16 +1,13 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import PageLayout from "@/components/PageLayout";
 import useTranslation from "@/hooks/useTranslation";
 import BikeImage from "../../../public/assets/images/two-wheeler-loan/bike_image.svg";
 import GiftBoxIcon from "../../../public/assets/images/two-wheeler-loan/gift_box_icon.svg";
 import { FooterButton } from "@/components/TwoWheelerLoan/FooterButton";
-import { fetchAllLoans } from "@/lib/two-wheeler-loan";
-import useFetcher from "@/hooks/useFetcher";
+
 import LoadingPage from "@/components/LoadingPage";
-import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import {
   TopSectionHeaderBanner,
   TopSectionHeaderText,
@@ -22,11 +19,14 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { TwoWheelerRoutes } from "@/components/TwoWheelerLoan/constants";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import { useLoanData } from "@/hooks/useLoanData";
 
 export default function TwoWheelerLoan() {
   const router = useRouter();
-  const { isLoading, data: loansData, error } = useFetcher(fetchAllLoans);
   const userToken = getValueFromMetadata("idToken");
+
+  const { isLoading, loanData, error } = useLoanData();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     logAnalyticsEvent(
@@ -36,26 +36,15 @@ export default function TwoWheelerLoan() {
   }, []);
 
   useEffect(() => {
-    const checkLoanStatus = async () => {
-      try {
-        const loanData = loansData && loansData[0];
+    if (!isLoading && loanData?.status) {
+      setIsRedirecting(true);
+      router.replace(
+        `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.APPLICATION_STATUS}`
+      );
+    }
+  }, [isLoading, loanData, userToken]);
 
-        if (loanData?.status) {
-          router.replace(
-            `${TwoWheelerRoutes.TWO_WHEELER_LOAN}${TwoWheelerRoutes.APPLICATION_STATUS}`
-          );
-        }
-      } catch (error: any) {
-        const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
-        if (!errorMessage) return;
-        toast.error(errorMessage);
-      }
-    };
-
-    !isLoading && loansData && checkLoanStatus();
-  }, [isLoading, loansData, userToken]);
-
-  if (isLoading) {
+  if (isLoading || isRedirecting) {
     return <LoadingPage />;
   }
 
