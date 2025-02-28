@@ -7,10 +7,9 @@ import PageLayout from "@/components/PageLayout";
 import chevronRight from "@/images/chevron_right.svg";
 import styles from "../../two-wheeler-loan/styles.module.css";
 import applicationStatusStyles from "./styles.module.css";
-import { fetchAllLoans, LoanStatus } from "@/lib/two-wheeler-loan";
+import { LoanStatus, VehicleLoan } from "@/lib/two-wheeler-loan";
 import { SanctionedDetailsSection } from "@/components/TwoWheelerLoan/ApplicationStatus/SanctionedDetailsSection";
 import { ApplicationStatusCard } from "@/components/TwoWheelerLoan/ApplicationStatus/ApplicationStatusCard";
-import useFetcher from "@/hooks/useFetcher";
 import LoadingPage from "@/components/LoadingPage";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -22,33 +21,33 @@ import {
 import { getRouteHandler } from "@/components/CreditScoreBuilder/helpers";
 import { APP_BASE_URL } from "@/constants";
 import TwoWheelerLoanConfigData from "../../../../data/two_wheeler_config.json";
+import { STATUS_TO_SHOW_APPLICATION_DETAILS_SECTION } from "@/components/TwoWheelerLoan/constants";
+import rewardBoxIcon from "../../../../public/assets/images/two-wheeler-loan/green_reward_icon.svg";
+import { formatToInr } from "@/lib/utils";
+import { useLoanData } from "@/hooks/useLoanData";
 
 export default function LoanApplicationStatus() {
   const { t } = useTranslation("common");
   const router = useRouter();
 
-  const { isLoading, data: loansData, error } = useFetcher(fetchAllLoans);
+  const { isLoading, loanData, error } = useLoanData();
 
   useEffect(() => {
-    if (!isLoading && loansData) {
-      const { status, id: applicationId } = loansData[0];
-
+    if (!isLoading && loanData) {
       logAnalyticsEvent(
         ["mixpanel", "webengage"],
         AnalyticEvent.BIKE_LOAN_APPLICATION_STATUS_SCREEN_SHOWN,
         {
-          status,
-          applicationId,
+          status: loanData.status,
+          applicationId: loanData.id,
         }
       );
     }
-  }, [isLoading, loansData]);
+  }, [isLoading, loanData]);
 
   if (isLoading) {
     return <LoadingPage />;
   }
-
-  const status = (loansData && loansData[0].status) || LoanStatus.INITIATED;
 
   function handleOnClickFooterCTA() {
     const appPlatformName = getValueFromMetadata("appPlatformName");
@@ -64,6 +63,11 @@ export default function LoanApplicationStatus() {
     router.replace(APP_BASE_URL);
   }
 
+  const status = loanData?.status || LoanStatus.INITIATED;
+
+  const toShowApplicationDetails =
+    STATUS_TO_SHOW_APPLICATION_DETAILS_SECTION.includes(status);
+
   return (
     <PageLayout
       pageBackground={"var(--clr-background-surface)"}
@@ -77,7 +81,11 @@ export default function LoanApplicationStatus() {
       footer={
         <FooterButton
           isButtonDisabled={false}
-          label={t("two_wheeler_application_status_footer_cta_label")}
+          label={
+            status === LoanStatus.INITIATED
+              ? t("two_wheeler_application_status_footer_cta_label")
+              : t("two_wheeler_application_status_go_to_home_page")
+          }
           onClick={handleOnClickFooterCTA}
         />
       }
@@ -86,20 +94,87 @@ export default function LoanApplicationStatus() {
         style={{
           display: "flex",
           flexDirection: "column",
-          gap: "16px",
+          gap: status === LoanStatus.REJECTED ? "16px" : "32px",
         }}
       >
-        <ApplicationStatusCard vehicleLoan={loansData && loansData[0]} />
-
+        <div>
+          <ApplicationStatusCard vehicleLoan={loanData} />
+          {status === LoanStatus.DISBURSED && (
+            <RewardDisbursedSection loansData={loanData} />
+          )}
+        </div>
         {status === LoanStatus.INITIATED && <WhatNextSection />}
-        {status === LoanStatus.APPROVED && (
-          <SanctionedDetailsSection vehicleLoan={loansData && loansData[0]} />
+        {toShowApplicationDetails && (
+          <SanctionedDetailsSection vehicleLoan={loanData} />
         )}
         <NeedSupportSection />
       </div>
     </PageLayout>
   );
 }
+
+const RewardDisbursedSection = ({
+  loansData,
+}: {
+  loansData: VehicleLoan | null;
+}) => {
+  const { t } = useTranslation("common");
+  const router = useRouter();
+
+  const idToken = getValueFromMetadata("idToken");
+  const appPlatformName = getValueFromMetadata("appPlatformName");
+  const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
+  const REWARD_PAGE_URL = `${APP_BASE_URL}/#/?next=referral/scratch-cards`;
+
+  const routeToFaqClick = getRouteHandler({
+    navigateTo: REWARD_PAGE_URL,
+    isRefyneWebview,
+    router,
+    idToken,
+    nativeDispatchType: "ROUTE_TO_SCREEN_ONLY",
+  });
+
+  const disbursedAmountRewardCashback =
+    ((loansData && loansData.applicationDisbursalDetails?.amount) ?? 0) * 0.01;
+
+  const rewardCashbackAmount = formatToInr(disbursedAmountRewardCashback);
+
+  return (
+    <div
+      className={styles.outer_wrapper}
+      style={{
+        justifyContent: "space-between",
+        alignItems: "start",
+        cursor: "pointer",
+      }}
+      onClick={routeToFaqClick}
+    >
+      <div style={{ display: "flex", gap: "8px" }}>
+        <Image src={rewardBoxIcon} alt="reward box" />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
+          }}
+        >
+          <p className={applicationStatusStyles.need_support__title}>
+            {t("congratulations_title")}
+          </p>
+          <p className={applicationStatusStyles.reward_amount_section_content}>
+            {t("application_status_reward_section_cashback", {
+              rewardCashbackAmount,
+            })}
+          </p>
+          <p className={applicationStatusStyles.reward_amount_section_content}>
+            {t("application_status_reward_click_to_see_reward")}
+          </p>
+        </div>
+      </div>
+      <Image src={chevronRight} alt="right arrow" />
+    </div>
+  );
+};
 
 const NeedSupportSection = () => {
   const { t } = useTranslation("common");
@@ -140,6 +215,7 @@ const NeedSupportSection = () => {
         className={styles.outer_wrapper}
         style={{
           justifyContent: "space-between",
+          cursor: "pointer",
         }}
         onClick={handleFaqClicked}
       >
