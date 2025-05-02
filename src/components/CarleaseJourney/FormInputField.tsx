@@ -91,7 +91,7 @@ export const FormFieldInputContainer = ({
               fontSize,
               fontWeight,
               color,
-              paddingLeft: inputFieldType === "currency" ? "28px" : "0",
+              paddingLeft: inputFieldType === "currency" ? "28px" : undefined,
             }}
             placeholder={placeHolderText}
             maxLength={maxLength}
