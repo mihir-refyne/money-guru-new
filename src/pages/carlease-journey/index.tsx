@@ -36,23 +36,21 @@ export default function CarleaseJourneyPage() {
   );
 }
 const VideoPlayer = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
   const VIDEO_SRC_URL =
-    "https://d3ifevsf2c204i.cloudfront.net/assets/videos/carlease_video.mp4"; //TODO: udpate this to the prod irl in the congfgi value
+    "https://assets.refyne.co.in/assets/videos/carlease_video.mp4";
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play();
-    }
-  }, []);
+  const handleVideoClick = (event: React.MouseEvent<HTMLVideoElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+  };
 
   return (
     <video
-      ref={videoRef}
       autoPlay
       muted
       loop
       playsInline
+      onClick={handleVideoClick}
       style={{
         position: "absolute",
         width: "100%",
