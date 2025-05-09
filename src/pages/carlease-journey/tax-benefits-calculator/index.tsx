@@ -18,7 +18,7 @@ export default function CalculateTaxBenefitsPage() {
       exShowroomPrice: 0,
       residualValuePercentage: 0,
       roadTaxPercentage: 0,
-      tenureYears: 1,
+      tenureYears: 3,
       isNewCar: false,
     } as LeaseCalculatorFormInput,
     parse: (value) => JSON.parse(decodeURIComponent(value)),
@@ -244,7 +244,7 @@ const ChooseTenureYear = ({
           flexWrap: "wrap",
         }}
       >
-        {[...Array.from({ length: 5 }, (_, i) => i + 1)].map((item, index) => {
+        {[3, 4, 5].map((item, index) => {
           return <TenureYearChip key={index} tenure={item} />;
         })}
       </div>
