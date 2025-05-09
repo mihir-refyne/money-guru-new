@@ -19,7 +19,7 @@ export default function UserDetailFormPage() {
     mobileNumber: "",
     dateOfBirth: "",
     employerName: "",
-    leaseDuration: 2,
+    leaseDuration: 3,
     errors: {},
   });
 
