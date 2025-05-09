@@ -186,7 +186,7 @@ const ChooseTenureYear = ({
   currentSelectedTenureYear: number;
   onChangeTenure: (tenure: number) => void;
 }) => {
-  const TENURE_YEARS_DATA = [2, 3, 4, 5];
+  const TENURE_YEARS_DATA = [3, 4, 5];
 
   const TenureYearChip = ({ tenure }: { tenure: number }) => {
     return (

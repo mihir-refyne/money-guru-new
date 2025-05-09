@@ -43,7 +43,6 @@ const AcquisitionProcessStepsListView = () => {
     "Verification and the tri-party agreement are assigned",
     "Lease commences, and CTC is restructured",
     "Employer pays the lease invoice to Refyne each month",
-    "Employee submits invoices for reimbursement",
   ];
   const AcquisitionStepTile = ({
     stepNumber,
