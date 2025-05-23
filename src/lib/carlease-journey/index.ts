@@ -1,3 +1,6 @@
+import { logAnalyticsEvent } from "../analytics";
+import { AnalyticEvent } from "../analytics/events";
+
 export interface InputContainerProps {
   value?: string | number;
   label: string;
@@ -380,6 +383,13 @@ export function compareLeaseVsLoan(
 }
 
 export async function postCarleaseData(carLeaseValues: CarSummaryValues) {
+  logAnalyticsEvent(
+    ["mixpanel", "webengage"],
+    AnalyticEvent.CAR_LEASE_TAX_SUMMARY_DATA,
+    {
+      ...carLeaseValues,
+    }
+  );
   const response = await fetch("/api/post-carlease-data", {
     method: "POST",
     headers: {
@@ -408,6 +418,17 @@ export async function postCarleaseUserFormData({
   employerName: string;
   leaseDuration: number;
 }) {
+  logAnalyticsEvent(
+    ["mixpanel", "webengage"],
+    AnalyticEvent.CAR_LEASE_USER_DETAILS_DATA,
+    {
+      fullName,
+      mobileNumber,
+      dateOfBirth,
+      employerName,
+      leaseDuration,
+    }
+  );
   const response = await fetch("/api/post-user-carlease-data", {
     method: "POST",
     headers: {
