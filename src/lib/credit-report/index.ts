@@ -148,6 +148,11 @@ export interface CreditReportAnalysis {
   };
 }
 
+export interface CreditConsentStatus {
+  expiresAt: string;
+  valid: boolean;
+}
+
 export interface CreditReportWithAnalysis extends CreditReportResponse {
   analysis?: CreditReportAnalysis;
 }
@@ -343,4 +348,19 @@ export function setCreditScoreIncrementEffectShown() {
     USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
     Date.now().toString()
   );
+}
+
+export async function getCreditBureauConsent(): Promise<boolean> {
+  const idToken = getValueFromMetadata("idToken");
+  if (!idToken) return false;
+  runFetchCreditReportPreCheckOrThrow();
+  const creditConsentStatus = await fetcher<CreditConsentStatus>(
+    `${CORE_SERVER_BASE_URL}/credit-bureau/consent-status/pull`,
+    {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    }
+  );
+  return creditConsentStatus?.data?.valid ?? false;
 }
