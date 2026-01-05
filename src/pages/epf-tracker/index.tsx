@@ -1,36 +1,38 @@
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useState } from "react";
 import EpfSummary from "@/components/EpfTracker/EpfSummary";
 import Redirect from "@/components/Redirect";
+import Modal from "@/components/Modal";
 import useFetcher from "@/hooks/useFetcher";
+import useTranslation from "@/hooks/useTranslation";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
 import {
+  EpfDetailsResponse,
   EpfFetchDetailsStatusEnum,
   EpfFetchIdentifier,
   fetchEpfSessionStatus,
   getOrFetchEpfDetails,
 } from "@/lib/epf";
 import { isObjectEmpty } from "@/lib/utils";
-import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
-import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
-import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { AnalyticEvent } from "@/lib/analytics/events";
-import { logAnalyticsEvent } from "@/lib/analytics";
-import { isEpfFetchError } from "@/components/EpfTracker/helpers";
-import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
-import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
+import { isEpfFetchError } from "@/components/EpfTracker/helpers";
+import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
+import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
+import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
 import EpfFetchErrorModalContentWrapper, {
   EpfFetchErrorModalContentProps,
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
 import { SERVICE_UNAVAILABLE_COMMON_MODAL } from "@/components/EpfTracker/constants";
-import Modal from "@/components/Modal";
-import useTranslation from "@/hooks/useTranslation";
+import { FetcherError } from "@/lib/fetcher";
 
 export default function EpfTrackerSummaryPage() {
   const router = useRouter();
@@ -45,24 +47,10 @@ export default function EpfTrackerSummaryPage() {
     error: sessionStatusError 
   } = useFetcher(fetchEpfSessionStatus);
   
-  // Determine if we should fetch EPF details
-  const shouldFetchEpfDetails = 
-    sessionStatusData?.status === EpfFetchDetailsStatusEnum.SUCCESS ||
-    sessionStatusData?.status === EpfFetchDetailsStatusEnum.NOT_STARTED;
-  
-  // Then fetch EPF details based on session status
-  const { 
-    isLoading: isEpfDetailsLoading, 
-    data: epfDetailsData, 
-    error: epfDetailsError 
-  } = useFetcher(
-    () => {
-      if (!shouldFetchEpfDetails) {
-        return Promise.resolve(null);
-      }
-      return getOrFetchEpfDetails();
-    }
-  );
+  // State for EPF details (fetched conditionally based on session status)
+  const [epfDetailsData, setEpfDetailsData] = useState<EpfDetailsResponse | null>(null);
+  const [isEpfDetailsLoading, setIsEpfDetailsLoading] = useState(false);
+  const [epfDetailsError, setEpfDetailsError] = useState<FetcherError | null>(null);
   
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
@@ -72,6 +60,31 @@ export default function EpfTrackerSummaryPage() {
   const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
   const directlyAccessed = !!router.query["direct"];
+
+  // Fetch EPF details when session status indicates we should
+  useEffect(() => {
+    if (!sessionStatusData || isSessionStatusLoading) return;
+    
+    const shouldFetch = 
+      sessionStatusData.status === EpfFetchDetailsStatusEnum.SUCCESS ||
+      sessionStatusData.status === EpfFetchDetailsStatusEnum.NOT_STARTED;
+      
+    if (!shouldFetch) return;
+    
+    setIsEpfDetailsLoading(true);
+    setEpfDetailsError(null);
+    
+    getOrFetchEpfDetails()
+      .then((data) => {
+        setEpfDetailsData(data);
+      })
+      .catch((error) => {
+        setEpfDetailsError(error);
+      })
+      .finally(() => {
+        setIsEpfDetailsLoading(false);
+      });
+  }, [sessionStatusData, isSessionStatusLoading]);
 
   function handleOnMount() {
     logAnalyticsEvent(
