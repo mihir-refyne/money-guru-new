@@ -219,7 +219,6 @@ export default function EpfTrackerStartPage() {
   return (
     <>
       <EpfDetailsFetchStart
-        key={identifier}
         identifier={identifier}
         directlyAccessed={directlyAccessed}
         initialValue={formInitialValue}
