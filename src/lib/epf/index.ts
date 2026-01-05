@@ -97,6 +97,17 @@ export enum EpfFetchError {
   USER_IS_NOT_KYC_VERIFIED = "USER_IS_NOT_KYC_VERIFIED",
 }
 
+export enum EpfFetchDetailsStatusEnum {
+  NOT_STARTED = "NOT_STARTED",
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+}
+
+export interface EpfFetchSessionStatusResponse {
+  status: EpfFetchDetailsStatusEnum;
+}
+
 const USER_EPF_DETAILS_STORAGE_KEY = "__UserEpfDetails";
 const USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY =
   "__UserEpfDetailsIncreemnetEffectShown";
@@ -144,6 +155,23 @@ async function fetchEpfDetails(
     }
   );
   return epfDetails.data;
+}
+
+export async function fetchEpfSessionStatus(
+  _idToken?: string
+): Promise<EpfFetchSessionStatusResponse> {
+  const idToken = _idToken ?? getValueFromMetadata("idToken");
+  if (!idToken) throw new Error("Unauthenticated Request, please login");
+  runFetchEpfPreCheckOrThrow();
+  const resp = await fetcher<EpfFetchSessionStatusResponse>(
+    `${CORE_SERVER_BASE_URL}/user/epf-details/fetch-session-status`,
+    {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    }
+  );
+  return resp.data;
 }
 
 export async function triggerOtpForEpfDetailsFetch(
