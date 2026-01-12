@@ -106,6 +106,7 @@ export enum EpfFetchDetailsStatusEnum {
 
 export interface EpfFetchSessionStatusResponse {
   status: EpfFetchDetailsStatusEnum;
+  message?: string;
 }
 
 const USER_EPF_DETAILS_STORAGE_KEY = "__UserEpfDetails";
