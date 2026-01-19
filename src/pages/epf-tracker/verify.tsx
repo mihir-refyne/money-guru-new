@@ -253,21 +253,26 @@ export default function EpfTrackerVerifyPage() {
     });
   }
 
-  // Redirect to start page if query params are missing
+  // Redirect to /epf-tracker if arriving without proper navigation context
+  // This handles page refresh scenarios
   useEffect(() => {
-    if (
-      !requestIdFromUrlQuery ||
-      !identifierFromUrlQuery ||
-      !identifierValueFromUrlQuery
-    ) {
-      router.replace("/epf-tracker/start");
+    // Only redirect if query params are missing
+    if (!requestIdFromUrlQuery || !identifierFromUrlQuery || !identifierValueFromUrlQuery) {
+      router.replace("/epf-tracker");
+      return;
     }
-  }, [
-    requestIdFromUrlQuery,
-    identifierFromUrlQuery,
-    identifierValueFromUrlQuery,
-    router,
-  ]);
+    
+    // Check if we're in an active OTP flow (set by start page before navigation)
+    const isActiveOtpFlow = sessionStorage.getItem("epf_otp_flow_active");
+    
+    if (!isActiveOtpFlow) {
+      // No active OTP flow marker = this is a page refresh/direct access
+      router.replace("/epf-tracker");
+    } else {
+      // Clear the marker after checking (one-time use)
+      sessionStorage.removeItem("epf_otp_flow_active");
+    }
+  }, [requestIdFromUrlQuery, identifierFromUrlQuery, identifierValueFromUrlQuery, router]);
 
   // Redirect based on session status
   useEffect(() => {

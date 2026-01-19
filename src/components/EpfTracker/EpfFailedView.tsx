@@ -1,6 +1,13 @@
+import { APP_BASE_URL } from "@/constants";
 import useTranslation from "@/hooks/useTranslation";
 import errorWarningLine from "@/images/error-warning-line.svg";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import {
+  dispatchDataToNativePlatform,
+  isCurrentlyOnRefyneWebview,
+} from "@/lib/webview";
 import Image from "next/image";
+import router from "next/router";
 import { useEffect } from "react";
 import EpfTrackerLayout from "./EpfTrackerLayout";
 
@@ -40,7 +47,18 @@ export default function EpfFailedView({
             type="button"
             className="btn btn-text btn-block mt-2"
             onClick={() => {
-              window.history.back();
+              const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
+                getValueFromMetadata("appPlatformName"),
+              );
+              if (isWebviewInsideRefyneApp) {
+                return dispatchDataToNativePlatform({
+                  type: "ROUTE_TO_SCREEN",
+                  body: {
+                    screenName: "dashboard",
+                  },
+                });
+              }
+              router.push(APP_BASE_URL);
             }}
           >
             {t("epf_failure_go_to_dashboard")}
