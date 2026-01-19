@@ -1,9 +1,14 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import EpfFetchErrorModalContentWrapper, {
+  EpfFetchErrorModalContentProps,
+} from "@/components/EpfTracker/EpfFetchErrorModalContent";
+import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
+import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
 import EpfSummary from "@/components/EpfTracker/EpfSummary";
-import Redirect from "@/components/Redirect";
+import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
+import { SERVICE_UNAVAILABLE_COMMON_MODAL } from "@/components/EpfTracker/constants";
+import { isEpfFetchError } from "@/components/EpfTracker/helpers";
 import Modal from "@/components/Modal";
+import Redirect from "@/components/Redirect";
 import useFetcher from "@/hooks/useFetcher";
 import useTranslation from "@/hooks/useTranslation";
 import { logAnalyticsEvent } from "@/lib/analytics";
@@ -19,39 +24,37 @@ import {
   fetchEpfSessionStatus,
   getOrFetchEpfDetails,
 } from "@/lib/epf";
+import { FetcherError } from "@/lib/fetcher";
 import { isObjectEmpty } from "@/lib/utils";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import { isEpfFetchError } from "@/components/EpfTracker/helpers";
-import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
-import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
-import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
-import EpfFetchErrorModalContentWrapper, {
-  EpfFetchErrorModalContentProps,
-} from "@/components/EpfTracker/EpfFetchErrorModalContent";
-import { SERVICE_UNAVAILABLE_COMMON_MODAL } from "@/components/EpfTracker/constants";
-import { FetcherError } from "@/lib/fetcher";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function EpfTrackerSummaryPage() {
   const router = useRouter();
   const { data: serviceAvailability } = useFetcher(
-    fetchEPFTrackerServiceAvailability
+    fetchEPFTrackerServiceAvailability,
   );
-  
+
   // First fetch session status
-  const { 
-    isLoading: isSessionStatusLoading, 
-    data: sessionStatusData, 
-    error: sessionStatusError 
+  const {
+    isLoading: isSessionStatusLoading,
+    data: sessionStatusData,
+    error: sessionStatusError,
   } = useFetcher(fetchEpfSessionStatus);
-  
+
   // State for EPF details (fetched conditionally based on session status)
-  const [epfDetailsData, setEpfDetailsData] = useState<EpfDetailsResponse | null>(null);
-  const [isEpfDetailsLoading, setIsEpfDetailsLoading] = useState(false);
-  const [epfDetailsError, setEpfDetailsError] = useState<FetcherError | null>(null);
-  
+  const [epfDetailsData, setEpfDetailsData] =
+    useState<EpfDetailsResponse | null>(null);
+  const [isEpfDetailsLoading, setIsEpfDetailsLoading] = useState(true);
+  const [epfDetailsError, setEpfDetailsError] = useState<FetcherError | null>(
+    null,
+  );
+
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
 
@@ -64,16 +67,19 @@ export default function EpfTrackerSummaryPage() {
   // Fetch EPF details when session status indicates we should
   useEffect(() => {
     if (!sessionStatusData || isSessionStatusLoading) return;
-    
-    const shouldFetch = 
+
+    const shouldFetch =
       sessionStatusData.status === EpfFetchDetailsStatusEnum.SUCCESS ||
       sessionStatusData.status === EpfFetchDetailsStatusEnum.NOT_STARTED;
-      
-    if (!shouldFetch) return;
-    
+
+    if (!shouldFetch) {
+      setIsEpfDetailsLoading(false);
+      return;
+    }
+
     setIsEpfDetailsLoading(true);
     setEpfDetailsError(null);
-    
+
     getOrFetchEpfDetails()
       .then((data) => {
         setEpfDetailsData(data);
@@ -89,10 +95,10 @@ export default function EpfTrackerSummaryPage() {
   function handleOnMount() {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
-      AnalyticEvent.EPF_DASHBOARD_SCREEN
+      AnalyticEvent.EPF_DASHBOARD_SCREEN,
     );
   }
-  
+
   function handlePendingViewMount() {
     logEventInMixpanel(AnalyticEvent.EPF_AUTH_SCREEN, {
       screen_type: "PENDING",
@@ -122,14 +128,14 @@ export default function EpfTrackerSummaryPage() {
 
   function handleEpfPreCheckFailNavigate(
     navigateTo: string,
-    webviewRoute?: string
+    webviewRoute?: string,
   ) {
     // TODO: Update it if more paths added
     logEventInMixpanel(AnalyticEvent.EPF_KYC_PRECHECK_FAILED_SCREEN_CTA_CLICK, {
       cta_name: "COMPLETE_KYC",
     });
     const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
-      getValueFromMetadata("appPlatformName")
+      getValueFromMetadata("appPlatformName"),
     );
     if (isWebviewInsideRefyneApp && webviewRoute) {
       return dispatchDataToNativePlatform({
@@ -154,12 +160,12 @@ export default function EpfTrackerSummaryPage() {
 
   function handleEpfRefetchClick(
     identifier: EpfFetchIdentifier,
-    value?: string
+    value?: string,
   ) {
     if (serviceAvailability === "UNAVAILABLE") {
       logAnalyticsEvent(
         ["mixpanel", "webengage"],
-        AnalyticEvent.EPFO_UNAVAILABLE_MODAL
+        AnalyticEvent.EPFO_UNAVAILABLE_MODAL,
       );
       setErrorModal({
         ...SERVICE_UNAVAILABLE_COMMON_MODAL,
@@ -220,9 +226,12 @@ export default function EpfTrackerSummaryPage() {
       );
     }
 
-    const errorMessage = getCoreServerErrorMessageFromFetcherError(sessionStatusError);
+    const errorMessage =
+      getCoreServerErrorMessageFromFetcherError(sessionStatusError);
     if (errorMessage)
-      toast.error(errorMessage, { id: "EpfTrackerSummaryPage__session_status_error" });
+      toast.error(errorMessage, {
+        id: "EpfTrackerSummaryPage__session_status_error",
+      });
     return <Redirect to="/epf-tracker/start" />;
   }
 
@@ -261,9 +270,12 @@ export default function EpfTrackerSummaryPage() {
           );
         }
 
-        const errorMessage = getCoreServerErrorMessageFromFetcherError(epfDetailsError);
+        const errorMessage =
+          getCoreServerErrorMessageFromFetcherError(epfDetailsError);
         if (errorMessage)
-          toast.error(errorMessage, { id: "EpfTrackerSummaryPage__details_error" });
+          toast.error(errorMessage, {
+            id: "EpfTrackerSummaryPage__details_error",
+          });
         return <Redirect to="/epf-tracker/no-record" />;
       }
 
@@ -310,7 +322,7 @@ export default function EpfTrackerSummaryPage() {
             />
           );
         }
-        
+
         // For NOT_STARTED, if there's an error fetching, redirect to start
         return <Redirect to="/epf-tracker/start" />;
       }

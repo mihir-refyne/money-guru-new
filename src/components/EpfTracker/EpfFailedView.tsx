@@ -1,7 +1,8 @@
-import { useEffect } from "react";
-import { X } from "phosphor-react";
-import EpfTrackerLayout from "./EpfTrackerLayout";
 import useTranslation from "@/hooks/useTranslation";
+import errorWarningLine from "@/images/error-warning-line.svg";
+import Image from "next/image";
+import { useEffect } from "react";
+import EpfTrackerLayout from "./EpfTrackerLayout";
 
 interface EpfFailedViewProps {
   errorMessage?: string;
@@ -27,13 +28,24 @@ export default function EpfFailedView({
       alignContentCenter
       dispatchPopEventOnBackClick={directlyAccessed}
       footer={
-        <button
-          type="button"
-          className="btn btn-primary btn-block"
-          onClick={onRetryClick}
-        >
-          {t("retry_btn")}
-        </button>
+        <div>
+          <button
+            type="button"
+            className="btn btn-primary btn-block"
+            onClick={onRetryClick}
+          >
+            {t("retry_btn")}
+          </button>
+          <button
+            type="button"
+            className="btn btn-text btn-block mt-2"
+            onClick={() => {
+              window.history.back();
+            }}
+          >
+            {t("epf_failure_go_to_dashboard")}
+          </button>
+        </div>
       }
     >
       <div
@@ -50,10 +62,10 @@ export default function EpfFailedView({
             height: "8rem",
             borderRadius: "50%",
             backgroundColor: "var(--clr-error-light)",
-            marginBottom: "var(--spacing-6)",
+            marginBottom: "16px",
           }}
         >
-          <X size={48} weight="bold" color="var(--clr-error-default)" />
+          <Image height={56} width={56} src={errorWarningLine} alt="error" />
         </div>
         <h2 className="text-heading text-semibold text-center mb-4">
           {tWithoutTypeSafety("epf_failed_title")}

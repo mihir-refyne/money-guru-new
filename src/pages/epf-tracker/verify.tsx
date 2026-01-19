@@ -1,6 +1,22 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import EpfDetailsFetchVerify from "@/components/EpfTracker/EpfDetailsFetchVerify";
+import EpfFailedView from "@/components/EpfTracker/EpfFailedView";
+import EpfFetchErrorModalContentWrapper, {
+  EpfFetchErrorModalContentProps,
+} from "@/components/EpfTracker/EpfFetchErrorModalContent";
+import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
+import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
+import { EpfTrackerServerErrorCodeToResponseModalMapPostOtp } from "@/components/EpfTracker/constants";
+import { getEpfFetchIdentifierOrNull } from "@/components/EpfTracker/helpers";
+import Modal from "@/components/Modal";
 import useMutation from "@/hooks/useMutation";
+import useTranslation from "@/hooks/useTranslation";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import {
+  getCoreServerErrorCodeFromFetcherError,
+  getCoreServerErrorMessageFromFetcherError,
+} from "@/lib/core-server";
 import {
   EPF_NO_RECORDS_FOUND_ERROR_CODES,
   EpfFetchDetailsStatusEnum,
@@ -11,26 +27,9 @@ import {
   triggerOtpForEpfDetailsFetch,
   verifyOtpForEpfDetailsFetch,
 } from "@/lib/epf";
-import EpfDetailsFetchVerify from "@/components/EpfTracker/EpfDetailsFetchVerify";
-import EpfFailedView from "@/components/EpfTracker/EpfFailedView";
-import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
-import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
-import Redirect from "@/components/Redirect";
-import { getEpfFetchIdentifierOrNull } from "@/components/EpfTracker/helpers";
-import {
-  getCoreServerErrorCodeFromFetcherError,
-  getCoreServerErrorMessageFromFetcherError,
-} from "@/lib/core-server";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { AnalyticEvent } from "@/lib/analytics/events";
-import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import EpfFetchErrorModalContentWrapper, {
-  EpfFetchErrorModalContentProps,
-} from "@/components/EpfTracker/EpfFetchErrorModalContent";
-import Modal from "@/components/Modal";
-import { EpfTrackerServerErrorCodeToResponseModalMapPostOtp } from "@/components/EpfTracker/constants";
-import useTranslation from "@/hooks/useTranslation";
-import { logAnalyticsEvent } from "@/lib/analytics";
 
 const SHOW_SUCCESS_TOAST_AFTER_IN_MS = 500;
 const VERIFY_OTP_TIMEOUT_MS = 2000;
@@ -44,12 +43,12 @@ function getOtpHintText(identifier: string, value: string): string | undefined {
 // Helper function to race a promise against a timeout
 function withTimeout<T>(
   promise: Promise<T>,
-  timeoutMs: number
+  timeoutMs: number,
 ): Promise<{ success: boolean; data?: T; timedOut: boolean }> {
   return Promise.race([
     promise.then((data) => ({ success: true, data, timedOut: false })),
     new Promise<{ success: boolean; timedOut: boolean }>((resolve) =>
-      setTimeout(() => resolve({ success: false, timedOut: true }), timeoutMs)
+      setTimeout(() => resolve({ success: false, timedOut: true }), timeoutMs),
     ),
   ]);
 }
@@ -71,7 +70,7 @@ export default function EpfTrackerVerifyPage() {
   const [otpVerificationComplete, setOtpVerificationComplete] = useState(false);
 
   const { isLoading, data, error, mutate } = useMutation(
-    verifyOtpForEpfDetailsFetch
+    verifyOtpForEpfDetailsFetch,
   );
   const otpTriggerMutation = useMutation(triggerOtpForEpfDetailsFetch);
 
@@ -109,7 +108,7 @@ export default function EpfTrackerVerifyPage() {
     if (errorModalContent) {
       if (errorModalContent.primaryCta?.url) {
         errorModalContent.primaryCta.onClick = handleErrorCtaClick(
-          errorModalContent.primaryCta?.url
+          errorModalContent.primaryCta?.url,
         );
       }
       setErrorModal({
@@ -119,7 +118,7 @@ export default function EpfTrackerVerifyPage() {
               onClick: () => {
                 logAnalyticsEvent(
                   ["mixpanel", "webengage"],
-                  AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED
+                  AnalyticEvent.EPFO_UNAVAILABLE_MODAL_NOTIFY_CTA_CLICKED,
                 );
                 toast(t("epfo_we_will_notify_you"), {
                   style: {
@@ -136,7 +135,7 @@ export default function EpfTrackerVerifyPage() {
       return;
     }
     const errorMessage = getCoreServerErrorMessageFromFetcherError(
-      otpTriggerError || error
+      otpTriggerError || error,
     );
     if (errorMessage)
       toast.error(errorMessage, { id: "EpfTrackerVerifyPage__error" });
@@ -146,11 +145,11 @@ export default function EpfTrackerVerifyPage() {
     logEventInMixpanel(AnalyticEvent.EPF_OTP_SCREEN_NEXT_CLICKED, {
       auth_method: identifierFromUrlQuery,
     });
-    
+
     // Call the mutation with timeout
     const otpPromise = verifyOtpForEpfDetailsFetch(payload);
     const result = await withTimeout(otpPromise, VERIFY_OTP_TIMEOUT_MS);
-    
+
     if (result.timedOut) {
       // Timeout occurred - proceed to check session status anyway
       setHasCheckedSessionStatus(true);
@@ -164,7 +163,9 @@ export default function EpfTrackerVerifyPage() {
         // On error, show toast and redirect to start page
         const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
         if (errorMessage) {
-          toast.error(errorMessage, { id: "EpfTrackerVerifyPage__session_status_error" });
+          toast.error(errorMessage, {
+            id: "EpfTrackerVerifyPage__session_status_error",
+          });
         }
         router.replace("/epf-tracker/start");
       } finally {
@@ -211,7 +212,7 @@ export default function EpfTrackerVerifyPage() {
   // Fetch session status after successful OTP verification
   useEffect(() => {
     if (!data || hasCheckedSessionStatus) return;
-    
+
     async function checkSessionStatus() {
       setHasCheckedSessionStatus(true);
       setIsCheckingSessionStatus(true);
@@ -222,14 +223,16 @@ export default function EpfTrackerVerifyPage() {
         // On error, show toast and redirect to start page
         const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
         if (errorMessage) {
-          toast.error(errorMessage, { id: "EpfTrackerVerifyPage__session_status_error" });
+          toast.error(errorMessage, {
+            id: "EpfTrackerVerifyPage__session_status_error",
+          });
         }
         router.replace("/epf-tracker/start");
       } finally {
         setIsCheckingSessionStatus(false);
       }
     }
-    
+
     clearEpfDetailsFromSessionStorage();
     checkSessionStatus();
   }, [data, hasCheckedSessionStatus]);
@@ -237,25 +240,59 @@ export default function EpfTrackerVerifyPage() {
   function handleRetryClick() {
     router.replace("/epf-tracker/start");
   }
-  
+
   function handlePendingViewMount() {
     logEventInMixpanel(AnalyticEvent.EPF_AUTH_SCREEN, {
       screen_type: "PENDING",
     });
   }
-  
+
   function handleFailedViewMount() {
     logEventInMixpanel(AnalyticEvent.EPF_AUTH_SCREEN, {
       screen_type: "FAILED",
     });
   }
 
+  // Redirect to start page if query params are missing
+  useEffect(() => {
+    if (
+      !requestIdFromUrlQuery ||
+      !identifierFromUrlQuery ||
+      !identifierValueFromUrlQuery
+    ) {
+      router.replace("/epf-tracker/start");
+    }
+  }, [
+    requestIdFromUrlQuery,
+    identifierFromUrlQuery,
+    identifierValueFromUrlQuery,
+    router,
+  ]);
+
+  // Redirect based on session status
+  useEffect(() => {
+    if (!sessionStatusData || isCheckingSessionStatus) return;
+
+    const { status } = sessionStatusData;
+
+    if (status === EpfFetchDetailsStatusEnum.SUCCESS) {
+      setTimeout(() => {
+        toast.success(t("epfo_passbook_updated"), {
+          id: "EpfTrackerVerifyPage__success",
+        });
+      }, SHOW_SUCCESS_TOAST_AFTER_IN_MS);
+      router.replace("/epf-tracker");
+    } else if (status === EpfFetchDetailsStatusEnum.NOT_STARTED) {
+      router.replace("/epf-tracker/start");
+    }
+  }, [sessionStatusData, isCheckingSessionStatus, router, t]);
+
   if (
     !requestIdFromUrlQuery ||
     !identifierFromUrlQuery ||
     !identifierValueFromUrlQuery
   ) {
-    return <Redirect to="/epf-tracker/start" />;
+    return <EpfTrackerLoading />;
   }
 
   if (data || otpVerificationComplete) {
@@ -266,17 +303,15 @@ export default function EpfTrackerVerifyPage() {
 
     // Handle different session statuses
     if (sessionStatusData) {
-      const { status, message } = sessionStatusData;
+      const { status } = sessionStatusData;
       const directlyAccessed = false;
 
-      // SUCCESS: Redirect to summary page
-      if (status === EpfFetchDetailsStatusEnum.SUCCESS) {
-        setTimeout(() => {
-          toast.success(t("epfo_passbook_updated"), {
-            id: "EpfTrackerVerifyPage__success",
-          });
-        }, SHOW_SUCCESS_TOAST_AFTER_IN_MS);
-        return <Redirect to="/epf-tracker" />;
+      // SUCCESS or NOT_STARTED: Show loader while redirecting (useEffect handles redirect)
+      if (
+        status === EpfFetchDetailsStatusEnum.SUCCESS ||
+        status === EpfFetchDetailsStatusEnum.NOT_STARTED
+      ) {
+        return <EpfTrackerLoading />;
       }
 
       // PENDING: Show pending view
@@ -293,17 +328,11 @@ export default function EpfTrackerVerifyPage() {
       if (status === EpfFetchDetailsStatusEnum.FAILED) {
         return (
           <EpfFailedView
-            errorMessage={message}
             directlyAccessed={directlyAccessed}
             onMount={handleFailedViewMount}
             onRetryClick={handleRetryClick}
           />
         );
-      }
-
-      // NOT_STARTED: Redirect to start page
-      if (status === EpfFetchDetailsStatusEnum.NOT_STARTED) {
-        return <Redirect to="/epf-tracker/start" />;
       }
     }
 

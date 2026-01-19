@@ -1,22 +1,19 @@
-import { useEffect } from "react";
-import Image from "next/image";
-import { Info } from "phosphor-react";
-import EpfTrackerLayout from "./EpfTrackerLayout";
 import useTranslation from "@/hooks/useTranslation";
-import epfHeroBlobImageUrl from "@/images/epf-hero-blob.png";
+import errorWarningLine from "@/images/error-warning-line.svg";
+import Image from "next/image";
+import { useEffect } from "react";
+import EpfTrackerLayout from "./EpfTrackerLayout";
 
 interface EpfPendingViewProps {
   directlyAccessed: boolean;
   onMount?: () => void;
 }
 
-const HEADER_BACKGROUND_COLOR = "linear-gradient( #EBF5FF 100% ,#FFFFFF 0%)";
-
 export default function EpfPendingView({
   directlyAccessed,
   onMount,
 }: EpfPendingViewProps) {
-  const { tWithoutTypeSafety } = useTranslation("common");
+  const { tWithoutTypeSafety, t } = useTranslation("common");
 
   useEffect(() => {
     onMount?.();
@@ -24,39 +21,43 @@ export default function EpfPendingView({
 
   return (
     <EpfTrackerLayout
-      hasContentPadding={false}
-      hasFooter={false}
+      alignContentCenter
       dispatchPopEventOnBackClick={directlyAccessed}
-      navbarBackground={HEADER_BACKGROUND_COLOR}
+      footer={
+        <div>
+          <button
+            type="button"
+            className="btn btn-primary btn-block"
+            onClick={() => {}}
+          >
+            {t("epf_failure_go_back_to_dashboard")}
+          </button>
+        </div>
+      }
     >
       <div
-        className="px-4 pt-6 flex-center"
+        className="flex-center"
         style={{
-          backgroundImage: `url(${epfHeroBlobImageUrl.src}),${HEADER_BACKGROUND_COLOR}`,
-          backgroundPositionX: "right",
-          backgroundPositionY: "50%",
-          backgroundRepeat: "no-repeat",
-          paddingBottom: "6.4rem",
-          minHeight: "calc(100vh - 64px)",
           flexDirection: "column",
+          padding: "var(--spacing-6)",
         }}
       >
         <div
           className="flex-center"
           style={{
-            width: "6.4rem",
-            height: "6.4rem",
+            width: "8rem",
+            height: "8rem",
             borderRadius: "50%",
-            backgroundColor: "var(--clr-brand-light)",
-            marginBottom: "var(--spacing-6)",
+            backgroundColor: "var(--clr-error-light)",
+            marginBottom: "16px",
           }}
         >
-          <Info size={40} weight="fill" color="var(--clr-brand-default)" />
+          <Image height={56} width={56} src={errorWarningLine} alt="error" />
         </div>
-        <h2 className="text-heading text-semibold text-center">
+        <h2 className="text-heading text-semibold text-center mb-4">
           {tWithoutTypeSafety("epf_pending_title")}
         </h2>
-        <p className="text-body text-regular clr-text-secondary mt-4 text-center">
+        <p className="text-body text-regular clr-text-secondary text-center">
           {tWithoutTypeSafety("epf_pending_description")}
         </p>
       </div>

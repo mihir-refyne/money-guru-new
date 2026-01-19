@@ -1,3 +1,9 @@
+import { TagType } from "@/components/Tag";
+import add from "date-fns/add";
+import getDate from "date-fns/getDate";
+import isWithinInterval from "date-fns/isWithinInterval";
+import setDate from "date-fns/setDate";
+import sub from "date-fns/sub";
 import { UserStatus } from "../core/user";
 import { getValueFromMetadata } from "../core/user-metadata";
 import { fetcher } from "../fetcher";
@@ -7,12 +13,6 @@ import {
   setInSessionStorage,
 } from "../storage/browserstorage";
 import { isObjectEmpty } from "../utils";
-import getDate from "date-fns/getDate";
-import sub from "date-fns/sub";
-import setDate from "date-fns/setDate";
-import add from "date-fns/add";
-import isWithinInterval from "date-fns/isWithinInterval";
-import { TagType } from "@/components/Tag";
 
 export interface EpfDetailsSummary {
   currentBalance: number;
@@ -106,7 +106,6 @@ export enum EpfFetchDetailsStatusEnum {
 
 export interface EpfFetchSessionStatusResponse {
   status: EpfFetchDetailsStatusEnum;
-  message?: string;
 }
 
 const USER_EPF_DETAILS_STORAGE_KEY = "__UserEpfDetails";
@@ -142,7 +141,7 @@ function runFetchEpfPreCheckOrThrow() {
 }
 
 async function fetchEpfDetails(
-  _idToken?: string
+  _idToken?: string,
 ): Promise<EpfDetailsResponse | null> {
   const idToken = _idToken ?? getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -153,13 +152,13 @@ async function fetchEpfDetails(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   return epfDetails.data;
 }
 
 export async function fetchEpfSessionStatus(
-  _idToken?: string
+  _idToken?: string,
 ): Promise<EpfFetchSessionStatusResponse> {
   const idToken = _idToken ?? getValueFromMetadata("idToken");
   if (!idToken) throw new Error("Unauthenticated Request, please login");
@@ -170,14 +169,14 @@ export async function fetchEpfSessionStatus(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   return resp.data;
 }
 
 export async function triggerOtpForEpfDetailsFetch(
   type: EpfFetchIdentifier,
-  value: string
+  value: string,
 ): Promise<EpfDetailsFetchOtpTriggerResponse> {
   const idToken = getValueFromMetadata("idToken");
   if (!idToken) throw new Error("Unauthenticated Request, please login");
@@ -187,7 +186,7 @@ export async function triggerOtpForEpfDetailsFetch(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   return triggerResp.data;
 }
@@ -206,21 +205,21 @@ export async function verifyOtpForEpfDetailsFetch(payload: {
         Authorization: `Bearer ${idToken}`,
       },
       payload,
-    }
+    },
   );
   return resp.data;
 }
 
 export async function getOrFetchEpfDetails(
-  idToken?: string
+  idToken?: string,
 ): Promise<EpfDetailsResponse | null> {
   const epfDetailsRawFromSessionStorage = getFromSessionStorage(
-    getSessionStorageKey()
+    getSessionStorageKey(),
   );
   try {
     if (epfDetailsRawFromSessionStorage) {
       const parsedEpfDetails = JSON.parse(
-        epfDetailsRawFromSessionStorage
+        epfDetailsRawFromSessionStorage,
       ) as EpfDetailsResponse;
       if (!isObjectEmpty(parsedEpfDetails)) return parsedEpfDetails;
     }
@@ -233,14 +232,14 @@ export async function getOrFetchEpfDetails(
 
 export function isEpfDetailsIncrementEffectShown(): boolean {
   return !!getFromSessionStorage(
-    USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY
+    USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
   );
 }
 
 export function setEpfDetailsIncrementEffectShown() {
   setInSessionStorage(
     USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
-    Date.now().toString()
+    Date.now().toString(),
   );
 }
 
@@ -261,7 +260,7 @@ function getEpfRefetchEligiblePeriod(onDate: Date): {
 
 export function isEligibleForRefetchOfEpfDetails(
   onDate: Date,
-  lastFetchedAt: Date
+  lastFetchedAt: Date,
 ) {
   const { fromDate, toDate } = getEpfRefetchEligiblePeriod(onDate);
   const hasAlreadyFetchedInThePeriod = isWithinInterval(lastFetchedAt, {
@@ -273,7 +272,7 @@ export function isEligibleForRefetchOfEpfDetails(
 
 export function getTagTypeByTransactionTypeAndVariant(
   type: EpfPassbookEntryType,
-  variant: EpfPassbookEntryVariant
+  variant: EpfPassbookEntryVariant,
 ): TagType | null {
   if (variant === EpfPassbookEntryVariant.INTEREST) return "success-light";
   if (variant === EpfPassbookEntryVariant.CLAIM) return "warning-light";

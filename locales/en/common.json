@@ -193,7 +193,6 @@
   "financial_course_budgetting_banner_title": "Budgeting MASTERCLASS",
   "financial_course_budgetting_banner_description": "Learn about budgeting and money management",
   "financial_course_budgetting_banner_cta": "Start FREE course",
-
   "stamps_landing_page_header_bar_text": "Refyne Marathon: Happiness ki Shuruat",
   "stamps_hype_page_heading": "Collect 6 badges to become a Refyne Champion and stand a chance to win assured cashback of ₹200. Starts in...",
   "stamps_page_heading": "stamps_page_heading",
@@ -487,5 +486,7 @@
   "application_status_approved_text": "application_status_approved_text",
   "application_status_rejected_text": "application_status_rejected_text",
   "application_status_disbursed_text": "application_status_disbursed_text",
-  "two_wheeler_application_status_go_to_home_page": "two_wheeler_application_status_go_to_home_page"
+  "two_wheeler_application_status_go_to_home_page": "two_wheeler_application_status_go_to_home_page",
+  "epf_failure_go_to_dashboard": "epf_failure_go_to_dashboard",
+  "epf_failure_go_back_to_dashboard": "epf_failure_go_back_to_dashboard"
 }
