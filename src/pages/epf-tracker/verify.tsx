@@ -46,9 +46,11 @@ function getOtpHintText(identifier: string, value: string): string | undefined {
 function withTimeout<T>(
   promise: Promise<T>,
   timeoutMs: number,
-): Promise<{ success: boolean; data?: T; timedOut: boolean }> {
+): Promise<{ success: boolean; data?: T; timedOut: boolean; error?: any }> {
   return Promise.race([
-    promise.then((data) => ({ success: true, data, timedOut: false })),
+    promise
+      .then((data) => ({ success: true, data, timedOut: false }))
+      .catch((error) => ({ success: false, timedOut: false, error })),
     new Promise<{ success: boolean; timedOut: boolean }>((resolve) =>
       setTimeout(() => resolve({ success: false, timedOut: true }), timeoutMs),
     ),
@@ -70,10 +72,12 @@ export default function EpfTrackerVerifyPage() {
   const [isCheckingSessionStatus, setIsCheckingSessionStatus] = useState(false);
   const [hasCheckedSessionStatus, setHasCheckedSessionStatus] = useState(false);
   const [otpVerificationComplete, setOtpVerificationComplete] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [otpVerificationData, setOtpVerificationData] = useState<
+    unknown | null
+  >(null);
+  const [otpVerificationError, setOtpVerificationError] = useState<any>(null);
 
-  const { isLoading, data, error, mutate } = useMutation(
-    verifyOtpForEpfDetailsFetch,
-  );
   const otpTriggerMutation = useMutation(triggerOtpForEpfDetailsFetch);
 
   useEffect(() => {
@@ -85,7 +89,8 @@ export default function EpfTrackerVerifyPage() {
 
   useEffect(() => {
     const otpTriggerError = otpTriggerMutation.error;
-    const otpVerifyErrorCode = getCoreServerErrorCodeFromFetcherError(error);
+    const otpVerifyErrorCode =
+      getCoreServerErrorCodeFromFetcherError(otpVerificationError);
     const otpTriggerErrorCode =
       getCoreServerErrorCodeFromFetcherError(otpTriggerError);
     const errorCodeForEvent = otpTriggerErrorCode ?? otpVerifyErrorCode;
@@ -137,26 +142,29 @@ export default function EpfTrackerVerifyPage() {
       return;
     }
     const errorMessage = getCoreServerErrorMessageFromFetcherError(
-      otpTriggerError || error,
+      otpTriggerError || otpVerificationError,
     );
     if (errorMessage)
       toast.error(errorMessage, { id: "EpfTrackerVerifyPage__error" });
-  }, [error, otpTriggerMutation.error]);
+  }, [otpVerificationError, otpTriggerMutation.error]);
 
   async function handleSubmit(payload: { requestId: string; otp: string }) {
     logEventInMixpanel(AnalyticEvent.EPF_OTP_SCREEN_NEXT_CLICKED, {
       auth_method: identifierFromUrlQuery,
     });
 
-    // Call the mutation with timeout
-    const otpPromise = verifyOtpForEpfDetailsFetch(payload).catch((err) => {
-      setOtpVerificationComplete(false);
-    });
-    setOtpVerificationComplete(true);
+    // Set loading state and clear previous error
+    setIsVerifyingOtp(true);
+    setOtpVerificationError(null);
+
+    // Call the API once and race against timeout
+    const otpPromise = verifyOtpForEpfDetailsFetch(payload);
     const result = await withTimeout(otpPromise, VERIFY_OTP_TIMEOUT_MS);
 
     if (result.timedOut) {
       // Timeout occurred - proceed to check session status anyway
+      setOtpVerificationComplete(true);
+      setIsVerifyingOtp(false);
       setHasCheckedSessionStatus(true);
       clearEpfDetailsFromSessionStorage();
       setIsCheckingSessionStatus(true);
@@ -176,8 +184,13 @@ export default function EpfTrackerVerifyPage() {
         setIsCheckingSessionStatus(false);
       }
     } else if (result.success) {
-      // OTP verification succeeded within timeout - use the mutate to update state
-      return mutate(payload);
+      // OTP verification succeeded within timeout - update state manually
+      setOtpVerificationData(result.data);
+      setIsVerifyingOtp(false);
+    } else if (result.error) {
+      // OTP verification failed - set error state
+      setOtpVerificationError(result.error);
+      setIsVerifyingOtp(false);
     }
   }
 
@@ -215,7 +228,7 @@ export default function EpfTrackerVerifyPage() {
 
   // Fetch session status after successful OTP verification
   useEffect(() => {
-    if (!data || hasCheckedSessionStatus) return;
+    if (!otpVerificationData || hasCheckedSessionStatus) return;
 
     async function checkSessionStatus() {
       setHasCheckedSessionStatus(true);
@@ -239,7 +252,7 @@ export default function EpfTrackerVerifyPage() {
 
     clearEpfDetailsFromSessionStorage();
     checkSessionStatus();
-  }, [data, hasCheckedSessionStatus]);
+  }, [otpVerificationData, hasCheckedSessionStatus]);
 
   function handleRetryClick() {
     router.replace("/epf-tracker/start");
@@ -313,7 +326,7 @@ export default function EpfTrackerVerifyPage() {
     return <EpfTrackerLoading />;
   }
 
-  if (data || otpVerificationComplete) {
+  if (otpVerificationData || otpVerificationComplete) {
     // Show loader while checking session status
     if (isCheckingSessionStatus) {
       return <EpfTrackerLoading />;
@@ -351,6 +364,7 @@ export default function EpfTrackerVerifyPage() {
             directlyAccessed={directlyAccessed}
             onMount={handleFailedViewMount}
             onRetryClick={handleRetryClick}
+            errorCode={sessionStatusData.errorCode}
           />
         );
       }
@@ -364,7 +378,7 @@ export default function EpfTrackerVerifyPage() {
     otpTriggerMutation.data?.message ??
     messageFromUrlQuery ??
     getOtpHintText(identifierFromUrlQuery, identifierValueFromUrlQuery);
-  const _isLoading = isLoading || otpTriggerMutation.isLoading;
+  const _isLoading = isVerifyingOtp || otpTriggerMutation.isLoading;
   const requestId = otpTriggerMutation.data?.requestId ?? requestIdFromUrlQuery;
 
   return (

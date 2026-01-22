@@ -104,9 +104,24 @@ export enum EpfFetchDetailsStatusEnum {
   FAILED = "FAILED",
 }
 
-export interface EpfFetchSessionStatusResponse {
-  status: EpfFetchDetailsStatusEnum;
-}
+export type EpfFetchSessionStatusResponse =
+  | {
+      status:
+        | EpfFetchDetailsStatusEnum.NOT_STARTED
+        | EpfFetchDetailsStatusEnum.SUCCESS
+        | EpfFetchDetailsStatusEnum.PENDING;
+    }
+  | {
+      status: EpfFetchDetailsStatusEnum.FAILED;
+      errorCode:
+        | "E74001"
+        | "E74002"
+        | "E74003"
+        | "E74004"
+        | "E74005"
+        | "E74006"
+        | "E74007";
+    };
 
 const USER_EPF_DETAILS_STORAGE_KEY = "__UserEpfDetails";
 const USER_EPF_DETAILS_INCREMENT_EFFECT_SHOWN_STORAGE_KEY =
