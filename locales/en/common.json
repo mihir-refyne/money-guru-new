@@ -488,5 +488,6 @@
   "application_status_disbursed_text": "application_status_disbursed_text",
   "two_wheeler_application_status_go_to_home_page": "two_wheeler_application_status_go_to_home_page",
   "epf_failure_go_to_dashboard": "epf_failure_go_to_dashboard",
-  "epf_failure_go_back_to_dashboard": "epf_failure_go_back_to_dashboard"
+  "epf_failure_go_back_to_dashboard": "epf_failure_go_back_to_dashboard",
+  "epf_tracker_loading_success": "epf_tracker_loading_success"
 }

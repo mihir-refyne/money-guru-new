@@ -28,6 +28,8 @@ export default function EpfPendingView({
 
   return (
     <EpfTrackerLayout
+      navbarText=""
+      hasHelpButton
       alignContentCenter
       dispatchPopEventOnBackClick={directlyAccessed}
       footer={

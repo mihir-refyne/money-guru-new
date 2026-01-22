@@ -32,6 +32,8 @@ export default function EpfFailedView({
 
   return (
     <EpfTrackerLayout
+      hasHelpButton
+      navbarText=""
       alignContentCenter
       dispatchPopEventOnBackClick={directlyAccessed}
       footer={

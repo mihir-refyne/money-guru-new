@@ -4,7 +4,9 @@ import EpfFetchErrorModalContentWrapper, {
   EpfFetchErrorModalContentProps,
 } from "@/components/EpfTracker/EpfFetchErrorModalContent";
 import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
-import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
+import EpfTrackerLoading, {
+  EpfTrackerSuccess,
+} from "@/components/EpfTracker/EpfTrackerLoading";
 import { EpfTrackerServerErrorCodeToResponseModalMapPostOtp } from "@/components/EpfTracker/constants";
 import { getEpfFetchIdentifierOrNull } from "@/components/EpfTracker/helpers";
 import Modal from "@/components/Modal";
@@ -31,8 +33,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const SHOW_SUCCESS_TOAST_AFTER_IN_MS = 500;
-const VERIFY_OTP_TIMEOUT_MS = 2000;
+const SHOW_SUCCESS_TOAST_AFTER_IN_MS = 2000;
+const VERIFY_OTP_TIMEOUT_MS = 5000;
 
 function getOtpHintText(identifier: string, value: string): string | undefined {
   if (identifier === "uan")
@@ -257,14 +259,18 @@ export default function EpfTrackerVerifyPage() {
   // This handles page refresh scenarios
   useEffect(() => {
     // Only redirect if query params are missing
-    if (!requestIdFromUrlQuery || !identifierFromUrlQuery || !identifierValueFromUrlQuery) {
+    if (
+      !requestIdFromUrlQuery ||
+      !identifierFromUrlQuery ||
+      !identifierValueFromUrlQuery
+    ) {
       router.replace("/epf-tracker");
       return;
     }
-    
+
     // Check if we're in an active OTP flow (set by start page before navigation)
     const isActiveOtpFlow = sessionStorage.getItem("epf_otp_flow_active");
-    
+
     if (!isActiveOtpFlow) {
       // No active OTP flow marker = this is a page refresh/direct access
       router.replace("/epf-tracker");
@@ -272,7 +278,12 @@ export default function EpfTrackerVerifyPage() {
       // Clear the marker after checking (one-time use)
       sessionStorage.removeItem("epf_otp_flow_active");
     }
-  }, [requestIdFromUrlQuery, identifierFromUrlQuery, identifierValueFromUrlQuery, router]);
+  }, [
+    requestIdFromUrlQuery,
+    identifierFromUrlQuery,
+    identifierValueFromUrlQuery,
+    router,
+  ]);
 
   // Redirect based on session status
   useEffect(() => {
@@ -285,8 +296,8 @@ export default function EpfTrackerVerifyPage() {
         toast.success(t("epfo_passbook_updated"), {
           id: "EpfTrackerVerifyPage__success",
         });
+        router.replace("/epf-tracker");
       }, SHOW_SUCCESS_TOAST_AFTER_IN_MS);
-      router.replace("/epf-tracker");
     } else if (status === EpfFetchDetailsStatusEnum.NOT_STARTED) {
       router.replace("/epf-tracker/start");
     }
@@ -311,12 +322,14 @@ export default function EpfTrackerVerifyPage() {
       const { status } = sessionStatusData;
       const directlyAccessed = false;
 
-      // SUCCESS or NOT_STARTED: Show loader while redirecting (useEffect handles redirect)
-      if (
-        status === EpfFetchDetailsStatusEnum.SUCCESS ||
-        status === EpfFetchDetailsStatusEnum.NOT_STARTED
-      ) {
+      // NOT_STARTED: Show loader while redirecting (useEffect handles redirect)
+      if (status === EpfFetchDetailsStatusEnum.NOT_STARTED) {
         return <EpfTrackerLoading />;
+      }
+
+      // SUCCESS: Show success view
+      if (status === EpfFetchDetailsStatusEnum.SUCCESS) {
+        return <EpfTrackerSuccess />;
       }
 
       // PENDING: Show pending view
