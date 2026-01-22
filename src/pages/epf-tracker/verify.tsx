@@ -149,13 +149,15 @@ export default function EpfTrackerVerifyPage() {
     });
 
     // Call the mutation with timeout
-    const otpPromise = verifyOtpForEpfDetailsFetch(payload);
+    const otpPromise = verifyOtpForEpfDetailsFetch(payload).catch((err) => {
+      setOtpVerificationComplete(false);
+    });
+    setOtpVerificationComplete(true);
     const result = await withTimeout(otpPromise, VERIFY_OTP_TIMEOUT_MS);
 
     if (result.timedOut) {
       // Timeout occurred - proceed to check session status anyway
       setHasCheckedSessionStatus(true);
-      setOtpVerificationComplete(true);
       clearEpfDetailsFromSessionStorage();
       setIsCheckingSessionStatus(true);
       try {
