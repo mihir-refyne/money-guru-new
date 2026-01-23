@@ -37,8 +37,12 @@ export function EpfTrackerSuccess() {
       hasHelpButton
       hasShare={false}
     >
-      <CheckCircle size={56} weight="fill" />
-      <h4 className="text-body text-semibold">
+      <CheckCircle
+        size={56}
+        weight="fill"
+        color="var(--clr-icon-accent-success)"
+      />
+      <h4 className="text-body text-semibold" style={{ marginTop: "16px" }}>
         {t("epf_tracker_loading_success")}
       </h4>
     </PageLayout>
