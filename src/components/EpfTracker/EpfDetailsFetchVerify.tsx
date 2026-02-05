@@ -1,15 +1,15 @@
-import useCountdown from "@/hooks/useCountdown";
-import useTranslation from "@/hooks/useTranslation";
-import useUpdateEffect from "@/hooks/useUpdateEffect";
+import { FormEvent, useId, useState } from "react";
+import EpfTrackerLayout from "./EpfTrackerLayout";
 import mobileOtpSvg from "@/images/mobile-otp.svg";
-import { isValueIsNumeric } from "@/lib/utils";
 import Image from "next/image";
 import { PencilSimple } from "phosphor-react";
-import { FormEvent, useId, useState } from "react";
-import SeparatedInput from "../SeparatedInput";
 import EpfTrackerFetchFooter from "./EpfTrackerFetchFooter";
-import EpfTrackerLayout from "./EpfTrackerLayout";
+import SeparatedInput from "../SeparatedInput";
+import { isValueIsNumeric } from "@/lib/utils";
+import useCountdown from "@/hooks/useCountdown";
+import useUpdateEffect from "@/hooks/useUpdateEffect";
 import EpfTrackerLoading from "./EpfTrackerLoading";
+import useTranslation from "@/hooks/useTranslation";
 
 const NO_OF_DIGITS_FOR_OTP = 6;
 const CAN_RESEND_AFTER_IN_SEC = 45;
@@ -74,7 +74,6 @@ export default function EpfDetailsFetchVerify({
   // TODO: Refactor JSX
   return (
     <EpfTrackerLayout
-      navbarText=""
       footer={
         <EpfTrackerFetchFooter
           formId={formId}

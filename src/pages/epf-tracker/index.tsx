@@ -1,60 +1,37 @@
-import EpfFetchErrorModalContentWrapper, {
-  EpfFetchErrorModalContentProps,
-} from "@/components/EpfTracker/EpfFetchErrorModalContent";
-import EpfPendingView from "@/components/EpfTracker/EpfPendingView";
-import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
 import EpfSummary from "@/components/EpfTracker/EpfSummary";
-import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
-import { SERVICE_UNAVAILABLE_COMMON_MODAL } from "@/components/EpfTracker/constants";
-import { isEpfFetchError } from "@/components/EpfTracker/helpers";
-import Modal from "@/components/Modal";
 import Redirect from "@/components/Redirect";
 import useFetcher from "@/hooks/useFetcher";
-import useTranslation from "@/hooks/useTranslation";
-import { logAnalyticsEvent } from "@/lib/analytics";
-import { AnalyticEvent } from "@/lib/analytics/events";
-import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
-import { getValueFromMetadata } from "@/lib/core/user-metadata";
-import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
-import {
-  EpfDetailsResponse,
-  EpfFetchDetailsStatusEnum,
-  EpfFetchIdentifier,
-  fetchEpfSessionStatus,
-  getOrFetchEpfDetails,
-} from "@/lib/epf";
-import { FetcherError } from "@/lib/fetcher";
+import { EpfFetchIdentifier, getOrFetchEpfDetails } from "@/lib/epf";
 import { isObjectEmpty } from "@/lib/utils";
+import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
+import EpfTrackerLoading from "@/components/EpfTracker/EpfTrackerLoading";
+import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { AnalyticEvent } from "@/lib/analytics/events";
+import { logAnalyticsEvent } from "@/lib/analytics";
+import { isEpfFetchError } from "@/components/EpfTracker/helpers";
+import EpfPreCheckFailedView from "@/components/EpfTracker/EpfPreCheckFailedView";
 import {
   dispatchDataToNativePlatform,
   isCurrentlyOnRefyneWebview,
 } from "@/lib/webview";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
+import { getValueFromMetadata } from "@/lib/core/user-metadata";
+import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
+import EpfFetchErrorModalContentWrapper, {
+  EpfFetchErrorModalContentProps,
+} from "@/components/EpfTracker/EpfFetchErrorModalContent";
+import { useState } from "react";
+import { SERVICE_UNAVAILABLE_COMMON_MODAL } from "@/components/EpfTracker/constants";
+import Modal from "@/components/Modal";
+import useTranslation from "@/hooks/useTranslation";
 
 export default function EpfTrackerSummaryPage() {
   const router = useRouter();
   const { data: serviceAvailability } = useFetcher(
-    fetchEPFTrackerServiceAvailability,
+    fetchEPFTrackerServiceAvailability
   );
-
-  // First fetch session status
-  const {
-    isLoading: isSessionStatusLoading,
-    data: sessionStatusData,
-    error: sessionStatusError,
-  } = useFetcher(fetchEpfSessionStatus);
-
-  // State for EPF details (fetched conditionally based on session status)
-  const [epfDetailsData, setEpfDetailsData] =
-    useState<EpfDetailsResponse | null>(null);
-  const [isEpfDetailsLoading, setIsEpfDetailsLoading] = useState(true);
-  const [epfDetailsError, setEpfDetailsError] = useState<FetcherError | null>(
-    null,
-  );
-
+  const { isLoading, data, error } = useFetcher(getOrFetchEpfDetails);
   const [errorModal, setErrorModal] =
     useState<EpfFetchErrorModalContentProps | null>(null);
 
@@ -64,45 +41,11 @@ export default function EpfTrackerSummaryPage() {
 
   const directlyAccessed = !!router.query["direct"];
 
-  // Fetch EPF details when session status indicates we should
-  useEffect(() => {
-    if (!sessionStatusData || isSessionStatusLoading) return;
-
-    const shouldFetch =
-      sessionStatusData.status === EpfFetchDetailsStatusEnum.SUCCESS ||
-      sessionStatusData.status === EpfFetchDetailsStatusEnum.NOT_STARTED;
-
-    if (!shouldFetch) {
-      setIsEpfDetailsLoading(false);
-      return;
-    }
-
-    setIsEpfDetailsLoading(true);
-    setEpfDetailsError(null);
-
-    getOrFetchEpfDetails()
-      .then((data) => {
-        setEpfDetailsData(data);
-      })
-      .catch((error) => {
-        setEpfDetailsError(error);
-      })
-      .finally(() => {
-        setIsEpfDetailsLoading(false);
-      });
-  }, [sessionStatusData, isSessionStatusLoading]);
-
   function handleOnMount() {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
-      AnalyticEvent.EPF_DASHBOARD_SCREEN,
+      AnalyticEvent.EPF_DASHBOARD_SCREEN
     );
-  }
-
-  function handlePendingViewMount() {
-    logEventInMixpanel(AnalyticEvent.EPF_AUTH_SCREEN, {
-      screen_type: "PENDING",
-    });
   }
 
   function handleEpfDownModalSecondaryCtaClick() {
@@ -128,14 +71,14 @@ export default function EpfTrackerSummaryPage() {
 
   function handleEpfPreCheckFailNavigate(
     navigateTo: string,
-    webviewRoute?: string,
+    webviewRoute?: string
   ) {
     // TODO: Update it if more paths added
     logEventInMixpanel(AnalyticEvent.EPF_KYC_PRECHECK_FAILED_SCREEN_CTA_CLICK, {
       cta_name: "COMPLETE_KYC",
     });
     const isWebviewInsideRefyneApp = isCurrentlyOnRefyneWebview(
-      getValueFromMetadata("appPlatformName"),
+      getValueFromMetadata("appPlatformName")
     );
     if (isWebviewInsideRefyneApp && webviewRoute) {
       return dispatchDataToNativePlatform({
@@ -150,7 +93,7 @@ export default function EpfTrackerSummaryPage() {
 
   function handlePreFetchErrorPageMount() {
     logEventInMixpanel(AnalyticEvent.EPF_KYC_PRECHECK_FAILED_SCREEN, {
-      reason: sessionStatusError?.name || epfDetailsError?.name,
+      reason: error?.name,
     });
   }
 
@@ -160,12 +103,12 @@ export default function EpfTrackerSummaryPage() {
 
   function handleEpfRefetchClick(
     identifier: EpfFetchIdentifier,
-    value?: string,
+    value?: string
   ) {
     if (serviceAvailability === "UNAVAILABLE") {
       logAnalyticsEvent(
         ["mixpanel", "webengage"],
-        AnalyticEvent.EPFO_UNAVAILABLE_MODAL,
+        AnalyticEvent.EPFO_UNAVAILABLE_MODAL
       );
       setErrorModal({
         ...SERVICE_UNAVAILABLE_COMMON_MODAL,
@@ -210,15 +153,13 @@ export default function EpfTrackerSummaryPage() {
     return handleRouting(faqURL, faqRouteId);
   }
 
-  // Show loader while fetching session status
-  if (isSessionStatusLoading) return <EpfTrackerLoading />;
+  if (isLoading) return <EpfTrackerLoading />;
 
-  // Handle session status errors (like KYC pre-check failures)
-  if (sessionStatusError) {
-    if (isEpfFetchError(sessionStatusError.name)) {
+  if (error) {
+    if (isEpfFetchError(error.name)) {
       return (
         <EpfPreCheckFailedView
-          error={sessionStatusError.name}
+          error={error.name}
           directlyAccessed={directlyAccessed}
           onMount={handlePreFetchErrorPageMount}
           onNavigate={handleEpfPreCheckFailNavigate}
@@ -226,138 +167,37 @@ export default function EpfTrackerSummaryPage() {
       );
     }
 
-    const errorMessage =
-      getCoreServerErrorMessageFromFetcherError(sessionStatusError);
+    const errorMessage = getCoreServerErrorMessageFromFetcherError(error);
+    // INFO: Some error was coming in console please check
     if (errorMessage)
-      toast.error(errorMessage, {
-        id: "EpfTrackerSummaryPage__session_status_error",
-      });
+      toast.error(errorMessage, { id: "EpfTrackerSummaryPage__error" });
+    return <Redirect to="/epf-tracker/no-record" />;
+  }
+
+  if (!data || isObjectEmpty(data)) {
     return <Redirect to="/epf-tracker/start" />;
   }
 
-  // Handle different session statuses
-  if (sessionStatusData) {
-    const { status } = sessionStatusData;
-
-    // PENDING: Show pending view
-    if (status === EpfFetchDetailsStatusEnum.PENDING) {
-      return (
-        <EpfPendingView
-          directlyAccessed={directlyAccessed}
-          onMount={handlePendingViewMount}
+  return (
+    <>
+      <EpfSummary
+        epfDetails={data}
+        directlyAccessed={directlyAccessed}
+        onMount={handleOnMount}
+        onEstablishmentCardClick={handleEstablishmentCardClick}
+        onRefetchClick={handleEpfRefetchClick}
+        onFaqClick={handleFAQClick}
+      />
+      <Modal
+        active={errorModal !== null}
+        onClose={errorModal?.closable ? handleErrorModalClose : undefined}
+        bottomSheetOnMobile
+      >
+        <EpfFetchErrorModalContentWrapper
+          content={errorModal}
+          onCtaClickFallback={handleErrorModalClose}
         />
-      );
-    }
-
-    // FAILED: Redirect to start page
-    if (status === EpfFetchDetailsStatusEnum.FAILED) {
-      return <Redirect to="/epf-tracker/start" />;
-    }
-
-    // SUCCESS: Fetch and show EPF details
-    if (status === EpfFetchDetailsStatusEnum.SUCCESS) {
-      if (isEpfDetailsLoading) return <EpfTrackerLoading />;
-
-      if (epfDetailsError) {
-        if (isEpfFetchError(epfDetailsError.name)) {
-          return (
-            <EpfPreCheckFailedView
-              error={epfDetailsError.name}
-              directlyAccessed={directlyAccessed}
-              onMount={handlePreFetchErrorPageMount}
-              onNavigate={handleEpfPreCheckFailNavigate}
-            />
-          );
-        }
-
-        const errorMessage =
-          getCoreServerErrorMessageFromFetcherError(epfDetailsError);
-        if (errorMessage)
-          toast.error(errorMessage, {
-            id: "EpfTrackerSummaryPage__details_error",
-          });
-        return <Redirect to="/epf-tracker/no-record" />;
-      }
-
-      if (!epfDetailsData || isObjectEmpty(epfDetailsData)) {
-        return <Redirect to="/epf-tracker/start" />;
-      }
-
-      return (
-        <>
-          <EpfSummary
-            epfDetails={epfDetailsData}
-            directlyAccessed={directlyAccessed}
-            onMount={handleOnMount}
-            onEstablishmentCardClick={handleEstablishmentCardClick}
-            onRefetchClick={handleEpfRefetchClick}
-            onFaqClick={handleFAQClick}
-          />
-          <Modal
-            active={errorModal !== null}
-            onClose={errorModal?.closable ? handleErrorModalClose : undefined}
-            bottomSheetOnMobile
-          >
-            <EpfFetchErrorModalContentWrapper
-              content={errorModal}
-              onCtaClickFallback={handleErrorModalClose}
-            />
-          </Modal>
-        </>
-      );
-    }
-
-    // NOT_STARTED: Check if data exists, otherwise redirect to start
-    if (status === EpfFetchDetailsStatusEnum.NOT_STARTED) {
-      if (isEpfDetailsLoading) return <EpfTrackerLoading />;
-
-      if (epfDetailsError) {
-        if (isEpfFetchError(epfDetailsError.name)) {
-          return (
-            <EpfPreCheckFailedView
-              error={epfDetailsError.name}
-              directlyAccessed={directlyAccessed}
-              onMount={handlePreFetchErrorPageMount}
-              onNavigate={handleEpfPreCheckFailNavigate}
-            />
-          );
-        }
-
-        // For NOT_STARTED, if there's an error fetching, redirect to start
-        return <Redirect to="/epf-tracker/start" />;
-      }
-
-      // If we have cached data, show it
-      if (epfDetailsData && !isObjectEmpty(epfDetailsData)) {
-        return (
-          <>
-            <EpfSummary
-              epfDetails={epfDetailsData}
-              directlyAccessed={directlyAccessed}
-              onMount={handleOnMount}
-              onEstablishmentCardClick={handleEstablishmentCardClick}
-              onRefetchClick={handleEpfRefetchClick}
-              onFaqClick={handleFAQClick}
-            />
-            <Modal
-              active={errorModal !== null}
-              onClose={errorModal?.closable ? handleErrorModalClose : undefined}
-              bottomSheetOnMobile
-            >
-              <EpfFetchErrorModalContentWrapper
-                content={errorModal}
-                onCtaClickFallback={handleErrorModalClose}
-              />
-            </Modal>
-          </>
-        );
-      }
-
-      // No cached data, redirect to start
-      return <Redirect to="/epf-tracker/start" />;
-    }
-  }
-
-  // Fallback: redirect to start if no session status data
-  return <Redirect to="/epf-tracker/start" />;
+      </Modal>
+    </>
+  );
 }

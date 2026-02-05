@@ -20,8 +20,6 @@ interface NavbarProps {
   onLocaleChangeClick?: () => void;
   hasShare?: boolean;
   onShareClick?: () => void;
-  hasHelp?: boolean;
-  onHelpClick?: () => void;
 }
 
 export default function Navbar({
@@ -37,8 +35,6 @@ export default function Navbar({
   onLocaleChangeClick,
   hasShare = true,
   onShareClick,
-  hasHelp,
-  onHelpClick,
 }: NavbarProps) {
   const [navbarOpacity, setNavbarOpacity] = useState<number>(0);
 
@@ -105,20 +101,6 @@ export default function Navbar({
               color="var(--clr-brand-default)"
               size={20}
             />
-          </button>
-        )}
-        {hasHelp && (
-          <button
-            id="NAVBAR_HELP_BUTTON"
-            className={`${styles.NavbarContent__RightButton} btn-only-icon`}
-            onClick={onHelpClick}
-            style={{
-              WebkitTapHighlightColor: "transparent",
-            }}
-          >
-            <span className="text-heading-small text-semibold clr-text-link-enabled">
-              HELP
-            </span>
           </button>
         )}
       </div>
