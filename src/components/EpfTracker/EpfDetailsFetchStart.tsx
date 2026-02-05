@@ -114,6 +114,11 @@ export default function EpfDetailsFetchStart({
     setIsLoading(true);
   }, []);
 
+  // Clear input value when identifier changes
+  useEffect(() => {
+    setIdentifierValue("");
+  }, [identifier]);
+
   if (loading || isSyntheticLoading) return <EpfTrackerLoading />;
 
   if (isEpfPortalDown)

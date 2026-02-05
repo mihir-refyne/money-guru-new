@@ -10,6 +10,7 @@
   --clr-text-tertiary: #999ea3;
   --clr-text-disabled: #b3b3b3;
   --clr-text-accent-success: #01752f;
+  --clr-text-link-enabled: #0057b7;
 
   --clr-grey-default: #c9cdd1;
   --clr-grey-light: #f5f7fa;
@@ -255,8 +256,11 @@ b {
   line-height: 2rem;
   border-radius: 0.8rem;
   cursor: pointer;
-  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 .btn:disabled {
@@ -541,6 +545,10 @@ b {
 
 .clr-text-tertiary {
   color: var(--clr-text-tertiary);
+}
+
+.clr-text-link-enabled {
+  color: var(--clr-text-link-enabled);
 }
 
 .clr-grey-dark {

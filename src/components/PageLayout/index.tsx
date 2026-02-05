@@ -13,6 +13,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { redirectToFaq } from "../EpfTracker/helpers";
 import LocaleUpdateOptions from "../LocaleUpdateOptions";
 import Modal from "../Modal";
 import Navbar from "../Navbar";
@@ -51,6 +52,7 @@ export interface PageLayoutProps {
   pageBackground?: CSSProperties["background"];
   onNavbarBackClick?: () => void;
   toUnsetOverflowX?: boolean;
+  hasHelpButton?: boolean;
 }
 
 export default function PageLayout({
@@ -76,13 +78,14 @@ export default function PageLayout({
   pageBackground,
   onNavbarBackClick,
   toUnsetOverflowX = false,
+  hasHelpButton = false,
 }: PageLayoutProps) {
   const { t } = useTranslation("common");
   const router = useRouter();
   const [isLocaleUpdateModalActive, setIsLocaleUpdateModalActive] =
     useState(false);
   const [currentLocale, setCurrentLocale] = useState<string>(
-    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? ""
+    getPreferredLocale() ?? router.locale ?? router.defaultLocale ?? "",
   );
   const isBackTriggerAvailable = useRef<boolean>(false);
 
@@ -167,6 +170,10 @@ export default function PageLayout({
             onLocaleChangeClick={handleLocaleUpdateClick}
             hasShare={_hasShare}
             onShareClick={onShareClick}
+            hasHelp={hasHelpButton}
+            onHelpClick={() => {
+              redirectToFaq();
+            }}
           />
         )}
         <div
