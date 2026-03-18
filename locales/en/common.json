@@ -507,5 +507,6 @@
   "epf_failure_generic_error_title": "epf_failure_generic_error_title",
   "epf_failure_generic_error_description": "epf_failure_generic_error_description",
   "epf_pending_title": "epf_pending_title",
-  "epf_pending_description": "epf_pending_description"
+  "epf_pending_description": "epf_pending_description",
+  "help_money_guru_header": "help_money_guru_header"
 }
