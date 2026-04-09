@@ -1,0 +1,23 @@
+.alternateNumber__content {
+  align-items: flex-start;
+}
+
+.alternateNumber__contentLeftAlign {
+  text-align: left;
+}
+
+.alternateNumber__contentCenterAlign {
+  text-align: center;
+}
+
+.alternateNumber__footer {
+  padding: var(--spacing-3);
+  background-color: var(--clr-pure-white);
+}
+
+.alternateNumber__loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}

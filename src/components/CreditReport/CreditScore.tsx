@@ -32,6 +32,7 @@ interface CreditScoreProps {
   expiresAt?: string;
   hasExpired?: boolean;
   autoIncrementEffect?: boolean;
+  isPending?: boolean;
   onTagClick?: () => void;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   onRefetchClick?: () => void;
@@ -45,6 +46,7 @@ export default function CreditScore({
   expiresAt,
   hasExpired,
   autoIncrementEffect,
+  isPending,
   onTagClick,
   onCtaClick,
   onRefetchClick,
@@ -149,6 +151,33 @@ export default function CreditScore({
       </CreditScoreHero>
     );
   }
+  if (isPending) {
+    return (
+      <CreditScoreHero
+        cardContent={
+          <BelowScoreCta
+            kycIncomplete={false}
+            reportAvailable={false}
+            isPendingFetch={true}
+            onCtaClick={onCtaClick}
+          />
+        }
+      >
+        <div className="text-center">
+          <Image
+            src={cardSearchErrorIconUrl}
+            alt="Credit score not available"
+          />
+          <h2 className="text-heading text-semibold mt-4">
+            Couldn't fetch your Credit Report
+          </h2>
+          <p className="text-caption clr-text-secondary mt-2">
+            Link the correct phone number to fetch your credit report.
+          </p>
+        </div>
+      </CreditScoreHero>
+    );
+  }
   return (
     <CreditScoreHero
       cardContent={
@@ -175,24 +204,35 @@ export default function CreditScore({
 function BelowScoreCta(props: {
   kycIncomplete: boolean;
   reportAvailable: boolean;
+  isPendingFetch?: boolean;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
 }) {
   const { t } = useTranslation("common");
   const APP_BASE_URL =
     process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in/";
 
-  const text = props.kycIncomplete
-    ? "kyc_unlock_credit_score"
-    : "learn_more_credit_score";
-  const ctaLabel = props.kycIncomplete
-    ? "complete_kyc_btn"
-    : props.reportAvailable
-    ? "see_full_credit_score_report"
-    : "read_shorts_btn";
+  let text: string;
+  let ctaLabel: string;
+
+  if (props.kycIncomplete) {
+    text = t("kyc_unlock_credit_score");
+    ctaLabel = t("complete_kyc_btn");
+  } else if (props.isPendingFetch) {
+    text = "Verify your phone number to access your credit report";
+    ctaLabel = "Link Phone Number";
+  } else if (props.reportAvailable) {
+    text = t("learn_more_credit_score");
+    ctaLabel = t("see_full_credit_score_report");
+  } else {
+    text = t("learn_more_credit_score");
+    ctaLabel = t("read_shorts_btn");
+  }
 
   function handleCtaClick() {
     const navigateTo = props.kycIncomplete
       ? APP_BASE_URL
+      : props.isPendingFetch
+      ? "/alternate-number"
       : props.reportAvailable
       ? "/credit-report/summary/detailed"
       : "/shorts#understanding-credit-score";
@@ -202,7 +242,7 @@ function BelowScoreCta(props: {
 
   return (
     <div>
-      <p className="text-medium text-center mb-3">{t(text)}</p>
+      <p className="text-medium text-center mb-3">{text}</p>
       <button
         id={constructElementId({
           screenName: ScreenName.MONGU_CREDIT_REPORT_DASHBOARD,
@@ -211,7 +251,7 @@ function BelowScoreCta(props: {
         className="btn btn-block btn-primary"
         onClick={handleCtaClick}
       >
-        {t(ctaLabel)}
+        {ctaLabel}
       </button>
     </div>
   );

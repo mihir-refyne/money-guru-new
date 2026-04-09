@@ -11,6 +11,7 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
+  CreditReportPendingResponse,
 } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
@@ -72,6 +73,29 @@ export default function CreditReportSummaryPage() {
     setIsLoading(true);
   }, []);
 
+  useEffect(() => {
+    if (!data) return;
+    if ("fetchCompleted" in data && !data.fetchCompleted) {
+      const pendingResponse = data as CreditReportPendingResponse;
+      const challengeData = pendingResponse.data.sendOtpChallenge;
+      if (challengeData) {
+        sessionStorage.setItem(
+          "__CreditBureauChallenge",
+          JSON.stringify({
+            requestId: pendingResponse.data.requestId,
+            requestContext: {
+              challengeConfigGuid: challengeData.challengeConfigGuid,
+              questionKey: challengeData.questionKey,
+              answerKey: challengeData.answerKey,
+            },
+          })
+        );
+      }
+      // Removed auto-redirect to /alternate-number
+      // router.replace("/alternate-number");
+    }
+  }, [data, router]);
+
   function handleOnMount(context?: { rating?: string; hasExpired?: boolean }) {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
@@ -132,16 +156,21 @@ export default function CreditReportSummaryPage() {
   }
 
   const directlyAccessed = !!router.query["direct"];
+  const isPending = data && "fetchCompleted" in data && !data.fetchCompleted;
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
+
+  const creditReportData = data && !("fetchCompleted" in data) ? data : null;
+
   return (
     <CreditReportSummaryShort
-      creditReport={data?.report ?? null}
-      creditReportAnalysis={data?.analysis ?? null}
+      creditReport={creditReportData?.report ?? null}
+      creditReportAnalysis={creditReportData?.analysis ?? null}
       error={error}
-      fetchedAt={data?.fetchedAt}
-      expiresAt={data?.expiresAt}
-      hasExpired={data?.hasExpired}
+      isPending={isPending || undefined}
+      fetchedAt={creditReportData?.fetchedAt}
+      expiresAt={creditReportData?.expiresAt}
+      hasExpired={creditReportData?.hasExpired}
       onCtaClick={handleCtaClickRouting}
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}

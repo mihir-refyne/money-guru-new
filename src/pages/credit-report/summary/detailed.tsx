@@ -9,6 +9,8 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
+  CreditReportPendingResponse,
+  CreditReportAnalysisPendingResponse,
 } from "@/lib/credit-report";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import {
@@ -82,7 +84,31 @@ export default function CreditReportSummaryDetailedPage({
 
   useEffect(() => {
     if (isCreditReportThereInSessionStorage()) return;
-  }, []);
+    if (!data) return;
+
+    // Handle pending response - redirect to alternate number page
+    if ("fetchCompleted" in data && !data.fetchCompleted) {
+      const pendingResponse = data as
+        | CreditReportPendingResponse
+        | CreditReportAnalysisPendingResponse;
+      const challengeData = pendingResponse.data.sendOtpChallenge;
+      if (challengeData) {
+        sessionStorage.setItem(
+          "__CreditBureauChallenge",
+          JSON.stringify({
+            requestId: pendingResponse.data.requestId,
+            requestContext: {
+              challengeConfigGuid: challengeData.challengeConfigGuid,
+              questionKey: challengeData.questionKey,
+              answerKey: challengeData.answerKey,
+            },
+          })
+        );
+      }
+      // Removed auto-redirect to /alternate-number
+      // router.replace("/alternate-number");
+    }
+  }, [data, router]);
 
   // TODO: Get clarified if required
   function handleOnMount(context?: { rating?: string }) {
@@ -149,8 +175,12 @@ export default function CreditReportSummaryDetailedPage({
   }
 
   const directlyAccessed = !!router.query["direct"];
+  const isPending = data && "fetchCompleted" in data && !data.fetchCompleted;
 
-  if (isLoading) return <CreditReportLoading />;
+  if (isLoading || isPending) return <CreditReportLoading />;
+
+  if (!data || "fetchCompleted" in data) return null;
+
   if (!data?.report) return null;
 
   return (

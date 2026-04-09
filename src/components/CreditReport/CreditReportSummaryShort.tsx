@@ -27,6 +27,7 @@ interface CreditReportSummaryShortProps {
   creditReport: CreditReport | null;
   creditReportAnalysis: CreditReportAnalysis | null;
   error: Error | null;
+  isPending?: boolean;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   fetchedAt?: string;
   expiresAt?: string;
@@ -43,6 +44,7 @@ export default function CreditReportSummaryShort({
   creditReport,
   creditReportAnalysis,
   error,
+  isPending,
   onCtaClick,
   fetchedAt,
   expiresAt,
@@ -135,6 +137,7 @@ export default function CreditReportSummaryShort({
         score={creditReport?.scoreDetails[0]}
         scoreDifference={currentMonthScoreDifference}
         error={error}
+        isPending={isPending}
         fetchedAt={fetchedAt}
         expiresAt={expiresAt}
         hasExpired={hasExpired}

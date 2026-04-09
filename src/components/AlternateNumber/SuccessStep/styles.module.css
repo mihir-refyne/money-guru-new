@@ -1,0 +1,22 @@
+.successStep__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.successStep__image {
+  width: 104px;
+  height: 104px;
+  margin-top: 124px;
+}
+
+.successStep__heading {
+  margin-top: var(--spacing-4);
+  color: var(--clr-text-primary);
+}
+
+.successStep__bodyText {
+  margin-top: var(--spacing-2);
+  color: var(--clr-text-secondary);
+}

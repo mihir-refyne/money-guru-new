@@ -152,10 +152,64 @@ export interface CreditReportWithAnalysis extends CreditReportResponse {
   analysis?: CreditReportAnalysis;
 }
 
+export interface CreditReportAnalysisPendingResponse {
+  fetchCompleted: boolean;
+  data: {
+    requestId: string | null;
+    status: CreditBureauFetchStatusEnum;
+    reason: string | null;
+    sendOtpChallenge?: SendOtpChallenge;
+  };
+}
+
+export interface CreditReportAnalysisCompletedResponse {
+  fetchCompleted: boolean;
+  data: CreditReportAnalysis;
+}
+
+export type CreditReportAnalysisApiResponse =
+  | CreditReportAnalysisPendingResponse
+  | CreditReportAnalysisCompletedResponse;
+
 export enum CreditReportFetchError {
   USER_IS_IN_VERIFICATION_PENDING = "USER_IS_IN_VERIFICATION_PENDING",
   USER_IS_NOT_KYC_VERIFIED = "USER_IS_NOT_KYC_VERIFIED",
 }
+
+export enum CreditBureauFetchStatusEnum {
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
+  FAILED = "FAILED",
+  REQUIRES_OTP = "REQUIRES_OTP",
+}
+
+export interface SendOtpChallenge {
+  challengeConfigGuid: string;
+  questionKey: string;
+  answerKey: string;
+  challengeText?: string;
+  isResendEligible?: boolean;
+  expiresAt: Date;
+}
+
+export interface CreditReportPendingResponse {
+  fetchCompleted: boolean;
+  data: {
+    requestId: string | null;
+    status: CreditBureauFetchStatusEnum;
+    reason: string | null;
+    sendOtpChallenge?: SendOtpChallenge;
+  };
+}
+
+export interface CreditReportCompletedResponse {
+  fetchCompleted: boolean;
+  data: CreditReportResponse;
+}
+
+export type CreditReportApiResponse =
+  | CreditReportPendingResponse
+  | CreditReportCompletedResponse;
 
 function getSessionStorageKey() {
   const userId = getValueFromMetadata("id");
@@ -183,11 +237,11 @@ function runFetchCreditReportPreCheckOrThrow() {
 async function fetchCreditReport(
   cachePreferred: boolean,
   idToken?: string
-): Promise<CreditReportResponse | null> {
+): Promise<CreditReportResponse | CreditReportPendingResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
   runFetchCreditReportPreCheckOrThrow();
-  const creditReport = await fetcher<CreditReportResponse>(
+  const creditReport = await fetcher<CreditReportApiResponse>(
     `${CORE_SERVER_BASE_URL}/credit-bureau/credit-report?cachePreferred=${cachePreferred}`,
     {
       headers: {
@@ -195,7 +249,11 @@ async function fetchCreditReport(
       },
     }
   );
-  return creditReport.data;
+  const response = creditReport.data;
+  if (!response.fetchCompleted) {
+    return response as CreditReportPendingResponse;
+  }
+  return (response as CreditReportCompletedResponse).data;
 }
 
 export async function fetchEPFTrackerServiceAvailability(
@@ -216,6 +274,38 @@ export async function fetchEPFTrackerServiceAvailability(
     }
   );
   return response.data.status;
+}
+
+export async function sendOtpForCreditReport(
+  vendor: "CIBIL",
+  requestId: string,
+  alternateMobileNumber: string,
+  requestContext: {
+    challengeConfigGuid: string;
+    questionKey: string;
+    answerKey: string;
+  },
+  idToken?: string
+): Promise<{ success: boolean; message?: string } | null> {
+  if (!idToken) idToken = getValueFromMetadata("idToken");
+  if (!idToken) return null;
+  
+  const response = await fetcher<{ success: boolean; message?: string }>(
+    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/send-otp`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+      payload: {
+        vendor,
+        requestId,
+        alternateMobileNumber,
+        requestContext,
+      },
+    }
+  );
+  return response.data;
 }
 async function fetchCreditReportMetadata(
   idToken?: string
@@ -238,11 +328,11 @@ async function fetchCreditReportAnalysis(
   fromMonthYear: string,
   toMonthYear: string,
   idToken?: string
-): Promise<CreditReportAnalysis | null> {
+): Promise<CreditReportAnalysis | CreditReportAnalysisPendingResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
   runFetchCreditReportPreCheckOrThrow();
-  const creditReportAnalysis = await fetcher<CreditReportAnalysis>(
+  const creditReportAnalysis = await fetcher<CreditReportAnalysisApiResponse>(
     `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/analysis`,
     {
       query: {
@@ -254,7 +344,11 @@ async function fetchCreditReportAnalysis(
       },
     }
   );
-  return creditReportAnalysis.data;
+  const response = creditReportAnalysis.data;
+  if (!response.fetchCompleted) {
+    return response as CreditReportAnalysisPendingResponse;
+  }
+  return (response as CreditReportAnalysisCompletedResponse).data;
 }
 
 export function isCreditReportThereInSessionStorage(): boolean {
@@ -263,7 +357,7 @@ export function isCreditReportThereInSessionStorage(): boolean {
 
 export async function getOrFetchCreditReport(
   cachePreferred: boolean = true
-): Promise<CreditReportResponse | null> {
+): Promise<CreditReportResponse | CreditReportPendingResponse | null> {
   const creditReportRawFromStorage = getFromSessionStorage(
     getSessionStorageKey()
   );
@@ -274,7 +368,12 @@ export async function getOrFetchCreditReport(
   } catch (_) {}
   const creditReport = await fetchCreditReport(cachePreferred);
   if (!creditReport) return null;
-  setInSessionStorage(getSessionStorageKey(), JSON.stringify(creditReport));
+  
+  // Only save completed reports to storage, not pending responses
+  if (!("fetchCompleted" in creditReport)) {
+    setInSessionStorage(getSessionStorageKey(), JSON.stringify(creditReport));
+  }
+  
   return creditReport;
 }
 
@@ -283,7 +382,7 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
   toMonthYear: string;
   cachePreferred: boolean;
   idToken?: string;
-}): Promise<CreditReportWithAnalysis | null> {
+}): Promise<CreditReportWithAnalysis | CreditReportPendingResponse | CreditReportAnalysisPendingResponse | null> {
   const { fromMonthYear, toMonthYear, idToken, cachePreferred } = context;
   // INFO: We are using the same local storage key as the object is just extended
   if (cachePreferred) {
@@ -303,14 +402,27 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
   }
   const creditReport = await fetchCreditReport(cachePreferred, idToken);
   if (!creditReport) return null;
+
+  // Handle pending response - alternate number verification required
+  if ("fetchCompleted" in creditReport && !creditReport.fetchCompleted) {
+    return creditReport;
+  }
+
   const creditReportAnalysis = await fetchCreditReportAnalysis(
     fromMonthYear,
     toMonthYear,
     idToken
   ).catch(() => null);
+  
+  // Handle pending response from analysis endpoint
+  if (creditReportAnalysis && "fetchCompleted" in creditReportAnalysis && !creditReportAnalysis.fetchCompleted) {
+    return creditReportAnalysis;
+  }
+  
+  const completedReport = creditReport as CreditReportResponse;
   const creditReportWithAnalysis: CreditReportWithAnalysis = {
-    ...creditReport,
-    analysis: creditReportAnalysis || undefined,
+    ...completedReport,
+    analysis: creditReportAnalysis as CreditReportAnalysis || undefined,
   };
   setInSessionStorage(
     getSessionStorageKey(),
@@ -324,12 +436,17 @@ export async function fetchCreditReportMetadataAndReportIfActive(
 ): Promise<{
   metadata: CreditReportMetadataResponse;
   reportResponse: CreditReportResponse | null;
+  pendingResponse?: CreditReportPendingResponse;
 } | null> {
   const metadata = await fetchCreditReportMetadata(idToken);
   if (!metadata) return null;
   if (metadata.hasExpired) return { metadata, reportResponse: null };
-  const reportResponse = await getOrFetchCreditReport();
-  return { metadata, reportResponse };
+  const response = await getOrFetchCreditReport();
+  if (!response) return { metadata, reportResponse: null };
+  if ("fetchCompleted" in response && !response.fetchCompleted) {
+    return { metadata, reportResponse: null, pendingResponse: response };
+  }
+  return { metadata, reportResponse: response as CreditReportResponse };
 }
 
 export function isCreditScoreIncrementEffectShown(): boolean {
