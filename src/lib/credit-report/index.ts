@@ -95,7 +95,14 @@ interface CreditScoresAnalytics {
   differenceFromLastFetchedScore: number | null;
 }
 
+export enum CreditBureauVendor {
+  EXPERIAN = "EXPERIAN",
+  EQUIFAX = "EQUIFAX",
+  CIBIL = "CIBIL",
+}
+
 export interface CreditReport {
+  vendor: CreditBureauVendor;
   scoreDetails: ScoreValues[];
   retailAccountsInfo: RetailAccountsInfo;
   enquiries: Enquiry[];
@@ -109,6 +116,7 @@ export interface CreditReport {
 
 export interface CreditReportResponse {
   report: CreditReport;
+  lenderId: string;
   fetchedAt: string;
   expiresAt: string;
   hasExpired: boolean;
@@ -289,7 +297,7 @@ export async function sendOtpForCreditReport(
 ): Promise<{ success: boolean; message?: string } | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
-  
+
   const response = await fetcher<{ success: boolean; message?: string }>(
     `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/send-otp`,
     {
@@ -368,12 +376,12 @@ export async function getOrFetchCreditReport(
   } catch (_) {}
   const creditReport = await fetchCreditReport(cachePreferred);
   if (!creditReport) return null;
-  
+
   // Only save completed reports to storage, not pending responses
   if (!("fetchCompleted" in creditReport)) {
     setInSessionStorage(getSessionStorageKey(), JSON.stringify(creditReport));
   }
-  
+
   return creditReport;
 }
 
@@ -382,7 +390,12 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
   toMonthYear: string;
   cachePreferred: boolean;
   idToken?: string;
-}): Promise<CreditReportWithAnalysis | CreditReportPendingResponse | CreditReportAnalysisPendingResponse | null> {
+}): Promise<
+  | CreditReportWithAnalysis
+  | CreditReportPendingResponse
+  | CreditReportAnalysisPendingResponse
+  | null
+> {
   const { fromMonthYear, toMonthYear, idToken, cachePreferred } = context;
   // INFO: We are using the same local storage key as the object is just extended
   if (cachePreferred) {
@@ -413,16 +426,20 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
     toMonthYear,
     idToken
   ).catch(() => null);
-  
+
   // Handle pending response from analysis endpoint
-  if (creditReportAnalysis && "fetchCompleted" in creditReportAnalysis && !creditReportAnalysis.fetchCompleted) {
+  if (
+    creditReportAnalysis &&
+    "fetchCompleted" in creditReportAnalysis &&
+    !creditReportAnalysis.fetchCompleted
+  ) {
     return creditReportAnalysis;
   }
-  
+
   const completedReport = creditReport as CreditReportResponse;
   const creditReportWithAnalysis: CreditReportWithAnalysis = {
     ...completedReport,
-    analysis: creditReportAnalysis as CreditReportAnalysis || undefined,
+    analysis: (creditReportAnalysis as CreditReportAnalysis) || undefined,
   };
   setInSessionStorage(
     getSessionStorageKey(),
@@ -459,5 +476,46 @@ export function setCreditScoreIncrementEffectShown() {
   setInSessionStorage(
     USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
     Date.now().toString()
+  );
+}
+
+export interface CreditBureauChallengeContext {
+  requestId: string;
+  requestContext: {
+    challengeConfigGuid: string;
+    questionKey: string;
+    answerKey: string;
+  };
+}
+
+export function handlePendingCreditReportResponse(
+  pendingResponse:
+    | CreditReportPendingResponse
+    | CreditReportAnalysisPendingResponse
+): CreditBureauChallengeContext | null {
+  const challengeData = pendingResponse.data.sendOtpChallenge;
+  if (!challengeData) return null;
+
+  const context: CreditBureauChallengeContext = {
+    requestId: pendingResponse.data.requestId || "",
+    requestContext: {
+      challengeConfigGuid: challengeData.challengeConfigGuid,
+      questionKey: challengeData.questionKey,
+      answerKey: challengeData.answerKey,
+    },
+  };
+
+  sessionStorage.setItem("__CreditBureauChallenge", JSON.stringify(context));
+  return context;
+}
+
+export function isCreditReportPending(
+  data: unknown
+): data is CreditReportPendingResponse {
+  return (
+    data !== null &&
+    typeof data === "object" &&
+    "fetchCompleted" in data &&
+    (data as CreditReportPendingResponse).fetchCompleted === false
   );
 }

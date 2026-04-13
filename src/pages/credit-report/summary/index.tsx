@@ -11,7 +11,8 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
-  CreditReportPendingResponse,
+  handlePendingCreditReportResponse,
+  isCreditReportPending,
 } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
@@ -75,24 +76,8 @@ export default function CreditReportSummaryPage() {
 
   useEffect(() => {
     if (!data) return;
-    if ("fetchCompleted" in data && !data.fetchCompleted) {
-      const pendingResponse = data as CreditReportPendingResponse;
-      const challengeData = pendingResponse.data.sendOtpChallenge;
-      if (challengeData) {
-        sessionStorage.setItem(
-          "__CreditBureauChallenge",
-          JSON.stringify({
-            requestId: pendingResponse.data.requestId,
-            requestContext: {
-              challengeConfigGuid: challengeData.challengeConfigGuid,
-              questionKey: challengeData.questionKey,
-              answerKey: challengeData.answerKey,
-            },
-          })
-        );
-      }
-      // Removed auto-redirect to /alternate-number
-      // router.replace("/alternate-number");
+    if (isCreditReportPending(data)) {
+      handlePendingCreditReportResponse(data);
     }
   }, [data, router]);
 
@@ -156,11 +141,11 @@ export default function CreditReportSummaryPage() {
   }
 
   const directlyAccessed = !!router.query["direct"];
-  const isPending = data && "fetchCompleted" in data && !data.fetchCompleted;
+  const isPending = isCreditReportPending(data);
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
 
-  const creditReportData = data && !("fetchCompleted" in data) ? data : null;
+  const creditReportData = isCreditReportPending(data) ? null : data;
 
   return (
     <CreditReportSummaryShort
@@ -168,6 +153,8 @@ export default function CreditReportSummaryPage() {
       creditReportAnalysis={creditReportData?.analysis ?? null}
       error={error}
       isPending={isPending || undefined}
+      vendor={creditReportData?.report?.vendor}
+      lender={creditReportData?.lenderId}
       fetchedAt={creditReportData?.fetchedAt}
       expiresAt={creditReportData?.expiresAt}
       hasExpired={creditReportData?.hasExpired}

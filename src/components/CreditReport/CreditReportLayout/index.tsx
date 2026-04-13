@@ -8,6 +8,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { isIOS } from "@/lib/utils";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
+import { CreditBureauVendor } from "@/lib/credit-report";
 
 const DEFAULT_CREDIT_REPORT_SHARE_PAYLOAD = {
   text: "🚀 Unlock your financial potential with our comprehensive Credit Score!  🌟 \n\n- Check your credit score for free 🆓 and understand the key factors that impact it.\n- Receive monthly updates 📅 and expert tips 📈 to improve your score and secure your financial future.\n\nStart optimising your credit today -",
@@ -24,6 +25,8 @@ interface CreditReportLayoutProps {
   footer?: ReactNode;
   hasShare?: boolean;
   dispatchPopEventOnBackClick?: boolean;
+  vendor?: CreditBureauVendor;
+  lender?: string;
 }
 
 export default function CreditReportLayout({
@@ -35,6 +38,8 @@ export default function CreditReportLayout({
   footer,
   hasShare = true,
   dispatchPopEventOnBackClick,
+  vendor,
+  lender,
 }: CreditReportLayoutProps) {
   const { t } = useTranslation("common");
   const defaultNavbarText = t("credit_score");
@@ -67,7 +72,7 @@ export default function CreditReportLayout({
       footer={
         <>
           {footer}
-          <CommonFooter />
+          <CommonFooter vendor={vendor} lender={lender} />
         </>
       }
     >

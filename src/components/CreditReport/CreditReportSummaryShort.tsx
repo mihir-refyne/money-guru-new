@@ -4,6 +4,7 @@ import CreditReportLayout from "./CreditReportLayout";
 import {
   CreditReport,
   CreditReportAnalysis,
+  CreditBureauVendor,
   isCreditScoreIncrementEffectShown,
 } from "@/lib/credit-report";
 import CreditScore from "./CreditScore";
@@ -28,6 +29,8 @@ interface CreditReportSummaryShortProps {
   creditReportAnalysis: CreditReportAnalysis | null;
   error: Error | null;
   isPending?: boolean;
+  vendor?: CreditBureauVendor;
+  lender?: string;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   fetchedAt?: string;
   expiresAt?: string;
@@ -45,6 +48,8 @@ export default function CreditReportSummaryShort({
   creditReportAnalysis,
   error,
   isPending,
+  vendor,
+  lender,
   onCtaClick,
   fetchedAt,
   expiresAt,
@@ -132,6 +137,8 @@ export default function CreditReportSummaryShort({
       transparentNavbar
       hasContentPadding={false}
       dispatchPopEventOnBackClick={directAccess}
+      vendor={vendor}
+      lender={lender}
     >
       <CreditScore
         score={creditReport?.scoreDetails[0]}
