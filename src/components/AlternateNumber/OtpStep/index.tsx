@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { ChatText, Phone, WhatsappLogo } from "phosphor-react";
+import { ChatText } from "phosphor-react";
 import { OTPInput } from "./OTPInput";
 import OtpImage from "@/images/mobile-otp.svg";
 import styles from "./styles.module.css";
@@ -9,7 +9,7 @@ import useTranslation from "@/hooks/useTranslation";
 interface OtpStepProps {
   phoneNumber: string;
   handleSubmit: (otp: string) => Promise<void>;
-  handleResend: (method: "sms" | "call" | "whatsapp") => Promise<void>;
+  handleResend: () => Promise<void>;
 }
 
 const OTP_LENGTH = 6;
@@ -64,9 +64,9 @@ export default function OtpStep({
     }
   }
 
-  async function onResendClick(method: "sms" | "call" | "whatsapp") {
+  async function onResendClick() {
     setOtp("");
-    await handleResend(method);
+    await handleResend();
     startTimer();
   }
 
@@ -110,27 +110,11 @@ export default function OtpStep({
         <div className={styles.otpStep__resendOptions}>
           <button
             className={styles.otpStep__resendButton}
-            onClick={() => onResendClick("sms")}
+            onClick={onResendClick}
             disabled={timer > 0}
           >
             <ChatText size={16} />
             <span>{t("alternate_number_otp_resend_sms")}</span>
-          </button>
-          <button
-            className={styles.otpStep__resendButton}
-            onClick={() => onResendClick("call")}
-            disabled={timer > 0}
-          >
-            <Phone size={16} />
-            <span>{t("alternate_number_otp_resend_call")}</span>
-          </button>
-          <button
-            className={styles.otpStep__resendButton}
-            onClick={() => onResendClick("whatsapp")}
-            disabled={timer > 0}
-          >
-            <WhatsappLogo size={16} />
-            <span>{t("alternate_number_otp_resend_whatsapp")}</span>
           </button>
         </div>
       </div>

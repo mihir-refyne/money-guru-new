@@ -102,7 +102,6 @@ export enum CreditBureauVendor {
 }
 
 export interface CreditReport {
-  vendor: CreditBureauVendor;
   scoreDetails: ScoreValues[];
   retailAccountsInfo: RetailAccountsInfo;
   enquiries: Enquiry[];
@@ -116,6 +115,7 @@ export interface CreditReport {
 
 export interface CreditReportResponse {
   report: CreditReport;
+  vendor: CreditBureauVendor;
   lenderId: string;
   fetchedAt: string;
   expiresAt: string;
@@ -162,11 +162,11 @@ export interface CreditReportWithAnalysis extends CreditReportResponse {
 
 export interface CreditReportAnalysisPendingResponse {
   fetchCompleted: boolean;
+  vendor?: CreditBureauVendor;
   data: {
     requestId: string | null;
     status: CreditBureauFetchStatusEnum;
     reason: string | null;
-    vendor?: CreditBureauVendor;
     sendOtpChallenge?: SendOtpChallenge;
   };
 }
@@ -210,7 +210,7 @@ export interface VerifyOtpChallenge {
   expiresAt: Date;
 }
 
-export interface SendOtpResponse {
+export interface SendOtpPendingResponse {
   fetchCompleted: false;
   data: {
     requestId: string | null;
@@ -220,13 +220,35 @@ export interface SendOtpResponse {
   };
 }
 
+export interface SendOtpCompletedResponse {
+  fetchCompleted: true;
+  data: CreditReportResponse;
+}
+
+export type SendOtpResponse = SendOtpPendingResponse | SendOtpCompletedResponse;
+
+export interface VerifyOtpPendingResponse {
+  fetchCompleted: false;
+  success: boolean;
+  message?: string;
+}
+
+export interface VerifyOtpCompletedResponse {
+  fetchCompleted: true;
+  success: boolean;
+  data: CreditReportResponse;
+  message?: string;
+}
+
+export type VerifyOtpResponse = VerifyOtpPendingResponse | VerifyOtpCompletedResponse;
+
 export interface CreditReportPendingResponse {
   fetchCompleted: boolean;
+  vendor?: CreditBureauVendor;
   data: {
     requestId: string | null;
     status: CreditBureauFetchStatusEnum;
     reason: string | null;
-    vendor?: CreditBureauVendor;
     sendOtpChallenge?: SendOtpChallenge;
   };
 }
@@ -347,11 +369,11 @@ export async function verifyOtpForCreditReport(
     answerKey: string;
   },
   idToken?: string
-): Promise<{ success: boolean; message?: string } | null> {
+): Promise<VerifyOtpResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
 
-  const response = await fetcher<{ success: boolean; message?: string }>(
+  const response = await fetcher<VerifyOtpResponse>(
     `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/verify-otp`,
     {
       method: "POST",
@@ -550,7 +572,7 @@ export function handlePendingCreditReportResponse(
   const challengeData = pendingResponse.data.sendOtpChallenge;
   if (!challengeData) return null;
 
-  const vendor = pendingResponse.data.vendor || CreditBureauVendor.CIBIL; // Default to CIBIL if not provided
+  const vendor = pendingResponse.vendor || CreditBureauVendor.CIBIL; // Default to CIBIL if not provided
 
   const context: CreditBureauChallengeContext = {
     vendor,

@@ -61,7 +61,19 @@ export default function AlternateNumber() {
       challengeData.requestContext
     );
 
-    if (response && response.data.verifyOtpChallenge) {
+    if (!response) {
+      throw new Error("No response from server");
+    }
+
+    // If fetch is completed, navigate directly to credit score page
+    if (response.fetchCompleted) {
+      sessionStorage.removeItem("__CreditBureauChallenge");
+      router.replace("/credit-report/summary");
+      return { requestId: "" }; // Return empty to satisfy type
+    }
+
+    // Otherwise, continue with OTP flow
+    if (response.data.verifyOtpChallenge) {
       // Store the verify OTP context for later use
       setVerifyOtpContext({
         challengeConfigGuid:
@@ -88,7 +100,17 @@ export default function AlternateNumber() {
       verifyOtpContext
     );
 
-    if (response && response.success) {
+    if (!response) {
+      throw new Error("No response from server");
+    }
+
+    if (response.success) {
+      // If fetch is completed, navigate directly to credit score page
+      if (response.fetchCompleted) {
+        sessionStorage.removeItem("__CreditBureauChallenge");
+        router.replace("/credit-report/summary");
+      }
+      // If not completed, the parent component will handle navigation (onComplete)
       return;
     }
     throw new Error(response?.message || "Failed to verify OTP");

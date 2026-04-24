@@ -126,9 +126,7 @@ export default function AlternateNumberPage({
     setCurrentStep(Step.Success);
   }
 
-  async function handleResendOtp(method: "sms" | "call" | "whatsapp") {
-    // Method can be used for different resend strategies
-
+  async function handleResendOtp() {
     await sendOtp();
   }
 

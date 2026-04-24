@@ -155,7 +155,7 @@ export default function CreditReportSummaryPage() {
       creditReportAnalysis={creditReportData?.analysis ?? null}
       error={error}
       isPending={isPending || undefined}
-      vendor={creditReportData?.report?.vendor}
+      vendor={creditReportData?.vendor}
       lender={creditReportData?.lenderId}
       fetchedAt={creditReportData?.fetchedAt}
       expiresAt={creditReportData?.expiresAt}

@@ -22,7 +22,7 @@ export default function InfoStep({
         {t("alternate_number_info_heading")}
       </h2>
       <p className={`text-body ${styles.infoStep__bodyText}`}>
-        {t("alternate_number_info_description")}
+        {t("cibil_alternate_number_info_desc")}
       </p>
 
       <div className={styles.infoStep__card}>

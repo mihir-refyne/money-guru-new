@@ -45,7 +45,7 @@
 
 .otpStep__resendOptions {
   display: flex;
-  gap: var(--spacing-3);
+  justify-content: center;
   margin-top: var(--spacing-4);
 }
 
