@@ -160,6 +160,7 @@ export default function CreditReportSummaryPage() {
       fetchedAt={creditReportData?.fetchedAt}
       expiresAt={creditReportData?.expiresAt}
       hasExpired={creditReportData?.hasExpired}
+      isConsumerNotFound={creditReportData?.isConsumerNotFound}
       onCtaClick={handleCtaClickRouting}
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}

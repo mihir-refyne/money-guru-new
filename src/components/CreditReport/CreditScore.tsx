@@ -36,6 +36,7 @@ interface CreditScoreProps {
   onTagClick?: () => void;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   onRefetchClick?: () => void;
+  isConsumerNotFound?: boolean;
 }
 
 export default function CreditScore({
@@ -50,8 +51,34 @@ export default function CreditScore({
   onTagClick,
   onCtaClick,
   onRefetchClick,
+  isConsumerNotFound,
 }: CreditScoreProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
+
+  // Handle consumer not found case - show NO HIT similar to unavailable score
+  if (isConsumerNotFound) {
+    return (
+      <CreditScoreHero
+        cardContent={
+          <BelowScoreCta
+            kycIncomplete={false}
+            reportAvailable={false}
+            onCtaClick={onCtaClick}
+          />
+        }
+      >
+        <div className="text-center">
+          <Image src={cardSearchErrorIconUrl} alt="Consumer not found" />
+          <h2 className="text-heading text-semibold mt-4">
+            {t("credit_score_no_hit_heading")}
+          </h2>
+          <p className="text-caption clr-text-secondary mt-2">
+            {t("credit_score_no_hit_description")}
+          </p>
+        </div>
+      </CreditScoreHero>
+    );
+  }
 
   if (score) {
     const creditSocre = Number(score.score);

@@ -41,6 +41,7 @@ interface CreditReportSummaryShortProps {
   onMount?: (context: { rating?: string; hasExpired?: boolean }) => void;
   onRatingTagClick?: (rating?: string) => void;
   onRefetchClick?: () => void;
+  isConsumerNotFound?: boolean;
 }
 
 export default function CreditReportSummaryShort({
@@ -60,6 +61,7 @@ export default function CreditReportSummaryShort({
   tools = [],
   onRatingTagClick,
   onRefetchClick,
+  isConsumerNotFound,
 }: CreditReportSummaryShortProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
@@ -130,6 +132,35 @@ export default function CreditReportSummaryShort({
 
   const isCreditScoreIncrementAnimationShown =
     isCreditScoreIncrementEffectShown();
+
+  // If consumer not found, only show CreditScore component (no banners, tools, etc.)
+  if (isConsumerNotFound) {
+    return (
+      <CreditReportLayout
+        navbarText={t("credit_score")}
+        transparentNavbar
+        hasContentPadding={false}
+        dispatchPopEventOnBackClick={directAccess}
+        vendor={vendor}
+        lender={lender}
+      >
+        <CreditScore
+          score={creditReport?.scoreDetails[0]}
+          scoreDifference={currentMonthScoreDifference}
+          error={error}
+          isPending={isPending}
+          fetchedAt={fetchedAt}
+          expiresAt={expiresAt}
+          hasExpired={hasExpired}
+          autoIncrementEffect={!isCreditScoreIncrementAnimationShown}
+          onTagClick={handleExplainerOpen}
+          onCtaClick={onCtaClick}
+          onRefetchClick={handleConsentDialogOpen}
+          isConsumerNotFound={isConsumerNotFound}
+        />
+      </CreditReportLayout>
+    );
+  }
 
   return (
     <CreditReportLayout

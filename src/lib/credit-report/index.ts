@@ -120,6 +120,7 @@ export interface CreditReportResponse {
   fetchedAt: string;
   expiresAt: string;
   hasExpired: boolean;
+  isConsumerNotFound?: boolean;
 }
 
 export interface CreditReportMetadataResponse {
