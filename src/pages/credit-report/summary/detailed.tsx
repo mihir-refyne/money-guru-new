@@ -10,7 +10,7 @@ import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
   handlePendingCreditReportResponse,
-  isCreditReportPending,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import {
@@ -86,7 +86,7 @@ export default function CreditReportSummaryDetailedPage({
     if (isCreditReportThereInSessionStorage()) return;
     if (!data) return;
 
-    if (isCreditReportPending(data)) {
+    if (isAlternateNumberVerificationPending(data)) {
       handlePendingCreditReportResponse(data);
     }
   }, [data, router]);
@@ -156,11 +156,11 @@ export default function CreditReportSummaryDetailedPage({
   }
 
   const directlyAccessed = !!router.query["direct"];
-  const isPending = isCreditReportPending(data);
+  const isPending = isAlternateNumberVerificationPending(data);
 
   if (isLoading || isPending) return <CreditReportLoading />;
 
-  if (!data || isCreditReportPending(data)) return null;
+  if (!data || isAlternateNumberVerificationPending(data)) return null;
 
   if (!data?.report) return null;
 

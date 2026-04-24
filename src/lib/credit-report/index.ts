@@ -166,6 +166,7 @@ export interface CreditReportAnalysisPendingResponse {
     requestId: string | null;
     status: CreditBureauFetchStatusEnum;
     reason: string | null;
+    vendor?: CreditBureauVendor;
     sendOtpChallenge?: SendOtpChallenge;
   };
 }
@@ -200,12 +201,32 @@ export interface SendOtpChallenge {
   expiresAt: Date;
 }
 
+export interface VerifyOtpChallenge {
+  challengeConfigGuid: string;
+  questionKey: string;
+  answerKey: string;
+  challengeText?: string;
+  isResendEligible?: boolean;
+  expiresAt: Date;
+}
+
+export interface SendOtpResponse {
+  fetchCompleted: false;
+  data: {
+    requestId: string | null;
+    status: CreditBureauFetchStatusEnum;
+    reason: string | null;
+    verifyOtpChallenge?: VerifyOtpChallenge;
+  };
+}
+
 export interface CreditReportPendingResponse {
   fetchCompleted: boolean;
   data: {
     requestId: string | null;
     status: CreditBureauFetchStatusEnum;
     reason: string | null;
+    vendor?: CreditBureauVendor;
     sendOtpChallenge?: SendOtpChallenge;
   };
 }
@@ -285,9 +306,41 @@ export async function fetchEPFTrackerServiceAvailability(
 }
 
 export async function sendOtpForCreditReport(
-  vendor: "CIBIL",
+  vendor: CreditBureauVendor,
   requestId: string,
   alternateMobileNumber: string,
+  requestContext: {
+    challengeConfigGuid: string;
+    questionKey: string;
+    answerKey: string;
+  },
+  idToken?: string
+): Promise<SendOtpResponse | null> {
+  if (!idToken) idToken = getValueFromMetadata("idToken");
+  if (!idToken) return null;
+
+  const response = await fetcher<SendOtpResponse>(
+    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/send-otp`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+      payload: {
+        vendor,
+        requestId,
+        alternateMobileNumber,
+        requestContext,
+      },
+    }
+  );
+  return response.data;
+}
+
+export async function verifyOtpForCreditReport(
+  vendor: CreditBureauVendor,
+  requestId: string,
+  otp: string,
   requestContext: {
     challengeConfigGuid: string;
     questionKey: string;
@@ -299,7 +352,7 @@ export async function sendOtpForCreditReport(
   if (!idToken) return null;
 
   const response = await fetcher<{ success: boolean; message?: string }>(
-    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/send-otp`,
+    `${CORE_SERVER_BASE_URL}/credit-bureau/credit-reports/verify-otp`,
     {
       method: "POST",
       headers: {
@@ -308,7 +361,7 @@ export async function sendOtpForCreditReport(
       payload: {
         vendor,
         requestId,
-        alternateMobileNumber,
+        otp,
         requestContext,
       },
     }
@@ -480,6 +533,7 @@ export function setCreditScoreIncrementEffectShown() {
 }
 
 export interface CreditBureauChallengeContext {
+  vendor: CreditBureauVendor;
   requestId: string;
   requestContext: {
     challengeConfigGuid: string;
@@ -496,7 +550,10 @@ export function handlePendingCreditReportResponse(
   const challengeData = pendingResponse.data.sendOtpChallenge;
   if (!challengeData) return null;
 
+  const vendor = pendingResponse.data.vendor || CreditBureauVendor.CIBIL; // Default to CIBIL if not provided
+
   const context: CreditBureauChallengeContext = {
+    vendor,
     requestId: pendingResponse.data.requestId || "",
     requestContext: {
       challengeConfigGuid: challengeData.challengeConfigGuid,
@@ -509,7 +566,7 @@ export function handlePendingCreditReportResponse(
   return context;
 }
 
-export function isCreditReportPending(
+export function isAlternateNumberVerificationPending(
   data: unknown
 ): data is CreditReportPendingResponse {
   return (

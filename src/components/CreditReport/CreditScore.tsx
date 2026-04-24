@@ -51,7 +51,7 @@ export default function CreditScore({
   onCtaClick,
   onRefetchClick,
 }: CreditScoreProps) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
 
   if (score) {
     const creditSocre = Number(score.score);
@@ -169,10 +169,10 @@ export default function CreditScore({
             alt="Credit score not available"
           />
           <h2 className="text-heading text-semibold mt-4">
-            Couldn't fetch your Credit Report
+            {tWithoutTypeSafety("credit_report_pending_fetch_heading")}
           </h2>
           <p className="text-caption clr-text-secondary mt-2">
-            Link the correct phone number to fetch your credit report.
+            {tWithoutTypeSafety("credit_report_pending_fetch_description")}
           </p>
         </div>
       </CreditScoreHero>
@@ -207,7 +207,7 @@ function BelowScoreCta(props: {
   isPendingFetch?: boolean;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
 }) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const APP_BASE_URL =
     process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in/";
 
@@ -218,8 +218,8 @@ function BelowScoreCta(props: {
     text = t("kyc_unlock_credit_score");
     ctaLabel = t("complete_kyc_btn");
   } else if (props.isPendingFetch) {
-    text = "Verify your phone number to access your credit report";
-    ctaLabel = "Link Phone Number";
+    text = tWithoutTypeSafety("credit_report_pending_fetch_cta_text");
+    ctaLabel = tWithoutTypeSafety("credit_report_pending_fetch_cta_label");
   } else if (props.reportAvailable) {
     text = t("learn_more_credit_score");
     ctaLabel = t("see_full_credit_score_report");

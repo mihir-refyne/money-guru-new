@@ -3,6 +3,7 @@ import EquifaxLogo from "@/images/equifax_logo.svg";
 import CibilLogo from "@/images/cibil_logo.png";
 import styles from "./CommonFooter.module.css";
 import { CreditBureauVendor } from "@/lib/credit-report";
+import useTranslation from "@/hooks/useTranslation";
 
 interface CommonFooterProps {
   vendor?: CreditBureauVendor;
@@ -10,6 +11,8 @@ interface CommonFooterProps {
 }
 
 export default function CommonFooter({ vendor, lender }: CommonFooterProps) {
+  const { tWithoutTypeSafety: t } = useTranslation("common");
+
   // Do not render if both vendor and lender are not available
   if (!vendor || !lender) {
     return null;
@@ -42,7 +45,9 @@ export default function CommonFooter({ vendor, lender }: CommonFooterProps) {
 
   return (
     <div className={styles.CommonFooter}>
-      <span className="clr-text-secondary text-caption mr-2">Powered By</span>
+      <span className="clr-text-secondary text-caption mr-2">
+        {t("credit_report_footer_powered_by")}
+      </span>
       <span className="text-caption mr-2">{formatLenderName(lender)}</span>
       {renderVendorLogo()}
     </div>

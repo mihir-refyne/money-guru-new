@@ -9,7 +9,8 @@ import InfoStep from "./InfoStep";
 import OtpStep from "./OtpStep";
 import styles from "./styles.module.css";
 import SuccessStep from "./SuccessStep";
-import { ctaStepToTextMap, isPhoneNumber, Step, stepCount } from "./types";
+import { isPhoneNumber, Step, stepCount } from "./types";
+import useTranslation from "@/hooks/useTranslation";
 
 interface AlternateNumberPageProps {
   // Props for API integration later
@@ -28,6 +29,7 @@ export default function AlternateNumberPage({
   onComplete,
 }: AlternateNumberPageProps) {
   const router = useRouter();
+  const { tWithoutTypeSafety: t } = useTranslation("common");
   const [currentStep, setCurrentStep] = useState(Step.Info);
   const [enteredNumber, setEnteredNumber] = useState("");
   const [isLoading, setIsLoading] = useState(propIsLoading);
@@ -42,6 +44,19 @@ export default function AlternateNumberPage({
     return `${baseClass} ${alignClass}`;
   }, [currentStep]);
 
+  const getCtaText = () => {
+    switch (currentStep) {
+      case Step.Info:
+        return t("alternate_number_cta_send_otp");
+      case Step.Otp:
+        return t("alternate_number_cta_verify");
+      case Step.Success:
+        return t("alternate_number_cta_done");
+      default:
+        return "";
+    }
+  };
+
   async function sendOtp() {
     if (onSendOtp) {
       try {
@@ -52,13 +67,13 @@ export default function AlternateNumberPage({
         }
         setOtpRequestId(response.requestId);
       } catch (error) {
-        toast.error("Failed to send OTP");
+        toast.error(t("alternate_number_error_send_otp_failed"));
         return false;
       } finally {
         setIsLoading(false);
       }
     } else {
-      toast.error("No send OTP handler provided");
+      toast.error(t("alternate_number_error_no_handler"));
       return false;
     }
     return true;
@@ -99,13 +114,13 @@ export default function AlternateNumberPage({
         setIsLoading(true);
         await onVerifyOtp(otpRequestId, Number(otp));
       } catch (error) {
-        toast.error("Wrong OTP, Please try again");
+        toast.error(t("alternate_number_error_wrong_otp"));
         return;
       } finally {
         setIsLoading(false);
       }
     } else {
-      toast.error("No OTP request id or verify handler");
+      toast.error(t("alternate_number_error_no_request_id"));
       return;
     }
     setCurrentStep(Step.Success);
@@ -113,7 +128,7 @@ export default function AlternateNumberPage({
 
   async function handleResendOtp(method: "sms" | "call" | "whatsapp") {
     // Method can be used for different resend strategies
-    console.log("Resending OTP via:", method);
+
     await sendOtp();
   }
 
@@ -126,15 +141,15 @@ export default function AlternateNumberPage({
         disabled={currentStep === Step.Info ? isButtonDisabled : isLoading}
         onClick={handlePrimaryClick}
       >
-        {isLoading ? "Please wait..." : ctaStepToTextMap[currentStep]}
+        {isLoading ? t("alternate_number_cta_loading") : getCtaText()}
       </button>
     </div>
   );
 
   return (
     <PageLayout
-      title="Verify Alternate Number"
-      navbarText="Verify Alternate Number"
+      title={t("alternate_number_page_title")}
+      navbarText={t("alternate_number_page_title")}
       pageBackground="var(--clr-pure-white)"
       footer={footer}
       hasContentPadding={currentStep !== Step.Success}

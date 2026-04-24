@@ -4,6 +4,7 @@ import { ChatText, Phone, WhatsappLogo } from "phosphor-react";
 import { OTPInput } from "./OTPInput";
 import OtpImage from "@/images/mobile-otp.svg";
 import styles from "./styles.module.css";
+import useTranslation from "@/hooks/useTranslation";
 
 interface OtpStepProps {
   phoneNumber: string;
@@ -19,6 +20,7 @@ export default function OtpStep({
   handleSubmit,
   phoneNumber,
 }: OtpStepProps) {
+  const { tWithoutTypeSafety: t } = useTranslation("common");
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(INITIAL_TIMER);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -80,10 +82,10 @@ export default function OtpStep({
         height={120}
       />
       <h2 className={`text-heading text-semibold ${styles.otpStep__heading}`}>
-        Enter OTP
+        {t("alternate_number_otp_heading")}
       </h2>
       <p className={`text-body ${styles.otpStep__bodyText}`}>
-        OTP sent to:{" "}
+        {t("alternate_number_otp_sent_to")}{" "}
         <span className={styles.otpStep__phoneNumber}>
           {formattedPhoneNumber}
         </span>
@@ -98,7 +100,7 @@ export default function OtpStep({
         />
 
         <p className={`text-body ${styles.otpStep__resendText}`}>
-          Resend OTP in{" "}
+          {t("alternate_number_otp_resend_text")}{" "}
           <span className={styles.otpStep__timer}>
             {String(Math.floor(timer / 60)).padStart(2, "0")}:
             {String(timer % 60).padStart(2, "0")}
@@ -112,7 +114,7 @@ export default function OtpStep({
             disabled={timer > 0}
           >
             <ChatText size={16} />
-            <span>SMS</span>
+            <span>{t("alternate_number_otp_resend_sms")}</span>
           </button>
           <button
             className={styles.otpStep__resendButton}
@@ -120,7 +122,7 @@ export default function OtpStep({
             disabled={timer > 0}
           >
             <Phone size={16} />
-            <span>Call</span>
+            <span>{t("alternate_number_otp_resend_call")}</span>
           </button>
           <button
             className={styles.otpStep__resendButton}
@@ -128,7 +130,7 @@ export default function OtpStep({
             disabled={timer > 0}
           >
             <WhatsappLogo size={16} />
-            <span>WhatsApp</span>
+            <span>{t("alternate_number_otp_resend_whatsapp")}</span>
           </button>
         </div>
       </div>

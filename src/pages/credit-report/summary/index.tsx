@@ -12,7 +12,7 @@ import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
   handlePendingCreditReportResponse,
-  isCreditReportPending,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
@@ -76,7 +76,7 @@ export default function CreditReportSummaryPage() {
 
   useEffect(() => {
     if (!data) return;
-    if (isCreditReportPending(data)) {
+    if (isAlternateNumberVerificationPending(data)) {
       handlePendingCreditReportResponse(data);
     }
   }, [data, router]);
@@ -141,11 +141,13 @@ export default function CreditReportSummaryPage() {
   }
 
   const directlyAccessed = !!router.query["direct"];
-  const isPending = isCreditReportPending(data);
+  const isPending = isAlternateNumberVerificationPending(data);
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
 
-  const creditReportData = isCreditReportPending(data) ? null : data;
+  const creditReportData = isAlternateNumberVerificationPending(data)
+    ? null
+    : data;
 
   return (
     <CreditReportSummaryShort

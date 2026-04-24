@@ -6,7 +6,7 @@ import useFetcher from "@/hooks/useFetcher";
 import {
   getOrFetchCreditReport,
   handlePendingCreditReportResponse,
-  isCreditReportPending,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 
 export default function CreditReportAccountsPage() {
@@ -19,16 +19,16 @@ export default function CreditReportAccountsPage() {
       router.replace("/credit-report/summary");
       return;
     }
-    if (isCreditReportPending(data)) {
+    if (isAlternateNumberVerificationPending(data)) {
       handlePendingCreditReportResponse(data);
     }
   }, [data, error, isLoading, router]);
 
-  const isPending = isCreditReportPending(data);
+  const isPending = isAlternateNumberVerificationPending(data);
 
   if (isLoading || isPending) return <CreditReportLoading />;
 
-  if (!data || isCreditReportPending(data)) return null;
+  if (!data || isAlternateNumberVerificationPending(data)) return null;
 
   return <CreditReportTotalAccounts creditReport={data.report} />;
 }

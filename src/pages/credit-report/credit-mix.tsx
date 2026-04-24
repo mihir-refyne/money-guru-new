@@ -6,7 +6,7 @@ import useFetcher from "@/hooks/useFetcher";
 import {
   getOrFetchCreditReport,
   handlePendingCreditReportResponse,
-  isCreditReportPending,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -21,7 +21,7 @@ export default function CreditReportCreditMaxPage() {
       router.replace("/credit-report/summary");
       return;
     }
-    if (isCreditReportPending(data)) {
+    if (isAlternateNumberVerificationPending(data)) {
       handlePendingCreditReportResponse(data);
     }
   }, [data, error, isLoading, router]);
@@ -33,11 +33,11 @@ export default function CreditReportCreditMaxPage() {
     });
   }
 
-  const isPending = isCreditReportPending(data);
+  const isPending = isAlternateNumberVerificationPending(data);
 
   if (isLoading || isPending) return <CreditReportLoading />;
 
-  if (!data || isCreditReportPending(data)) return null;
+  if (!data || isAlternateNumberVerificationPending(data)) return null;
 
   return (
     <CreditReportCreditMix
