@@ -230,18 +230,16 @@ export type SendOtpResponse = SendOtpPendingResponse | SendOtpCompletedResponse;
 
 export interface VerifyOtpPendingResponse {
   fetchCompleted: false;
-  success: boolean;
-  message?: string;
 }
 
 export interface VerifyOtpCompletedResponse {
   fetchCompleted: true;
-  success: boolean;
   data: CreditReportResponse;
-  message?: string;
 }
 
-export type VerifyOtpResponse = VerifyOtpPendingResponse | VerifyOtpCompletedResponse;
+export type VerifyOtpResponse =
+  | VerifyOtpPendingResponse
+  | VerifyOtpCompletedResponse;
 
 export interface CreditReportPendingResponse {
   fetchCompleted: boolean;

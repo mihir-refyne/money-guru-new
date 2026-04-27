@@ -516,5 +516,6 @@
   "alternate_number_error_no_request_id": "Request ID missing. Please try again",
   "alternate_number_input_label": "Enter Mobile Number",
   "credit_score_no_hit_heading": "NO HIT",
-  "credit_score_no_hit_description": "No credit history found with the credit bureau"
+  "credit_score_no_hit_description": "No credit history found with the credit bureau",
+  "credit_report_footer_powered_by": "Powered by FinTech"
 }
