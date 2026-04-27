@@ -294,20 +294,21 @@ function CreditScoreHero({
   cardFooter,
   cardFooterBackgroundColor,
 }: CreditScoreHeroProps) {
-  if (!cardContent) return null;
   return (
     <div className={styles.CreditScore}>
       <div className={styles.CreditScore__Content}>{children}</div>
-      <div className={styles.CreditScore__Footer}>
-        <Card
-          backgroundColor="var(--clr-pure-white)"
-          footerBackgroundColor={cardFooterBackgroundColor}
-          border="1px solid #EBF5FF"
-          footer={cardFooter}
-        >
-          {cardContent}
-        </Card>
-      </div>
+      {cardContent && (
+        <div className={styles.CreditScore__Footer}>
+          <Card
+            backgroundColor="var(--clr-pure-white)"
+            footerBackgroundColor={cardFooterBackgroundColor}
+            border="1px solid #EBF5FF"
+            footer={cardFooter}
+          >
+            {cardContent}
+          </Card>
+        </div>
+      )}
     </div>
   );
 }
