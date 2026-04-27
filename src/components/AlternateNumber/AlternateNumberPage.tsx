@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import SuccessStep from "./SuccessStep";
 import { isPhoneNumber, Step, stepCount } from "./types";
 import useTranslation from "@/hooks/useTranslation";
+import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 
 interface AlternateNumberPageProps {
   // Props for API integration later
@@ -114,7 +115,10 @@ export default function AlternateNumberPage({
         setIsLoading(true);
         await onVerifyOtp(otpRequestId, Number(otp));
       } catch (error) {
-        toast.error(t("alternate_number_error_wrong_otp"));
+        toast.error(
+          getCoreServerErrorMessageFromFetcherError(error as Error) ??
+            "Something went wrong, please try again!"
+        );
         return;
       } finally {
         setIsLoading(false);

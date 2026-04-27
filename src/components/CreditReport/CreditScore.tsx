@@ -61,7 +61,7 @@ export default function CreditScore({
   // Handle consumer not found case - show NO HIT similar to unavailable score
   if (isConsumerNotFound) {
     return (
-      <CreditScoreHero cardContent={<></>}>
+      <CreditScoreHero cardContent={null}>
         <div className="text-center">
           <Image src={cardSearchErrorIconUrl} alt="Consumer not found" />
           <h2 className="text-heading text-semibold mt-4">
@@ -177,9 +177,7 @@ export default function CreditScore({
     return (
       <CreditScoreHero
         cardContent={
-          creditReportPullStatus === "FAILED" ? (
-            <></>
-          ) : (
+          creditReportPullStatus === "FAILED" ? null : (
             <BelowScoreCta
               kycIncomplete={false}
               reportAvailable={false}
@@ -285,7 +283,7 @@ function BelowScoreCta(props: {
 
 interface CreditScoreHeroProps {
   children: ReactElement | Array<ReactElement>;
-  cardContent: ReactElement;
+  cardContent: ReactElement | null;
   cardFooter?: ReactElement;
   cardFooterBackgroundColor?: string;
 }
@@ -296,6 +294,7 @@ function CreditScoreHero({
   cardFooter,
   cardFooterBackgroundColor,
 }: CreditScoreHeroProps) {
+  if (!cardContent) return null;
   return (
     <div className={styles.CreditScore}>
       <div className={styles.CreditScore__Content}>{children}</div>

@@ -81,7 +81,7 @@ export default function AlternateNumber() {
       setOtpRequestId(response.data.requestId || "");
       return { requestId: response.data.requestId || "" };
     }
-    throw new Error("Failed to send OTP");
+    return { requestId: response.data.requestId || "" };
   }
 
   async function handleVerifyOtp(requestId: string, otp: number) {
