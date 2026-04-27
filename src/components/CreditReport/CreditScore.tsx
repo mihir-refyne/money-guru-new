@@ -1,5 +1,6 @@
 import { ReactElement, useEffect } from "react";
 import {
+  CreditBureauFetchStatusEnum,
   CreditReportFetchError,
   CreditReportMetricRating,
   ScoreValues,
@@ -37,6 +38,7 @@ interface CreditScoreProps {
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   onRefetchClick?: () => void;
   isConsumerNotFound?: boolean;
+  creditReportPullStatus?: CreditBureauFetchStatusEnum | null;
 }
 
 export default function CreditScore({
@@ -52,21 +54,14 @@ export default function CreditScore({
   onCtaClick,
   onRefetchClick,
   isConsumerNotFound,
+  creditReportPullStatus,
 }: CreditScoreProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
 
   // Handle consumer not found case - show NO HIT similar to unavailable score
   if (isConsumerNotFound) {
     return (
-      <CreditScoreHero
-        cardContent={
-          <BelowScoreCta
-            kycIncomplete={false}
-            reportAvailable={false}
-            onCtaClick={onCtaClick}
-          />
-        }
-      >
+      <CreditScoreHero cardContent={<></>}>
         <div className="text-center">
           <Image src={cardSearchErrorIconUrl} alt="Consumer not found" />
           <h2 className="text-heading text-semibold mt-4">
@@ -182,12 +177,16 @@ export default function CreditScore({
     return (
       <CreditScoreHero
         cardContent={
-          <BelowScoreCta
-            kycIncomplete={false}
-            reportAvailable={false}
-            isPendingFetch={true}
-            onCtaClick={onCtaClick}
-          />
+          creditReportPullStatus === "FAILED" ? (
+            <></>
+          ) : (
+            <BelowScoreCta
+              kycIncomplete={false}
+              reportAvailable={false}
+              isPendingFetch={true}
+              onCtaClick={onCtaClick}
+            />
+          )
         }
       >
         <div className="text-center">

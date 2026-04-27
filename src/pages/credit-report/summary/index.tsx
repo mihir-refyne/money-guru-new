@@ -142,6 +142,9 @@ export default function CreditReportSummaryPage() {
 
   const directlyAccessed = !!router.query["direct"];
   const isPending = isAlternateNumberVerificationPending(data);
+  const creditReportPullStatusWhilePending = isPending
+    ? data?.data?.status
+    : null;
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
 
@@ -161,6 +164,7 @@ export default function CreditReportSummaryPage() {
       expiresAt={creditReportData?.expiresAt}
       hasExpired={creditReportData?.hasExpired}
       isConsumerNotFound={creditReportData?.isConsumerNotFound}
+      creditReportPullStatus={creditReportPullStatusWhilePending}
       onCtaClick={handleCtaClickRouting}
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}

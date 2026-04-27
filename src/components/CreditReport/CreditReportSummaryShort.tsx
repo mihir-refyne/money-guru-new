@@ -6,6 +6,7 @@ import {
   CreditReportAnalysis,
   CreditBureauVendor,
   isCreditScoreIncrementEffectShown,
+  CreditBureauFetchStatusEnum,
 } from "@/lib/credit-report";
 import CreditScore from "./CreditScore";
 import Modal from "../Modal";
@@ -42,6 +43,7 @@ interface CreditReportSummaryShortProps {
   onRatingTagClick?: (rating?: string) => void;
   onRefetchClick?: () => void;
   isConsumerNotFound?: boolean;
+  creditReportPullStatus?: CreditBureauFetchStatusEnum | null;
 }
 
 export default function CreditReportSummaryShort({
@@ -62,6 +64,7 @@ export default function CreditReportSummaryShort({
   onRatingTagClick,
   onRefetchClick,
   isConsumerNotFound,
+  creditReportPullStatus,
 }: CreditReportSummaryShortProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
@@ -183,6 +186,7 @@ export default function CreditReportSummaryShort({
         onTagClick={handleExplainerOpen}
         onCtaClick={onCtaClick}
         onRefetchClick={handleConsentDialogOpen}
+        creditReportPullStatus={creditReportPullStatus}
       />
       <div className="px-4">
         <InfoCard>
