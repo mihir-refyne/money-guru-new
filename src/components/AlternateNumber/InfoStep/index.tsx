@@ -39,7 +39,6 @@ export default function InfoStep({
                   setError(t("alternate_number_input_error"));
                 }
               }}
-              placeholder={t("alternate_number_input_placeholder")}
               error={error}
               className={styles.infoStep__input}
               label={t("alternate_number_input_label")}
