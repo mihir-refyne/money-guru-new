@@ -124,8 +124,8 @@ export interface CreditReportResponse {
 }
 
 export interface CreditReportMetadataResponse {
-  fetchedAt: Date;
-  expiresAt: Date;
+  fetchedAt: string;
+  expiresAt: string;
   hasExpired: boolean;
 }
 
@@ -162,7 +162,7 @@ export interface CreditReportWithAnalysis extends CreditReportResponse {
 }
 
 export interface CreditReportAnalysisPendingResponse {
-  fetchCompleted: boolean;
+  fetchCompleted: false;
   vendor?: CreditBureauVendor;
   data: {
     requestId: string | null;
@@ -173,7 +173,7 @@ export interface CreditReportAnalysisPendingResponse {
 }
 
 export interface CreditReportAnalysisCompletedResponse {
-  fetchCompleted: boolean;
+  fetchCompleted: true;
   data: CreditReportAnalysis;
 }
 
@@ -199,7 +199,7 @@ export interface SendOtpChallenge {
   answerKey: string;
   challengeText?: string;
   isResendEligible?: boolean;
-  expiresAt: Date;
+  expiresAt: string;
 }
 
 export interface VerifyOtpChallenge {
@@ -208,7 +208,7 @@ export interface VerifyOtpChallenge {
   answerKey: string;
   challengeText?: string;
   isResendEligible?: boolean;
-  expiresAt: Date;
+  expiresAt: string;
 }
 
 export interface SendOtpPendingResponse {
@@ -242,7 +242,7 @@ export type VerifyOtpResponse =
   | VerifyOtpCompletedResponse;
 
 export interface CreditReportPendingResponse {
-  fetchCompleted: boolean;
+  fetchCompleted: false;
   vendor?: CreditBureauVendor;
   data: {
     requestId: string | null;
@@ -253,7 +253,7 @@ export interface CreditReportPendingResponse {
 }
 
 export interface CreditReportCompletedResponse {
-  fetchCompleted: boolean;
+  fetchCompleted: true;
   data: CreditReportResponse;
 }
 
@@ -571,11 +571,17 @@ export function handlePendingCreditReportResponse(
   const challengeData = pendingResponse.data.sendOtpChallenge;
   if (!challengeData) return null;
 
+  const requestId = pendingResponse.data.requestId;
+  if (!requestId) {
+    console.error("Missing requestId in pending response");
+    return null;
+  }
+
   const vendor = pendingResponse.vendor || CreditBureauVendor.CIBIL; // Default to CIBIL if not provided
 
   const context: CreditBureauChallengeContext = {
     vendor,
-    requestId: pendingResponse.data.requestId || "",
+    requestId,
     requestContext: {
       challengeConfigGuid: challengeData.challengeConfigGuid,
       questionKey: challengeData.questionKey,
@@ -589,11 +595,15 @@ export function handlePendingCreditReportResponse(
 
 export function isAlternateNumberVerificationPending(
   data: unknown
-): data is CreditReportPendingResponse {
+): data is CreditReportPendingResponse | CreditReportAnalysisPendingResponse {
   return (
     data !== null &&
     typeof data === "object" &&
     "fetchCompleted" in data &&
-    (data as CreditReportPendingResponse).fetchCompleted === false
+    data.fetchCompleted === false &&
+    "data" in data &&
+    typeof data.data === "object" &&
+    data.data !== null &&
+    "sendOtpChallenge" in data.data
   );
 }

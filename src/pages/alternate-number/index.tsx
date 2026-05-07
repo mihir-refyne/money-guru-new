@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import AlternateNumberPage from "@/components/AlternateNumber";
+import AlternateNumberPage, {
+  SendOtpResult,
+} from "@/components/AlternateNumber";
 import {
   sendOtpForCreditReport,
   verifyOtpForCreditReport,
@@ -44,7 +46,7 @@ export default function AlternateNumber() {
     }
   }, [router]);
 
-  async function handleSendOtp(phoneNumber: string) {
+  async function handleSendOtp(phoneNumber: string): Promise<SendOtpResult> {
     if (
       !challengeData?.requestId ||
       !challengeData?.requestContext ||
@@ -68,7 +70,7 @@ export default function AlternateNumber() {
     if (response.fetchCompleted) {
       sessionStorage.removeItem("__CreditBureauChallenge");
       router.replace("/credit-report/summary");
-      return { requestId: "" }; // Return empty to satisfy type
+      return { type: "completed" };
     }
 
     if (response.data.verifyOtpChallenge) {
@@ -79,9 +81,16 @@ export default function AlternateNumber() {
         answerKey: response.data.verifyOtpChallenge.answerKey,
       });
       setOtpRequestId(response.data.requestId || "");
-      return { requestId: response.data.requestId || "" };
+      return {
+        type: "pending",
+        requestId: response.data.requestId || "",
+      };
     }
-    return { requestId: response.data.requestId || "" };
+
+    return {
+      type: "pending",
+      requestId: response.data.requestId || "",
+    };
   }
 
   async function handleVerifyOtp(requestId: string, otp: number) {

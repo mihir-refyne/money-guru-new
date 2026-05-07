@@ -5,7 +5,8 @@ import CreditReportPaymentHistory from "@/components/CreditReport/CreditReportPa
 import useFetcher from "@/hooks/useFetcher";
 import {
   getOrFetchCreditReport,
-  CreditReportPendingResponse,
+  handlePendingCreditReportResponse,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -21,24 +22,8 @@ export default function CreditReportPaymentHistoryPage() {
       return;
     }
     // Handle pending response - redirect to alternate number page
-    if ("fetchCompleted" in data && !data.fetchCompleted) {
-      const pendingResponse = data as CreditReportPendingResponse;
-      const challengeData = pendingResponse.data.sendOtpChallenge;
-      if (challengeData) {
-        sessionStorage.setItem(
-          "__CreditBureauChallenge",
-          JSON.stringify({
-            requestId: pendingResponse.data.requestId,
-            requestContext: {
-              challengeConfigGuid: challengeData.challengeConfigGuid,
-              questionKey: challengeData.questionKey,
-              answerKey: challengeData.answerKey,
-            },
-          })
-        );
-      }
-      // Removed auto-redirect to /alternate-number
-      // router.replace("/alternate-number");
+    if (isAlternateNumberVerificationPending(data)) {
+      handlePendingCreditReportResponse(data);
     }
   }, [data, error, isLoading, router]);
 

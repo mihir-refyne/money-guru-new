@@ -13,11 +13,15 @@ import { isPhoneNumber, Step, stepCount } from "./types";
 import useTranslation from "@/hooks/useTranslation";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 
+export type SendOtpResult =
+  | { type: "pending"; requestId: string }
+  | { type: "completed" };
+
 interface AlternateNumberPageProps {
   // Props for API integration later
   otpRequestId?: string;
   isLoading?: boolean;
-  onSendOtp?: (phoneNumber: string) => Promise<{ requestId: string }>;
+  onSendOtp?: (phoneNumber: string) => Promise<SendOtpResult>;
   onVerifyOtp?: (requestId: string, otp: number) => Promise<void>;
   onComplete?: () => void;
 }
@@ -63,7 +67,16 @@ export default function AlternateNumberPage({
       try {
         setIsLoading(true);
         const response = await onSendOtp(enteredNumber);
-        if (!response?.requestId) {
+        if (response.type === "completed") {
+          // Flow completed without needing OTP step
+          if (onComplete) {
+            onComplete();
+          } else {
+            router.back();
+          }
+          return false; // Don't advance to OTP step
+        }
+        if (!response.requestId) {
           throw new Error("No request id from API");
         }
         setOtpRequestId(response.requestId);
