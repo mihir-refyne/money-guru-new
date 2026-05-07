@@ -1,6 +1,7 @@
 import Image from "next/image";
 import EquifaxLogo from "@/images/equifax_logo.svg";
 import CibilLogo from "@/images/cibil_logo.png";
+import ExperianLogo from "@/images/experian_logo.svg";
 import styles from "./CommonFooter.module.css";
 import { CreditBureauVendor } from "@/lib/credit-report";
 import useTranslation from "@/hooks/useTranslation";
@@ -27,14 +28,8 @@ export default function CommonFooter({ vendor, lender }: CommonFooterProps) {
       case CreditBureauVendor.CIBIL:
         return <Image src={CibilLogo} alt="CIBIL" width={50} height={20} />;
       case CreditBureauVendor.EXPERIAN:
-        // TODO: Replace with actual Experian logo when available. Using placeholder for now.
         return (
-          <Image
-            src="https://via.placeholder.com/100x30?text=EXPERIAN"
-            alt="Experian"
-            width={100}
-            height={30}
-          />
+          <Image src={ExperianLogo} alt="Experian" width={100} height={30} />
         );
       case CreditBureauVendor.EQUIFAX:
         return <Image src={EquifaxLogo} alt="Equifax" width={50} height={20} />;
