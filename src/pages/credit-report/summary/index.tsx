@@ -11,6 +11,8 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
+  handlePendingCreditReportResponse,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 import {
   dispatchDataToNativePlatform,
@@ -72,6 +74,13 @@ export default function CreditReportSummaryPage() {
     setIsLoading(true);
   }, []);
 
+  useEffect(() => {
+    if (!data) return;
+    if (isAlternateNumberVerificationPending(data)) {
+      handlePendingCreditReportResponse(data);
+    }
+  }, [data, router]);
+
   function handleOnMount(context?: { rating?: string; hasExpired?: boolean }) {
     logAnalyticsEvent(
       ["mixpanel", "webengage"],
@@ -132,16 +141,30 @@ export default function CreditReportSummaryPage() {
   }
 
   const directlyAccessed = !!router.query["direct"];
+  const isPending = isAlternateNumberVerificationPending(data);
+  const creditReportPullStatusWhilePending = isPending
+    ? data?.data?.status
+    : null;
 
   if (syntheticLoader || isLoading) return <CreditReportLoading />;
+
+  const creditReportData = isAlternateNumberVerificationPending(data)
+    ? null
+    : data;
+
   return (
     <CreditReportSummaryShort
-      creditReport={data?.report ?? null}
-      creditReportAnalysis={data?.analysis ?? null}
+      creditReport={creditReportData?.report ?? null}
+      creditReportAnalysis={creditReportData?.analysis ?? null}
       error={error}
-      fetchedAt={data?.fetchedAt}
-      expiresAt={data?.expiresAt}
-      hasExpired={data?.hasExpired}
+      isPending={isPending || undefined}
+      vendor={creditReportData?.vendor}
+      lender={creditReportData?.lenderId}
+      fetchedAt={creditReportData?.fetchedAt}
+      expiresAt={creditReportData?.expiresAt}
+      hasExpired={creditReportData?.hasExpired}
+      isConsumerNotFound={creditReportData?.isConsumerNotFound}
+      creditReportPullStatus={creditReportPullStatusWhilePending}
       onCtaClick={handleCtaClickRouting}
       onMount={handleOnMount}
       onRatingTagClick={handleRatingTagClick}

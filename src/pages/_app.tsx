@@ -31,7 +31,7 @@ import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
 import PlotlineScript from "@/scripts/plotline";
 import WebengageScript from "@/scripts/webengage";
 import "@/styles/globals.css";
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { NuqsAdapter } from "nuqs/adapters/next/pages";

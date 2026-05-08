@@ -1,0 +1,135 @@
+import { useEffect, useState } from "react";
+import AlternateNumberPage, {
+  SendOtpResult,
+} from "@/components/AlternateNumber";
+import {
+  sendOtpForCreditReport,
+  verifyOtpForCreditReport,
+  CreditBureauVendor,
+} from "@/lib/credit-report";
+import { useRouter } from "next/router";
+import toast from "react-hot-toast";
+
+export default function AlternateNumber() {
+  const router = useRouter();
+  const [otpRequestId, setOtpRequestId] = useState("");
+  const [challengeData, setChallengeData] = useState<{
+    vendor: CreditBureauVendor;
+    requestId: string | null;
+    requestContext: {
+      challengeConfigGuid: string;
+      questionKey: string;
+      answerKey: string;
+    };
+  } | null>(null);
+  const [verifyOtpContext, setVerifyOtpContext] = useState<{
+    challengeConfigGuid: string;
+    questionKey: string;
+    answerKey: string;
+  } | null>(null);
+
+  useEffect(() => {
+    // Retrieve challenge data from sessionStorage
+    const storedData = sessionStorage.getItem("__CreditBureauChallenge");
+    if (storedData) {
+      try {
+        const parsed = JSON.parse(storedData);
+        setChallengeData(parsed);
+      } catch (error) {
+        console.error("Failed to parse challenge data:", error);
+        toast.error("Invalid challenge data");
+        router.replace("/credit-report");
+      }
+    } else {
+      // If no challenge data, redirect back to credit report
+      router.replace("/credit-report");
+    }
+  }, [router]);
+
+  async function handleSendOtp(phoneNumber: string): Promise<SendOtpResult> {
+    if (
+      !challengeData?.requestId ||
+      !challengeData?.requestContext ||
+      !challengeData?.vendor
+    ) {
+      toast.error("Missing challenge data");
+      throw new Error("Missing challenge data");
+    }
+
+    const response = await sendOtpForCreditReport(
+      challengeData.vendor,
+      challengeData.requestId,
+      phoneNumber,
+      challengeData.requestContext
+    );
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
+
+    if (response.fetchCompleted) {
+      sessionStorage.removeItem("__CreditBureauChallenge");
+      router.replace("/credit-report/summary");
+      return { type: "completed" };
+    }
+
+    if (response.data.verifyOtpChallenge) {
+      setVerifyOtpContext({
+        challengeConfigGuid:
+          response.data.verifyOtpChallenge.challengeConfigGuid,
+        questionKey: response.data.verifyOtpChallenge.questionKey,
+        answerKey: response.data.verifyOtpChallenge.answerKey,
+      });
+      setOtpRequestId(response.data.requestId || "");
+      return {
+        type: "pending",
+        requestId: response.data.requestId || "",
+      };
+    }
+
+    return {
+      type: "pending",
+      requestId: response.data.requestId || "",
+    };
+  }
+
+  async function handleVerifyOtp(requestId: string, otp: number) {
+    if (!verifyOtpContext || !challengeData?.vendor) {
+      toast.error("Missing verification context");
+      throw new Error("Missing verification context");
+    }
+
+    const response = await verifyOtpForCreditReport(
+      challengeData.vendor,
+      requestId,
+      otp.toString(),
+      verifyOtpContext
+    );
+
+    if (!response) {
+      throw new Error("No response from server");
+    }
+
+    sessionStorage.removeItem("__CreditBureauChallenge");
+    router.replace("/credit-report/summary");
+  }
+
+  function handleComplete() {
+    // Clear challenge data and redirect to credit report
+    sessionStorage.removeItem("__CreditBureauChallenge");
+    router.replace("/credit-report/summary");
+  }
+
+  if (!challengeData) {
+    return null;
+  }
+
+  return (
+    <AlternateNumberPage
+      otpRequestId={otpRequestId}
+      onSendOtp={handleSendOtp}
+      onVerifyOtp={handleVerifyOtp}
+      onComplete={handleComplete}
+    />
+  );
+}

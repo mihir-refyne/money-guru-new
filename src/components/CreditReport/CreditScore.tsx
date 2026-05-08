@@ -1,5 +1,6 @@
 import { ReactElement, useEffect } from "react";
 import {
+  CreditBureauFetchStatusEnum,
   CreditReportFetchError,
   CreditReportMetricRating,
   ScoreValues,
@@ -32,9 +33,12 @@ interface CreditScoreProps {
   expiresAt?: string;
   hasExpired?: boolean;
   autoIncrementEffect?: boolean;
+  isPending?: boolean;
   onTagClick?: () => void;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   onRefetchClick?: () => void;
+  isConsumerNotFound?: boolean;
+  creditReportPullStatus?: CreditBureauFetchStatusEnum | null;
 }
 
 export default function CreditScore({
@@ -45,11 +49,31 @@ export default function CreditScore({
   expiresAt,
   hasExpired,
   autoIncrementEffect,
+  isPending,
   onTagClick,
   onCtaClick,
   onRefetchClick,
+  isConsumerNotFound,
+  creditReportPullStatus,
 }: CreditScoreProps) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
+
+  // Handle consumer not found case - show NO HIT similar to unavailable score
+  if (isConsumerNotFound) {
+    return (
+      <CreditScoreHero cardContent={null}>
+        <div className="text-center">
+          <Image src={cardSearchErrorIconUrl} alt="Consumer not found" />
+          <h2 className="text-heading text-semibold mt-4">
+            {t("credit_score_no_hit_heading")}
+          </h2>
+          <p className="text-caption clr-text-secondary mt-2">
+            {t("credit_score_no_hit_description")}
+          </p>
+        </div>
+      </CreditScoreHero>
+    );
+  }
 
   if (score) {
     const creditSocre = Number(score.score);
@@ -149,6 +173,35 @@ export default function CreditScore({
       </CreditScoreHero>
     );
   }
+  if (isPending) {
+    return (
+      <CreditScoreHero
+        cardContent={
+          creditReportPullStatus === "FAILED" ? null : (
+            <BelowScoreCta
+              kycIncomplete={false}
+              reportAvailable={false}
+              isPendingFetch={true}
+              onCtaClick={onCtaClick}
+            />
+          )
+        }
+      >
+        <div className="text-center">
+          <Image
+            src={cardSearchErrorIconUrl}
+            alt="Credit score not available"
+          />
+          <h2 className="text-heading text-semibold mt-4">
+            {tWithoutTypeSafety("credit_report_pending_fetch_heading")}
+          </h2>
+          <p className="text-caption clr-text-secondary mt-2">
+            {tWithoutTypeSafety("credit_report_pending_fetch_description")}
+          </p>
+        </div>
+      </CreditScoreHero>
+    );
+  }
   return (
     <CreditScoreHero
       cardContent={
@@ -175,24 +228,35 @@ export default function CreditScore({
 function BelowScoreCta(props: {
   kycIncomplete: boolean;
   reportAvailable: boolean;
+  isPendingFetch?: boolean;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
 }) {
-  const { t } = useTranslation("common");
+  const { t, tWithoutTypeSafety } = useTranslation("common");
   const APP_BASE_URL =
     process.env.NEXT_PUBLIC_APP_BASE_URL ?? "https://app.refyne.co.in/";
 
-  const text = props.kycIncomplete
-    ? "kyc_unlock_credit_score"
-    : "learn_more_credit_score";
-  const ctaLabel = props.kycIncomplete
-    ? "complete_kyc_btn"
-    : props.reportAvailable
-    ? "see_full_credit_score_report"
-    : "read_shorts_btn";
+  let text: string;
+  let ctaLabel: string;
+
+  if (props.kycIncomplete) {
+    text = t("kyc_unlock_credit_score");
+    ctaLabel = t("complete_kyc_btn");
+  } else if (props.isPendingFetch) {
+    text = tWithoutTypeSafety("credit_report_pending_fetch_cta_text");
+    ctaLabel = tWithoutTypeSafety("credit_report_pending_fetch_cta_label");
+  } else if (props.reportAvailable) {
+    text = t("learn_more_credit_score");
+    ctaLabel = t("see_full_credit_score_report");
+  } else {
+    text = t("learn_more_credit_score");
+    ctaLabel = t("read_shorts_btn");
+  }
 
   function handleCtaClick() {
     const navigateTo = props.kycIncomplete
       ? APP_BASE_URL
+      : props.isPendingFetch
+      ? "/alternate-number"
       : props.reportAvailable
       ? "/credit-report/summary/detailed"
       : "/shorts#understanding-credit-score";
@@ -202,7 +266,7 @@ function BelowScoreCta(props: {
 
   return (
     <div>
-      <p className="text-medium text-center mb-3">{t(text)}</p>
+      <p className="text-medium text-center mb-3">{text}</p>
       <button
         id={constructElementId({
           screenName: ScreenName.MONGU_CREDIT_REPORT_DASHBOARD,
@@ -211,7 +275,7 @@ function BelowScoreCta(props: {
         className="btn btn-block btn-primary"
         onClick={handleCtaClick}
       >
-        {t(ctaLabel)}
+        {ctaLabel}
       </button>
     </div>
   );
@@ -219,7 +283,7 @@ function BelowScoreCta(props: {
 
 interface CreditScoreHeroProps {
   children: ReactElement | Array<ReactElement>;
-  cardContent: ReactElement;
+  cardContent: ReactElement | null;
   cardFooter?: ReactElement;
   cardFooterBackgroundColor?: string;
 }
@@ -233,16 +297,18 @@ function CreditScoreHero({
   return (
     <div className={styles.CreditScore}>
       <div className={styles.CreditScore__Content}>{children}</div>
-      <div className={styles.CreditScore__Footer}>
-        <Card
-          backgroundColor="var(--clr-pure-white)"
-          footerBackgroundColor={cardFooterBackgroundColor}
-          border="1px solid #EBF5FF"
-          footer={cardFooter}
-        >
-          {cardContent}
-        </Card>
-      </div>
+      {cardContent && (
+        <div className={styles.CreditScore__Footer}>
+          <Card
+            backgroundColor="var(--clr-pure-white)"
+            footerBackgroundColor={cardFooterBackgroundColor}
+            border="1px solid #EBF5FF"
+            footer={cardFooter}
+          >
+            {cardContent}
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

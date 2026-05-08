@@ -1,0 +1,71 @@
+@keyframes caret-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+
+  20%,
+  50% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  animation: caret-blink 1.2s ease-out infinite;
+  width: 1px;
+  height: 60%;
+  background-color: black;
+}
+
+.container {
+  max-width: max-content;
+}
+
+.slotContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.block {
+  width: 44px;
+  height: 44px;
+  border: 1px solid;
+  border-color: var(--clr-grey-default);
+  border-radius: 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border-color 0.2s ease;
+}
+
+.block[data-disabled="true"] {
+  background-color: var(--clr-background-surface);
+}
+
+.block[data-active="true"] {
+  border-color: var(--clr-brand-default);
+}
+
+.block[data-error="true"] {
+  border-color: var(--clr-info-error-default);
+}
+
+.text {
+  color: var(--clr-text-primary);
+}
+
+.text[data-disabled="true"] {
+  color: var(--clr-text-tertiary);
+}
+
+.text[data-error="true"] {
+  color: var(--clr-info-error-default);
+}
+
+.rootInput {
+  margin: 0;
+  padding: 0px 1px;
+  box-sizing: border-box;
+}

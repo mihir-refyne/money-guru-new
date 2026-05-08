@@ -4,7 +4,9 @@ import CreditReportLayout from "./CreditReportLayout";
 import {
   CreditReport,
   CreditReportAnalysis,
+  CreditBureauVendor,
   isCreditScoreIncrementEffectShown,
+  CreditBureauFetchStatusEnum,
 } from "@/lib/credit-report";
 import CreditScore from "./CreditScore";
 import Modal from "../Modal";
@@ -27,6 +29,9 @@ interface CreditReportSummaryShortProps {
   creditReport: CreditReport | null;
   creditReportAnalysis: CreditReportAnalysis | null;
   error: Error | null;
+  isPending?: boolean;
+  vendor?: CreditBureauVendor;
+  lender?: string;
   onCtaClick: (navigateTo: string, webviewRoute?: string) => void;
   fetchedAt?: string;
   expiresAt?: string;
@@ -37,12 +42,17 @@ interface CreditReportSummaryShortProps {
   onMount?: (context: { rating?: string; hasExpired?: boolean }) => void;
   onRatingTagClick?: (rating?: string) => void;
   onRefetchClick?: () => void;
+  isConsumerNotFound?: boolean;
+  creditReportPullStatus?: CreditBureauFetchStatusEnum | null;
 }
 
 export default function CreditReportSummaryShort({
   creditReport,
   creditReportAnalysis,
   error,
+  isPending,
+  vendor,
+  lender,
   onCtaClick,
   fetchedAt,
   expiresAt,
@@ -53,6 +63,8 @@ export default function CreditReportSummaryShort({
   tools = [],
   onRatingTagClick,
   onRefetchClick,
+  isConsumerNotFound,
+  creditReportPullStatus,
 }: CreditReportSummaryShortProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
   const [isExplainerActive, setIsExplainerActive] = useState<boolean>(false);
@@ -124,17 +136,49 @@ export default function CreditReportSummaryShort({
   const isCreditScoreIncrementAnimationShown =
     isCreditScoreIncrementEffectShown();
 
+  // If consumer not found, only show CreditScore component (no banners, tools, etc.)
+  if (isConsumerNotFound) {
+    return (
+      <CreditReportLayout
+        navbarText={t("credit_score")}
+        transparentNavbar
+        hasContentPadding={false}
+        dispatchPopEventOnBackClick={directAccess}
+        vendor={vendor}
+        lender={lender}
+      >
+        <CreditScore
+          score={creditReport?.scoreDetails[0]}
+          scoreDifference={currentMonthScoreDifference}
+          error={error}
+          isPending={isPending}
+          fetchedAt={fetchedAt}
+          expiresAt={expiresAt}
+          hasExpired={hasExpired}
+          autoIncrementEffect={!isCreditScoreIncrementAnimationShown}
+          onTagClick={handleExplainerOpen}
+          onCtaClick={onCtaClick}
+          onRefetchClick={handleConsentDialogOpen}
+          isConsumerNotFound={isConsumerNotFound}
+        />
+      </CreditReportLayout>
+    );
+  }
+
   return (
     <CreditReportLayout
       navbarText={t("credit_score")}
       transparentNavbar
       hasContentPadding={false}
       dispatchPopEventOnBackClick={directAccess}
+      vendor={vendor}
+      lender={lender}
     >
       <CreditScore
         score={creditReport?.scoreDetails[0]}
         scoreDifference={currentMonthScoreDifference}
         error={error}
+        isPending={isPending}
         fetchedAt={fetchedAt}
         expiresAt={expiresAt}
         hasExpired={hasExpired}
@@ -142,6 +186,7 @@ export default function CreditReportSummaryShort({
         onTagClick={handleExplainerOpen}
         onCtaClick={onCtaClick}
         onRefetchClick={handleConsentDialogOpen}
+        creditReportPullStatus={creditReportPullStatus}
       />
       <div className="px-4">
         <InfoCard>

@@ -1,0 +1,45 @@
+.infoStep__bodyText {
+  margin-top: var(--spacing-2);
+  color: var(--clr-text-primary);
+}
+
+.infoStep__headingSmall {
+  margin: var(--spacing-8) var(--spacing-3) 0 var(--spacing-3);
+  color: var(--clr-text-primary);
+}
+
+.infoStep__card {
+  margin-top: var(--spacing-4);
+}
+
+.infoStep__inputContainer {
+  padding: var(--spacing-3);
+}
+
+.infoStep__inputContainer:not(:last-of-type) {
+  border-bottom: 1px solid var(--clr-border-enabled);
+}
+
+.infoStep__inputContainer:last-of-type {
+  margin-bottom: var(--spacing-4);
+}
+
+/* .infoStep__inputWrapper {
+  padding: 0 var(--spacing-3);
+} */
+
+.infoStep__inputField {
+  position: relative;
+}
+
+.infoStep__suffixIcon {
+  position: absolute;
+  right: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--clr-icon-accent-success);
+}
+
+.infoStep__input {
+  background-color: transparent;
+}

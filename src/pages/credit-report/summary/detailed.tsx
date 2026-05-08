@@ -9,6 +9,8 @@ import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import {
   getOrFetchCreditReportWithAnalysis,
   isCreditReportThereInSessionStorage,
+  handlePendingCreditReportResponse,
+  isAlternateNumberVerificationPending,
 } from "@/lib/credit-report";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import {
@@ -82,7 +84,12 @@ export default function CreditReportSummaryDetailedPage({
 
   useEffect(() => {
     if (isCreditReportThereInSessionStorage()) return;
-  }, []);
+    if (!data) return;
+
+    if (isAlternateNumberVerificationPending(data)) {
+      handlePendingCreditReportResponse(data);
+    }
+  }, [data, router]);
 
   // TODO: Get clarified if required
   function handleOnMount(context?: { rating?: string }) {
@@ -149,8 +156,12 @@ export default function CreditReportSummaryDetailedPage({
   }
 
   const directlyAccessed = !!router.query["direct"];
+  const isPending = isAlternateNumberVerificationPending(data);
 
-  if (isLoading) return <CreditReportLoading />;
+  if (isLoading || isPending) return <CreditReportLoading />;
+
+  if (!data || isAlternateNumberVerificationPending(data)) return null;
+
   if (!data?.report) return null;
 
   return (
