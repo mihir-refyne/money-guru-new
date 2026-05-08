@@ -197,21 +197,30 @@ export default function EpfTrackerStartPage() {
     return handleRouting(faqURL, faqRouteId);
   }
 
-  if (lastFetchedIdentifierValue && data?.requestId) {
-    const urlSearchQuery = new URLSearchParams();
-    urlSearchQuery.set("requestId", data.requestId);
-    urlSearchQuery.set("identifier", identifier);
-    urlSearchQuery.set("identifierValue", lastFetchedIdentifierValue);
-    if (data.message) {
-      urlSearchQuery.set("message", data.message);
+  // Navigate to verify page when OTP is sent successfully
+  useEffect(() => {
+    if (lastFetchedIdentifierValue && data?.requestId) {
+      // Set sessionStorage marker to indicate active OTP flow
+      sessionStorage.setItem("epf_otp_flow_active", "true");
+      
+      // Build query params
+      const urlSearchQuery = new URLSearchParams();
+      urlSearchQuery.set("requestId", data.requestId);
+      urlSearchQuery.set("identifier", identifier);
+      urlSearchQuery.set("identifierValue", lastFetchedIdentifierValue);
+      if (data.message) {
+        urlSearchQuery.set("message", data.message);
+      }
+      
+      // Navigate to verify page
+      const method = autoSubmit ? "replace" : "push";
+      router[method](`/epf-tracker/verify?${urlSearchQuery.toString()}`);
     }
-    return (
-      <Redirect
-        replace={autoSubmit}
-        to="/epf-tracker/verify"
-        query={Object.fromEntries(urlSearchQuery.entries())}
-      />
-    );
+  }, [lastFetchedIdentifierValue, data, identifier, autoSubmit, router]);
+
+  if (lastFetchedIdentifierValue && data?.requestId) {
+    // Show loading while redirecting
+    return null;
   }
 
   const directlyAccessed = !!router.query["direct"];
@@ -219,7 +228,6 @@ export default function EpfTrackerStartPage() {
   return (
     <>
       <EpfDetailsFetchStart
-        key={identifier}
         identifier={identifier}
         directlyAccessed={directlyAccessed}
         initialValue={formInitialValue}

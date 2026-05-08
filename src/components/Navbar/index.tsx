@@ -1,3 +1,4 @@
+import useTranslation from "@/hooks/useTranslation";
 import languageIconUrl from "@/images/language-icon.svg";
 import Image from "next/image";
 import { CaretLeft, ShareNetwork } from "phosphor-react";
@@ -20,6 +21,8 @@ interface NavbarProps {
   onLocaleChangeClick?: () => void;
   hasShare?: boolean;
   onShareClick?: () => void;
+  hasHelp?: boolean;
+  onHelpClick?: () => void;
 }
 
 export default function Navbar({
@@ -35,8 +38,11 @@ export default function Navbar({
   onLocaleChangeClick,
   hasShare = true,
   onShareClick,
+  hasHelp,
+  onHelpClick,
 }: NavbarProps) {
   const [navbarOpacity, setNavbarOpacity] = useState<number>(0);
+  const { t } = useTranslation();
 
   function handleOpacityChangeOnScroll() {
     const opacity = window.scrollY * MULTIPLYING_FACTOR;
@@ -101,6 +107,20 @@ export default function Navbar({
               color="var(--clr-brand-default)"
               size={20}
             />
+          </button>
+        )}
+        {hasHelp && (
+          <button
+            id="NAVBAR_HELP_BUTTON"
+            className={`${styles.NavbarContent__RightButton} btn-only-icon`}
+            onClick={onHelpClick}
+            style={{
+              WebkitTapHighlightColor: "transparent",
+            }}
+          >
+            <span className="text-heading-small text-semibold clr-text-link-enabled">
+              {t("help_money_guru_header")}
+            </span>
           </button>
         )}
       </div>
