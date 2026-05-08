@@ -41,7 +41,7 @@ export default function InfoStep({
               }}
               error={error}
               className={styles.infoStep__input}
-              label={t("alternate_number_input_label")}
+              label={t("cibil_alternate_number_input_label")}
             />
           </div>
         </div>
