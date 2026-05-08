@@ -31,7 +31,7 @@ import ResetFontBoostingScript from "@/scripts/ResetFontBoosting";
 import PlotlineScript from "@/scripts/plotline";
 import WebengageScript from "@/scripts/webengage";
 import "@/styles/globals.css";
-import { Inter } from "next/font/google";
+import { Inter } from "@next/font/google";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { NuqsAdapter } from "nuqs/adapters/next/pages";
@@ -49,7 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchAndSetUserUserMetadata(
-    data: Record<string, string | string[] | undefined>
+    data: Record<string, string | string[] | undefined>,
   ) {
     const { appPlatformName, userToken, userId, userName, userStatus } = data;
     try {
@@ -105,7 +105,7 @@ export default function App({ Component, pageProps }: AppProps) {
       {
         shallow: true,
         scroll: false,
-      }
+      },
     );
     setIsLoading(false);
   }
