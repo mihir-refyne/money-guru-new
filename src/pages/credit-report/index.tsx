@@ -23,6 +23,22 @@ export default function CreditReportIntroductionPage() {
   const isAlreadyViewed = isCreditReportIntroViewed();
 
   useEffect(() => {
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        // page restored from bfcache
+        window.location.reload();
+        // or trigger fetch/reset logic instead
+      }
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
+  useEffect(() => {
     if (isAlreadyViewed && isConsentProvided) {
       router.replace({
         pathname: "/credit-report/summary",
@@ -41,7 +57,7 @@ export default function CreditReportIntroductionPage() {
     if (!isConsentProvided) {
       setCreditReportIntroViewed();
       router.replace(
-        `${process.env.NEXT_PUBLIC_APP_BASE_URL}#/consent/credit-report?returnBack=true`
+        `${process.env.NEXT_PUBLIC_APP_BASE_URL}#/consent/credit-report?returnBack=true`,
       );
       return;
     }
