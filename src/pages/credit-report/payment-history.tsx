@@ -5,8 +5,8 @@ import CreditReportPaymentHistory from "@/components/CreditReport/CreditReportPa
 import useFetcher from "@/hooks/useFetcher";
 import {
   getOrFetchCreditReport,
-  handlePendingCreditReportResponse,
   isAlternateNumberVerificationPending,
+  handlePendingCreditReportResponse,
 } from "@/lib/credit-report";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
 import { AnalyticEvent } from "@/lib/analytics/events";
@@ -38,7 +38,7 @@ export default function CreditReportPaymentHistoryPage() {
 
   if (isLoading || isPending) return <CreditReportLoading />;
 
-  if (!data || "fetchCompleted" in data) return null;
+  if (!data || isAlternateNumberVerificationPending(data)) return null;
 
   return (
     <CreditReportPaymentHistory
