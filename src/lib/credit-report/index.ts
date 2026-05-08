@@ -157,6 +157,11 @@ export interface CreditReportAnalysis {
   };
 }
 
+export interface CreditConsentStatus {
+  expiresAt: string;
+  valid: boolean;
+}
+
 export interface CreditReportWithAnalysis extends CreditReportResponse {
   analysis?: CreditReportAnalysis;
 }
@@ -286,7 +291,7 @@ function runFetchCreditReportPreCheckOrThrow() {
 
 async function fetchCreditReport(
   cachePreferred: boolean,
-  idToken?: string
+  idToken?: string,
 ): Promise<CreditReportResponse | CreditReportPendingResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -297,7 +302,7 @@ async function fetchCreditReport(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   const response = creditReport.data;
   if (!response.fetchCompleted) {
@@ -307,7 +312,7 @@ async function fetchCreditReport(
 }
 
 export async function fetchEPFTrackerServiceAvailability(
-  idToken?: string
+  idToken?: string,
 ): Promise<"AVAILABLE" | "UNAVAILABLE" | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -321,7 +326,7 @@ export async function fetchEPFTrackerServiceAvailability(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   return response.data.status;
 }
@@ -335,7 +340,7 @@ export async function sendOtpForCreditReport(
     questionKey: string;
     answerKey: string;
   },
-  idToken?: string
+  idToken?: string,
 ): Promise<SendOtpResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -353,7 +358,7 @@ export async function sendOtpForCreditReport(
         alternateMobileNumber,
         requestContext,
       },
-    }
+    },
   );
   return response.data;
 }
@@ -367,7 +372,7 @@ export async function verifyOtpForCreditReport(
     questionKey: string;
     answerKey: string;
   },
-  idToken?: string
+  idToken?: string,
 ): Promise<VerifyOtpResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -385,12 +390,12 @@ export async function verifyOtpForCreditReport(
         otp,
         requestContext,
       },
-    }
+    },
   );
   return response.data;
 }
 async function fetchCreditReportMetadata(
-  idToken?: string
+  idToken?: string,
 ): Promise<CreditReportMetadataResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -401,7 +406,7 @@ async function fetchCreditReportMetadata(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   return creditReportMetadata.data;
 }
@@ -409,7 +414,7 @@ async function fetchCreditReportMetadata(
 async function fetchCreditReportAnalysis(
   fromMonthYear: string,
   toMonthYear: string,
-  idToken?: string
+  idToken?: string,
 ): Promise<CreditReportAnalysis | CreditReportAnalysisPendingResponse | null> {
   if (!idToken) idToken = getValueFromMetadata("idToken");
   if (!idToken) return null;
@@ -424,7 +429,7 @@ async function fetchCreditReportAnalysis(
       headers: {
         Authorization: `Bearer ${idToken}`,
       },
-    }
+    },
   );
   const response = creditReportAnalysis.data;
   if (!response.fetchCompleted) {
@@ -438,10 +443,10 @@ export function isCreditReportThereInSessionStorage(): boolean {
 }
 
 export async function getOrFetchCreditReport(
-  cachePreferred: boolean = true
+  cachePreferred: boolean = true,
 ): Promise<CreditReportResponse | CreditReportPendingResponse | null> {
   const creditReportRawFromStorage = getFromSessionStorage(
-    getSessionStorageKey()
+    getSessionStorageKey(),
   );
   try {
     if (creditReportRawFromStorage) {
@@ -474,12 +479,12 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
   // INFO: We are using the same local storage key as the object is just extended
   if (cachePreferred) {
     const creditReportRawFromStorage = getFromSessionStorage(
-      getSessionStorageKey()
+      getSessionStorageKey(),
     );
     try {
       if (creditReportRawFromStorage) {
         const cachedReport = JSON.parse(
-          creditReportRawFromStorage
+          creditReportRawFromStorage,
         ) as CreditReportWithAnalysis;
         // INFO: Check for new keys in cached objects
         if (cachedReport.analysis && "hasExpired" in cachedReport)
@@ -498,7 +503,7 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
   const creditReportAnalysis = await fetchCreditReportAnalysis(
     fromMonthYear,
     toMonthYear,
-    idToken
+    idToken,
   ).catch(() => null);
 
   // Handle pending response from analysis endpoint
@@ -517,13 +522,13 @@ export async function getOrFetchCreditReportWithAnalysis(context: {
   };
   setInSessionStorage(
     getSessionStorageKey(),
-    JSON.stringify(creditReportWithAnalysis)
+    JSON.stringify(creditReportWithAnalysis),
   );
   return creditReportWithAnalysis;
 }
 
 export async function fetchCreditReportMetadataAndReportIfActive(
-  idToken?: string
+  idToken?: string,
 ): Promise<{
   metadata: CreditReportMetadataResponse;
   reportResponse: CreditReportResponse | null;
@@ -542,14 +547,14 @@ export async function fetchCreditReportMetadataAndReportIfActive(
 
 export function isCreditScoreIncrementEffectShown(): boolean {
   return !!getFromSessionStorage(
-    USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY
+    USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
   );
 }
 
 export function setCreditScoreIncrementEffectShown() {
   setInSessionStorage(
     USER_CREDIT_SCORE_INCREMENT_EFFECT_SHOWN_STORAGE_KEY,
-    Date.now().toString()
+    Date.now().toString(),
   );
 }
 
@@ -566,7 +571,7 @@ export interface CreditBureauChallengeContext {
 export function handlePendingCreditReportResponse(
   pendingResponse:
     | CreditReportPendingResponse
-    | CreditReportAnalysisPendingResponse
+    | CreditReportAnalysisPendingResponse,
 ): CreditBureauChallengeContext | null {
   const challengeData = pendingResponse.data.sendOtpChallenge;
   if (!challengeData) return null;
@@ -594,7 +599,7 @@ export function handlePendingCreditReportResponse(
 }
 
 export function isAlternateNumberVerificationPending(
-  data: unknown
+  data: unknown,
 ): data is CreditReportPendingResponse | CreditReportAnalysisPendingResponse {
   return (
     data !== null &&
@@ -606,4 +611,19 @@ export function isAlternateNumberVerificationPending(
     data.data !== null &&
     "sendOtpChallenge" in data.data
   );
+}
+
+export async function getCreditBureauConsent(): Promise<boolean> {
+  const idToken = getValueFromMetadata("idToken");
+  if (!idToken) return false;
+  runFetchCreditReportPreCheckOrThrow();
+  const creditConsentStatus = await fetcher<CreditConsentStatus>(
+    `${CORE_SERVER_BASE_URL}/credit-bureau/consent-status/pull`,
+    {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    },
+  );
+  return creditConsentStatus?.data?.valid ?? false;
 }
