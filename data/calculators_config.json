@@ -54,12 +54,6 @@
     "defaultTenureYears": 15,
     "maxYearlyContribution": 150000
   },
-  "ssy": {
-    "ratePercent": 8.2,
-    "depositYears": 15,
-    "maturityYears": 21,
-    "maxYearlyContribution": 150000
-  },
   "nps": {
     "assumedAnnualReturnPercent": 10,
     "minAnnuityPercent": 40,
@@ -74,9 +68,5 @@
   "retirementCorpus": {
     "defaultPostRetirementYears": 20,
     "defaultPreRetirementReturnPercent": 10
-  },
-  "termInsurance": {
-    "baseIncomeMultiplier": 10,
-    "perDependentMultiplier": 2
   }
 }

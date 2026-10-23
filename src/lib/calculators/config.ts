@@ -44,12 +44,6 @@ export interface CalculatorsConfig {
     defaultTenureYears: number;
     maxYearlyContribution: number;
   };
-  ssy: {
-    ratePercent: number;
-    depositYears: number;
-    maturityYears: number;
-    maxYearlyContribution: number;
-  };
   nps: {
     assumedAnnualReturnPercent: number;
     minAnnuityPercent: number;
@@ -64,10 +58,6 @@ export interface CalculatorsConfig {
   retirementCorpus: {
     defaultPostRetirementYears: number;
     defaultPreRetirementReturnPercent: number;
-  };
-  termInsurance: {
-    baseIncomeMultiplier: number;
-    perDependentMultiplier: number;
   };
 }
 

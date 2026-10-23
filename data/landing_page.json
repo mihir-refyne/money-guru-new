@@ -347,12 +347,6 @@
           "title": "money_guru_debt_payoff_calculator_title",
           "imageUrl": "/assets/images/warn-circle-yellow-icon.svg",
           "url": "/calculators/debt-payoff"
-        },
-        {
-          "name": "flat_vs_reducing_rate_calculator",
-          "title": "money_guru_flat_vs_reducing_calculator_title",
-          "imageUrl": "/assets/images/info-blue-icon.svg",
-          "url": "/calculators/flat-vs-reducing-rate"
         }
       ]
     },
@@ -431,24 +425,6 @@
           "title": "money_guru_gratuity_calculator_title",
           "imageUrl": "/assets/images/home_icon.svg",
           "url": "/calculators/gratuity"
-        },
-        {
-          "name": "ssy_calculator",
-          "title": "money_guru_ssy_calculator_title",
-          "imageUrl": "/assets/images/speedometer_icon.svg",
-          "url": "/calculators/ssy"
-        }
-      ]
-    },
-    {
-      "name": "protection",
-      "titleKey": "money_guru_calculator_category_protection",
-      "calculators": [
-        {
-          "name": "term_insurance_calculator",
-          "title": "money_guru_term_insurance_calculator_title",
-          "imageUrl": "/assets/images/dark-yellow-warning.svg",
-          "url": "/calculators/term-insurance"
         }
       ]
     }
