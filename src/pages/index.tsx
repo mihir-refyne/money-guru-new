@@ -6,7 +6,6 @@ import LearningModulePreview from "@/components/LearningModule/LearningModulePre
 import PageLayout from "@/components/PageLayout";
 import SegmentedControl from "@/components/SegmentedControl";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
-import TrackerTileWrapper from "@/components/TrackerTile/TrackerTileWrapper";
 import { ScreenName } from "@/constants/ScreenName";
 import useFetcher from "@/hooks/useFetcher";
 import { useSurveyTrigger } from "@/hooks/useSurveyTrigger";
@@ -55,11 +54,10 @@ enum DashboardComponent {
 const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
   DashboardComponent.STICKY_BANNERS,
   DashboardComponent.CAROUSEL_BANNERS,
-  DashboardComponent.IMAGE_BANNER,
 ];
 
 type MoneyGuruSide = "learn" | "tools";
-const DEFAULT_SIDE: MoneyGuruSide = "learn";
+const DEFAULT_SIDE: MoneyGuruSide = "tools";
 
 export default function HomePage({ shorts: oldShorts }: HomePageProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
@@ -88,7 +86,7 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
   const router = useRouter();
 
   const activeSide: MoneyGuruSide =
-    router.query.side === "tools" ? "tools" : DEFAULT_SIDE;
+    router.query.side === "learn" ? "learn" : DEFAULT_SIDE;
 
   const _carouselBanners: Array<
     BannerProps & { name: string; releaseConfig?: ReleaseConfig }
@@ -175,16 +173,6 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
     router.push(_url);
   }
 
-  function handleToolsSideClick(name: string, url: string) {
-    handleFinToolClick(name, url);
-    if (name === "credit_score") {
-      logMoneyGuruEvent(AnalyticEvent.CREDIT_SCORE_VIEWED);
-    }
-    if (name === "coaching") {
-      logMoneyGuruEvent(AnalyticEvent.COACHING_CLICKED);
-    }
-  }
-
   function handleBannerClick(name: string) {
     setLoadingWithTimeoutToReset(true);
     logEventInMixpanel(AnalyticEvent.FIN_LITERACY_BANNER_CLICKED, {
@@ -218,21 +206,6 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
       hash: id,
     });
   }
-
-  const finLiteracyTrackers = useMemo(
-    () =>
-      config.trackers.filter((tool: any) => {
-        const releaseConfigs = tool.releaseConfigs;
-        if (!Array.isArray(releaseConfigs)) return true;
-        return releaseConfigs.some((releaseConfig) =>
-          checkIfFeatureEnabledByReleaseConfig(releaseConfig, {
-            employerId,
-            workerId,
-          }),
-        );
-      }),
-    [config.trackers, employerId, workerId],
-  );
 
   const stickyBanners = config.stickyBanners.filter((banner: any) =>
     checkIfFeatureEnabledByReleaseConfig(banner.releaseConfig, {
@@ -336,29 +309,23 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
       </>
     ) : null,
     CAROUSEL_BANNERS: hasCarouselBanners ? (
-      <div className={`${carouselBanners.length > 1 ? "px-0" : ""}`}>
-        <Carousel
-          autoPlay={!!carouselBannerAutoPlayDurationInMs}
-          infiniteLoop
-          centerMode
-          centerSlidePercentage={90}
-          interval={carouselBannerAutoPlayDurationInMs}
-        >
-          {carouselBanners.map((banner, index) => (
-            <Banner
-              key={index}
-              {...banner}
-              heading={banner.heading && tWithoutTypeSafety(banner.heading)}
-              description={
-                banner.description && tWithoutTypeSafety(banner.description)
-              }
-              ctaLabel={banner.ctaLabel && tWithoutTypeSafety(banner.ctaLabel)}
-              hasHorizontalMargin={carouselBanners.length > 1}
-              onClick={handleCarouselBannerClick(banner.name, "carousel")}
-            />
-          ))}
-        </Carousel>
-      </div>
+      <Banner
+        {...carouselBanners[0]}
+        heading={
+          carouselBanners[0].heading &&
+          tWithoutTypeSafety(carouselBanners[0].heading)
+        }
+        description={
+          carouselBanners[0].description &&
+          tWithoutTypeSafety(carouselBanners[0].description)
+        }
+        ctaLabel={
+          carouselBanners[0].ctaLabel &&
+          tWithoutTypeSafety(carouselBanners[0].ctaLabel)
+        }
+        hasHorizontalMargin={false}
+        onClick={handleCarouselBannerClick(carouselBanners[0].name, "carousel")}
+      />
     ) : null,
     IMAGE_BANNER: imageBanner ? (
       <div>
@@ -421,13 +388,6 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
 
   const toolsSideContent = (
     <>
-      <h3 className="text-body text-semibold">
-        {t("mongu_dashboard_trackers_title")}
-      </h3>
-      <TrackerTileWrapper
-        onClick={handleToolsSideClick}
-        trackers={finLiteracyTrackers}
-      />
       {config.calculatorCategories
         .filter((category) => category.calculators.length > 0)
         .map((category) => (
@@ -437,7 +397,7 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
             </h3>
             <CalculatorTiles
               calculators={category.calculators}
-              onCalculatorClick={handleToolsSideClick}
+              onCalculatorClick={handleFinToolClick}
             />
           </div>
         ))}
@@ -447,7 +407,6 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
   return (
     <PageLayout
       navbarText="Money Guru"
-      transparentNavbar
       hasContentPadding
       dispatchPopEventOnBackClick={isWebviewInsideRefyneApp}
       pageBackground="#F7F7F7"
@@ -475,8 +434,8 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
           value={activeSide}
           onChange={handleSideChange}
           options={[
-            { value: "learn", label: t("money_guru_side_learn_label") },
             { value: "tools", label: t("money_guru_side_tools_label") },
+            { value: "learn", label: t("money_guru_side_learn_label") },
           ]}
         />
       </div>

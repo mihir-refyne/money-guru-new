@@ -23,7 +23,7 @@
       "name": "pf",
       "descriptionText": "pf_tracker_tool_description",
       "descriptionHighlightText": "pf_tracker_tool_description_highlight_text",
-      "imageUrl": "/assets/images/passbook-icon.svg ",
+      "imageUrl": "/assets/images/passbook-icon.svg",
       "tag": {
         "text": "new",
         "textColor": "var(--clr-pure-white)",
@@ -309,13 +309,13 @@
         {
           "name": "ctc_to_in_hand_calculator",
           "title": "money_guru_ctc_calculator_title",
-          "imageUrl": "/assets/images/calculator-rupee-icon.svg",
+          "imageUrl": "/assets/images/briefcase_icon.svg",
           "url": "/calculators/ctc-to-in-hand"
         },
         {
           "name": "hra_exemption_calculator",
           "title": "money_guru_hra_calculator_title",
-          "imageUrl": "/assets/images/tax_calculator_icon.svg",
+          "imageUrl": "/assets/images/calculator-percentage-icon.svg",
           "url": "/calculators/hra-exemption"
         }
       ]
@@ -333,20 +333,26 @@
         {
           "name": "loan_emi_calculator",
           "title": "money_guru_loan_emi_calculator_title",
-          "imageUrl": "/assets/images/credit_tool_emi_calculator_icon.svg",
+          "imageUrl": "/assets/images/speedometer_icon.svg",
           "url": "/calculators/loan-emi"
         },
         {
           "name": "loan_prepayment_calculator",
           "title": "money_guru_loan_prepayment_calculator_title",
-          "imageUrl": "/assets/images/credit_tool_emi_calculator_icon.svg",
+          "imageUrl": "/assets/images/calculator-work-icon.svg",
           "url": "/calculators/loan-prepayment"
         },
         {
           "name": "debt_payoff_calculator",
           "title": "money_guru_debt_payoff_calculator_title",
-          "imageUrl": "/assets/images/wallet-warning.svg",
+          "imageUrl": "/assets/images/warn-circle-yellow-icon.svg",
           "url": "/calculators/debt-payoff"
+        },
+        {
+          "name": "flat_vs_reducing_rate_calculator",
+          "title": "money_guru_flat_vs_reducing_calculator_title",
+          "imageUrl": "/assets/images/info-blue-icon.svg",
+          "url": "/calculators/flat-vs-reducing-rate"
         }
       ]
     },
@@ -359,18 +365,92 @@
           "title": "fd_calculator_tool_title",
           "imageUrl": "/assets/images/fixed-deposit.svg",
           "url": "https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
+        },
+        {
+          "name": "sip_goal_planner_calculator",
+          "title": "money_guru_sip_calculator_title",
+          "imageUrl": "/assets/images/fund_icon.svg",
+          "url": "/calculators/sip-goal-planner"
+        },
+        {
+          "name": "lumpsum_calculator",
+          "title": "money_guru_lumpsum_calculator_title",
+          "imageUrl": "/assets/images/calculator-rupee-icon.svg",
+          "url": "/calculators/lumpsum"
+        },
+        {
+          "name": "emergency_fund_calculator",
+          "title": "money_guru_emergency_fund_calculator_title",
+          "imageUrl": "/assets/images/wallet-warning.svg",
+          "url": "/calculators/emergency-fund"
+        },
+        {
+          "name": "rd_calculator",
+          "title": "money_guru_rd_calculator_title",
+          "imageUrl": "/assets/images/credit-score-meter-icon.svg",
+          "url": "/calculators/rd"
+        },
+        {
+          "name": "future_cost_calculator",
+          "title": "money_guru_future_cost_calculator_title",
+          "imageUrl": "/assets/images/dark-yellow-warning.svg",
+          "url": "/calculators/future-cost"
+        },
+        {
+          "name": "swp_calculator",
+          "title": "money_guru_swp_calculator_title",
+          "imageUrl": "/assets/images/retirement_cal_icon.svg",
+          "url": "/calculators/swp"
         }
       ]
     },
     {
       "name": "retirement",
       "titleKey": "money_guru_calculator_category_retirement",
-      "calculators": []
+      "calculators": [
+        {
+          "name": "retirement_corpus_calculator",
+          "title": "money_guru_retirement_corpus_calculator_title",
+          "imageUrl": "/assets/images/retirement-plan.svg",
+          "url": "/calculators/retirement-corpus"
+        },
+        {
+          "name": "ppf_calculator",
+          "title": "money_guru_ppf_calculator_title",
+          "imageUrl": "/assets/images/briefcase_icon.svg",
+          "url": "/calculators/ppf"
+        },
+        {
+          "name": "nps_calculator",
+          "title": "money_guru_nps_calculator_title",
+          "imageUrl": "/assets/images/calculator-work-icon.svg",
+          "url": "/calculators/nps"
+        },
+        {
+          "name": "gratuity_calculator",
+          "title": "money_guru_gratuity_calculator_title",
+          "imageUrl": "/assets/images/home_icon.svg",
+          "url": "/calculators/gratuity"
+        },
+        {
+          "name": "ssy_calculator",
+          "title": "money_guru_ssy_calculator_title",
+          "imageUrl": "/assets/images/speedometer_icon.svg",
+          "url": "/calculators/ssy"
+        }
+      ]
     },
     {
       "name": "protection",
       "titleKey": "money_guru_calculator_category_protection",
-      "calculators": []
+      "calculators": [
+        {
+          "name": "term_insurance_calculator",
+          "title": "money_guru_term_insurance_calculator_title",
+          "imageUrl": "/assets/images/dark-yellow-warning.svg",
+          "url": "/calculators/term-insurance"
+        }
+      ]
     }
   ],
   "carouselBanner": {
@@ -646,7 +726,7 @@
   },
   "componentsOrderConfig": [
     {
-      "order": ["IMAGE_BANNER", "CAROUSEL_BANNERS"]
+      "order": ["CAROUSEL_BANNERS"]
     }
   ],
   "imagesBannerConfig": {

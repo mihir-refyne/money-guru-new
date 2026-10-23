@@ -53,7 +53,7 @@ export default function CalculatorTiles({
           >
             <img
               src={tool.imageUrl}
-              alt={tool.name}
+              alt=""
               className={styles.Calculator__Tile__Image}
             />
             <article

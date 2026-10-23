@@ -33,5 +33,50 @@
       { "value": "car", "labelKey": "money_guru_loan_type_car", "defaultRatePercent": 9.5 },
       { "value": "two_wheeler", "labelKey": "money_guru_loan_type_two_wheeler", "defaultRatePercent": 14.5 }
     ]
+  },
+  "sip": {
+    "assumedAnnualReturnPercent": 12
+  },
+  "lumpsum": {
+    "assumedAnnualReturnPercent": 12
+  },
+  "rd": {
+    "assumedAnnualReturnPercent": 6.5
+  },
+  "emergencyFund": {
+    "recommendedMonthsOfCoverage": 6
+  },
+  "inflation": {
+    "defaultRatePercent": 6
+  },
+  "ppf": {
+    "ratePercent": 7.1,
+    "defaultTenureYears": 15,
+    "maxYearlyContribution": 150000
+  },
+  "ssy": {
+    "ratePercent": 8.2,
+    "depositYears": 15,
+    "maturityYears": 21,
+    "maxYearlyContribution": 150000
+  },
+  "nps": {
+    "assumedAnnualReturnPercent": 10,
+    "minAnnuityPercent": 40,
+    "assumedAnnuityRatePercent": 6,
+    "retirementAge": 60
+  },
+  "gratuity": {
+    "minYearsOfServiceForEligibility": 5,
+    "numeratorDays": 15,
+    "divisor": 26
+  },
+  "retirementCorpus": {
+    "defaultPostRetirementYears": 20,
+    "defaultPreRetirementReturnPercent": 10
+  },
+  "termInsurance": {
+    "baseIncomeMultiplier": 10,
+    "perDependentMultiplier": 2
   }
 }

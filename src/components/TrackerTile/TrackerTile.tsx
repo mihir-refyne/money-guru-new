@@ -57,7 +57,7 @@ export default function TrackerTile({
           flexDirection: ORIENTATION_TO_FLEX_DIRECTION_MAP[orientation],
         }}
       >
-        <img src={imageUrl} alt="credt tracker" />
+        <img src={imageUrl} alt="" />
         <div>
           <h2 className="text-heading text-semibold">
             {tWithoutTypeSafety(headingText)}

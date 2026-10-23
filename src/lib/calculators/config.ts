@@ -34,6 +34,41 @@ export interface CalculatorsConfig {
       defaultRatePercent: number;
     }>;
   };
+  sip: { assumedAnnualReturnPercent: number };
+  lumpsum: { assumedAnnualReturnPercent: number };
+  rd: { assumedAnnualReturnPercent: number };
+  emergencyFund: { recommendedMonthsOfCoverage: number };
+  inflation: { defaultRatePercent: number };
+  ppf: {
+    ratePercent: number;
+    defaultTenureYears: number;
+    maxYearlyContribution: number;
+  };
+  ssy: {
+    ratePercent: number;
+    depositYears: number;
+    maturityYears: number;
+    maxYearlyContribution: number;
+  };
+  nps: {
+    assumedAnnualReturnPercent: number;
+    minAnnuityPercent: number;
+    assumedAnnuityRatePercent: number;
+    retirementAge: number;
+  };
+  gratuity: {
+    minYearsOfServiceForEligibility: number;
+    numeratorDays: number;
+    divisor: number;
+  };
+  retirementCorpus: {
+    defaultPostRetirementYears: number;
+    defaultPreRetirementReturnPercent: number;
+  };
+  termInsurance: {
+    baseIncomeMultiplier: number;
+    perDependentMultiplier: number;
+  };
 }
 
 export default calculatorsConfig as CalculatorsConfig;
