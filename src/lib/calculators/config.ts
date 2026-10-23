@@ -27,6 +27,13 @@ export interface CalculatorsConfig {
     nonMetroExemptionPercentOfBasic: number;
     rentThresholdPercentOfBasic: number;
   };
+  loanEmi: {
+    loanTypes: Array<{
+      value: string;
+      labelKey: string;
+      defaultRatePercent: number;
+    }>;
+  };
 }
 
 export default calculatorsConfig as CalculatorsConfig;

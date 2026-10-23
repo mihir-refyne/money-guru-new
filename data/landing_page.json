@@ -295,24 +295,82 @@
       "url": "/fincoach"
     }
   ],
-  "calculators": [
+  "calculatorCategories": [
     {
-      "name": "homeloan_emi_calculator",
-      "title": "home_loan_emi_calculator_tool_title",
-      "imageUrl": "/assets/images/home-loan.svg",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
+      "name": "salary_tax",
+      "titleKey": "money_guru_calculator_category_salary_tax",
+      "calculators": [
+        {
+          "name": "tax_calculator",
+          "title": "tax_calculator_tool_title",
+          "imageUrl": "/assets/images/income-tax.svg",
+          "url": "https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
+        },
+        {
+          "name": "ctc_to_in_hand_calculator",
+          "title": "money_guru_ctc_calculator_title",
+          "imageUrl": "/assets/images/calculator-rupee-icon.svg",
+          "url": "/calculators/ctc-to-in-hand"
+        },
+        {
+          "name": "hra_exemption_calculator",
+          "title": "money_guru_hra_calculator_title",
+          "imageUrl": "/assets/images/tax_calculator_icon.svg",
+          "url": "/calculators/hra-exemption"
+        }
+      ]
     },
     {
-      "name": "tax_calculator",
-      "title": "tax_calculator_tool_title",
-      "imageUrl": "/assets/images/income-tax.svg",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/income-tax-calculator"
+      "name": "loans_debt",
+      "titleKey": "money_guru_calculator_category_loans_debt",
+      "calculators": [
+        {
+          "name": "homeloan_emi_calculator",
+          "title": "home_loan_emi_calculator_tool_title",
+          "imageUrl": "/assets/images/home-loan.svg",
+          "url": "https://financialcoachingv0-1.bubbleapps.io/home-loan-emi-calculator"
+        },
+        {
+          "name": "loan_emi_calculator",
+          "title": "money_guru_loan_emi_calculator_title",
+          "imageUrl": "/assets/images/credit_tool_emi_calculator_icon.svg",
+          "url": "/calculators/loan-emi"
+        },
+        {
+          "name": "loan_prepayment_calculator",
+          "title": "money_guru_loan_prepayment_calculator_title",
+          "imageUrl": "/assets/images/credit_tool_emi_calculator_icon.svg",
+          "url": "/calculators/loan-prepayment"
+        },
+        {
+          "name": "debt_payoff_calculator",
+          "title": "money_guru_debt_payoff_calculator_title",
+          "imageUrl": "/assets/images/wallet-warning.svg",
+          "url": "/calculators/debt-payoff"
+        }
+      ]
     },
     {
-      "name": "fixed_deposit_calculator",
-      "title": "fd_calculator_tool_title",
-      "imageUrl": "/assets/images/fixed-deposit.svg",
-      "url": "https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
+      "name": "saving_investing",
+      "titleKey": "money_guru_calculator_category_saving_investing",
+      "calculators": [
+        {
+          "name": "fixed_deposit_calculator",
+          "title": "fd_calculator_tool_title",
+          "imageUrl": "/assets/images/fixed-deposit.svg",
+          "url": "https://financialcoachingv0-1.bubbleapps.io/fixed-deposit-calculator"
+        }
+      ]
+    },
+    {
+      "name": "retirement",
+      "titleKey": "money_guru_calculator_category_retirement",
+      "calculators": []
+    },
+    {
+      "name": "protection",
+      "titleKey": "money_guru_calculator_category_protection",
+      "calculators": []
     }
   ],
   "carouselBanner": {

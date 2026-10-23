@@ -1,5 +1,6 @@
 import { logAnalyticsEvent } from "../analytics";
 import { AnalyticEvent } from "../analytics/events";
+import { calculateEMI, calculatePresentValue } from "../calculators/emi";
 
 export interface InputContainerProps {
   value?: string | number;
@@ -145,50 +146,6 @@ export type LeaseCalculatorOutput = {
     leaseRentals: number; // Step 13
   };
 };
-
-/**
- * Calculates the EMI (Equated Monthly Installment) for a loan
- * @param principal The loan amount
- * @param ratePerAnnum Annual interest rate (in percentage)
- * @param tenureMonths Loan tenure in months
- * @returns Monthly EMI amount
- */
-function calculateEMI(
-  principal: number,
-  ratePerAnnum: number,
-  tenureMonths: number
-): number {
-  // Convert annual interest rate to monthly rate
-  const monthlyRate = ratePerAnnum / 12 / 100;
-
-  // Calculate EMI using the formula: P * r * (1+r)^n / ((1+r)^n - 1)
-  const emi =
-    (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-    (Math.pow(1 + monthlyRate, tenureMonths) - 1);
-
-  return emi;
-}
-
-/**
- * Calculates the present value (PV) of a future sum
- * @param futureValue Future value amount
- * @param ratePerAnnum Annual interest rate (in percentage)
- * @param tenureMonths Time period in months
- * @returns Present value of the future sum
- */
-function calculatePresentValue(
-  futureValue: number,
-  ratePerAnnum: number,
-  tenureMonths: number
-): number {
-  // Convert annual interest rate to monthly rate
-  const monthlyRate = ratePerAnnum / 12 / 100;
-
-  // Calculate PV using the formula: FV / (1+r)^n
-  const pv = futureValue / Math.pow(1 + monthlyRate, tenureMonths);
-
-  return pv;
-}
 
 /**
  * Calculates car lease details based on user inputs

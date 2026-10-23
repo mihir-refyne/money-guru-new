@@ -428,13 +428,19 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
         onClick={handleToolsSideClick}
         trackers={finLiteracyTrackers}
       />
-      <h3 className="text-body text-semibold mt-6">
-        {t("mongu_dashboard_calculators_title")}
-      </h3>
-      <CalculatorTiles
-        calculators={config.calculators}
-        onCalculatorClick={handleToolsSideClick}
-      />
+      {config.calculatorCategories
+        .filter((category) => category.calculators.length > 0)
+        .map((category) => (
+          <div key={category.name} className="mt-6">
+            <h3 className="text-body text-semibold">
+              {tWithoutTypeSafety(category.titleKey)}
+            </h3>
+            <CalculatorTiles
+              calculators={category.calculators}
+              onCalculatorClick={handleToolsSideClick}
+            />
+          </div>
+        ))}
     </>
   );
 

@@ -26,5 +26,12 @@
     "metroExemptionPercentOfBasic": 50,
     "nonMetroExemptionPercentOfBasic": 40,
     "rentThresholdPercentOfBasic": 10
+  },
+  "loanEmi": {
+    "loanTypes": [
+      { "value": "personal", "labelKey": "money_guru_loan_type_personal", "defaultRatePercent": 13.5 },
+      { "value": "car", "labelKey": "money_guru_loan_type_car", "defaultRatePercent": 9.5 },
+      { "value": "two_wheeler", "labelKey": "money_guru_loan_type_two_wheeler", "defaultRatePercent": 14.5 }
+    ]
   }
 }
