@@ -116,4 +116,21 @@ export enum AnalyticEvent {
 
   CAR_LEASE_USER_DETAILS_DATA = "CAR_LEASE_USER_DETAILS_DATA",
   CAR_LEASE_TAX_SUMMARY_DATA = "CAR_LEASE_TAX_SUMMARY_DATA",
+
+  // Money Guru Learn/Tools restructure + session QR deep link
+  // NOTE: SIGNUP_COMPLETED / LOGIN_COMPLETED are fired by the native Refyne
+  // app (sign-up/login happen entirely outside this webview) — listed here
+  // only so the event name is shared/documented for that handoff.
+  DEEPLINK_OPENED = "DEEPLINK_OPENED",
+  SIGNUP_COMPLETED = "SIGNUP_COMPLETED",
+  LOGIN_COMPLETED = "LOGIN_COMPLETED",
+  MONEY_GURU_VIEWED = "MONEY_GURU_VIEWED",
+  SIDE_SWITCHED = "SIDE_SWITCHED",
+  NEWS_OPENED = "NEWS_OPENED",
+  MODULE_OPENED = "MODULE_OPENED",
+  PF_VIEWED = "PF_VIEWED",
+  CALCULATOR_RUN = "CALCULATOR_RUN",
+  CREDIT_SCORE_VIEWED = "CREDIT_SCORE_VIEWED",
+  NEXT_STEP_CLICKED = "NEXT_STEP_CLICKED",
+  COACHING_CLICKED = "COACHING_CLICKED",
 }

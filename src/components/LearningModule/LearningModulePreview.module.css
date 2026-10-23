@@ -1,0 +1,44 @@
+.LearningModulePreview {
+  margin-top: var(--spacing-6);
+}
+
+.LearningModulePreview__Header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.LearningModulePreview__ViewAll {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--clr-brand-default);
+  text-decoration: none;
+}
+
+.LearningModulePreview__Grid {
+  margin-top: var(--spacing-3);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-3);
+}
+
+.LearningModulePreview__EmptyState {
+  margin-top: var(--spacing-3);
+  padding: var(--spacing-4);
+  border: 1px dashed var(--clr-border-enabled);
+  border-radius: var(--spacing-2);
+  text-align: center;
+}
+
+.LearningModulePreview__CalculatorLink {
+  margin-top: var(--spacing-1);
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--clr-brand-default);
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: left;
+  padding: 0;
+  cursor: pointer;
+}

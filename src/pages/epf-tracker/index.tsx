@@ -14,6 +14,7 @@ import useTranslation from "@/hooks/useTranslation";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { logMoneyGuruEvent } from "@/lib/analytics/money-guru";
 import { getCoreServerErrorMessageFromFetcherError } from "@/lib/core-server";
 import { getValueFromMetadata } from "@/lib/core/user-metadata";
 import { fetchEPFTrackerServiceAvailability } from "@/lib/credit-report";
@@ -63,6 +64,11 @@ export default function EpfTrackerSummaryPage() {
   const isRefyneWebview = isCurrentlyOnRefyneWebview(appPlatformName);
 
   const directlyAccessed = !!router.query["direct"];
+  // Both the Money Guru dashboard tile and the native app's "Refyne
+  // Services" PF menu item open this same screen; entry_point tells them
+  // apart in analytics. Defaults to money_guru since that's the only entry
+  // point that doesn't pass it explicitly today.
+  const entryPoint = router.query["entry_point"]?.toString() ?? "money_guru";
 
   // Fetch EPF details when session status indicates we should
   useEffect(() => {
@@ -97,6 +103,7 @@ export default function EpfTrackerSummaryPage() {
       ["mixpanel", "webengage"],
       AnalyticEvent.EPF_DASHBOARD_SCREEN,
     );
+    logMoneyGuruEvent(AnalyticEvent.PF_VIEWED, { entry_point: entryPoint });
   }
 
   function handlePendingViewMount() {

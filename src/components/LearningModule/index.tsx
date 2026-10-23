@@ -1,17 +1,10 @@
-import LearningModuleData from "../../../data/learning_module.json";
 import styles from "./LearningModule.module.css";
 
-import { useRouter } from "next/router";
 import { LearningModuleLayout } from "./LearningModuleLayout/LearningModuleLayout";
 
-import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
-import { AnalyticEvent } from "@/lib/analytics/events";
-import {
-  LearningModuleType,
-  LearningModuleTypeResponseProps,
-} from "@/lib/utils/learningModulesFetcher";
+import { LearningModuleTypeResponseProps } from "@/lib/utils/learningModulesFetcher";
 import VideoFillerBanner from "../VideoFillerBanner/VideoFillerBanner";
-import Image from "next/image";
+import LearningModuleGridItem from "./LearningModuleGridItem";
 
 export default function LearningModule({
   learningModulesResponse,
@@ -53,32 +46,3 @@ export default function LearningModule({
     </LearningModuleLayout>
   );
 }
-
-const LearningModuleGridItem = ({ module }: { module: LearningModuleType }) => {
-  const router = useRouter();
-
-  function onClickModuleHandler({ id }: { id: number }) {
-    logEventInMixpanel(AnalyticEvent.MONEY_GURU_LEARNING_MODULE_VIEWED, {
-      moduleName: module.title,
-    });
-    router.push(`/learning-module/${id}`);
-  }
-
-  return (
-    <div
-      className={styles.gridItem}
-      onClick={() => onClickModuleHandler({ id: module.id })}
-    >
-      <Image
-        width={200}
-        height={200}
-        src={module.image ?? LearningModuleData.moduleSubPlaceHolder}
-        alt="learning_module"
-        layout="responsive"
-        sizes="(max-width: 768px) 100vw, 50vw"
-      />
-      <p className={styles.moduleTitle}>{module.title}</p>
-      <p className={styles.chapterCount}>{module.chapters.length} Chapters</p>
-    </div>
-  );
-};

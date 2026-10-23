@@ -1,0 +1,26 @@
+.SegmentedControl {
+  display: flex;
+  background: var(--clr-background-surface);
+  border-radius: var(--spacing-2);
+  padding: var(--spacing-1);
+  gap: var(--spacing-1);
+}
+
+.SegmentedControl__Option {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--spacing-1);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.SegmentedControl__Option--active {
+  background: var(--clr-background-enabled);
+  color: var(--clr-brand-default);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}

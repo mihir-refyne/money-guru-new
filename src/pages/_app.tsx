@@ -7,6 +7,8 @@ import {
   setMixpanelGlobalProperties,
   setUserIdInMixpanel,
 } from "@/lib/analytics/mixpanel";
+import { logMoneyGuruEvent } from "@/lib/analytics/money-guru";
+import { AnalyticEvent } from "@/lib/analytics/events";
 import {
   initializePlotline,
   setLocaleInPlotline,
@@ -20,6 +22,7 @@ import {
 } from "@/lib/analytics/webengage";
 import { getAndSetUserMetadataFromServer } from "@/lib/core/user";
 import { getUserMetadata, setUserMetadata } from "@/lib/core/user-metadata";
+import { setMoneyGuruDeepLinkContext } from "@/lib/core/money-guru-session";
 import { getOrUpdatePreferredLocale } from "@/lib/locale";
 import {
   getPlatformName,
@@ -96,6 +99,21 @@ export default function App({ Component, pageProps }: AppProps) {
       setWebengageGlobalProperties("platform", platform);
       setPlotlineGlobalProperties("platform", platform);
     }
+
+    // Session QR deep link: ?session_id=...&employer_id=... opens Money
+    // Guru. Persisted for the length of this session so later events
+    // (pf_viewed, calculator_run, ...) can carry them via logMoneyGuruEvent.
+    const { session_id: sessionId, employer_id: employerId } = router.query;
+    if (isStringAndNotEmpty(sessionId)) {
+      setMoneyGuruDeepLinkContext({
+        sessionId: sessionId.toString(),
+        employerId: isStringAndNotEmpty(employerId)
+          ? employerId.toString()
+          : undefined,
+      });
+      logMoneyGuruEvent(AnalyticEvent.DEEPLINK_OPENED);
+    }
+
     router.replace(
       {
         pathname: router.pathname,

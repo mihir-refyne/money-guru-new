@@ -1,0 +1,30 @@
+{
+  "incomeTax": {
+    "regimeLabel": "New regime, FY 2024-25",
+    "standardDeduction": 75000,
+    "cessRatePercent": 4,
+    "rebateMaxTaxableIncome": 700000,
+    "slabs": [
+      { "upTo": 300000, "ratePercent": 0 },
+      { "upTo": 700000, "ratePercent": 5 },
+      { "upTo": 1000000, "ratePercent": 10 },
+      { "upTo": 1200000, "ratePercent": 15 },
+      { "upTo": 1500000, "ratePercent": 20 },
+      { "upTo": null, "ratePercent": 30 }
+    ]
+  },
+  "providentFund": {
+    "employeeContributionRatePercent": 12,
+    "employerContributionRatePercent": 12,
+    "monthlyWageCeiling": 15000
+  },
+  "ctcToInHand": {
+    "assumedBasicPercentOfCtc": 40,
+    "assumedMonthlyProfessionalTax": 200
+  },
+  "hra": {
+    "metroExemptionPercentOfBasic": 50,
+    "nonMetroExemptionPercentOfBasic": 40,
+    "rentThresholdPercentOfBasic": 10
+  }
+}

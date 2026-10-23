@@ -29,7 +29,7 @@
         "textColor": "var(--clr-pure-white)",
         "backgroundColor": "#00A181"
       },
-      "url": "/epf-tracker",
+      "url": "/epf-tracker?entry_point=money_guru",
       "releaseConfigs": [
         {
           "fieldName": "employerId",
@@ -286,6 +286,13 @@
       "descriptionHighlightText": "latest score",
       "imageUrl": "/assets/images/credit-score-meter-icon.svg",
       "url": "/credit-report"
+    },
+    {
+      "headingText": "money_guru_coaching_tool_title",
+      "name": "coaching",
+      "descriptionText": "money_guru_coaching_tool_description",
+      "imageUrl": "/assets/images/fincoach-session-icon.svg",
+      "url": "/fincoach"
     }
   ],
   "calculators": [
@@ -581,13 +588,7 @@
   },
   "componentsOrderConfig": [
     {
-      "order": [
-        "R_SHORT_CAROUSEL",
-        "TRACKERS",
-        "IMAGE_BANNER",
-        "CALCULATORS",
-        "CAROUSEL_BANNERS"
-      ]
+      "order": ["IMAGE_BANNER", "CAROUSEL_BANNERS"]
     }
   ],
   "imagesBannerConfig": {

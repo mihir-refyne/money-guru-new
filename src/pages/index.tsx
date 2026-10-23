@@ -2,7 +2,9 @@ import Banner, { BannerProps } from "@/components/Banner";
 import CalculatorTiles from "@/components/CalculatorTiles";
 import Carousel from "@/components/Carousel";
 import DashboardLoader from "@/components/DashboardLoader";
+import LearningModulePreview from "@/components/LearningModule/LearningModulePreview";
 import PageLayout from "@/components/PageLayout";
+import SegmentedControl from "@/components/SegmentedControl";
 import FeaturedShort from "@/components/Shorts/FeaturedShort";
 import TrackerTileWrapper from "@/components/TrackerTile/TrackerTileWrapper";
 import { ScreenName } from "@/constants/ScreenName";
@@ -13,6 +15,7 @@ import rightArrowIconUrl from "@/images/right-arrow.svg";
 import { logAnalyticsEvent } from "@/lib/analytics";
 import { AnalyticEvent } from "@/lib/analytics/events";
 import { logEventInMixpanel } from "@/lib/analytics/mixpanel";
+import { logMoneyGuruEvent } from "@/lib/analytics/money-guru";
 import { hasWatchedIntroduction } from "@/lib/core";
 import {
   ReleaseConfig,
@@ -23,6 +26,10 @@ import { fetcher } from "@/lib/fetcher";
 import { getShortsByLocale } from "@/lib/shorts/server";
 import { SurveyTriggerAction } from "@/lib/survey";
 import constructElementId from "@/lib/utils/constructElementId";
+import {
+  fetchLearningModules,
+  LearningModuleType,
+} from "@/lib/utils/learningModulesFetcher";
 import { isCurrentlyOnRefyneWebview } from "@/lib/webview";
 import { GetStaticProps } from "next";
 import Image from "next/image";
@@ -32,24 +39,27 @@ import { ReactElement, useEffect, useMemo, useState } from "react";
 import config from "../../data/landing_page.json";
 import { ShortsResponse } from "./api/shorts";
 
+// Banner-style sections only — these still render above the Learn/Tools
+// switcher in whatever order componentsOrderConfig configures. News
+// (R_SHORT_CAROUSEL), trackers (PF/credit score/coaching) and calculators
+// moved into the Learn/Tools sides below and are no longer part of this
+// flat, orderable list.
 enum DashboardComponent {
-  R_SHORT_CAROUSEL = "R_SHORT_CAROUSEL",
-  CALCULATORS = "CALCULATORS",
   STICKY_BANNERS = "STICKY_BANNERS",
   CAROUSEL_BANNERS = "CAROUSEL_BANNERS",
-  TRACKERS = "TRACKERS",
 
   // Temp
   IMAGE_BANNER = "IMAGE_BANNER",
 }
 
 const DEFAULT_COMPONENTS_ORDER_FALLBACK: Array<DashboardComponent> = [
-  DashboardComponent.R_SHORT_CAROUSEL,
   DashboardComponent.STICKY_BANNERS,
-  DashboardComponent.TRACKERS,
-  DashboardComponent.CALCULATORS,
   DashboardComponent.CAROUSEL_BANNERS,
+  DashboardComponent.IMAGE_BANNER,
 ];
+
+type MoneyGuruSide = "learn" | "tools";
+const DEFAULT_SIDE: MoneyGuruSide = "learn";
 
 export default function HomePage({ shorts: oldShorts }: HomePageProps) {
   const { t, tWithoutTypeSafety } = useTranslation("common");
@@ -63,10 +73,22 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
 
   const shorts = data?.data.data ?? [];
 
+  const { data: learningModulesData, isLoading: isLoadingLearningModules } =
+    useFetcher(async () => {
+      const result = await fetchLearningModules();
+      if ("error" in result) throw new Error(result.error);
+      return result.data;
+    });
+  const learningModules: Array<LearningModuleType> =
+    learningModulesData?.modules ?? [];
+
   const featuredShortCarouselAutoPlayDuration: number | undefined =
     config.featuredShort?.autoPlayDurationInMs;
 
   const router = useRouter();
+
+  const activeSide: MoneyGuruSide =
+    router.query.side === "tools" ? "tools" : DEFAULT_SIDE;
 
   const _carouselBanners: Array<
     BannerProps & { name: string; releaseConfig?: ReleaseConfig }
@@ -106,6 +128,7 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
       ["mixpanel", "webengage"],
       AnalyticEvent.FIN_LITERACY_DASHBOARD_SCREEN,
     );
+    logMoneyGuruEvent(AnalyticEvent.MONEY_GURU_VIEWED);
     dispatchAction(SurveyTriggerAction.MONEY_GURU_DASHBOARD_OPEN);
 
     // NEXTjs hack!
@@ -127,6 +150,15 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
   const employerId = getValueFromMetadata("employerId");
   const workerId = getValueFromMetadata("workerId");
 
+  function handleSideChange(side: MoneyGuruSide) {
+    logMoneyGuruEvent(AnalyticEvent.SIDE_SWITCHED, { side });
+    router.push(
+      { pathname: router.pathname, query: { ...router.query, side } },
+      undefined,
+      { shallow: true, scroll: false },
+    );
+  }
+
   function handleFinToolClick(name: string, url: string) {
     setLoadingWithTimeoutToReset(true);
     logAnalyticsEvent(
@@ -141,6 +173,16 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
       .replace("{userId}", userId ?? "")
       .replace("{idToken}", idToken ?? "");
     router.push(_url);
+  }
+
+  function handleToolsSideClick(name: string, url: string) {
+    handleFinToolClick(name, url);
+    if (name === "credit_score") {
+      logMoneyGuruEvent(AnalyticEvent.CREDIT_SCORE_VIEWED);
+    }
+    if (name === "coaching") {
+      logMoneyGuruEvent(AnalyticEvent.COACHING_CLICKED);
+    }
   }
 
   function handleBannerClick(name: string) {
@@ -170,6 +212,7 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
         short_id: id,
       },
     );
+    logMoneyGuruEvent(AnalyticEvent.NEWS_OPENED, { entry_point: "learn" });
     router.push({
       pathname: path,
       hash: id,
@@ -231,7 +274,10 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
       },
     );
     if (!componentsOrderConfig) return DEFAULT_COMPONENTS_ORDER_FALLBACK;
-    return componentsOrderConfig.order as DashboardComponent[];
+    return (componentsOrderConfig.order as DashboardComponent[]).filter(
+      (componentName) =>
+        Object.values(DashboardComponent).includes(componentName),
+    );
   }, [config.componentsOrderConfig]);
 
   const shouldShowOldShorts = checkIfFeatureEnabledByReleaseConfig(
@@ -247,37 +293,6 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
     DashboardComponent,
     ReactElement | null
   > = {
-    R_SHORT_CAROUSEL: (
-      <>
-        <h3 className="text-body text-semibold mb-4 pt-12">
-          {t("mongu_dashboard_featured_short_title")}
-        </h3>
-        <Carousel
-          autoPlay={!!featuredShortCarouselAutoPlayDuration}
-          infiniteLoop
-          interval={featuredShortCarouselAutoPlayDuration}
-          showIndicators={(shouldShowOldShorts ? oldShorts : shorts).length > 1}
-        >
-          {(shouldShowOldShorts ? oldShorts : shorts).map((shortItem) => {
-            return (
-              <div key={shortItem.id} className="mb-8">
-                <FeaturedShort
-                  mediaType={(shortItem.metadata?.mediaType ?? "") as string}
-                  mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
-                  thumbnailUrl={
-                    (shortItem.metadata?.thumbnailUrl as string) ?? null
-                  }
-                  onClick={() =>
-                    handleFeaturedShortClick(shortItem.id, shortItem.routePath)
-                  }
-                  content={shortItem.content}
-                />
-              </div>
-            );
-          })}
-        </Carousel>
-      </>
-    ),
     STICKY_BANNERS: hasStickyBanners ? (
       <>
         {stickyBanners.map((banner: any, index) => (
@@ -320,28 +335,6 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
         ))}
       </>
     ) : null,
-    TRACKERS: (
-      <>
-        <h3 className="text-body text-semibold">
-          {t("mongu_dashboard_trackers_title")}
-        </h3>
-        <TrackerTileWrapper
-          onClick={handleFinToolClick}
-          trackers={finLiteracyTrackers}
-        />
-      </>
-    ),
-    CALCULATORS: (
-      <>
-        <h3 className="text-body text-semibold">
-          {t("mongu_dashboard_calculators_title")}
-        </h3>
-        <CalculatorTiles
-          calculators={config.calculators}
-          onCalculatorClick={handleFinToolClick}
-        />
-      </>
-    ),
     CAROUSEL_BANNERS: hasCarouselBanners ? (
       <div className={`${carouselBanners.length > 1 ? "px-0" : ""}`}>
         <Carousel
@@ -389,6 +382,62 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
     ) : null,
   };
 
+  const learnSideContent = (
+    <>
+      <h3 className="text-body text-semibold mb-4 pt-4">
+        {t("mongu_dashboard_featured_short_title")}
+      </h3>
+      <Carousel
+        autoPlay={!!featuredShortCarouselAutoPlayDuration}
+        infiniteLoop
+        interval={featuredShortCarouselAutoPlayDuration}
+        showIndicators={(shouldShowOldShorts ? oldShorts : shorts).length > 1}
+      >
+        {(shouldShowOldShorts ? oldShorts : shorts).map((shortItem) => {
+          return (
+            <div key={shortItem.id} className="mb-8">
+              <FeaturedShort
+                mediaType={(shortItem.metadata?.mediaType ?? "") as string}
+                mediaUrl={(shortItem.metadata?.mediaUrl ?? "") as string}
+                thumbnailUrl={
+                  (shortItem.metadata?.thumbnailUrl as string) ?? null
+                }
+                onClick={() =>
+                  handleFeaturedShortClick(shortItem.id, shortItem.routePath)
+                }
+                content={shortItem.content}
+              />
+            </div>
+          );
+        })}
+      </Carousel>
+      <LearningModulePreview
+        modules={learningModules}
+        isLoading={isLoadingLearningModules}
+        hasError={!isLoadingLearningModules && !learningModulesData}
+      />
+    </>
+  );
+
+  const toolsSideContent = (
+    <>
+      <h3 className="text-body text-semibold">
+        {t("mongu_dashboard_trackers_title")}
+      </h3>
+      <TrackerTileWrapper
+        onClick={handleToolsSideClick}
+        trackers={finLiteracyTrackers}
+      />
+      <h3 className="text-body text-semibold mt-6">
+        {t("mongu_dashboard_calculators_title")}
+      </h3>
+      <CalculatorTiles
+        calculators={config.calculators}
+        onCalculatorClick={handleToolsSideClick}
+      />
+    </>
+  );
+
   return (
     <PageLayout
       navbarText="Money Guru"
@@ -414,6 +463,21 @@ export default function HomePage({ shorts: oldShorts }: HomePageProps) {
           </div>
         );
       })}
+
+      <div className="dashboard-contents-container pt-4">
+        <SegmentedControl
+          value={activeSide}
+          onChange={handleSideChange}
+          options={[
+            { value: "learn", label: t("money_guru_side_learn_label") },
+            { value: "tools", label: t("money_guru_side_tools_label") },
+          ]}
+        />
+      </div>
+
+      <div className="dashboard-contents-container pt-4">
+        {activeSide === "learn" ? learnSideContent : toolsSideContent}
+      </div>
     </PageLayout>
   );
 }
